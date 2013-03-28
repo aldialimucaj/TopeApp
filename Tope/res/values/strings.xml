@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tope</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_os_command">OS Commands</string>
+    <string name="os_op_shutdown">Shutdown</string>
+    <string name="os_op_restart">Restart</string>
+    <string name="os_op_hibernate">Hibernate</string>
+    <string name="os_op_standby">Standby</string>
+    <string name="os_op_logoff">Log Off</string>
+    <string name="os_op_lockscreen">Lock Screen</string>
+
+</resources>
