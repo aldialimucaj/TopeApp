@@ -2,9 +2,12 @@ package al.aldi.tope.view;
 
 import java.util.Locale;
 
+import org.apache.http.cookie.SM;
+
 import al.aldi.tope.R;
 import al.aldi.tope.Tope;
 import al.aldi.tope.R.string;
+import al.aldi.tope.controller.SettingsMgr;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,13 +20,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     /**
-	 * 
-	 */
-	private final Tope	tope;
+     *
+     */
+    private final Tope	tope;
 
-	public SectionsPagerAdapter(Tope tope, FragmentManager fm) {
+    public SectionsPagerAdapter(Tope tope, FragmentManager fm) {
         super(fm);
-		this.tope = tope;
+        this.tope = tope;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package al.aldi.tope.view;
 
+import java.util.Vector;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -10,7 +12,13 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import al.aldi.andorid.net.HttpUtils;
 import al.aldi.tope.R;
+import al.aldi.tope.controller.ITopeAction;
+import al.aldi.tope.controller.ITopeExecutable;
+import al.aldi.tope.controller.SettingsMgr;
+import al.aldi.tope.controller.TopeAction;
+import al.aldi.tope.view.adapter.IconItemAdapter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +34,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static al.aldi.tope.TopeCommands.*;
+
 /**
  * A dummy fragment representing a section of the app, but that simply
  * displays dummy text.
@@ -38,6 +48,7 @@ public class OsSectionFragment extends Fragment {
     public static final String	ARG_SECTION_NUMBER	= "section_number";
 
     GridView					gridView;
+    Vector<ITopeAction>			itmes				= new Vector<ITopeAction>();
 
     public OsSectionFragment() {
     }
@@ -46,75 +57,34 @@ public class OsSectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.gridview_fragment_os, container, false);
         final Resources res = getResources();
-        String[] numbers = new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
         gridView = (GridView) rootView.findViewById(R.id.fragmentGridView);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, numbers);
+        initCommands(rootView); /* init the commands to show in the screen */
+
+        IconItemAdapter<ITopeAction> adapter = new IconItemAdapter<ITopeAction>(rootView.getContext(), itmes);
 
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(rootView.getContext().getApplicationContext(), ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+                ((ITopeAction) itmes.elementAt(position)).execute();
             }
         });
         return rootView;
     }
 
-    public View BAKonCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_tope_os, container, false);
-        final Resources res = getResources();
-        ListView listView = (ListView) rootView.findViewById(R.id.mylist);
-        final String[] values = new String[] { res.getString(R.string.os_op_standby) };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, values);
+    private void initCommands(View rootView) {
+        final SettingsMgr sMgr = SettingsMgr.getInstance();
+        final TopeAction ta = new TopeAction(rootView.getContext(), R.drawable.system_shutdown);
+        ta.setExecutable(new ITopeExecutable() {
 
-        listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position < values.length) {
-                    if (values[position].equals(res.getString(R.string.os_op_standby))) {
-                        Thread t = new Thread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                try {
-                                    System.out.println("STAND BY");
-                                    String url = "http://192.168.178.35:8080/os/lock_screen";
-                                    HttpParams httpParameters = new BasicHttpParams();
-                                    // Set the timeout in milliseconds until a connection is established.
-                                    // The default value is zero, that means the timeout is not used.
-                                    int timeoutConnection = 3000;
-                                    HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-                                    // Set the default socket timeout (SO_TIMEOUT)
-                                    // in milliseconds which is the timeout for waiting for data.
-                                    int timeoutSocket = 5000;
-                                    HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
-
-                                    HttpClient client = new DefaultHttpClient();
-
-                                    HttpGet get = new HttpGet(url);
-                                    HttpContext localContext = new BasicHttpContext();
-                                    HttpResponse res = client.execute(get, localContext);
-                                    System.out.println(res.getStatusLine());
-
-                                } catch (Exception e) {
-                                    Log.e("[GET REQUEST]", "Network exception", e);
-                                }
-                            }
-                        });
-
-                        t.start();
-
-                    }
-
-                }
+            public boolean run() {
+                return HttpUtils.sendGetRequest(sMgr.getURL(OS_STAND_BY));
             }
         });
-
-        // Assign adapter to ListView
-        listView.setAdapter(adapter);
-
-        return rootView;
+        itmes.add(ta);
     }
+
 }

@@ -3,9 +3,10 @@
     android:id="@+id/fragmentGridView"
     android:numColumns="auto_fit"
     android:gravity="center"
-    android:columnWidth="50dp"
+    android:columnWidth="70dp"
     android:stretchMode="columnWidth"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
+
 
 </GridView>

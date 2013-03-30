@@ -1,7 +1,7 @@
 package al.aldi.tope;
 
 
-import al.aldi.tope.view.SectionsPagerAdapter;
+import al.aldi.tope.controller.SettingsMgr;
 import al.aldi.tope.view.TopeSectionsPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -27,6 +27,10 @@ public class Tope extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tope);
+
+        SettingsMgr sMgr = SettingsMgr.getInstance();
+        sMgr.setServerName("192.168.178.35");
+        sMgr.setPort(8080);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
