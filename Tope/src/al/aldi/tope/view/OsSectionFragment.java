@@ -14,6 +14,7 @@ import org.apache.http.protocol.HttpContext;
 
 import al.aldi.andorid.net.HttpUtils;
 import al.aldi.tope.R;
+import al.aldi.tope.TopeUtils;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.controller.SettingsMgr;
@@ -76,15 +77,10 @@ public class OsSectionFragment extends Fragment {
 
     private void initCommands(View rootView) {
         final SettingsMgr sMgr = SettingsMgr.getInstance();
-        final TopeAction ta = new TopeAction(rootView.getContext(), R.drawable.system_shutdown);
-        ta.setExecutable(new ITopeExecutable() {
 
-            @Override
-            public boolean run() {
-                return HttpUtils.sendGetRequest(sMgr.getURL(OS_STAND_BY));
-            }
-        });
-        itmes.add(ta);
+        itmes.add(TopeUtils.addAction(getActivity(), OS_POWER_OFF, R.drawable.system_shutdown));
+
+        itmes.add(TopeUtils.addAction(getActivity(), OS_HIBERNATE, R.drawable.system_log_out));
     }
 
 }
