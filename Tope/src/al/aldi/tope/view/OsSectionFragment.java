@@ -63,7 +63,7 @@ public class OsSectionFragment extends Fragment {
 
         initCommands(rootView); /* init the commands to show in the screen */
 
-        IconItemAdapter<ITopeAction> adapter = new IconItemAdapter<ITopeAction>(rootView.getContext(), itmes);
+        IconItemAdapter<ITopeAction> adapter = new IconItemAdapter<ITopeAction>(getActivity(), itmes);
 
         gridView.setAdapter(adapter);
 
@@ -76,7 +76,6 @@ public class OsSectionFragment extends Fragment {
     }
 
     private void initCommands(View rootView) {
-        final SettingsMgr sMgr = SettingsMgr.getInstance();
 
         itmes.add(TopeUtils.addAction(getActivity(), OS_POWER_OFF, R.drawable.system_shutdown));
 

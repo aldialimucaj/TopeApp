@@ -26,8 +26,10 @@ public final class R {
         public static final int system_shutdown=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f080005;
+        public static final int action_settings=0x7f080007;
         public static final int fragmentGridView=0x7f080004;
+        public static final int gridActionImage=0x7f080005;
+        public static final int gridActionText=0x7f080006;
         public static final int mylist=0x7f080003;
         public static final int pager=0x7f080000;
         public static final int pager_title_strip=0x7f080001;
@@ -38,6 +40,7 @@ public final class R {
         public static final int fragment_tope_dummy=0x7f030001;
         public static final int fragment_tope_os=0x7f030002;
         public static final int gridview_fragment_os=0x7f030003;
+        public static final int gridview_item_layout=0x7f030004;
     }
     public static final class menu {
         public static final int tope=0x7f070000;
