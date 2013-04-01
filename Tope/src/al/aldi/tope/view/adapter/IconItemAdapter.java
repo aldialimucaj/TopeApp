@@ -18,7 +18,13 @@ import android.widget.TextView;
 public class IconItemAdapter<E> extends BaseAdapter {
 
     Vector<ITopeAction>	actions;
-    private Activity		activity;
+    private Activity	activity;
+
+
+
+    public IconItemAdapter() {
+        super();
+    }
 
     public IconItemAdapter(Activity activity, Vector<ITopeAction> itmes) {
         this.activity = activity;
@@ -41,36 +47,42 @@ public class IconItemAdapter<E> extends BaseAdapter {
         return a.getItemId();
     }
 
-    public View B_getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
-        if (convertView == null) { // if it's not recycled, initialize some attributes
-            imageView = ((ITopeAction) getItem(position)).getImageView();
-            imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(15, 15, 15, 15);
-        } else {
-            imageView = (ImageView) convertView;
-        }
-
-        imageView.setImageResource(((ITopeAction) getItem(position)).getItemId());
-        return imageView;
-    }
-
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater li = activity.getLayoutInflater();
-        LinearLayout v = (LinearLayout) li.inflate(R.layout.gridview_item_layout, null);
+        if (convertView == null) { // if it's not recycled, initialize some attributes
+            LayoutInflater li = activity.getLayoutInflater();
+            LinearLayout v = (LinearLayout) li.inflate(R.layout.gridview_item_layout, null);
 
-        v.setLayoutParams(new GridView.LayoutParams(150, 230));
-        v.setPadding(15, 15, 15, 15);
+            v.setLayoutParams(new GridView.LayoutParams(160, 250));
+            v.setPadding(15, 15, 15, 15);
 
-        TextView tv = (TextView) v.findViewById(R.id.gridActionText);
-        tv.setText("Profile " + position);
+            TextView tv = (TextView) v.findViewById(R.id.gridActionText);
+            tv.setText(((ITopeAction) getItem(position)).getTitle());
 
-        ImageView imageView = (ImageView) v.findViewById(R.id.gridActionImage);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageResource(((ITopeAction) getItem(position)).getItemId());
-
-        return v;
+            ImageView imageView = (ImageView) v.findViewById(R.id.gridActionImage);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setImageResource(((ITopeAction) getItem(position)).getItemId());
+            return v;
+        } else {
+            return (LinearLayout) convertView;
+        }
     }
+
+    public Vector<ITopeAction> getActions() {
+        return actions;
+    }
+
+    public void setActions(Vector<ITopeAction> actions) {
+        this.actions = actions;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
 
 }

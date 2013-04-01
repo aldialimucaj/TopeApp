@@ -7,8 +7,6 @@ public interface ITopeAction {
 
     public void setExecutable(ITopeExecutable exec);
 
-    public ImageView getImageView();
-
     public String getTitle();
 
     public int getItemId();

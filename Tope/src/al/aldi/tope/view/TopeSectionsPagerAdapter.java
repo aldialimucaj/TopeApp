@@ -20,6 +20,9 @@ public class TopeSectionsPagerAdapter extends FragmentPagerAdapter {
      *
      */
     private final Tope	tope;
+    Fragment fragment1 = new OsSectionFragment();
+    Fragment fragment2 = new ProgramSectionFragment();
+    Fragment fragment3 = new UtilSectionFragment();
 
     public TopeSectionsPagerAdapter(Tope tope, FragmentManager fm) {
         super(fm);
@@ -28,12 +31,20 @@ public class TopeSectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a DummySectionFragment (defined as a static inner class
-        // below) with the page number as its lone argument.
-        Fragment fragment = new OsSectionFragment();
+        Fragment fragment = null;
+        switch (position) {
+        case 0:
+            fragment = fragment1;
+            break;
+        case 1:
+            fragment = fragment2;
+            break;
+        case 2:
+            fragment = fragment3;
+            break;
+        }
         Bundle args = new Bundle();
-        args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+        args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1 );
         fragment.setArguments(args);
         return fragment;
     }

@@ -6,6 +6,9 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
+
+    <!-- OS OPERATION -->
+
     <string name="title_os_command">OS Commands</string>
     <string name="os_op_shutdown">Shutdown</string>
     <string name="os_op_restart">Restart</string>

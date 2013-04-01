@@ -5,12 +5,11 @@ import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.controller.SettingsMgr;
 import al.aldi.tope.controller.TopeAction;
-import android.content.Context;
 
 public class TopeUtils {
 
-    public static ITopeAction addAction(Context context, final String actionStr, int itemId) {
-        ITopeAction action = new TopeAction(context, itemId);
+    public static ITopeAction addAction(final String actionStr, int itemId, String title) {
+        ITopeAction action = new TopeAction(itemId, title);
         action.setExecutable(new ITopeExecutable() {
             @Override
             public boolean run() {

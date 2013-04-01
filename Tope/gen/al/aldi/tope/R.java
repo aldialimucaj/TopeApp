@@ -54,6 +54,8 @@ public final class R {
         public static final int os_op_restart=0x7f050007;
         public static final int os_op_shutdown=0x7f050006;
         public static final int os_op_standby=0x7f050009;
+        /**  OS OPERATION 
+         */
         public static final int title_os_command=0x7f050005;
         public static final int title_section1=0x7f050002;
         public static final int title_section2=0x7f050003;
