@@ -17,4 +17,7 @@
     <string name="os_op_logoff">Log Off</string>
     <string name="os_op_lockscreen">Lock Screen</string>
 
+    <string name="os_op_lockinput">Lock Input</string>
+    <string name="os_op_unlockinput">Unlock Input</string>
+
 </resources>

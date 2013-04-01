@@ -1,6 +1,5 @@
 package al.aldi.tope.controller;
 
-import android.widget.ImageView;
 
 public interface ITopeAction {
     public boolean execute();

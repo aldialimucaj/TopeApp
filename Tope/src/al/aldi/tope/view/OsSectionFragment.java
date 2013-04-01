@@ -1,7 +1,6 @@
 package al.aldi.tope.view;
 
-import static al.aldi.tope.TopeCommands.OS_HIBERNATE;
-import static al.aldi.tope.TopeCommands.OS_POWER_OFF;
+import static al.aldi.tope.TopeCommands.*;
 
 import java.util.Vector;
 
@@ -9,7 +8,6 @@ import al.aldi.tope.R;
 import al.aldi.tope.TopeUtils;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.view.adapter.IconItemAdapter;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -65,7 +63,19 @@ public class OsSectionFragment extends Fragment {
 
         items.add(TopeUtils.addAction(OS_POWER_OFF, R.drawable.system_shutdown, getString(R.string.os_op_shutdown)));
 
-        items.add(TopeUtils.addAction(OS_HIBERNATE, R.drawable.system_log_out, getString(R.string.os_op_hibernate)));
+        items.add(TopeUtils.addAction(OS_RESTART, R.drawable.system_restart, getString(R.string.os_op_restart)));
+
+        items.add(TopeUtils.addAction(OS_HIBERNATE, R.drawable.system_hibernate, getString(R.string.os_op_hibernate)));
+
+        items.add(TopeUtils.addAction(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby)));
+
+        items.add(TopeUtils.addAction(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen)));
+
+        items.add(TopeUtils.addAction(OS_LOCK_INPUT, R.drawable.system_lock_input, getString(R.string.os_op_lockinput)));
+
+        items.add(TopeUtils.addAction(OS_UNLOCK_INPUT, R.drawable.system_lock_input, getString(R.string.os_op_unlockinput)));
+
+
     }
 
 }

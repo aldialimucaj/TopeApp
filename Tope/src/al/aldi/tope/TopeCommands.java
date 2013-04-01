@@ -7,5 +7,7 @@ public class TopeCommands {
     public static final String OS_LOG_OFF = "/os/logoff";
     public static final String OS_POWER_OFF = "/os/poweroff";
     public static final String OS_RESTART = "/os/restart";
+    public static final String OS_LOCK_INPUT = "/os/input_lock";
+    public static final String OS_UNLOCK_INPUT = "/os/input_unlock";
 }
 
