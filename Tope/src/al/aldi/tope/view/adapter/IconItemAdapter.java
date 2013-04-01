@@ -60,7 +60,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
         LayoutInflater li = activity.getLayoutInflater();
         LinearLayout v = (LinearLayout) li.inflate(R.layout.gridview_item_layout, null);
 
-        v.setLayoutParams(new GridView.LayoutParams(150, 150));
+        v.setLayoutParams(new GridView.LayoutParams(150, 230));
         v.setPadding(15, 15, 15, 15);
 
         TextView tv = (TextView) v.findViewById(R.id.gridActionText);

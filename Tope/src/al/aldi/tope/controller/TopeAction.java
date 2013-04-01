@@ -5,25 +5,29 @@ import android.widget.ImageView;
 
 public class TopeAction implements ITopeAction {
 
-    ImageView		imageView;
+    private ImageView	imageView;
+    private int			itemId	= 0;
+    private String		title	= null;
 
-    int				itemId	= 0;
-
-    ITopeExecutable	exec;
+    ITopeExecutable		exec;
 
     public TopeAction() {
 
     }
 
     public TopeAction(Context context) {
-        super();
         this.imageView = new ImageView(context);
     }
 
     public TopeAction(Context context, int itemId) {
-        super();
         this.imageView = new ImageView(context);
         this.itemId = itemId;
+    }
+
+    public TopeAction(ImageView imageView, int itemId, String title) {
+        this.imageView = imageView;
+        this.itemId = itemId;
+        this.title = title;
     }
 
     @Override
@@ -51,6 +55,11 @@ public class TopeAction implements ITopeAction {
     @Override
     public void setExecutable(ITopeExecutable exec) {
         this.exec = exec;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
     }
 
 }

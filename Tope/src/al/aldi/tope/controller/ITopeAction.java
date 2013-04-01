@@ -9,5 +9,7 @@ public interface ITopeAction {
 
     public ImageView getImageView();
 
+    public String getTitle();
+
     public int getItemId();
 }

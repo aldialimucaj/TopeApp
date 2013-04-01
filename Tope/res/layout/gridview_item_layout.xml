@@ -6,11 +6,11 @@
 
     <ImageView
         android:id="@+id/gridActionImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:src="@drawable/system_log_out"
         android:contentDescription="Image representing the action to be taken"
         android:layout_gravity="center_horizontal"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         />
 
     <TextView
