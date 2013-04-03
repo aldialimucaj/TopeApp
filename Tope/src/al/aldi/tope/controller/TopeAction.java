@@ -1,14 +1,12 @@
 package al.aldi.tope.controller;
 
-import android.content.Context;
-import android.widget.ImageView;
-
 public class TopeAction implements ITopeAction {
 
     private int		itemId	= 0;
     private String	title	= null;
 
     ITopeExecutable	exec;
+    ITopeAction		oppositeAction;
 
     public TopeAction() {
 
@@ -44,6 +42,27 @@ public class TopeAction implements ITopeAction {
     @Override
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public void switchAction() {
+
+
+    }
+
+    @Override
+    public void setOppositeAction(ITopeAction opAction) {
+        this.oppositeAction = opAction;
+    }
+
+    @Override
+    public ITopeAction getOppositeAction() {
+        return oppositeAction;
+    }
+
+    @Override
+    public boolean hasOppositeAction() {
+        return null != this.oppositeAction;
     }
 
 }

@@ -22,15 +22,18 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
-        public static final int system_hibernate=0x7f020001;
-        public static final int system_lock_input=0x7f020002;
-        public static final int system_lock_screen=0x7f020003;
-        public static final int system_log_out=0x7f020004;
-        public static final int system_restart=0x7f020005;
-        public static final int system_shutdown=0x7f020006;
-        public static final int system_standby=0x7f020007;
+        public static final int input_keyboard=0x7f020001;
+        public static final int input_keyboard_blocked=0x7f020002;
+        public static final int system_hibernate=0x7f020003;
+        public static final int system_lock_input=0x7f020004;
+        public static final int system_lock_screen=0x7f020005;
+        public static final int system_log_out=0x7f020006;
+        public static final int system_restart=0x7f020007;
+        public static final int system_shutdown=0x7f020008;
+        public static final int system_standby=0x7f020009;
     }
     public static final class id {
+        public static final int action_clients=0x7f080008;
         public static final int action_settings=0x7f080007;
         public static final int fragmentGridView=0x7f080004;
         public static final int gridActionImage=0x7f080005;
@@ -51,22 +54,23 @@ public final class R {
         public static final int tope=0x7f070000;
     }
     public static final class string {
+        public static final int action_clients=0x7f050002;
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
-        public static final int os_op_hibernate=0x7f050008;
-        public static final int os_op_lockinput=0x7f05000c;
-        public static final int os_op_lockscreen=0x7f05000b;
-        public static final int os_op_logoff=0x7f05000a;
-        public static final int os_op_restart=0x7f050007;
-        public static final int os_op_shutdown=0x7f050006;
-        public static final int os_op_standby=0x7f050009;
-        public static final int os_op_unlockinput=0x7f05000d;
+        public static final int os_op_hibernate=0x7f050009;
+        public static final int os_op_lockinput=0x7f05000d;
+        public static final int os_op_lockscreen=0x7f05000c;
+        public static final int os_op_logoff=0x7f05000b;
+        public static final int os_op_restart=0x7f050008;
+        public static final int os_op_shutdown=0x7f050007;
+        public static final int os_op_standby=0x7f05000a;
+        public static final int os_op_unlockinput=0x7f05000e;
         /**  OS OPERATION 
          */
-        public static final int title_os_command=0x7f050005;
-        public static final int title_section1=0x7f050002;
-        public static final int title_section2=0x7f050003;
-        public static final int title_section3=0x7f050004;
+        public static final int title_os_command=0x7f050006;
+        public static final int title_section1=0x7f050003;
+        public static final int title_section2=0x7f050004;
+        public static final int title_section3=0x7f050005;
     }
     public static final class style {
         /** 

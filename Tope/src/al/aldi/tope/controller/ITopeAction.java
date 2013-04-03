@@ -1,6 +1,5 @@
 package al.aldi.tope.controller;
 
-
 public interface ITopeAction {
     public boolean execute();
 
@@ -9,4 +8,10 @@ public interface ITopeAction {
     public String getTitle();
 
     public int getItemId();
+
+    public void switchAction();
+
+    public void setOppositeAction(ITopeAction action);
+    public ITopeAction getOppositeAction();
+    public boolean hasOppositeAction();
 }

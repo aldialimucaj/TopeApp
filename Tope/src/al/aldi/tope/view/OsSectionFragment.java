@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * A dummy fragment representing a section of the app, but that simply
@@ -39,7 +41,7 @@ public class OsSectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("OsSectionFragment.onCreateView()");
         final View rootView = inflater.inflate(R.layout.gridview_fragment_os, container, false);
-        //final Resources res = getResources();
+        // final Resources res = getResources();
 
         gridView = (GridView) rootView.findViewById(R.id.fragmentGridView);
 
@@ -52,6 +54,18 @@ public class OsSectionFragment extends Fragment {
         gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ((ITopeAction) items.elementAt(position)).execute();
+                ITopeAction action = ((ITopeAction) items.elementAt(position));
+                if (action.hasOppositeAction()) {
+
+                    ImageView imageView = (ImageView) v.findViewById(R.id.gridActionImage);
+                    imageView.setImageResource(action.getOppositeAction().getItemId());
+
+                    TextView tv1 = (TextView) v.findViewById(R.id.gridActionText);
+                    tv1.setText(action.getOppositeAction().getTitle());
+
+                    action = action.getOppositeAction();
+                    items.set(position, action);
+                }
             }
         });
         return rootView;
@@ -71,10 +85,11 @@ public class OsSectionFragment extends Fragment {
 
         items.add(TopeUtils.addAction(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen)));
 
-        items.add(TopeUtils.addAction(OS_LOCK_INPUT, R.drawable.system_lock_input, getString(R.string.os_op_lockinput)));
-
-        items.add(TopeUtils.addAction(OS_UNLOCK_INPUT, R.drawable.system_lock_input, getString(R.string.os_op_unlockinput)));
-
+        ITopeAction action1 = TopeUtils.addAction(OS_LOCK_INPUT, R.drawable.input_keyboard, getString(R.string.os_op_lockinput));
+        ITopeAction action2 = TopeUtils.addAction(OS_UNLOCK_INPUT, R.drawable.input_keyboard_blocked, getString(R.string.os_op_unlockinput));
+        action1.setOppositeAction(action2);
+        action2.setOppositeAction(action1);
+        items.add(action1);
 
     }
 

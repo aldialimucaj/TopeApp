@@ -17,10 +17,10 @@ import android.widget.TextView;
 
 public class IconItemAdapter<E> extends BaseAdapter {
 
+    public static final int	WIDTH_160	= 160;
+    public static final int	HEIGHT_250	= 250;
     Vector<ITopeAction>	actions;
     private Activity	activity;
-
-
 
     public IconItemAdapter() {
         super();
@@ -53,7 +53,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
             LayoutInflater li = activity.getLayoutInflater();
             LinearLayout v = (LinearLayout) li.inflate(R.layout.gridview_item_layout, null);
 
-            v.setLayoutParams(new GridView.LayoutParams(160, 250));
+            v.setLayoutParams(new GridView.LayoutParams(WIDTH_160, HEIGHT_250));
             v.setPadding(15, 15, 15, 15);
 
             TextView tv = (TextView) v.findViewById(R.id.gridActionText);
@@ -66,6 +66,22 @@ public class IconItemAdapter<E> extends BaseAdapter {
         } else {
             return (LinearLayout) convertView;
         }
+    }
+
+    public static View getSingleView(Activity activity, ITopeAction action) {
+        LayoutInflater li = activity.getLayoutInflater();
+        LinearLayout v = (LinearLayout) li.inflate(R.layout.gridview_item_layout, null);
+
+        v.setLayoutParams(new GridView.LayoutParams(160, 250));
+        v.setPadding(15, 15, 15, 15);
+
+        TextView tv = (TextView) v.findViewById(R.id.gridActionText);
+        tv.setText(action.getTitle());
+
+        ImageView imageView = (ImageView) v.findViewById(R.id.gridActionImage);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setImageResource(action.getItemId());
+        return v;
     }
 
     public Vector<ITopeAction> getActions() {
@@ -83,6 +99,5 @@ public class IconItemAdapter<E> extends BaseAdapter {
     public void setActivity(Activity activity) {
         this.activity = activity;
     }
-
 
 }

@@ -1,7 +1,11 @@
 package al.aldi.tope;
 
+import java.util.Iterator;
+import java.util.List;
 
 import al.aldi.tope.controller.SettingsMgr;
+import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.TopeSectionsPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -21,7 +25,7 @@ public class Tope extends FragmentActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    ViewPager				mViewPager;
+    ViewPager					mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +34,10 @@ public class Tope extends FragmentActivity {
 
         SettingsMgr sMgr = SettingsMgr.getInstance();
         sMgr.setServerName("192.168.178.35");
+        // sMgr.setServerName("192.168.0.2");
         sMgr.setPort(8080);
+
+        test();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
@@ -39,6 +46,21 @@ public class Tope extends FragmentActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+    }
+
+    private void test() {
+        ClientDataSource source = new ClientDataSource(getApplicationContext());
+        source.open();
+
+        TopeClient client = source.create("A-PC", "192.168.178.35", "8080");
+        System.out.println(client);
+
+        List<TopeClient> clients = source.getAll();
+        for (Iterator iterator = clients.iterator(); iterator.hasNext();) {
+            TopeClient topeClient = (TopeClient) iterator.next();
+            System.out.println(topeClient);
+        }
 
     }
 
