@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/item_height"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@id/drag_handle"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/item_height"
+        android:layout_weight="0"
+        android:background="@drawable/drag" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.75"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/client_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="15dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tel_nr"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/item_height"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:textIsSelectable="false"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <CheckBox
+            android:id="@+id/client_active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="6sp"
+            android:focusable="false"
+            android:padding="10dp" >
+        </CheckBox>
+    </RelativeLayout>
+
+</LinearLayout>

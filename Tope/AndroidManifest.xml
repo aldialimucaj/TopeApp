@@ -24,6 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="al.aldi.tope.Clients"
+            android:label="@string/title_activity_clients"
+            android:parentActivityName="al.aldi.tope.Tope" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="al.aldi.tope.Tope" />
+        </activity>
     </application>
 
 </manifest>

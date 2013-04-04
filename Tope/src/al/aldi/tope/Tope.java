@@ -7,10 +7,12 @@ import al.aldi.tope.controller.SettingsMgr;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.TopeSectionsPagerAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class Tope extends FragmentActivity {
 
@@ -53,8 +55,8 @@ public class Tope extends FragmentActivity {
         ClientDataSource source = new ClientDataSource(getApplicationContext());
         source.open();
 
-        TopeClient client = source.create("A-PC", "192.168.178.35", "8080");
-        System.out.println(client);
+        //TopeClient client = source.create("A-PC", "192.168.178.35", "8080");
+        //System.out.println(client);
 
         List<TopeClient> clients = source.getAll();
         for (Iterator iterator = clients.iterator(); iterator.hasNext();) {
@@ -69,6 +71,15 @@ public class Tope extends FragmentActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.tope, menu);
         return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.action_clients:
+            startActivity(new Intent(this, Clients.class));
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 
 }

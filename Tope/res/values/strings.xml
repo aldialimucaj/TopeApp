@@ -7,7 +7,7 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
-
+    <string name="title_activity_clients">Clients</string>
     <!-- OS OPERATION -->
 
     <string name="title_os_command">OS Commands</string>
@@ -17,8 +17,12 @@
     <string name="os_op_standby">Standby</string>
     <string name="os_op_logoff">Log Off</string>
     <string name="os_op_lockscreen">Lock Screen</string>
-
     <string name="os_op_lockinput">Lock Input</string>
     <string name="os_op_unlockinput">Unlock Input</string>
+    <string name="os_op_monitoron">Turn On Monitor</string>
+    <string name="os_op_monitoroff">Turn Off Monitor</string>
+
+
+
 
 </resources>

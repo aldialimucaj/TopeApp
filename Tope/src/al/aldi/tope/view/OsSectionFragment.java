@@ -85,6 +85,12 @@ public class OsSectionFragment extends Fragment {
 
         items.add(TopeUtils.addAction(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen)));
 
+        ITopeAction monitorOn = TopeUtils.addAction(OS_MONITOR_ON, R.drawable.system_monitor, getString(R.string.os_op_monitoron));
+        ITopeAction monitorOff = TopeUtils.addAction(OS_MONITOR_OFF, R.drawable.system_monitor_off, getString(R.string.os_op_monitoroff));
+        monitorOn.setOppositeAction(monitorOff);
+        monitorOff.setOppositeAction(monitorOn);
+        items.add(monitorOff);
+
         ITopeAction action1 = TopeUtils.addAction(OS_LOCK_INPUT, R.drawable.input_keyboard, getString(R.string.os_op_lockinput));
         ITopeAction action2 = TopeUtils.addAction(OS_UNLOCK_INPUT, R.drawable.input_keyboard_blocked, getString(R.string.os_op_unlockinput));
         action1.setOppositeAction(action2);

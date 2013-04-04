@@ -10,6 +10,15 @@ package al.aldi.tope;
 public final class R {
     public static final class attr {
     }
+    public static final class color {
+        public static final int bg_handle_pressed=0x7f040006;
+        public static final int black=0x7f040005;
+        public static final int blue=0x7f040000;
+        public static final int darkblue=0x7f040001;
+        public static final int grayEnd=0x7f040004;
+        public static final int grayStart=0x7f040003;
+        public static final int red=0x7f040002;
+    }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
 
@@ -17,31 +26,42 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f040000;
-        public static final int activity_vertical_margin=0x7f040001;
+        public static final int activity_horizontal_margin=0x7f050000;
+        public static final int activity_vertical_margin=0x7f050001;
+        public static final int item_height=0x7f050002;
+        public static final int section_div_height=0x7f050003;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int input_keyboard=0x7f020001;
-        public static final int input_keyboard_blocked=0x7f020002;
-        public static final int system_hibernate=0x7f020003;
-        public static final int system_lock_input=0x7f020004;
-        public static final int system_lock_screen=0x7f020005;
-        public static final int system_log_out=0x7f020006;
-        public static final int system_restart=0x7f020007;
-        public static final int system_shutdown=0x7f020008;
-        public static final int system_standby=0x7f020009;
+        public static final int bg_handle=0x7f020000;
+        public static final int drag=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int input_keyboard=0x7f020003;
+        public static final int input_keyboard_blocked=0x7f020004;
+        public static final int system_hibernate=0x7f020005;
+        public static final int system_lock_input=0x7f020006;
+        public static final int system_lock_screen=0x7f020007;
+        public static final int system_log_out=0x7f020008;
+        public static final int system_monitor=0x7f020009;
+        public static final int system_monitor_off=0x7f02000a;
+        public static final int system_restart=0x7f02000b;
+        public static final int system_shutdown=0x7f02000c;
+        public static final int system_standby=0x7f02000d;
     }
     public static final class id {
-        public static final int action_clients=0x7f080008;
-        public static final int action_settings=0x7f080007;
-        public static final int fragmentGridView=0x7f080004;
-        public static final int gridActionImage=0x7f080005;
-        public static final int gridActionText=0x7f080006;
-        public static final int mylist=0x7f080003;
-        public static final int pager=0x7f080000;
-        public static final int pager_title_strip=0x7f080001;
-        public static final int section_label=0x7f080002;
+        public static final int action_clients=0x7f06000d;
+        public static final int action_settings=0x7f06000c;
+        public static final int click_remove=0x7f060001;
+        public static final int client_active=0x7f06000b;
+        public static final int client_name_text=0x7f060009;
+        public static final int drag_handle=0x7f060000;
+        public static final int fragmentGridView=0x7f060006;
+        public static final int gridActionImage=0x7f060007;
+        public static final int gridActionText=0x7f060008;
+        public static final int mylist=0x7f060005;
+        public static final int pager=0x7f060002;
+        public static final int pager_title_strip=0x7f060003;
+        public static final int section_label=0x7f060004;
+        public static final int tel_nr=0x7f06000a;
     }
     public static final class layout {
         public static final int activity_tope=0x7f030000;
@@ -49,28 +69,33 @@ public final class R {
         public static final int fragment_tope_os=0x7f030002;
         public static final int gridview_fragment_os=0x7f030003;
         public static final int gridview_item_layout=0x7f030004;
+        public static final int list_item_handle_left=0x7f030005;
     }
     public static final class menu {
-        public static final int tope=0x7f070000;
+        public static final int clients=0x7f090000;
+        public static final int tope=0x7f090001;
     }
     public static final class string {
-        public static final int action_clients=0x7f050002;
-        public static final int action_settings=0x7f050001;
-        public static final int app_name=0x7f050000;
-        public static final int os_op_hibernate=0x7f050009;
-        public static final int os_op_lockinput=0x7f05000d;
-        public static final int os_op_lockscreen=0x7f05000c;
-        public static final int os_op_logoff=0x7f05000b;
-        public static final int os_op_restart=0x7f050008;
-        public static final int os_op_shutdown=0x7f050007;
-        public static final int os_op_standby=0x7f05000a;
-        public static final int os_op_unlockinput=0x7f05000e;
+        public static final int action_clients=0x7f070002;
+        public static final int action_settings=0x7f070001;
+        public static final int app_name=0x7f070000;
+        public static final int os_op_hibernate=0x7f07000a;
+        public static final int os_op_lockinput=0x7f07000e;
+        public static final int os_op_lockscreen=0x7f07000d;
+        public static final int os_op_logoff=0x7f07000c;
+        public static final int os_op_monitoroff=0x7f070011;
+        public static final int os_op_monitoron=0x7f070010;
+        public static final int os_op_restart=0x7f070009;
+        public static final int os_op_shutdown=0x7f070008;
+        public static final int os_op_standby=0x7f07000b;
+        public static final int os_op_unlockinput=0x7f07000f;
+        public static final int title_activity_clients=0x7f070006;
         /**  OS OPERATION 
          */
-        public static final int title_os_command=0x7f050006;
-        public static final int title_section1=0x7f050003;
-        public static final int title_section2=0x7f050004;
-        public static final int title_section3=0x7f050005;
+        public static final int title_os_command=0x7f070007;
+        public static final int title_section1=0x7f070003;
+        public static final int title_section2=0x7f070004;
+        public static final int title_section3=0x7f070005;
     }
     public static final class style {
         /** 
@@ -94,10 +119,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f060000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060001;
+        public static final int AppTheme=0x7f080001;
     }
 }
