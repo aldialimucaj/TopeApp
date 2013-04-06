@@ -20,10 +20,11 @@ public class ClientOpenHelper extends SQLiteOpenHelper {
     private static final String	CLIENT_TABLE_CREATE	= "CREATE TABLE " + CLIENT_TABLE_NAME + " ("
     + CLIENT_NAME 	+ " TEXT, "
     + CLIENT_IP   	+ " TEXT, "
+    + CLIENT_PORT   + " TEXT, "
     + CLIENT_ACTIVE + " TEXT, "
     + CLIENT_USER   + " TEXT, "
-    + CLIENT_PASS   + " TEXT, "
-    + CLIENT_PORT   + " TEXT "
+    + CLIENT_PASS   + " TEXT "
+
 
             +");";
 
@@ -34,6 +35,7 @@ public class ClientOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CLIENT_TABLE_CREATE);
+        System.out.println("INFO: NEW DB CREATED: "+CLIENT_TABLE_NAME);
     }
 
     @Override

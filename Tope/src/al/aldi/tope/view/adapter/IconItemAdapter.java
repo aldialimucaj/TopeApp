@@ -5,7 +5,6 @@ import java.util.Vector;
 import al.aldi.tope.R;
 import al.aldi.tope.controller.ITopeAction;
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

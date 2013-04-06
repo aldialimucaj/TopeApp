@@ -7,6 +7,7 @@ import java.util.Vector;
 import al.aldi.tope.R;
 import al.aldi.tope.TopeUtils;
 import al.aldi.tope.controller.ITopeAction;
+import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.IconItemAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -72,27 +73,29 @@ public class OsSectionFragment extends Fragment {
     }
 
     private void initCommands() {
+        ClientDataSource source = new ClientDataSource(getActivity().getApplicationContext());
+        TopeUtils topeUtils = new TopeUtils(source);
 
         items.clear(); /* clearing the cached activities before recreating them */
 
-        items.add(TopeUtils.addAction(OS_POWER_OFF, R.drawable.system_shutdown, getString(R.string.os_op_shutdown)));
+        items.add(topeUtils.addAction(OS_POWER_OFF, R.drawable.system_shutdown, getString(R.string.os_op_shutdown)));
 
-        items.add(TopeUtils.addAction(OS_RESTART, R.drawable.system_restart, getString(R.string.os_op_restart)));
+        items.add(topeUtils.addAction(OS_RESTART, R.drawable.system_restart, getString(R.string.os_op_restart)));
 
-        items.add(TopeUtils.addAction(OS_HIBERNATE, R.drawable.system_hibernate, getString(R.string.os_op_hibernate)));
+        items.add(topeUtils.addAction(OS_HIBERNATE, R.drawable.system_hibernate, getString(R.string.os_op_hibernate)));
 
-        items.add(TopeUtils.addAction(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby)));
+        items.add(topeUtils.addAction(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby)));
 
-        items.add(TopeUtils.addAction(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen)));
+        items.add(topeUtils.addAction(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen)));
 
-        ITopeAction monitorOn = TopeUtils.addAction(OS_MONITOR_ON, R.drawable.system_monitor, getString(R.string.os_op_monitoron));
-        ITopeAction monitorOff = TopeUtils.addAction(OS_MONITOR_OFF, R.drawable.system_monitor_off, getString(R.string.os_op_monitoroff));
+        ITopeAction monitorOn = topeUtils.addAction(OS_MONITOR_ON, R.drawable.system_monitor, getString(R.string.os_op_monitoron));
+        ITopeAction monitorOff = topeUtils.addAction(OS_MONITOR_OFF, R.drawable.system_monitor_off, getString(R.string.os_op_monitoroff));
         monitorOn.setOppositeAction(monitorOff);
         monitorOff.setOppositeAction(monitorOn);
         items.add(monitorOff);
 
-        ITopeAction action1 = TopeUtils.addAction(OS_LOCK_INPUT, R.drawable.input_keyboard, getString(R.string.os_op_lockinput));
-        ITopeAction action2 = TopeUtils.addAction(OS_UNLOCK_INPUT, R.drawable.input_keyboard_blocked, getString(R.string.os_op_unlockinput));
+        ITopeAction action1 = topeUtils.addAction(OS_LOCK_INPUT, R.drawable.input_keyboard, getString(R.string.os_op_lockinput));
+        ITopeAction action2 = topeUtils.addAction(OS_UNLOCK_INPUT, R.drawable.input_keyboard_blocked, getString(R.string.os_op_unlockinput));
         action1.setOppositeAction(action2);
         action2.setOppositeAction(action1);
         items.add(action1);

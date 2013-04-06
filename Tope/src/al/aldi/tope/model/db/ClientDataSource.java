@@ -1,5 +1,14 @@
 package al.aldi.tope.model.db;
 
+import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_ACTIVE;
+import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_ID;
+import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_IP;
+import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_NAME;
+import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_PASS;
+import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_PORT;
+import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_TABLE_NAME;
+import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_USER;
+
 import java.util.Vector;
 
 import al.aldi.tope.model.TopeClient;
@@ -13,11 +22,14 @@ public class ClientDataSource {
     // Database fields
     private SQLiteDatabase		database;
     private ClientOpenHelper	dbClientHelper;
-    private String[]			allColumns	= { ClientOpenHelper.CLIENT_ID, ClientOpenHelper.CLIENT_NAME, ClientOpenHelper.CLIENT_IP, ClientOpenHelper.CLIENT_PORT,
-            ClientOpenHelper.CLIENT_USER, ClientOpenHelper.CLIENT_PASS, ClientOpenHelper.CLIENT_ACTIVE };
+    private String[]			allColumns	= { CLIENT_ID, CLIENT_NAME, CLIENT_IP, CLIENT_PORT, CLIENT_USER, CLIENT_PASS, CLIENT_ACTIVE };
+    private Context				context;
+
+    static ClientDataSource		instance;
 
     public ClientDataSource(Context context) {
         super();
+        this.context = context;
         this.dbClientHelper = new ClientOpenHelper(context);
     }
 
@@ -29,16 +41,20 @@ public class ClientDataSource {
         dbClientHelper.close();
     }
 
+    public boolean isOpen() {
+        return database.isOpen();
+    }
+
     public TopeClient create(String name, String ip, String port) {
         TopeClient client = null;
         ContentValues values = new ContentValues();
-        values.put(ClientOpenHelper.CLIENT_NAME, name);
-        values.put(ClientOpenHelper.CLIENT_IP, ip);
-        values.put(ClientOpenHelper.CLIENT_PORT, port);
+        values.put(CLIENT_NAME, name);
+        values.put(CLIENT_IP, ip);
+        values.put(CLIENT_PORT, port);
 
-        long insertId = database.insert(ClientOpenHelper.CLIENT_TABLE_NAME, null, values);
+        long insertId = database.insert(CLIENT_TABLE_NAME, null, values);
 
-        Cursor cursor = database.query(ClientOpenHelper.CLIENT_TABLE_NAME, allColumns, ClientOpenHelper.CLIENT_ID + " = " + insertId, null, null, null, null);
+        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, CLIENT_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
         client = cursorToClient(cursor);
         cursor.close();
@@ -49,12 +65,13 @@ public class ClientDataSource {
 
     public Vector<TopeClient> getAll() {
         Vector<TopeClient> vec = new Vector<TopeClient>();
-        Cursor cursor = database.query(ClientOpenHelper.CLIENT_TABLE_NAME, allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, null, null, null, null, null);
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
-            TopeClient clinet = cursorToClient(cursor);
-            vec.add(clinet);
+            TopeClient client = cursorToClient(cursor);
+            client.setContext(context);
+            vec.add(client);
             cursor.moveToNext();
         }
 
@@ -63,10 +80,53 @@ public class ClientDataSource {
         return vec;
     }
 
+    public Vector<TopeClient> getAllActive() {
+        Vector<TopeClient> vec = new Vector<TopeClient>();
+        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, CLIENT_ACTIVE + "= '1'", null, null, null, null);
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            TopeClient client = cursorToClient(cursor);
+            client.setContext(context);
+            vec.add(client);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
+        return vec;
+    }
+
+    public TopeClient getClient(long id) {
+        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, CLIENT_ID + "= ?", new String[] { String.valueOf(id) }, null, null, null);
+        cursor.moveToFirst();
+
+        TopeClient client = cursorToClient(cursor);
+        client.setContext(context);
+
+        cursor.close();
+
+        return client;
+    }
+
     public void deleteClient(TopeClient client) {
         long id = client.getId();
         System.out.println("Comment deleted with id: " + id);
-        database.delete(ClientOpenHelper.CLIENT_TABLE_NAME, ClientOpenHelper.CLIENT_ID + " = " + id, null);
+        database.delete(CLIENT_TABLE_NAME, CLIENT_ID + " = " + id, null);
+    }
+
+    public void updateClient(TopeClient client) {
+        long id = client.getId();
+        ContentValues values = new ContentValues();
+        // values.put(CLIENT_ID, id);
+        values.put(CLIENT_NAME, client.getName());
+        values.put(CLIENT_IP, client.getIp());
+        values.put(CLIENT_PORT, client.getPort());
+        values.put(CLIENT_USER, client.getUser());
+        values.put(CLIENT_PASS, client.getPass());
+        values.put(CLIENT_ACTIVE, client.isActive());
+
+        database.update(CLIENT_TABLE_NAME, values, CLIENT_ID + " = ?", new String[] { String.valueOf(id) });
     }
 
     public TopeClient cursorToClient(Cursor cursor) {
@@ -75,6 +135,10 @@ public class ClientDataSource {
         client.setName(cursor.getString(1));
         client.setIp(cursor.getString(2));
         client.setPort(cursor.getString(3));
+        client.setUser(cursor.getString(4));
+        client.setPass(cursor.getString(5));
+        client.setActive(cursor.getInt(6) == 1);
+
         return client;
     }
 

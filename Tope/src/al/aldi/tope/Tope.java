@@ -39,7 +39,7 @@ public class Tope extends FragmentActivity {
         // sMgr.setServerName("192.168.0.2");
         sMgr.setPort(8080);
 
-        test();
+        //test();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
@@ -55,14 +55,16 @@ public class Tope extends FragmentActivity {
         ClientDataSource source = new ClientDataSource(getApplicationContext());
         source.open();
 
-        //TopeClient client = source.create("A-PC", "192.168.178.35", "8080");
+        TopeClient client = source.create("A-PC", "192.168.178.35", "8080");
         //System.out.println(client);
 
         List<TopeClient> clients = source.getAll();
+
         for (Iterator iterator = clients.iterator(); iterator.hasNext();) {
             TopeClient topeClient = (TopeClient) iterator.next();
             System.out.println(topeClient);
         }
+        source.close();
 
     }
 

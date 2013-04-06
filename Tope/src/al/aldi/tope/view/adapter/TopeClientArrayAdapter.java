@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 public class TopeClientArrayAdapter extends ArrayAdapter<TopeClient> {
 
-    private final Context			context;
+    private final Context		context;
     private List<TopeClient>	values;
 
     public TopeClientArrayAdapter(Context context, int resource, int textViewResourceId, List<TopeClient> objects) {
@@ -40,8 +40,11 @@ public class TopeClientArrayAdapter extends ArrayAdapter<TopeClient> {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                values.get(position).setActive(isChecked);
-
+                TopeClient client = values.get(position);
+                client.setActive(isChecked);
+//                client.delete();
+                client.updateDb();
+                client.printAll();
             }
         });
 

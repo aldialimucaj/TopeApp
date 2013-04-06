@@ -11,8 +11,6 @@ import android.widget.ListView;
 
 public class Clients extends ListActivity {
 
-    private TopeClientArrayAdapter	adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
