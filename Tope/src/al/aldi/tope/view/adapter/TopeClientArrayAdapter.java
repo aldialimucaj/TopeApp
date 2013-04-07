@@ -28,7 +28,7 @@ public class TopeClientArrayAdapter extends ArrayAdapter<TopeClient> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.list_item_handle_left, parent, false);
+        View rowView = inflater.inflate(R.layout.client_list, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.client_name_text);
         TextView telNrView = (TextView) rowView.findViewById(R.id.tel_nr);
         textView.setText(values.get(position).getName());
@@ -42,7 +42,6 @@ public class TopeClientArrayAdapter extends ArrayAdapter<TopeClient> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 TopeClient client = values.get(position);
                 client.setActive(isChecked);
-//                client.delete();
                 client.updateDb();
                 client.printAll();
             }
@@ -50,5 +49,15 @@ public class TopeClientArrayAdapter extends ArrayAdapter<TopeClient> {
 
         return rowView;
     }
+
+    public List<TopeClient> getValues() {
+        return values;
+    }
+
+    public void setValues(List<TopeClient> values) {
+        this.values = values;
+    }
+
+
 
 }

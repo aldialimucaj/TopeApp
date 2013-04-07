@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="14" />
+        android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -25,12 +25,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="al.aldi.tope.Clients"
+            android:name="al.aldi.tope.view.Clients"
             android:label="@string/title_activity_clients"
             android:parentActivityName="al.aldi.tope.Tope" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="al.aldi.tope.Tope" />
+        </activity>
+        <activity
+            android:name="al.aldi.tope.view.ClientAddEditActivity"
+            android:label="@string/title_activity_client_add_edit" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="al.aldi.tope.view.Clients" />
         </activity>
     </application>
 

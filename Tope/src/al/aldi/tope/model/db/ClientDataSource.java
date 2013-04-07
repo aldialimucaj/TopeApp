@@ -45,6 +45,22 @@ public class ClientDataSource {
         return database.isOpen();
     }
 
+    public boolean create(TopeClient client) {
+
+        ContentValues values = new ContentValues();
+        values.put(CLIENT_NAME, client.getName());
+        values.put(CLIENT_IP, client.getIp());
+        values.put(CLIENT_PORT, client.getPort());
+        values.put(CLIENT_ACTIVE, client.isActive());
+        values.put(CLIENT_USER, client.getUser());
+        values.put(CLIENT_PASS, client.getPass());
+
+        long insertId = database.insert(CLIENT_TABLE_NAME, null, values);
+
+        return insertId != -1;
+
+    }
+
     public TopeClient create(String name, String ip, String port) {
         TopeClient client = null;
         ContentValues values = new ContentValues();

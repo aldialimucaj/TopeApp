@@ -11,7 +11,9 @@ import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.db.ClientDataSource;
 
 public class TopeUtils {
-    ClientDataSource	source	= null;
+    public static final String	TOPE_DEFAULT_PORT	= "8080";
+
+    ClientDataSource			source				= null;
 
     public TopeUtils(ClientDataSource source) {
         super();

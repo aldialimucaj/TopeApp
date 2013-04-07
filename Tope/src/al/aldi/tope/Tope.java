@@ -6,6 +6,7 @@ import java.util.List;
 import al.aldi.tope.controller.SettingsMgr;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.db.ClientDataSource;
+import al.aldi.tope.view.Clients;
 import al.aldi.tope.view.TopeSectionsPagerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,6 +57,8 @@ public class Tope extends FragmentActivity {
         source.open();
 
         TopeClient client = source.create("A-PC", "192.168.178.35", "8080");
+        TopeClient client1 = source.create("Greta-PC", "192.168.178.27", "8080");
+        TopeClient client2 = source.create("Puna-PC", "192.168.178.27", "8080");
         //System.out.println(client);
 
         List<TopeClient> clients = source.getAll();

@@ -5,9 +5,12 @@ import java.util.List;
 
 import al.aldi.tope.model.db.ClientDataSource;
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
-public class TopeClient {
+public class TopeClient implements Parcelable {
+
     private static final String	LOG_TAG	= "TopeClient";
 
     private long				id;
@@ -21,6 +24,10 @@ public class TopeClient {
 
     public TopeClient() {
         super();
+    }
+
+    public TopeClient(Parcel in) {
+        readFromParcel(in);
     }
 
     public TopeClient(String name, String ip, String port) {
@@ -46,6 +53,18 @@ public class TopeClient {
         this.user = user;
         this.pass = pass;
         this.active = active;
+    }
+
+    public void insertDb() {
+        if (null != context) {
+            ClientDataSource source = new ClientDataSource(context);
+            source.open();
+            source.create(this);
+            source.close();
+        } else {
+            Log.e(LOG_TAG, "Cannot insert client without a context! Please set it up.");
+        }
+
     }
 
     public void updateDb() {
@@ -168,4 +187,41 @@ public class TopeClient {
         this.active = active;
     }
 
+    @Override
+    public int describeContents() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeString(ip);
+        dest.writeString(port);
+        dest.writeByte((byte) (active ? 1 : 0));
+        dest.writeString(user);
+        dest.writeString(pass);
+
+    }
+
+    private void readFromParcel(Parcel in) {
+        id = in.readLong();
+        name = in.readString();
+        ip = in.readString();
+        port = in.readString();
+        active = in.readByte() == 1;
+        user = in.readString();
+        pass = in.readString();
+    }
+
+    public static final Parcelable.Creator	CREATOR	= new Parcelable.Creator() {
+                                                        public TopeClient createFromParcel(Parcel in) {
+                                                            return new TopeClient(in);
+                                                        }
+
+                                                        public TopeClient[] newArray(int size) {
+                                                            return new TopeClient[size];
+                                                        }
+                                                    };
 }
