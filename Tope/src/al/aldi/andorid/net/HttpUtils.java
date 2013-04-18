@@ -1,12 +1,17 @@
 package al.aldi.andorid.net;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -18,28 +23,28 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import al.aldi.tope.TopeUtils;
 
 public class HttpUtils {
-
 
     /**
      * Sends a get request to the following url and returns true if Server
      * responds with successful request. CODE 200
+     *
      * @param url
      * @return ture if code 200
      */
-    public static boolean sendGetRequest(final String url) {
-        Callable<Boolean> request = new Callable<Boolean>() {
+    public static JSONObject sendGetRequest(final String url) {
+        Callable<JSONObject> request = new Callable<JSONObject>() {
 
             @Override
-            public Boolean call() {
+            public JSONObject call() {
                 HttpParams httpParameters = new BasicHttpParams();
-                // Set the timeout in milliseconds until a connection is established.
-                // The default value is zero, that means the timeout is not used.
                 int timeoutConnection = 3000;
                 HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-                // Set the default socket timeout (SO_TIMEOUT)
-                // in milliseconds which is the timeout for waiting for data.
                 int timeoutSocket = 5000;
                 HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
@@ -48,7 +53,7 @@ public class HttpUtils {
                 HttpGet get = new HttpGet(url);
                 get.setHeader("Content-Type", "application/json");
                 get.addHeader("Accept", "application/json");
-                //get.setHeader("Content-Type", "text/html");
+
                 HttpContext localContext = new BasicHttpContext();
                 HttpResponse res = null;
                 try {
@@ -58,32 +63,40 @@ public class HttpUtils {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println(res.getStatusLine());
-                return res.getStatusLine().getStatusCode() == 200;
+
+                JSONObject jo = httpEntitiyToJson(res.getEntity());
+                try {
+                    jo.put(TopeUtils.JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(jo);
+                return jo;
             }
         };
 
         ExecutorService pool = Executors.newFixedThreadPool(1);
-        Future<Boolean> future = pool.submit(request);
+        Future<JSONObject> future = pool.submit(request);
 
-        boolean success = false;
+        JSONObject jsonResponse = null;
 
         try {
-            success = future.get();
+            jsonResponse = future.get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
-        return success;// res.getStatusLine().getStatusCode() == 200;
+        return jsonResponse;// res.getStatusLine().getStatusCode() == 200;
     }
-
 
     /**
      * After sending asynchronously the get request this method waits for
      * the response which it then sends back to the caller.
-     * @param url URI to call
+     *
+     * @param url
+     *            URI to call
      * @return the response from the other peer
      */
     public static HttpResponse sendRequest(final String url) {
@@ -114,6 +127,7 @@ public class HttpUtils {
                     e.printStackTrace();
                 }
                 System.out.println(res.getStatusLine());
+
                 return res;
             }
         };
@@ -160,7 +174,7 @@ public class HttpUtils {
         return res.getStatusLine().getStatusCode() == 200;
     }
 
-    //*****************************************************************************//
+    // *****************************************************************************//
 
     @Deprecated
     public static boolean sendGetRequest_old(final String url) {
@@ -182,9 +196,8 @@ public class HttpUtils {
 
                 HttpGet get = new HttpGet(url);
                 HttpContext localContext = new BasicHttpContext();
-                HttpResponse res = null;
                 try {
-                    res = client.execute(get, localContext);
+                    client.execute(get, localContext);
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -194,6 +207,46 @@ public class HttpUtils {
             }
         }).start();
 
-        return true; // res.getStatusLine().getStatusCode() == 200;
+        return true;
     }
+
+    public static String httpEntitiyToString(HttpEntity entity) {
+        StringBuilder builder = new StringBuilder();
+        InputStream content = null;
+        try {
+            content = entity.getContent();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                content.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return builder.toString();
+    }
+
+    public static JSONObject httpEntitiyToJson(HttpEntity entity) {
+        JSONObject jObject = null;
+        try {
+            String jsonStr = httpEntitiyToString(entity);
+            jsonStr = StringEscapeUtils.unescapeJava(jsonStr);
+            int strSize = jsonStr.length();
+            jsonStr = jsonStr.substring(1, strSize - 1);
+            jObject = new JSONObject(jsonStr);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jObject;
+    }
+
 }

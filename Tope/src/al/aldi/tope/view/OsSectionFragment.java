@@ -1,6 +1,14 @@
 package al.aldi.tope.view;
 
-import static al.aldi.tope.TopeCommands.*;
+import static al.aldi.tope.TopeCommands.OS_HIBERNATE;
+import static al.aldi.tope.TopeCommands.OS_LOCK_INPUT;
+import static al.aldi.tope.TopeCommands.OS_LOCK_SCREEN;
+import static al.aldi.tope.TopeCommands.OS_MONITOR_OFF;
+import static al.aldi.tope.TopeCommands.OS_MONITOR_ON;
+import static al.aldi.tope.TopeCommands.OS_POWER_OFF;
+import static al.aldi.tope.TopeCommands.OS_RESTART;
+import static al.aldi.tope.TopeCommands.OS_STAND_BY;
+import static al.aldi.tope.TopeCommands.OS_UNLOCK_INPUT;
 
 import java.util.Vector;
 
@@ -19,6 +27,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A dummy fragment representing a section of the app, but that simply
@@ -54,7 +63,13 @@ public class OsSectionFragment extends Fragment {
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                ((ITopeAction) items.elementAt(position)).execute();
+                boolean successful = ((ITopeAction) items.elementAt(position)).execute();
+                if (successful) {
+                    Toast.makeText(OsSectionFragment.this.getActivity(), "Successful: "+((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(OsSectionFragment.this.getActivity(), "Unsuccessful: "+((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
+                }
+
                 ITopeAction action = ((ITopeAction) items.elementAt(position));
                 if (action.hasOppositeAction()) {
 
