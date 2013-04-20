@@ -8,9 +8,9 @@ import static al.aldi.tope.TopeCommands.OS_MONITOR_ON;
 import static al.aldi.tope.TopeCommands.OS_POWER_OFF;
 import static al.aldi.tope.TopeCommands.OS_RESTART;
 import static al.aldi.tope.TopeCommands.OS_STAND_BY;
+import static al.aldi.tope.TopeCommands.OS_TEST;
 import static al.aldi.tope.TopeCommands.OS_UNLOCK_INPUT;
 
-import java.nio.charset.Charset;
 import java.util.Vector;
 
 import al.aldi.tope.R;
@@ -20,7 +20,10 @@ import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.IconItemAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,11 +42,10 @@ public class OsSectionFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    public static final String		ARG_SECTION_NUMBER	= "section_number";
+    public static final String	ARG_SECTION_NUMBER	= "section_number";
 
-
-    GridView						gridView;
-    Vector<ITopeAction>				items				= new Vector<ITopeAction>();
+    GridView					gridView;
+    Vector<ITopeAction>			items				= new Vector<ITopeAction>();
 
     public OsSectionFragment() {
 
@@ -53,9 +55,9 @@ public class OsSectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("OsSectionFragment.onCreateView()");
         final View rootView = inflater.inflate(R.layout.gridview_fragment_os, container, false);
-        // final Resources res = getResources();
 
         gridView = (GridView) rootView.findViewById(R.id.fragmentGridView);
+        registerForContextMenu(gridView);
 
         initCommands(); /* init the commands to show in the screen */
 
@@ -89,6 +91,21 @@ public class OsSectionFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Context Menu");
+        menu.add(0, v.getId(), 0, "Add parameters");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle() == "Add parameters") {
+            Toast.makeText(this.getActivity(), "Add parameters called", Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
+
     private void initCommands() {
         ClientDataSource source = new ClientDataSource(getActivity().getApplicationContext());
         TopeUtils topeUtils = new TopeUtils(source);
@@ -116,6 +133,8 @@ public class OsSectionFragment extends Fragment {
         action1.setOppositeAction(action2);
         action2.setOppositeAction(action1);
         items.add(action1);
+
+        items.add(topeUtils.addAction(OS_TEST, R.drawable.info, getString(R.string.title_test)));
 
     }
 

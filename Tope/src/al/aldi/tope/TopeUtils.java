@@ -29,7 +29,7 @@ public class TopeUtils {
     }
 
     public ITopeAction addAction(final String actionStr, int itemId, String title) {
-        ITopeAction action = new TopeAction(itemId, title);
+        final ITopeAction action = new TopeAction(itemId, title);
         action.setExecutable(new ITopeExecutable() {
             @Override
             public boolean run() {
@@ -38,8 +38,13 @@ public class TopeUtils {
                 List<TopeClient> clients = source.getAllActive();
                 for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
                     TopeClient topeClient = (TopeClient) iterator.next();
+                    JSONObject jo = null;
+                    if (action.hasPayload()) {
+                        jo = HttpUtils.sendPostRequestWithParams(topeClient.getURL(actionStr), action.getPayload().getParameters());
+                    } else {
+                        jo = HttpUtils.sendGetRequest(topeClient.getURL(actionStr));
+                    }
 
-                    JSONObject jo = HttpUtils.sendGetRequest(topeClient.getURL(actionStr));
                     if (null != jo) {
                         JSONUtils ju = new JSONUtils(jo);
                         try {
@@ -50,8 +55,8 @@ public class TopeUtils {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else{
-                        cleanRun =  false;
+                    } else {
+                        cleanRun = false;
                     }
                 }
                 return cleanRun;

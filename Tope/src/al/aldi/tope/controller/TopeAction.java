@@ -1,5 +1,7 @@
 package al.aldi.tope.controller;
 
+import al.aldi.tope.model.ITopePayload;
+
 public class TopeAction implements ITopeAction {
 
     private int		itemId	= 0;
@@ -7,6 +9,7 @@ public class TopeAction implements ITopeAction {
 
     ITopeExecutable	exec;
     ITopeAction		oppositeAction;
+    ITopePayload	payload;
 
     public TopeAction() {
 
@@ -21,12 +24,27 @@ public class TopeAction implements ITopeAction {
         this.title = title;
     }
 
+    public TopeAction(int itemId, String title, ITopePayload payload) {
+        super();
+        this.itemId = itemId;
+        this.title = title;
+        this.payload = payload;
+    }
+
     @Override
     public boolean execute() {
         if (null == exec) {
             throw new ExceptionInInitializerError("ITopeExecutable exec not implemented");
         }
         return exec.run();
+    }
+
+    public ITopePayload getPayload() {
+        return payload;
+    }
+
+    public void setPayload(ITopePayload payload) {
+        this.payload = payload;
     }
 
     @Override
@@ -47,7 +65,6 @@ public class TopeAction implements ITopeAction {
     @Override
     public void switchAction() {
 
-
     }
 
     @Override
@@ -63,6 +80,11 @@ public class TopeAction implements ITopeAction {
     @Override
     public boolean hasOppositeAction() {
         return null != this.oppositeAction;
+    }
+
+    @Override
+    public boolean hasPayload() {
+        return null != getPayload();
     }
 
 }

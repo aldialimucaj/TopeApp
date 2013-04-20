@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -13,11 +17,14 @@ import java.util.concurrent.Future;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -30,8 +37,7 @@ import al.aldi.tope.TopeUtils;
 
 public class HttpUtils {
 
-
-    public static final String		STATUS_CODE_SUCCESS	= "200";
+    public static final String	STATUS_CODE_SUCCESS	= "200";
 
     /**
      * Sends a get request to the following url and returns true if Server
@@ -91,7 +97,93 @@ public class HttpUtils {
             e.printStackTrace();
         }
 
-        return jsonResponse;// res.getStatusLine().getStatusCode() == 200;
+        return jsonResponse;
+    }
+
+    /**
+     * Sends a get request to the following url and returns true if Server
+     * responds with successful request. CODE 200
+     *
+     * @param url
+     *            url to be called
+     * @param params
+     *            hashmap with params
+     * @return ture if code 200
+     */
+    public static JSONObject sendPostRequestWithParams(final String url, final HashMap<String, String> params) {
+        Callable<JSONObject> request = new Callable<JSONObject>() {
+
+            @Override
+            public JSONObject call() {
+                HttpContext localContext = new BasicHttpContext();
+                HttpResponse res = null;
+
+                /* Standard parameters to limit the timeout */
+                HttpParams httpParameters = new BasicHttpParams();
+                int timeoutConnection = 3000;
+                HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+                int timeoutSocket = 5000;
+                HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+                HttpClient client = new DefaultHttpClient(httpParameters);
+
+                HttpPost httpPost = new HttpPost(url);
+                httpPost.setHeader("Content-Type", "application/json");
+                httpPost.addHeader("Accept", "application/json");
+
+                /* reading the parameter list and adding it to the entity */
+                List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+
+                for (String key : params.keySet()) {
+                    String value = params.get(key);
+                    httpParams.add(new BasicNameValuePair(key, value));
+                }
+
+                try {
+                    httpPost.setEntity(new UrlEncodedFormEntity(httpParams, "UTF-8"));
+                } catch (UnsupportedEncodingException e1) {
+                    e1.printStackTrace();
+                }
+                /* finished adding params */
+
+                /* Executing the call */
+                try {
+                    res = client.execute(httpPost, localContext);
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                /* Reading the response */
+                JSONObject jo = httpEntitiyToJson(res.getEntity());
+                /* Add to the response the default status code which comes through the http response */
+                try {
+                    jo.put(TopeUtils.JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //TODO: remove
+                System.out.println(jo);
+
+                return jo;
+            }
+        };
+
+        ExecutorService pool = Executors.newFixedThreadPool(1);
+        Future<JSONObject> future = pool.submit(request);
+
+        JSONObject jsonResponse = null;
+
+        try {
+            jsonResponse = future.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return jsonResponse;
     }
 
     /**

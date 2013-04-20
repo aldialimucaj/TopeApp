@@ -1,5 +1,7 @@
 package al.aldi.tope.controller;
 
+import al.aldi.tope.model.ITopePayload;
+
 public interface ITopeAction {
     public boolean execute();
 
@@ -8,6 +10,12 @@ public interface ITopeAction {
     public String getTitle();
 
     public int getItemId();
+
+    public ITopePayload getPayload();
+
+    public boolean hasPayload();
+
+    public void setPayload(ITopePayload payload);
 
     public void switchAction();
 

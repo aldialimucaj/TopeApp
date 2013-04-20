@@ -35,17 +35,18 @@ public final class R {
         public static final int bg_handle=0x7f020000;
         public static final int drag=0x7f020001;
         public static final int ic_launcher=0x7f020002;
-        public static final int input_keyboard=0x7f020003;
-        public static final int input_keyboard_blocked=0x7f020004;
-        public static final int system_hibernate=0x7f020005;
-        public static final int system_lock_input=0x7f020006;
-        public static final int system_lock_screen=0x7f020007;
-        public static final int system_log_out=0x7f020008;
-        public static final int system_monitor=0x7f020009;
-        public static final int system_monitor_off=0x7f02000a;
-        public static final int system_restart=0x7f02000b;
-        public static final int system_shutdown=0x7f02000c;
-        public static final int system_standby=0x7f02000d;
+        public static final int info=0x7f020003;
+        public static final int input_keyboard=0x7f020004;
+        public static final int input_keyboard_blocked=0x7f020005;
+        public static final int system_hibernate=0x7f020006;
+        public static final int system_lock_input=0x7f020007;
+        public static final int system_lock_screen=0x7f020008;
+        public static final int system_log_out=0x7f020009;
+        public static final int system_monitor=0x7f02000a;
+        public static final int system_monitor_off=0x7f02000b;
+        public static final int system_restart=0x7f02000c;
+        public static final int system_shutdown=0x7f02000d;
+        public static final int system_standby=0x7f02000e;
     }
     public static final class id {
         public static final int action_add_client=0x7f060015;
@@ -89,38 +90,39 @@ public final class R {
     }
     public static final class string {
         public static final int action_clients=0x7f070002;
-        public static final int action_clients_add=0x7f070009;
-        public static final int action_clients_delete_selected=0x7f07000a;
+        public static final int action_clients_add=0x7f07000a;
+        public static final int action_clients_delete_selected=0x7f07000b;
         public static final int action_settings=0x7f070001;
         public static final int app_name=0x7f070000;
-        public static final int os_op_hibernate=0x7f070014;
-        public static final int os_op_lockinput=0x7f070018;
-        public static final int os_op_lockscreen=0x7f070017;
-        public static final int os_op_logoff=0x7f070016;
-        public static final int os_op_monitoroff=0x7f07001b;
-        public static final int os_op_monitoron=0x7f07001a;
-        public static final int os_op_restart=0x7f070013;
-        public static final int os_op_shutdown=0x7f070012;
-        public static final int os_op_standby=0x7f070015;
-        public static final int os_op_unlockinput=0x7f070019;
-        public static final int title_activity_client_add_edit=0x7f07001c;
+        public static final int os_op_hibernate=0x7f070015;
+        public static final int os_op_lockinput=0x7f070019;
+        public static final int os_op_lockscreen=0x7f070018;
+        public static final int os_op_logoff=0x7f070017;
+        public static final int os_op_monitoroff=0x7f07001c;
+        public static final int os_op_monitoron=0x7f07001b;
+        public static final int os_op_restart=0x7f070014;
+        public static final int os_op_shutdown=0x7f070013;
+        public static final int os_op_standby=0x7f070016;
+        public static final int os_op_unlockinput=0x7f07001a;
+        public static final int title_activity_client_add_edit=0x7f07001d;
         /**  CLIENT 
          */
-        public static final int title_activity_clients=0x7f070008;
+        public static final int title_activity_clients=0x7f070009;
         public static final int title_button_cancel=0x7f070007;
         public static final int title_button_ok=0x7f070006;
-        public static final int title_client_active=0x7f07000e;
-        public static final int title_client_ip=0x7f07000c;
-        public static final int title_client_name=0x7f07000b;
-        public static final int title_client_pass=0x7f070010;
-        public static final int title_client_port=0x7f07000d;
-        public static final int title_client_user=0x7f07000f;
+        public static final int title_client_active=0x7f07000f;
+        public static final int title_client_ip=0x7f07000d;
+        public static final int title_client_name=0x7f07000c;
+        public static final int title_client_pass=0x7f070011;
+        public static final int title_client_port=0x7f07000e;
+        public static final int title_client_user=0x7f070010;
         /**  OS OPERATION 
          */
-        public static final int title_os_command=0x7f070011;
+        public static final int title_os_command=0x7f070012;
         public static final int title_section1=0x7f070003;
         public static final int title_section2=0x7f070004;
         public static final int title_section3=0x7f070005;
+        public static final int title_test=0x7f070008;
     }
     public static final class style {
         /** 

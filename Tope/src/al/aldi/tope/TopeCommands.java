@@ -11,5 +11,6 @@ public class TopeCommands {
     public static final String OS_UNLOCK_INPUT = "/os/input_unlock";
     public static final String OS_MONITOR_ON = "/os/monitor_on";
     public static final String OS_MONITOR_OFF = "/os/monitor_off";
+    public static final String OS_TEST = "/os/test";
 }
 

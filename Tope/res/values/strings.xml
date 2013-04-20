@@ -10,6 +10,7 @@
 
     <string name="title_button_ok">OK</string>
     <string name="title_button_cancel">Cancel</string>
+    <string name="title_test">Test</string>
 
     <!-- CLIENT -->
     <string name="title_activity_clients">Clients</string>

@@ -35,10 +35,10 @@ public class Tope extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tope);
 
-        SettingsMgr sMgr = SettingsMgr.getInstance();
-        sMgr.setServerName("192.168.178.35");
+        //SettingsMgr sMgr = SettingsMgr.getInstance();
+        //sMgr.setServerName("192.168.178.35");
         // sMgr.setServerName("192.168.0.2");
-        sMgr.setPort(8080);
+        //sMgr.setPort(8080);
 
         //test();
 
