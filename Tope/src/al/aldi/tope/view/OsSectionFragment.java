@@ -10,6 +10,7 @@ import static al.aldi.tope.TopeCommands.OS_RESTART;
 import static al.aldi.tope.TopeCommands.OS_STAND_BY;
 import static al.aldi.tope.TopeCommands.OS_UNLOCK_INPUT;
 
+import java.nio.charset.Charset;
 import java.util.Vector;
 
 import al.aldi.tope.R;
@@ -38,10 +39,11 @@ public class OsSectionFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    public static final String	ARG_SECTION_NUMBER	= "section_number";
+    public static final String		ARG_SECTION_NUMBER	= "section_number";
 
-    GridView					gridView;
-    Vector<ITopeAction>			items				= new Vector<ITopeAction>();
+
+    GridView						gridView;
+    Vector<ITopeAction>				items				= new Vector<ITopeAction>();
 
     public OsSectionFragment() {
 
@@ -65,9 +67,9 @@ public class OsSectionFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 boolean successful = ((ITopeAction) items.elementAt(position)).execute();
                 if (successful) {
-                    Toast.makeText(OsSectionFragment.this.getActivity(), "Successful: "+((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(OsSectionFragment.this.getActivity(), "Unsuccessful: "+((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(OsSectionFragment.this.getActivity(), "Successful: " + ((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(OsSectionFragment.this.getActivity(), "Unsuccessful: " + ((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
                 }
 
                 ITopeAction action = ((ITopeAction) items.elementAt(position));

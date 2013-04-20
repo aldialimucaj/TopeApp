@@ -30,6 +30,9 @@ import al.aldi.tope.TopeUtils;
 
 public class HttpUtils {
 
+
+    public static final String		STATUS_CODE_SUCCESS	= "200";
+
     /**
      * Sends a get request to the following url and returns true if Server
      * responds with successful request. CODE 200

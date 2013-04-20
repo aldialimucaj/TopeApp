@@ -40,12 +40,18 @@ public class TopeUtils {
                     TopeClient topeClient = (TopeClient) iterator.next();
 
                     JSONObject jo = HttpUtils.sendGetRequest(topeClient.getURL(actionStr));
-                    JSONUtils ju = new JSONUtils(jo);
-                    try {
-                        boolean statusOk = ju.readAttr(JSON_RES_SUCCESS).equals(STR_TRUE);
-                        cleanRun &= statusOk;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (null != jo) {
+                        JSONUtils ju = new JSONUtils(jo);
+                        try {
+                            boolean statusOk = ju.readAttr(JSON_RES_SUCCESS).equals(STR_TRUE);
+                            cleanRun &= statusOk;
+                            statusOk = ju.readAttr(JSON_RES_STATUS_CODE).equals(HttpUtils.STATUS_CODE_SUCCESS);
+                            cleanRun &= statusOk;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        cleanRun =  false;
                     }
                 }
                 return cleanRun;
