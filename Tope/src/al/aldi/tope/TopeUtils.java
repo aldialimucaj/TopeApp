@@ -65,4 +65,15 @@ public class TopeUtils {
 
         return action;
     }
+
+    public static ITopeAction getAction(List<ITopeAction> actions, long id) {
+        ITopeAction action = null;
+        for (Iterator<ITopeAction> iterator = actions.iterator(); iterator.hasNext();) {
+            ITopeAction iTopeAction = (ITopeAction) iterator.next();
+            if (iTopeAction.getItemId() == id) {
+                action = iTopeAction;
+            }
+        }
+        return action;
+    }
 }

@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -71,7 +72,7 @@ public class OsSectionFragment extends Fragment {
                 if (successful) {
                     Toast.makeText(OsSectionFragment.this.getActivity(), "Successful: " + ((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(OsSectionFragment.this.getActivity(), "Unsuccessful: " + ((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(OsSectionFragment.this.getActivity(), "Failed: " + ((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
                 }
 
                 ITopeAction action = ((ITopeAction) items.elementAt(position));
@@ -100,8 +101,9 @@ public class OsSectionFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         if (item.getTitle() == "Add parameters") {
-            Toast.makeText(this.getActivity(), "Add parameters called", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getActivity(), "Add parameters called from "+ TopeUtils.getAction(items, info.id).getTitle(), Toast.LENGTH_SHORT).show();
         }
         return true;
     }
