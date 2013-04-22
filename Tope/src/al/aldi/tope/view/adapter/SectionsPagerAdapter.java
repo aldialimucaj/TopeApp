@@ -1,10 +1,14 @@
-package al.aldi.tope.view;
+package al.aldi.tope.view.adapter;
 
 import java.util.Locale;
+
+import org.apache.http.cookie.SM;
 
 import al.aldi.tope.R;
 import al.aldi.tope.Tope;
 import al.aldi.tope.R.string;
+import al.aldi.tope.controller.SettingsMgr;
+import al.aldi.tope.view.DummySectionFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,37 +18,26 @@ import android.support.v4.app.FragmentPagerAdapter;
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public class TopeSectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     /**
      *
      */
     private final Tope	tope;
-    Fragment fragment1 = new OsSectionFragment();
-    Fragment fragment2 = new ProgramSectionFragment();
-    Fragment fragment3 = new UtilSectionFragment();
 
-    public TopeSectionsPagerAdapter(Tope tope, FragmentManager fm) {
+    public SectionsPagerAdapter(Tope tope, FragmentManager fm) {
         super(fm);
         this.tope = tope;
     }
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = null;
-        switch (position) {
-        case 0:
-            fragment = fragment1;
-            break;
-        case 1:
-            fragment = fragment2;
-            break;
-        case 2:
-            fragment = fragment3;
-            break;
-        }
+        // getItem is called to instantiate the fragment for the given page.
+        // Return a DummySectionFragment (defined as a static inner class
+        // below) with the page number as its lone argument.
+        Fragment fragment = new DummySectionFragment();
         Bundle args = new Bundle();
-        args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1 );
+        args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
         fragment.setArguments(args);
         return fragment;
     }

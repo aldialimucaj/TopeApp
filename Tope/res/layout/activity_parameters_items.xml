@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/item_height"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/actionName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textIsSelectable="true"
+        android:layout_weight="0.5"
+        android:paddingLeft="15dp"
+        android:text="@string/title_test"
+         />
+
+    <EditText
+        android:id="@+id/actionValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:ems="10"
+        android:inputType="text"
+         >
+
+        <requestFocus />
+    </EditText>
+
+</LinearLayout>

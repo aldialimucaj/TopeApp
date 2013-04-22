@@ -7,6 +7,7 @@ import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +43,7 @@ public class Clients extends ListActivity {
                 Intent i = new Intent(Clients.this, ClientAddEditActivity.class);
 
                 ListView list = Clients.this.getListView();
-                TopeClient client = (TopeClient) list.getItemAtPosition(position);
+                Parcelable client = (TopeClient) list.getItemAtPosition(position);
 
                 i.putExtra(INTENT_CLICKED_ITEM_ID, client);
                 startActivity(i);

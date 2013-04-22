@@ -16,8 +16,10 @@ import java.util.Vector;
 import al.aldi.tope.R;
 import al.aldi.tope.TopeUtils;
 import al.aldi.tope.controller.ITopeAction;
+import al.aldi.tope.controller.TopeAction;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.IconItemAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -43,10 +45,13 @@ public class OsSectionFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    public static final String	ARG_SECTION_NUMBER	= "section_number";
+    public static final String	ARG_SECTION_NUMBER			= "section_number";
+
+    public static final String	INTENT_CLICKED_ACTION		= "ACTION";
+    public static final String	INTENT_CLICKED_ACTION_ID	= "ACTION_ID";
 
     GridView					gridView;
-    Vector<ITopeAction>			items				= new Vector<ITopeAction>();
+    Vector<ITopeAction>			items						= new Vector<ITopeAction>();
 
     public OsSectionFragment() {
 
@@ -68,14 +73,10 @@ public class OsSectionFragment extends Fragment {
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                boolean successful = ((ITopeAction) items.elementAt(position)).execute();
-                if (successful) {
-                    Toast.makeText(OsSectionFragment.this.getActivity(), "Successful: " + ((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(OsSectionFragment.this.getActivity(), "Failed: " + ((ITopeAction) items.elementAt(position)).getTitle(), Toast.LENGTH_LONG).show();
-                }
-
                 ITopeAction action = ((ITopeAction) items.elementAt(position));
+                boolean successful = action.execute();
+                TopeUtils.printSuccessMsg(action, successful, getActivity());
+
                 if (action.hasOppositeAction()) {
 
                     ImageView imageView = (ImageView) v.findViewById(R.id.gridActionImage);
@@ -103,7 +104,13 @@ public class OsSectionFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         if (item.getTitle() == "Add parameters") {
-            Toast.makeText(this.getActivity(), "Add parameters called from "+ TopeUtils.getAction(items, info.id).getTitle(), Toast.LENGTH_SHORT).show();
+            ITopeAction action = TopeUtils.getAction(items, info.id);
+            Intent i = new Intent(this.getActivity(), ParametersActivity.class);
+
+            i.putExtra(INTENT_CLICKED_ACTION, action);
+
+            startActivity(i);
+            //Toast.makeText(this.getActivity(), "Add parameters called from "+ TopeUtils.getAction(items, info.id).getTitle(), Toast.LENGTH_SHORT).show();
         }
         return true;
     }

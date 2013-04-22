@@ -6,7 +6,10 @@ import java.util.List;
 
 public class TopePayload implements ITopePayload {
 
+    private static final long	serialVersionUID	= 3291081158751882587L;
+
     public static final String PARAM_TIME_TO_WAIT = "timeToWait";
+    public static final String PARAM_TIME_TO_EXEC = "timeToExecute";
 
     private List<String> payloads = new ArrayList<String>();
     HashMap<String, String> params = new HashMap<String, String>();
@@ -17,6 +20,7 @@ public class TopePayload implements ITopePayload {
 
     private void registerPayloads() {
          payloads.add(PARAM_TIME_TO_WAIT);
+         payloads.add(PARAM_TIME_TO_EXEC);
     }
 
     public void addPayload(String key, String value) throws Exception{
@@ -37,3 +41,4 @@ public class TopePayload implements ITopePayload {
         return payloads;
     }
 }
+

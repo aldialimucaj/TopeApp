@@ -7,8 +7,8 @@
     <string name="title_section1">OS</string>
     <string name="title_section2">Applications</string>
     <string name="title_section3">Utils</string>
-
     <string name="title_button_ok">OK</string>
+    <string name="title_button_execute">Execute</string>
     <string name="title_button_cancel">Cancel</string>
     <string name="title_test">Test</string>
 
@@ -37,5 +37,7 @@
     <string name="os_op_monitoron">Turn On Monitor</string>
     <string name="os_op_monitoroff">Turn Off Monitor</string>
     <string name="title_activity_client_add_edit">ClientAddEditActivity</string>
+    <string name="title_activity_parameters">Action Parameters</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

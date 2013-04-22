@@ -13,6 +13,9 @@ import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.controller.TopeAction;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.db.ClientDataSource;
+import al.aldi.tope.view.OsSectionFragment;
+import android.app.Activity;
+import android.widget.Toast;
 
 public class TopeUtils {
     public static final String	TOPE_DEFAULT_PORT		= "8080";
@@ -29,7 +32,7 @@ public class TopeUtils {
     }
 
     public ITopeAction addAction(final String actionStr, int itemId, String title) {
-        final ITopeAction action = new TopeAction(itemId, title);
+        final ITopeAction action = new TopeAction(itemId, title, actionStr);
         action.setExecutable(new ITopeExecutable() {
             @Override
             public boolean run() {
@@ -75,5 +78,13 @@ public class TopeUtils {
             }
         }
         return action;
+    }
+
+    public static void printSuccessMsg(ITopeAction action, boolean successful, Activity activity){
+        if (successful) {
+            Toast.makeText(activity, "Successful: " + action.getTitle(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(activity, "Failed: " + action.getTitle(), Toast.LENGTH_LONG).show();
+        }
     }
 }
