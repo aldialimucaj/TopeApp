@@ -128,8 +128,7 @@ public class HttpUtils {
                 HttpClient client = new DefaultHttpClient(httpParameters);
 
                 HttpPost httpPost = new HttpPost(url);
-                //httpPost.setHeader("Content-Type", "application/json");//TODO: Think about this
-                //httpPost.addHeader("Accept", "application/json");
+                httpPost.addHeader("Accept", "application/json");  /* in order to let the server know we accept json */
 
                 /* reading the parameter list and adding it to the entity */
                 List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
@@ -140,8 +139,7 @@ public class HttpUtils {
                 }
 
                 try {
-                    //httpPost.setEntity(new UrlEncodedFormEntity(httpParams, "UTF-8"));
-                    httpPost.setEntity(new UrlEncodedFormEntity(httpParams));
+                    httpPost.setEntity(new UrlEncodedFormEntity(httpParams, "UTF-8"));
                 } catch (UnsupportedEncodingException e1) {
                     e1.printStackTrace();
                 }
