@@ -33,6 +33,7 @@ public class TopeResponse {
     private Date				date;
 
     public TopeResponse() {
+        this.successful = false;
     }
 
     public TopeResponse(JSONObject jo) {
@@ -52,7 +53,6 @@ public class TopeResponse {
             e.printStackTrace();
         }
     }
-
 
     public TopeResponse(boolean successful, String statusCode, String command, String message, String requestId, String responseId, Date date) {
         this.successful = successful;
@@ -75,7 +75,6 @@ public class TopeResponse {
     public void setSuccessful(boolean success) {
         this.successful = success;
     }
-
 
     public String getStatusCode() {
         return statusCode;

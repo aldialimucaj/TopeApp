@@ -50,54 +50,33 @@ public class HttpUtils {
      * @return ture if code 200
      */
     public static TopeResponse sendGetRequest(final String url) {
-        Callable<TopeResponse> request = new Callable<TopeResponse>() {
+        HttpClient client = getDefaultClient();
 
-            @Override
-            public TopeResponse call() {
+        HttpGet get = new HttpGet(url);
+        // get.setHeader("Content-Type", "application/json");
+        get.addHeader("Accept", "application/json");
 
-                HttpClient client = getDefaultClient();
-
-                HttpGet get = new HttpGet(url);
-                // get.setHeader("Content-Type", "application/json");
-                get.addHeader("Accept", "application/json");
-
-                HttpContext localContext = new BasicHttpContext();
-                HttpResponse res = null;
-                try {
-                    res = client.execute(get, localContext);
-                } catch (ClientProtocolException e) {
-                    System.err.println(e.getMessage());
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
-                }
-
-                JSONObject jo = httpEntitiyToJson(res.getEntity());
-                try {
-                    jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                TopeResponse tr = new TopeResponse(jo);
-                System.out.println("HttpUtils.sendGetRequest(...).new Callable() {...}.call()");
-                System.out.println(jo);
-                return tr;
-            }
-        };
-
-        ExecutorService pool = Executors.newFixedThreadPool(1);
-        Future<TopeResponse> future = pool.submit(request);
-
-        TopeResponse topeResponse = null;
-
+        HttpContext localContext = new BasicHttpContext();
+        HttpResponse res = null;
         try {
-            topeResponse = future.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            res = client.execute(get, localContext);
+            JSONObject jo = httpEntitiyToJson(res.getEntity());
+            try {
+                jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            TopeResponse tr = new TopeResponse(jo);
+            System.out.println("HttpUtils.sendGetRequest(...).new Callable() {...}.call()");
+            System.out.println(jo);
+            return tr;
+        } catch (ClientProtocolException e) {
+            System.err.println(e.getMessage());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
 
-        return topeResponse;
+        return new TopeResponse(); /* an empty response has successful = false */
     }
 
     /**
@@ -111,73 +90,53 @@ public class HttpUtils {
      * @return ture if code 200
      */
     public static TopeResponse sendPostRequestWithParams(final String url, final HashMap<String, String> params) {
-        Callable<TopeResponse> request = new Callable<TopeResponse>() {
+        HttpContext localContext = new BasicHttpContext();
+        HttpResponse res = null;
 
-            @Override
-            public TopeResponse call() {
-                HttpContext localContext = new BasicHttpContext();
-                HttpResponse res = null;
+        /* Standard parameters to limit the timeout */
+        HttpClient client = getDefaultClient();
 
-                /* Standard parameters to limit the timeout */
-                HttpClient client = getDefaultClient();
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.addHeader("Accept", "application/json"); /* in order to let the server know we accept json */
 
-                HttpPost httpPost = new HttpPost(url);
-                httpPost.addHeader("Accept", "application/json"); /* in order to let the server know we accept json */
+        /* reading the parameter list and adding it to the entity */
+        List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
 
-                /* reading the parameter list and adding it to the entity */
-                List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-
-                for (String key : params.keySet()) {
-                    String value = params.get(key);
-                    httpParams.add(new BasicNameValuePair(key, value));
-                }
-
-                try {
-                    httpPost.setEntity(new UrlEncodedFormEntity(httpParams, "UTF-8"));
-                } catch (UnsupportedEncodingException e1) {
-                    e1.printStackTrace();
-                }
-                /* finished adding params */
-
-                /* Executing the call */
-                try {
-                    res = client.execute(httpPost, localContext);
-                } catch (ClientProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                /* Reading the response */
-                JSONObject jo = httpEntitiyToJson(res.getEntity());
-                /* Add to the response the default status code which comes through the http response */
-                try {
-                    jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                TopeResponse tr = new TopeResponse(jo);
-                // TODO: remove
-                System.out.println(jo);
-
-                return tr;
-            }
-        };
-
-        ExecutorService pool = Executors.newFixedThreadPool(1);
-        Future<TopeResponse> future = pool.submit(request);
-
-        TopeResponse topeResponse = null;
-
-        try {
-            topeResponse = future.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        for (String key : params.keySet()) {
+            String value = params.get(key);
+            httpParams.add(new BasicNameValuePair(key, value));
         }
 
-        return topeResponse;
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(httpParams, "UTF-8"));
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+        /* finished adding params */
+
+        /* Executing the call */
+        try {
+            res = client.execute(httpPost, localContext);
+
+            /* Reading the response */
+            JSONObject jo = httpEntitiyToJson(res.getEntity());
+            /* Add to the response the default status code which comes through the http response */
+            try {
+                jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            TopeResponse tr = new TopeResponse(jo);
+            // TODO: remove
+            System.out.println(jo);
+
+            return tr;
+        } catch (ClientProtocolException e) {
+            System.err.println(e.getMessage());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+        return new TopeResponse();
     }
 
     /**

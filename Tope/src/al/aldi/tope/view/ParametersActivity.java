@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import al.aldi.tope.R;
 import al.aldi.tope.TopeUtils;
+import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.db.ClientDataSource;
@@ -51,7 +52,7 @@ public class ParametersActivity extends Activity {
 
         int i = 0;
         for (String key : payload.getPayloads()) {
-            //LinearLayout innerLinearLayout = (LinearLayout) inflater.inflate(R.layout.activity_parameters_items, null);
+            // LinearLayout innerLinearLayout = (LinearLayout) inflater.inflate(R.layout.activity_parameters_items, null);
             View v = adapter.getView(i, null, linearLayout);
             linearLayout.addView(v);
             i++;
@@ -97,9 +98,8 @@ public class ParametersActivity extends Activity {
                 imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
 
                 action.setPayload(payload);
-                boolean successful = action.execute();
-
-                TopeUtils.printSuccessMsg(action, successful, ParametersActivity.this);
+                ActionCareTaker act = new ActionCareTaker(action, ParametersActivity.this);
+                act.execute();
             }
 
         });
