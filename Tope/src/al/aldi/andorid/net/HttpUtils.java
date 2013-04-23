@@ -60,7 +60,7 @@ public class HttpUtils {
                 HttpClient client = new DefaultHttpClient(httpParameters);
 
                 HttpGet get = new HttpGet(url);
-                get.setHeader("Content-Type", "application/json");
+                //get.setHeader("Content-Type", "application/json");
                 get.addHeader("Accept", "application/json");
 
                 HttpContext localContext = new BasicHttpContext();
