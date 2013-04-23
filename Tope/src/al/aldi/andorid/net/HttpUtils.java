@@ -1,5 +1,7 @@
 package al.aldi.andorid.net;
 
+import static al.aldi.tope.model.TopeResponse.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import al.aldi.tope.TopeUtils;
+import al.aldi.tope.model.TopeResponse;
 
 public class HttpUtils {
 
@@ -46,11 +49,11 @@ public class HttpUtils {
      * @param url
      * @return ture if code 200
      */
-    public static JSONObject sendGetRequest(final String url) {
-        Callable<JSONObject> request = new Callable<JSONObject>() {
+    public static TopeResponse sendGetRequest(final String url) {
+        Callable<TopeResponse> request = new Callable<TopeResponse>() {
 
             @Override
-            public JSONObject call() {
+            public TopeResponse call() {
                 HttpParams httpParameters = new BasicHttpParams();
                 int timeoutConnection = 3000;
                 HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
@@ -75,29 +78,31 @@ public class HttpUtils {
 
                 JSONObject jo = httpEntitiyToJson(res.getEntity());
                 try {
-                    jo.put(TopeUtils.JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
+                    jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                TopeResponse tr = new TopeResponse(jo);
+                System.out.println(tr);
                 System.out.println(jo);
-                return jo;
+                return tr;
             }
         };
 
         ExecutorService pool = Executors.newFixedThreadPool(1);
-        Future<JSONObject> future = pool.submit(request);
+        Future<TopeResponse> future = pool.submit(request);
 
-        JSONObject jsonResponse = null;
+        TopeResponse topeResponse = null;
 
         try {
-            jsonResponse = future.get();
+            topeResponse = future.get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
-        return jsonResponse;
+        return topeResponse;
     }
 
     /**
@@ -110,11 +115,11 @@ public class HttpUtils {
      *            hashmap with params
      * @return ture if code 200
      */
-    public static JSONObject sendPostRequestWithParams(final String url, final HashMap<String, String> params) {
-        Callable<JSONObject> request = new Callable<JSONObject>() {
+    public static TopeResponse sendPostRequestWithParams(final String url, final HashMap<String, String> params) {
+        Callable<TopeResponse> request = new Callable<TopeResponse>() {
 
             @Override
-            public JSONObject call() {
+            public TopeResponse call() {
                 HttpContext localContext = new BasicHttpContext();
                 HttpResponse res = null;
 
@@ -158,31 +163,32 @@ public class HttpUtils {
                 JSONObject jo = httpEntitiyToJson(res.getEntity());
                 /* Add to the response the default status code which comes through the http response */
                 try {
-                    jo.put(TopeUtils.JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
+                    jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                TopeResponse tr = new TopeResponse(jo);
                 //TODO: remove
                 System.out.println(jo);
 
-                return jo;
+                return tr;
             }
         };
 
         ExecutorService pool = Executors.newFixedThreadPool(1);
-        Future<JSONObject> future = pool.submit(request);
+        Future<TopeResponse> future = pool.submit(request);
 
-        JSONObject jsonResponse = null;
+        TopeResponse topeResponse = null;
 
         try {
-            jsonResponse = future.get();
+            topeResponse = future.get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
-        return jsonResponse;
+        return topeResponse;
     }
 
     /**

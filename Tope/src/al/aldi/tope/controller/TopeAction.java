@@ -6,8 +6,6 @@ import android.os.Parcelable;
 
 public class TopeAction implements ITopeAction {
 
-    private static final long	serialVersionUID	= 7167555430289463924L;
-
     private int					itemId				= 0;
     private String				title				= null;
     private String				command				= null;

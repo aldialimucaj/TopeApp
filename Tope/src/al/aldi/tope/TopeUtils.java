@@ -3,28 +3,20 @@ package al.aldi.tope;
 import java.util.Iterator;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import al.aldi.andorid.JSONUtils;
 import al.aldi.andorid.net.HttpUtils;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.controller.TopeAction;
 import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
-import al.aldi.tope.view.OsSectionFragment;
 import android.app.Activity;
 import android.widget.Toast;
 
 public class TopeUtils {
-    public static final String	TOPE_DEFAULT_PORT		= "8080";
-    public static final String	STR_TRUE				= "true";
-    public static final String	STR_FALSE				= "false";
-    public static final String	JSON_RES_SUCCESS		= "success";
-    public static final String	JSON_RES_STATUS_CODE	= "statusCode";
+    public static final String	TOPE_DEFAULT_PORT	= "8080";
 
-    ClientDataSource			source					= null;
+    ClientDataSource			source				= null;
 
     public TopeUtils(ClientDataSource source) {
         super();
@@ -41,23 +33,15 @@ public class TopeUtils {
                 List<TopeClient> clients = source.getAllActive();
                 for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
                     TopeClient topeClient = (TopeClient) iterator.next();
-                    JSONObject jo = null;
+                    TopeResponse topeResponse = null;
                     if (action.hasPayload()) {
-                        jo = HttpUtils.sendPostRequestWithParams(topeClient.getURL(actionStr), action.getPayload().getParameters());
+                        topeResponse = HttpUtils.sendPostRequestWithParams(topeClient.getURL(actionStr), action.getPayload().getParameters());
                     } else {
-                        jo = HttpUtils.sendGetRequest(topeClient.getURL(actionStr));
+                        topeResponse = HttpUtils.sendGetRequest(topeClient.getURL(actionStr));
                     }
 
-                    if (null != jo) {
-                        JSONUtils ju = new JSONUtils(jo);
-                        try {
-                            boolean statusOk = ju.readAttr(JSON_RES_SUCCESS).equals(STR_TRUE);
-                            cleanRun &= statusOk;
-                            statusOk = ju.readAttr(JSON_RES_STATUS_CODE).equals(HttpUtils.STATUS_CODE_SUCCESS);
-                            cleanRun &= statusOk;
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    if (null != topeResponse) {
+                        cleanRun &= topeResponse.isSuccessful();
                     } else {
                         cleanRun = false;
                     }
@@ -80,7 +64,15 @@ public class TopeUtils {
         return action;
     }
 
-    public static void printSuccessMsg(ITopeAction action, boolean successful, Activity activity){
+    public static void printSuccessMsg(ITopeAction action, TopeResponse topeResponse, Activity activity) {
+        if (topeResponse.isSuccessful()) {
+            Toast.makeText(activity, "Successful: " + action.getTitle(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(activity, "Failed: " + action.getTitle()+"\n"+topeResponse.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void printSuccessMsg(ITopeAction action, boolean successful, Activity activity) {
         if (successful) {
             Toast.makeText(activity, "Successful: " + action.getTitle(), Toast.LENGTH_LONG).show();
         } else {
