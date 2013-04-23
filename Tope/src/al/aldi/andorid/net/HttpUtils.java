@@ -54,16 +54,11 @@ public class HttpUtils {
 
             @Override
             public TopeResponse call() {
-                HttpParams httpParameters = new BasicHttpParams();
-                int timeoutConnection = 3000;
-                HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-                int timeoutSocket = 5000;
-                HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
-                HttpClient client = new DefaultHttpClient(httpParameters);
+                HttpClient client = getDefaultClient();
 
                 HttpGet get = new HttpGet(url);
-                //get.setHeader("Content-Type", "application/json");
+                // get.setHeader("Content-Type", "application/json");
                 get.addHeader("Accept", "application/json");
 
                 HttpContext localContext = new BasicHttpContext();
@@ -71,9 +66,9 @@ public class HttpUtils {
                 try {
                     res = client.execute(get, localContext);
                 } catch (ClientProtocolException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
 
                 JSONObject jo = httpEntitiyToJson(res.getEntity());
@@ -83,7 +78,7 @@ public class HttpUtils {
                     e.printStackTrace();
                 }
                 TopeResponse tr = new TopeResponse(jo);
-                System.out.println(tr);
+                System.out.println("HttpUtils.sendGetRequest(...).new Callable() {...}.call()");
                 System.out.println(jo);
                 return tr;
             }
@@ -124,16 +119,10 @@ public class HttpUtils {
                 HttpResponse res = null;
 
                 /* Standard parameters to limit the timeout */
-                HttpParams httpParameters = new BasicHttpParams();
-                int timeoutConnection = 3000;
-                HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-                int timeoutSocket = 5000;
-                HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
-
-                HttpClient client = new DefaultHttpClient(httpParameters);
+                HttpClient client = getDefaultClient();
 
                 HttpPost httpPost = new HttpPost(url);
-                httpPost.addHeader("Accept", "application/json");  /* in order to let the server know we accept json */
+                httpPost.addHeader("Accept", "application/json"); /* in order to let the server know we accept json */
 
                 /* reading the parameter list and adding it to the entity */
                 List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
@@ -168,7 +157,7 @@ public class HttpUtils {
                     e.printStackTrace();
                 }
                 TopeResponse tr = new TopeResponse(jo);
-                //TODO: remove
+                // TODO: remove
                 System.out.println(jo);
 
                 return tr;
@@ -272,6 +261,15 @@ public class HttpUtils {
             e.printStackTrace();
         }
         return res.getStatusLine().getStatusCode() == 200;
+    }
+
+    public static DefaultHttpClient getDefaultClient() {
+        HttpParams httpParameters = new BasicHttpParams();
+        int timeoutConnection = 3000;
+        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+        int timeoutSocket = 5000;
+        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+        return new DefaultHttpClient(httpParameters);
     }
 
     // *****************************************************************************//

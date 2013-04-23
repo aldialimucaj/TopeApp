@@ -23,26 +23,36 @@ public class TopeUtils {
         this.source = source;
     }
 
+    /**
+     * Prepares the action to execute. It creates an executable for the action and sets it as the default one.
+     * Depending on the presence of payload, it sends a GET or POST request.
+     *
+     * @param actionStr
+     * @param itemId
+     * @param title
+     * @return
+     */
     public ITopeAction addAction(final String actionStr, int itemId, String title) {
         final ITopeAction action = new TopeAction(itemId, title, actionStr);
         action.setExecutable(new ITopeExecutable() {
             @Override
             public boolean run() {
-                boolean cleanRun = true;
+                boolean cleanRun = true; /*
+                                         * if there are more then one client to execute then the command was successful only if all were
+                                         * successful
+                                         */
                 source.open();
-                List<TopeClient> clients = source.getAllActive();
+                List<TopeClient> clients = source.getAllActive(); /* reads all acitve clients from the database */
                 for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
                     TopeClient topeClient = (TopeClient) iterator.next();
                     TopeResponse topeResponse = null;
-                    if (action.hasPayload()) {
+                    if (action.hasPayload()) { /* Payload is set at runtime after the creation of this anonymous method */
                         topeResponse = HttpUtils.sendPostRequestWithParams(topeClient.getURL(actionStr), action.getPayload().getParameters());
                     } else {
                         topeResponse = HttpUtils.sendGetRequest(topeClient.getURL(actionStr));
                     }
 
-                    if (null != topeResponse) {
-                        cleanRun &= topeResponse.isSuccessful();
-                    } else {
+                    if (null == topeResponse || !topeResponse.isSuccessful()) {
                         cleanRun = false;
                     }
                 }
@@ -68,7 +78,7 @@ public class TopeUtils {
         if (topeResponse.isSuccessful()) {
             Toast.makeText(activity, "Successful: " + action.getTitle(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(activity, "Failed: " + action.getTitle()+"\n"+topeResponse.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Failed: " + action.getTitle() + "\n" + topeResponse.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 

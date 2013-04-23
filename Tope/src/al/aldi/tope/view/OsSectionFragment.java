@@ -15,12 +15,14 @@ import java.util.Vector;
 
 import al.aldi.tope.R;
 import al.aldi.tope.TopeUtils;
+import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.controller.TopeAction;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.IconItemAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -74,8 +76,9 @@ public class OsSectionFragment extends Fragment {
         gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ITopeAction action = ((ITopeAction) items.elementAt(position));
-                boolean successful = action.execute();
-                TopeUtils.printSuccessMsg(action, successful, getActivity());
+
+                ActionCareTaker act = new ActionCareTaker(action, getActivity());
+                act.execute();
 
                 if (action.hasOppositeAction()) {
 
@@ -110,7 +113,8 @@ public class OsSectionFragment extends Fragment {
             i.putExtra(INTENT_CLICKED_ACTION, action);
 
             startActivity(i);
-            //Toast.makeText(this.getActivity(), "Add parameters called from "+ TopeUtils.getAction(items, info.id).getTitle(), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this.getActivity(), "Add parameters called from "+ TopeUtils.getAction(items, info.id).getTitle(),
+            // Toast.LENGTH_SHORT).show();
         }
         return true;
     }
