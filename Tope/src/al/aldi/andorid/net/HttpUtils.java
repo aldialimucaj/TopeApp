@@ -61,15 +61,13 @@ public class HttpUtils {
         try {
             res = client.execute(get, localContext);
             JSONObject jo = httpEntitiyToJson(res.getEntity());
-            try {
-                jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
             TopeResponse tr = new TopeResponse(jo);
             System.out.println("HttpUtils.sendGetRequest(...).new Callable() {...}.call()");
             System.out.println(jo);
             return tr;
+        } catch (JSONException e) {
+            e.printStackTrace();
         } catch (ClientProtocolException e) {
             System.err.println(e.getMessage());
         } catch (IOException e) {
@@ -121,11 +119,7 @@ public class HttpUtils {
             /* Reading the response */
             JSONObject jo = httpEntitiyToJson(res.getEntity());
             /* Add to the response the default status code which comes through the http response */
-            try {
-                jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
             TopeResponse tr = new TopeResponse(jo);
             // TODO: remove
             System.out.println(jo);
@@ -135,6 +129,8 @@ public class HttpUtils {
             System.err.println(e.getMessage());
         } catch (IOException e) {
             System.err.println(e.getMessage());
+        } catch (JSONException e1) {
+            e1.printStackTrace();
         }
         return new TopeResponse();
     }
@@ -292,17 +288,13 @@ public class HttpUtils {
         return builder.toString();
     }
 
-    public static JSONObject httpEntitiyToJson(HttpEntity entity) {
+    public static JSONObject httpEntitiyToJson(HttpEntity entity) throws JSONException {
         JSONObject jObject = null;
-        try {
-            String jsonStr = httpEntitiyToString(entity);
-            jsonStr = StringEscapeUtils.unescapeJava(jsonStr);
-            int strSize = jsonStr.length();
-            jsonStr = jsonStr.substring(1, strSize - 1);
-            jObject = new JSONObject(jsonStr);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String jsonStr = httpEntitiyToString(entity);
+        jsonStr = StringEscapeUtils.unescapeJava(jsonStr);
+        int strSize = jsonStr.length();
+        jsonStr = jsonStr.substring(1, strSize - 1);
+        jObject = new JSONObject(jsonStr);
         return jObject;
     }
 

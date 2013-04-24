@@ -18,6 +18,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
     public static final int	WIDTH_160	= 160;
     public static final int	HEIGHT_250	= 250;
+    public static final int	HEIGHT_230	= 230;
     Vector<ITopeAction>	actions;
     private Activity	activity;
 
@@ -52,7 +53,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
             LayoutInflater li = activity.getLayoutInflater();
             LinearLayout v = (LinearLayout) li.inflate(R.layout.gridview_item_layout, null);
 
-            v.setLayoutParams(new GridView.LayoutParams(WIDTH_160, HEIGHT_250));
+            //v.setLayoutParams(new GridView.LayoutParams(WIDTH_160, HEIGHT_230));
             v.setPadding(15, 15, 15, 15);
 
             TextView tv = (TextView) v.findViewById(R.id.gridActionText);

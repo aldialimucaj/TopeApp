@@ -149,6 +149,15 @@ public class OsSectionFragment extends Fragment {
 
         items.add(topeUtils.addAction(OS_TEST, R.drawable.info, getString(R.string.title_test)));
 
+        //* TEST DELETE THIS *//
+        items.add(topeUtils.addAction(OS_RESTART, R.drawable.system_restart, getString(R.string.os_op_restart)));
+
+        items.add(topeUtils.addAction(OS_HIBERNATE, R.drawable.system_hibernate, getString(R.string.os_op_hibernate)));
+
+        items.add(topeUtils.addAction(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby)));
+
+        items.add(topeUtils.addAction(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen)));
+
     }
 
 }
