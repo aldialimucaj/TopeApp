@@ -1,6 +1,6 @@
 package al.aldi.andorid.net;
 
-import static al.aldi.tope.model.TopeResponse.*;
+import static al.aldi.tope.model.TopeResponse.JSON_RES_STATUS_CODE;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,11 +35,11 @@ import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import al.aldi.tope.TopeUtils;
 import al.aldi.tope.model.TopeResponse;
+import android.util.Log;
 
 public class HttpUtils {
-
+    public static final String	LOG_TAG				= "al.aldi.andorid.net.HttpUtils";
     public static final String	STATUS_CODE_SUCCESS	= "200";
 
     /**
@@ -60,18 +60,22 @@ public class HttpUtils {
         HttpResponse res = null;
         try {
             res = client.execute(get, localContext);
-            JSONObject jo = httpEntitiyToJson(res.getEntity());
-            jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
-            TopeResponse tr = new TopeResponse(jo);
-            System.out.println("HttpUtils.sendGetRequest(...).new Callable() {...}.call()");
-            System.out.println(jo);
-            return tr;
+            if (null != res) {
+                JSONObject jo = httpEntitiyToJson(res.getEntity());
+                jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
+                TopeResponse tr = new TopeResponse(jo);
+                System.out.println("HttpUtils.sendGetRequest(...).new Callable() {...}.call()");
+                System.out.println(jo);
+                return tr;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            System.err.println(e.getMessage());
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
+        } catch (Exception e) {
+            String message = "";
+            if (null != e.getMessage()) {
+                message = e.getMessage();
+            }
+            Log.e(LOG_TAG, message);
         }
 
         return new TopeResponse(); /* an empty response has successful = false */
@@ -227,42 +231,6 @@ public class HttpUtils {
         return new DefaultHttpClient(httpParameters);
     }
 
-    // *****************************************************************************//
-
-    @Deprecated
-    public static boolean sendGetRequest_old(final String url) {
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                HttpParams httpParameters = new BasicHttpParams();
-                // Set the timeout in milliseconds until a connection is established.
-                // The default value is zero, that means the timeout is not used.
-                int timeoutConnection = 3000;
-                HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-                // Set the default socket timeout (SO_TIMEOUT)
-                // in milliseconds which is the timeout for waiting for data.
-                int timeoutSocket = 5000;
-                HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
-
-                HttpClient client = new DefaultHttpClient(httpParameters);
-
-                HttpGet get = new HttpGet(url);
-                HttpContext localContext = new BasicHttpContext();
-                try {
-                    client.execute(get, localContext);
-                } catch (ClientProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }).start();
-
-        return true;
-    }
-
     public static String httpEntitiyToString(HttpEntity entity) {
         StringBuilder builder = new StringBuilder();
         InputStream content = null;
@@ -291,9 +259,10 @@ public class HttpUtils {
     public static JSONObject httpEntitiyToJson(HttpEntity entity) throws JSONException {
         JSONObject jObject = null;
         String jsonStr = httpEntitiyToString(entity);
-        jsonStr = StringEscapeUtils.unescapeJava(jsonStr);
+        System.out.println(jsonStr);
+        jsonStr = StringEscapeUtils.unescapeJava(jsonStr); /* need to excape from \n form */
         int strSize = jsonStr.length();
-        jsonStr = jsonStr.substring(1, strSize - 1);
+        jsonStr = jsonStr.substring(1, strSize - 1); /* removing leading quotes */
         jObject = new JSONObject(jsonStr);
         return jObject;
     }
