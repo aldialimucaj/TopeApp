@@ -47,9 +47,9 @@ public class TopeUtils {
                     TopeClient topeClient = (TopeClient) iterator.next();
                     TopeResponse topeResponse = null;
                     if (action.hasPayload()) { /* Payload is set at runtime after the creation of this anonymous method */
-                        topeResponse = HttpUtils.sendPostRequestWithParams(topeClient.getURL(actionStr), action.getPayload().getParameters());
+                        topeResponse = HttpUtils.sendPostRequestWithParams(topeClient.getSslURL(actionStr), action.getPayload().getParameters());
                     } else {
-                        topeResponse = HttpUtils.sendGetRequest(topeClient.getURL(actionStr));
+                        topeResponse = HttpUtils.sendGetRequest(topeClient.getSslURL(actionStr));
                     }
 
                     if (null == topeResponse || !topeResponse.isSuccessful()) {

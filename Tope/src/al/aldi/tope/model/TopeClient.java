@@ -83,7 +83,15 @@ public class TopeClient implements Parcelable {
         return "http://" + ip + ":" + port;
     }
 
+    public String getSslURL() {
+        return "https://" + ip + ":" + port;
+    }
+
     public String getURL(String command) {
+        return getURL() + command;
+    }
+
+    public String getSslURL(String command) {
         return getURL() + command;
     }
 
