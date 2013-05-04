@@ -92,7 +92,7 @@ public class TopeClient implements Parcelable {
     }
 
     public String getSslURL(String command) {
-        return getURL() + command;
+        return getSslURL() + command;
     }
 
     public void delete() {
