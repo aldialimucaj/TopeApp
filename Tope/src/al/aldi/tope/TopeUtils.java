@@ -8,6 +8,7 @@ import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.controller.TopeAction;
 import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
 import android.app.Activity;
@@ -33,7 +34,8 @@ public class TopeUtils {
      * @return
      */
     public ITopeAction addAction(final String actionStr, int itemId, String title) {
-        final ITopeAction action = new TopeAction(itemId, title, actionStr);
+        final ITopeAction action = new TopeAction(itemId, title, actionStr, new TopePayload());
+
         action.setExecutable(new ITopeExecutable() {
             @Override
             public boolean run() {
@@ -46,11 +48,13 @@ public class TopeUtils {
                 for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
                     TopeClient topeClient = (TopeClient) iterator.next();
                     TopeResponse topeResponse = null;
-                    if (action.hasPayload()) { /* Payload is set at runtime after the creation of this anonymous method */
-                        topeResponse = HttpUtils.sendPostRequestWithParams(topeClient.getSslURL(actionStr), action.getPayload().getParameters());
-                    } else {
-                        topeResponse = HttpUtils.sendGetRequest(topeClient.getSslURL(actionStr));
+                    try {
+                        action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
+                        action.getPayload().addPayload(TopePayload.PARAM_PASSWORD, topeClient.getPass());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    topeResponse = HttpUtils.sendPostRequestWithParams(topeClient.getSslURL(actionStr), action.getPayload().getParameters());
 
                     if (null == topeResponse || !topeResponse.isSuccessful()) {
                         cleanRun = false;

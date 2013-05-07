@@ -8,23 +8,28 @@ public class TopePayload implements ITopePayload {
 
     private static final long	serialVersionUID	= 3291081158751882587L;
 
-    public static final String PARAM_TIME_TO_WAIT = "timeToWait";
-    public static final String PARAM_TIME_TO_EXEC = "timeToExecute";
+    public static final String	PARAM_USER			= "user";
+    public static final String	PARAM_PASSWORD		= "password";
 
-    private List<String> payloads = new ArrayList<String>();
-    HashMap<String, String> params = new HashMap<String, String>();
+    public static final String	PARAM_TIME_TO_WAIT	= "timeToWait";
+    public static final String	PARAM_TIME_TO_EXEC	= "timeToExecute";
+
+    private List<String>		payloads			= new ArrayList<String>();
+    HashMap<String, String>		params				= new HashMap<String, String>();
 
     public TopePayload() {
         registerPayloads();
     }
 
     private void registerPayloads() {
-         payloads.add(PARAM_TIME_TO_WAIT);
-         payloads.add(PARAM_TIME_TO_EXEC);
+        payloads.add(PARAM_USER);
+        payloads.add(PARAM_PASSWORD);
+        payloads.add(PARAM_TIME_TO_WAIT);
+        payloads.add(PARAM_TIME_TO_EXEC);
     }
 
-    public void addPayload(String key, String value) throws Exception{
-        if(!payloads.contains(key)){
+    public void addPayload(String key, String value) throws Exception {
+        if (!payloads.contains(key)) {
             throw new Exception("Payload not supported");
         }
         params.put(key, value);
@@ -32,13 +37,12 @@ public class TopePayload implements ITopePayload {
     }
 
     @Override
-    public HashMap<String,String> getParameters() {
+    public HashMap<String, String> getParameters() {
         return params;
     }
 
     @Override
-    public List<String> getPayloads(){
+    public List<String> getPayloads() {
         return payloads;
     }
 }
-

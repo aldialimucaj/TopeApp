@@ -147,6 +147,7 @@ public class HttpUtils {
 
         /* Standard parameters to limit the timeout */
         HttpClient client = getDefaultClient();
+        client = sslClient(client);
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader("Accept", "application/json"); /* in order to let the server know we accept json */
