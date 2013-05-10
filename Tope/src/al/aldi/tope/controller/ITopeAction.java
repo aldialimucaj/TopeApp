@@ -1,10 +1,12 @@
 package al.aldi.tope.controller;
 
 import al.aldi.tope.model.ITopePayload;
+import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.TopeResponse;
 import android.os.Parcelable;
 
 public interface ITopeAction extends Parcelable {
-    public boolean execute();
+    public TopeResponse execute(TopeClient client);
 
     public void setExecutable(ITopeExecutable exec);
 

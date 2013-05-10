@@ -52,84 +52,6 @@ public class HttpUtils {
     public static final String	LOG_TAG				= "al.aldi.andorid.net.HttpUtils";
     public static final String	STATUS_CODE_SUCCESS	= "200";
 
-    /**
-     * Sends a get request to the following url and returns true if Server
-     * responds with successful request. CODE 200
-     *
-     * @param url
-     * @return ture if code 200
-     */
-    public static TopeResponse sendGetRequest(final String url) {
-        System.out.println(url);
-        HttpClient client = getDefaultClient();
-        client = sslClient(client);
-
-        HttpGet get = new HttpGet(url);
-        // get.setHeader("Content-Type", "application/json");
-        get.addHeader("Accept", "application/json");
-
-        HttpContext localContext = new BasicHttpContext();
-        HttpResponse res = null;
-        try {
-            res = client.execute(get, localContext);
-            if (null != res) {
-                JSONObject jo = httpEntitiyToJson(res.getEntity());
-                jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
-                TopeResponse tr = new TopeResponse(jo);
-                System.out.println("HttpUtils.sendGetRequest(...).new Callable() {...}.call()");
-                System.out.println(jo);
-                return tr;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            String message = "";
-            if (null != e.getMessage()) {
-                message = e.getMessage();
-            }
-            Log.e(LOG_TAG, message);
-        }
-
-        return new TopeResponse(); /* an empty response has successful = false */
-    }
-
-    private static HttpClient sslClient(HttpClient client) {
-        try {
-            X509TrustManager tm = new X509TrustManager() {
-                public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException {
-                }
-
-                public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException {
-                }
-
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
-
-                @Override
-                public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws java.security.cert.CertificateException {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws java.security.cert.CertificateException {
-                    // TODO Auto-generated method stub
-
-                }
-            };
-            SSLContext ctx = SSLContext.getInstance("TLS");
-            ctx.init(null, new TrustManager[]{tm}, null);
-            SSLSocketFactory ssf = new MySSLSocketFactory(ctx);
-            ssf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            ClientConnectionManager ccm = client.getConnectionManager();
-            SchemeRegistry sr = ccm.getSchemeRegistry();
-            sr.register(new Scheme("https", ssf, 8181));
-            return new DefaultHttpClient(ccm, client.getParams());
-        } catch (Exception ex) {
-            return null;
-        }
-    }
 
     /**
      * Sends a get request to the following url and returns true if Server
@@ -189,6 +111,46 @@ public class HttpUtils {
         }
         return new TopeResponse();
     }
+
+
+    private static HttpClient sslClient(HttpClient client) {
+        try {
+            X509TrustManager tm = new X509TrustManager() {
+                public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException {
+                }
+
+                public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException {
+                }
+
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+
+                @Override
+                public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws java.security.cert.CertificateException {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws java.security.cert.CertificateException {
+                    // TODO Auto-generated method stub
+
+                }
+            };
+            SSLContext ctx = SSLContext.getInstance("TLS");
+            ctx.init(null, new TrustManager[]{tm}, null);
+            SSLSocketFactory ssf = new MySSLSocketFactory(ctx);
+            ssf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            ClientConnectionManager ccm = client.getConnectionManager();
+            SchemeRegistry sr = ccm.getSchemeRegistry();
+            sr.register(new Scheme("https", ssf, 8181));
+            return new DefaultHttpClient(ccm, client.getParams());
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
 
     /**
      * After sending asynchronously the get request this method waits for
@@ -316,6 +278,48 @@ public class HttpUtils {
         jsonStr = jsonStr.substring(1, strSize - 1); /* removing leading quotes */
         jObject = new JSONObject(jsonStr);
         return jObject;
+    }
+
+    /**
+     * Sends a get request to the following url and returns true if Server
+     * responds with successful request. CODE 200
+     *
+     * @param url
+     * @return ture if code 200
+     */
+    @Deprecated
+    public static TopeResponse sendGetRequest(final String url) {
+        System.out.println(url);
+        HttpClient client = getDefaultClient();
+        client = sslClient(client);
+
+        HttpGet get = new HttpGet(url);
+        // get.setHeader("Content-Type", "application/json");
+        get.addHeader("Accept", "application/json");
+
+        HttpContext localContext = new BasicHttpContext();
+        HttpResponse res = null;
+        try {
+            res = client.execute(get, localContext);
+            if (null != res) {
+                JSONObject jo = httpEntitiyToJson(res.getEntity());
+                jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
+                TopeResponse tr = new TopeResponse(jo);
+                System.out.println("HttpUtils.sendGetRequest(...).new Callable() {...}.call()");
+                System.out.println(jo);
+                return tr;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            String message = "";
+            if (null != e.getMessage()) {
+                message = e.getMessage();
+            }
+            Log.e(LOG_TAG, message);
+        }
+
+        return new TopeResponse(); /* an empty response has successful = false */
     }
 
 }

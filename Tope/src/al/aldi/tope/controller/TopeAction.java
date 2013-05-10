@@ -1,6 +1,8 @@
 package al.aldi.tope.controller;
 
 import al.aldi.tope.model.ITopePayload;
+import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.TopeResponse;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -54,11 +56,11 @@ public class TopeAction implements ITopeAction {
     }
 
     @Override
-    public boolean execute() {
+    public TopeResponse execute(TopeClient client) {
         if (null == exec) {
             throw new ExceptionInInitializerError("ITopeExecutable exec not implemented");
         }
-        return exec.run();
+        return exec.run(client);
     }
 
     public String getCommand() {
@@ -145,5 +147,7 @@ public class TopeAction implements ITopeAction {
                                                             return new TopeAction[size];
                                                         }
                                                     };
+
+
 
 }

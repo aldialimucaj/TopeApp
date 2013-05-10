@@ -38,29 +38,17 @@ public class TopeUtils {
 
         action.setExecutable(new ITopeExecutable() {
             @Override
-            public boolean run() {
-                boolean cleanRun = true; /*
-                                         * if there are more then one client to execute then the command was successful only if all were
-                                         * successful
-                                         */
-                source.open();
-                List<TopeClient> clients = source.getAllActive(); /* reads all acitve clients from the database */
-                for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
-                    TopeClient topeClient = (TopeClient) iterator.next();
-                    TopeResponse topeResponse = null;
-                    try {
-                        action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
-                        action.getPayload().addPayload(TopePayload.PARAM_PASSWORD, topeClient.getPass());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    topeResponse = HttpUtils.sendPostRequestWithParams(topeClient.getSslURL(actionStr), action.getPayload().getParameters());
-
-                    if (null == topeResponse || !topeResponse.isSuccessful()) {
-                        cleanRun = false;
-                    }
+            public TopeResponse run(TopeClient topeClient) {
+                TopeResponse topeResponse = null;
+                try {
+                    action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
+                    action.getPayload().addPayload(TopePayload.PARAM_PASSWORD, topeClient.getPass());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                return cleanRun;
+                topeResponse = HttpUtils.sendPostRequestWithParams(topeClient.getSslURL(actionStr), action.getPayload().getParameters());
+
+                return topeResponse;
             }
         });
 
@@ -93,4 +81,24 @@ public class TopeUtils {
             Toast.makeText(activity, "Failed: " + action.getTitle(), Toast.LENGTH_LONG).show();
         }
     }
+
+    public static void printBulkSuccessMsg(List<TopeResponse> topeResponses, ITopeAction action, Activity activity) {
+        int size = topeResponses.size();
+
+        /* if there is only one response then use the single msg format */
+        if(1 == size){
+            printSuccessMsg(action, topeResponses.get(0), activity);
+            return;
+        }
+
+        int successfullyRun = 0;
+        for (Iterator<TopeResponse> iterator = topeResponses.iterator(); iterator.hasNext();) {
+            TopeResponse topeResponse = (TopeResponse) iterator.next();
+            if (topeResponse.isSuccessful()) {
+                successfullyRun++;
+            }
+        }
+        Toast.makeText(activity, "Run [" + size + "], Successful {" + successfullyRun + "}, Action (" + action.getTitle()+")", Toast.LENGTH_LONG).show();
+    }
+
 }

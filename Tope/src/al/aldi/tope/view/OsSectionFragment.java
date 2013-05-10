@@ -1,6 +1,7 @@
 package al.aldi.tope.view;
 
 import static al.aldi.tope.TopeCommands.OS_HIBERNATE;
+import static al.aldi.tope.TopeCommands.OS_LOG_ON;
 import static al.aldi.tope.TopeCommands.OS_LOCK_INPUT;
 import static al.aldi.tope.TopeCommands.OS_LOCK_SCREEN;
 import static al.aldi.tope.TopeCommands.OS_MONITOR_OFF;
