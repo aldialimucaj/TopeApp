@@ -14,6 +14,7 @@ import static al.aldi.tope.TopeCommands.OS_UNLOCK_INPUT;
 import java.util.Vector;
 
 import al.aldi.tope.R;
+import al.aldi.tope.TopeCommands;
 import al.aldi.tope.TopeUtils;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.ITopeAction;
@@ -143,6 +144,12 @@ public class OsSectionFragment extends Fragment {
         action1.setOppositeAction(action2);
         action2.setOppositeAction(action1);
         items.add(action1);
+
+        ITopeAction soundOff = topeUtils.addAction(TopeCommands.OS_SOUND_OFF, R.drawable.system_sound_off, getString(R.string.os_op_soundoff));
+        ITopeAction soundOn =  topeUtils.addAction(TopeCommands.OS_SOUND_ON, R.drawable.system_sound_on, getString(R.string.os_op_soundon));
+        soundOff.setOppositeAction(soundOn);
+        soundOn.setOppositeAction(soundOff);
+        items.add(soundOff);
 
         items.add(topeUtils.addAction(OS_TEST, R.drawable.info, getString(R.string.title_test)));
 

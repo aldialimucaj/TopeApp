@@ -37,6 +37,8 @@
     <string name="os_op_unlockinput">Unlock Input</string>
     <string name="os_op_monitoron">Turn On Monitor</string>
     <string name="os_op_monitoroff">Turn Off Monitor</string>
+    <string name="os_op_soundoff">Mute</string>
+    <string name="os_op_soundon">Sound On</string>
     <string name="title_activity_client_add_edit">ClientAddEditActivity</string>
     <string name="title_activity_parameters">Action Parameters</string>
     <string name="hello_world">Hello world!</string>

@@ -47,7 +47,9 @@ public final class R {
         public static final int system_monitor_off=0x7f02000c;
         public static final int system_restart=0x7f02000d;
         public static final int system_shutdown=0x7f02000e;
-        public static final int system_standby=0x7f02000f;
+        public static final int system_sound_off=0x7f02000f;
+        public static final int system_sound_on=0x7f020010;
+        public static final int system_standby=0x7f020011;
     }
     public static final class id {
         public static final int actionName=0x7f06000b;
@@ -102,7 +104,7 @@ public final class R {
         public static final int action_clients_delete_selected=0x7f07000c;
         public static final int action_settings=0x7f070001;
         public static final int app_name=0x7f070000;
-        public static final int hello_world=0x7f070021;
+        public static final int hello_world=0x7f070023;
         public static final int os_op_hibernate=0x7f070016;
         public static final int os_op_lockinput=0x7f07001b;
         public static final int os_op_lockscreen=0x7f07001a;
@@ -112,13 +114,15 @@ public final class R {
         public static final int os_op_monitoron=0x7f07001d;
         public static final int os_op_restart=0x7f070015;
         public static final int os_op_shutdown=0x7f070014;
+        public static final int os_op_soundoff=0x7f07001f;
+        public static final int os_op_soundon=0x7f070020;
         public static final int os_op_standby=0x7f070017;
         public static final int os_op_unlockinput=0x7f07001c;
-        public static final int title_activity_client_add_edit=0x7f07001f;
+        public static final int title_activity_client_add_edit=0x7f070021;
         /**  CLIENT 
          */
         public static final int title_activity_clients=0x7f07000a;
-        public static final int title_activity_parameters=0x7f070020;
+        public static final int title_activity_parameters=0x7f070022;
         public static final int title_button_cancel=0x7f070008;
         public static final int title_button_execute=0x7f070007;
         public static final int title_button_ok=0x7f070006;
