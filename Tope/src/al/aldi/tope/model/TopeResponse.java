@@ -8,7 +8,7 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import al.aldi.andorid.JSONUtils;
+import al.aldi.andorid.filehandling.JSONUtils;
 
 public class TopeResponse {
 

@@ -3,7 +3,6 @@ package al.aldi.tope;
 import java.util.Iterator;
 import java.util.List;
 
-import al.aldi.andorid.net.HttpUtils;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.controller.TopeAction;
@@ -11,6 +10,7 @@ import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
+import al.aldi.tope.utils.TopeHttpUtil;
 import android.app.Activity;
 import android.widget.Toast;
 
@@ -46,7 +46,7 @@ public class TopeUtils {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                topeResponse = HttpUtils.sendPostRequestWithParams(topeClient.getSslURL(actionStr), action.getPayload().getParameters());
+                topeResponse = TopeHttpUtil.sendPostRequestWithParams(topeClient.getSslURL(actionStr), action.getPayload().getParameters());
 
                 return topeResponse;
             }

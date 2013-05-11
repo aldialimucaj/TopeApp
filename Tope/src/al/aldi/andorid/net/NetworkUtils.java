@@ -1,10 +1,23 @@
-package al.aldi.andorid;
+package al.aldi.andorid.net;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-public class Utils {
+/**
+ * Helper class for general network functions.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
+public class NetworkUtils {
+
+    /**
+     * Checks if network is available.
+     *
+     * @param context
+     * @return true if network connection.
+     */
     public boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();

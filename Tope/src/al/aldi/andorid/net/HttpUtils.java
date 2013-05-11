@@ -1,6 +1,5 @@
 package al.aldi.andorid.net;
 
-import static al.aldi.tope.model.TopeResponse.JSON_RES_STATUS_CODE;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,12 +14,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import javax.security.cert.CertificateException;
-import javax.security.cert.X509Certificate;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpEntity;
@@ -45,13 +38,15 @@ import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import al.aldi.tope.model.TopeResponse;
-import android.util.Log;
-
+/**
+ * Helper class for sending and receiving http requests.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class HttpUtils {
     public static final String	LOG_TAG				= "al.aldi.andorid.net.HttpUtils";
     public static final String	STATUS_CODE_SUCCESS	= "200";
-
 
     /**
      * Sends a get request to the following url and returns true if Server
@@ -63,13 +58,13 @@ public class HttpUtils {
      *            hashmap with params
      * @return ture if code 200
      */
-    public static TopeResponse sendPostRequestWithParams(final String url, final HashMap<String, String> params) {
+    public static HttpResponse sendPostRequestWithParams(final String url, final HashMap<String, String> params) {
         HttpContext localContext = new BasicHttpContext();
         HttpResponse res = null;
 
         /* Standard parameters to limit the timeout */
         HttpClient client = getDefaultClient();
-        client = sslClient(client);
+        client = ignoreSslClient(client);// TODO: Remove this or make it optional
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader("Accept", "application/json"); /* in order to let the server know we accept json */
@@ -93,64 +88,32 @@ public class HttpUtils {
         try {
             res = client.execute(httpPost, localContext);
 
-            /* Reading the response */
-            JSONObject jo = httpEntitiyToJson(res.getEntity());
-            /* Add to the response the default status code which comes through the http response */
-            jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
-            TopeResponse tr = new TopeResponse(jo);
-            // TODO: remove
-            System.out.println(jo);
-
-            return tr;
         } catch (ClientProtocolException e) {
             System.err.println(e.getMessage());
         } catch (IOException e) {
             System.err.println(e.getMessage());
-        } catch (JSONException e1) {
-            e1.printStackTrace();
         }
-        return new TopeResponse();
+        return res;
     }
 
-
-    private static HttpClient sslClient(HttpClient client) {
+    /**
+     * Returns a client which ignores ssl validation and verification.
+     *
+     * @param client
+     * @return
+     */
+    private static HttpClient ignoreSslClient(HttpClient client) {
         try {
-            X509TrustManager tm = new X509TrustManager() {
-                public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException {
-                }
-
-                public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException {
-                }
-
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
-
-                @Override
-                public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws java.security.cert.CertificateException {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws java.security.cert.CertificateException {
-                    // TODO Auto-generated method stub
-
-                }
-            };
-            SSLContext ctx = SSLContext.getInstance("TLS");
-            ctx.init(null, new TrustManager[]{tm}, null);
-            SSLSocketFactory ssf = new MySSLSocketFactory(ctx);
+            SSLSocketFactory ssf = new MySSLSocketFactory(null, null);
             ssf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
             ClientConnectionManager ccm = client.getConnectionManager();
             SchemeRegistry sr = ccm.getSchemeRegistry();
-            sr.register(new Scheme("https", ssf, 8181));
+            sr.register(new Scheme("https", ssf, 80)); // the default port doesnt seem to have a big effect
             return new DefaultHttpClient(ccm, client.getParams());
         } catch (Exception ex) {
             return null;
         }
     }
-
 
     /**
      * After sending asynchronously the get request this method waits for
@@ -160,7 +123,7 @@ public class HttpUtils {
      *            URI to call
      * @return the response from the other peer
      */
-    public static HttpResponse sendRequest(final String url) {
+    public static HttpResponse sendGetRequest(final String url) {
         Callable<HttpResponse> request = new Callable<HttpResponse>() {
 
             @Override
@@ -209,6 +172,12 @@ public class HttpUtils {
         return success;
     }
 
+    /**
+     * Sends post request to url. Ignores the response.
+     *
+     * @param url
+     * @return true if response code is 200
+     */
     public static boolean sendPostRequest(String url) {
         HttpParams httpParameters = new BasicHttpParams();
         // Set the timeout in milliseconds until a connection is established.
@@ -235,7 +204,12 @@ public class HttpUtils {
         return res.getStatusLine().getStatusCode() == 200;
     }
 
-    public static DefaultHttpClient getDefaultClient() {
+    /**
+     * returns a client with predefined parameters for timeout and socket timeout.
+     *
+     * @return
+     */
+    private static DefaultHttpClient getDefaultClient() {
         HttpParams httpParameters = new BasicHttpParams();
         int timeoutConnection = 3000;
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
@@ -244,6 +218,12 @@ public class HttpUtils {
         return new DefaultHttpClient(httpParameters);
     }
 
+    /**
+     * Reads the content out of the entity and returns it as a string.
+     *
+     * @param entity
+     * @return http content
+     */
     public static String httpEntitiyToString(HttpEntity entity) {
         StringBuilder builder = new StringBuilder();
         InputStream content = null;
@@ -269,6 +249,13 @@ public class HttpUtils {
         return builder.toString();
     }
 
+    /**
+     * Returns the entity's content as a JSONObject.
+     *
+     * @param entity
+     * @return
+     * @throws JSONException
+     */
     public static JSONObject httpEntitiyToJson(HttpEntity entity) throws JSONException {
         JSONObject jObject = null;
         String jsonStr = httpEntitiyToString(entity);
@@ -279,47 +266,4 @@ public class HttpUtils {
         jObject = new JSONObject(jsonStr);
         return jObject;
     }
-
-    /**
-     * Sends a get request to the following url and returns true if Server
-     * responds with successful request. CODE 200
-     *
-     * @param url
-     * @return ture if code 200
-     */
-    @Deprecated
-    public static TopeResponse sendGetRequest(final String url) {
-        System.out.println(url);
-        HttpClient client = getDefaultClient();
-        client = sslClient(client);
-
-        HttpGet get = new HttpGet(url);
-        // get.setHeader("Content-Type", "application/json");
-        get.addHeader("Accept", "application/json");
-
-        HttpContext localContext = new BasicHttpContext();
-        HttpResponse res = null;
-        try {
-            res = client.execute(get, localContext);
-            if (null != res) {
-                JSONObject jo = httpEntitiyToJson(res.getEntity());
-                jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
-                TopeResponse tr = new TopeResponse(jo);
-                System.out.println("HttpUtils.sendGetRequest(...).new Callable() {...}.call()");
-                System.out.println(jo);
-                return tr;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            String message = "";
-            if (null != e.getMessage()) {
-                message = e.getMessage();
-            }
-            Log.e(LOG_TAG, message);
-        }
-
-        return new TopeResponse(); /* an empty response has successful = false */
-    }
-
 }
