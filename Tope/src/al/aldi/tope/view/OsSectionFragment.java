@@ -1,7 +1,6 @@
 package al.aldi.tope.view;
 
 import static al.aldi.tope.TopeCommands.OS_HIBERNATE;
-import static al.aldi.tope.TopeCommands.OS_LOG_ON;
 import static al.aldi.tope.TopeCommands.OS_LOCK_INPUT;
 import static al.aldi.tope.TopeCommands.OS_LOCK_SCREEN;
 import static al.aldi.tope.TopeCommands.OS_MONITOR_OFF;
@@ -18,12 +17,10 @@ import al.aldi.tope.R;
 import al.aldi.tope.TopeUtils;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.ITopeAction;
-import al.aldi.tope.controller.TopeAction;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.IconItemAdapter;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -37,7 +34,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * A dummy fragment representing a section of the app, but that simply

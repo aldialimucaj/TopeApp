@@ -1,8 +1,6 @@
 package al.aldi.tope.view;
 
 import al.aldi.tope.R;
-import al.aldi.tope.R.id;
-import al.aldi.tope.R.layout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

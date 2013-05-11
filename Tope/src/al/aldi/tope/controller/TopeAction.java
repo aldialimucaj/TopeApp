@@ -134,7 +134,6 @@ public class TopeAction implements ITopeAction {
 
     @Override
     public int describeContents() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -151,6 +150,7 @@ public class TopeAction implements ITopeAction {
         command = in.readString();
     }
 
+    @SuppressWarnings("rawtypes")
     public static final Parcelable.Creator	CREATOR	= new Parcelable.Creator() {
                                                         public TopeAction createFromParcel(Parcel in) {
                                                             return new TopeAction(in);

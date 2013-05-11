@@ -51,7 +51,7 @@ public class ParametersActivity extends Activity {
         ParametersActivityAdapter adapter = new ParametersActivityAdapter(payload.getPayloads(), this);
 
         int i = 0;
-        for (String key : payload.getPayloads()) {
+        for (@SuppressWarnings("unused") String key : payload.getPayloads()) {
             // LinearLayout innerLinearLayout = (LinearLayout) inflater.inflate(R.layout.activity_parameters_items, null);
             View v = adapter.getView(i, null, linearLayout);
             linearLayout.addView(v);

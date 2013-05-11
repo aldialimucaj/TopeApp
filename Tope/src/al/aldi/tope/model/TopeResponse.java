@@ -10,6 +10,12 @@ import org.json.JSONObject;
 
 import al.aldi.andorid.filehandling.JSONUtils;
 
+/**
+ * Representation of the server response.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class TopeResponse {
 
     public static final String	JSON_RES_SUCCESS		= "success";

@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import al.aldi.tope.R;
 import al.aldi.tope.Tope;
-import al.aldi.tope.R.string;
 import al.aldi.tope.view.DummySectionFragment;
 import al.aldi.tope.view.OsSectionFragment;
 import al.aldi.tope.view.ProgramSectionFragment;

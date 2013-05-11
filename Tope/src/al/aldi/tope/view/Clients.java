@@ -15,6 +15,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+/**
+ * List Activity showing the clients.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class Clients extends ListActivity {
     ClientDataSource			source					= null;
     public static final String	INTENT_CLICKED_ITEM_ID	= "selected_id";

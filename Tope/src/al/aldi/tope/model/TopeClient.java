@@ -9,6 +9,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+/**
+ * A representation of the clinet model with necessary data to access the client.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class TopeClient implements Parcelable {
 
     private static final String	LOG_TAG	= "TopeClient";
@@ -55,6 +61,9 @@ public class TopeClient implements Parcelable {
         this.active = active;
     }
 
+    /**
+     * Insert the clinet into the database.
+     */
     public void insertDb() {
         if (null != context) {
             ClientDataSource source = new ClientDataSource(context);
@@ -67,6 +76,9 @@ public class TopeClient implements Parcelable {
 
     }
 
+    /**
+     * Update the change data into the database.
+     */
     public void updateDb() {
         if (null != context) {
             ClientDataSource source = new ClientDataSource(context);
@@ -95,6 +107,9 @@ public class TopeClient implements Parcelable {
         return getSslURL() + command;
     }
 
+    /**
+     * Delete client from the database
+     */
     public void delete() {
         if (null != context) {
             ClientDataSource source = new ClientDataSource(context);
@@ -106,6 +121,9 @@ public class TopeClient implements Parcelable {
         }
     }
 
+    /**
+     * Retrieves the version from the database and prints it out to the standard output.
+     */
     public void printFromDb() {
         ClientDataSource source = new ClientDataSource(context);
         source.open();
@@ -113,13 +131,16 @@ public class TopeClient implements Parcelable {
         source.close();
     }
 
+    /**
+     * Prints all clients from the database.
+     */
     public void printAll() {
         ClientDataSource source = new ClientDataSource(context);
         source.open();
 
         List<TopeClient> clients = source.getAll();
         for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
-            TopeClient topeClient = (TopeClient) iterator.next();
+            TopeClient topeClient = iterator.next();
             System.out.println(topeClient);
         }
         source.close();
@@ -223,6 +244,7 @@ public class TopeClient implements Parcelable {
         pass = in.readString();
     }
 
+    @SuppressWarnings("rawtypes")
     public static final Parcelable.Creator	CREATOR	= new Parcelable.Creator() {
                                                         public TopeClient createFromParcel(Parcel in) {
                                                             return new TopeClient(in);

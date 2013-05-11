@@ -5,6 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/**
+ * Low level SQL calls for the ClientDataSource
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class ClientOpenHelper extends SQLiteOpenHelper {
 
     private static final int	DATABASE_VERSION	= 1;
