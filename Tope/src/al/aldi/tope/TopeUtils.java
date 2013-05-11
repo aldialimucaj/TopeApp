@@ -14,6 +14,12 @@ import al.aldi.tope.utils.TopeHttpUtil;
 import android.app.Activity;
 import android.widget.Toast;
 
+/**
+ * Utility class for workign with tope objects.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class TopeUtils {
     public static final String	TOPE_DEFAULT_PORT	= "8080";
 
@@ -55,6 +61,13 @@ public class TopeUtils {
         return action;
     }
 
+    /**
+     * Get the action out of the list by looking for the item id which it is bound with.
+     *
+     * @param actions
+     * @param id the Andorid item, like for example the icon.
+     * @return the action if found or null
+     */
     public static ITopeAction getAction(List<ITopeAction> actions, long id) {
         ITopeAction action = null;
         for (Iterator<ITopeAction> iterator = actions.iterator(); iterator.hasNext();) {
@@ -66,12 +79,19 @@ public class TopeUtils {
         return action;
     }
 
+    /**
+     * Print success message
+     *
+     * @param action
+     * @param topeResponse
+     * @param activity
+     */
     public static void printSuccessMsg(ITopeAction action, TopeResponse topeResponse, Activity activity) {
         if (null != topeResponse && topeResponse.isSuccessful()) {
             Toast.makeText(activity, "[Successful] " + action.getTitle(), Toast.LENGTH_LONG).show();
         } else {
             String errMsg = "";
-            if(null != topeResponse && null != topeResponse.getMessage())
+            if(null != topeResponse && !topeResponse.getMessage().equals("null"))
             {
                 errMsg =  ".\n" + topeResponse.getMessage();
             }
@@ -79,6 +99,13 @@ public class TopeUtils {
         }
     }
 
+    /**
+     * Print success message.
+     *
+     * @param action
+     * @param successful
+     * @param activity
+     */
     public static void printSuccessMsg(ITopeAction action, boolean successful, Activity activity) {
         if (successful) {
             Toast.makeText(activity, "Successful: " + action.getTitle(), Toast.LENGTH_LONG).show();
@@ -87,6 +114,14 @@ public class TopeUtils {
         }
     }
 
+    /**
+     * Print bulk message success status. It also checks if there is only one call and in that case
+     * it calls the single message print out format.
+     *
+     * @param topeResponses
+     * @param action
+     * @param activity
+     */
     public static void printBulkSuccessMsg(List<TopeResponse> topeResponses, ITopeAction action, Activity activity) {
         int size = topeResponses.size();
 

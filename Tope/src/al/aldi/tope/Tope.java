@@ -3,7 +3,6 @@ package al.aldi.tope;
 import java.util.Iterator;
 import java.util.List;
 
-import al.aldi.tope.controller.SettingsMgr;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.Clients;
@@ -15,6 +14,12 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Main class and starting point
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class Tope extends FragmentActivity {
 
     /**
@@ -35,11 +40,6 @@ public class Tope extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tope);
 
-        //SettingsMgr sMgr = SettingsMgr.getInstance();
-        //sMgr.setServerName("192.168.178.35");
-        // sMgr.setServerName("192.168.0.2");
-        //sMgr.setPort(8080);
-
         //test();
 
         // Create the adapter that will return a fragment for each of the three
@@ -52,18 +52,20 @@ public class Tope extends FragmentActivity {
 
     }
 
-    private void test() {
+    /**
+     * Test Function that add some default clients
+     */
+    protected void test() {//TODO: Remove this function before production
         ClientDataSource source = new ClientDataSource(getApplicationContext());
         source.open();
 
-        TopeClient client = source.create("A-PC", "192.168.178.35", "8080");
-        TopeClient client1 = source.create("Greta-PC", "192.168.178.27", "8080");
-        TopeClient client2 = source.create("Puna-PC", "192.168.178.27", "8080");
-        //System.out.println(client);
+        source.create("A-PC", "192.168.178.35", "8080");
+        source.create("Greta-PC", "192.168.178.27", "8080");
+        source.create("Puna-PC", "192.168.178.27", "8080");
 
         List<TopeClient> clients = source.getAll();
 
-        for (Iterator iterator = clients.iterator(); iterator.hasNext();) {
+        for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
             TopeClient topeClient = (TopeClient) iterator.next();
             System.out.println(topeClient);
         }

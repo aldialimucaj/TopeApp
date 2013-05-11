@@ -1,5 +1,12 @@
 package al.aldi.tope;
 
+
+/**
+ * Collection of all Tope calls.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class TopeCommands {
     public static final String OS_LOCK_SCREEN = "/os/lock_screen";
     public static final String OS_LOG_ON = "/os/logon";

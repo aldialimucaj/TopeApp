@@ -29,8 +29,11 @@ public class TopeHttpUtil {
      * @return ture if code 200
      */
     public static TopeResponse sendPostRequestWithParams(final String url, final HashMap<String, String> params) {
-
         HttpResponse res = HttpUtils.sendPostRequestWithParams(url, params);
+        if(null == res){
+            return new TopeResponse();
+        }
+
         TopeResponse tr;
         try {
             /* Reading the response */
