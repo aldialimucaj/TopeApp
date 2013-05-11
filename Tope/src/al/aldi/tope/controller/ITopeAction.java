@@ -5,6 +5,11 @@ import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopeResponse;
 import android.os.Parcelable;
 
+/**
+ * Interface decalring all necessary functions for tope actions.
+ * @author Aldi Alimucaj
+ *
+ */
 public interface ITopeAction extends Parcelable {
     public TopeResponse execute(TopeClient client);
 

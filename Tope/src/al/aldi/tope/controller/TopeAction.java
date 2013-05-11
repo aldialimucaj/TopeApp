@@ -6,6 +6,19 @@ import al.aldi.tope.model.TopeResponse;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Implementation of the tope action which represent a user action
+ * that is going to execute a command into to server. Clients contain
+ * payload that represent the model or data they are going to deliver.
+ * But the main command ist represented by the parameter <b>command</b>
+ * which is the sub URL address accecption this call.
+ * Actioncions may also contain opposite actions which are called to replace
+ * the original action. An action executable object is the object that
+ * takes care of the execution of the HTTP Request to the active clients.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class TopeAction implements ITopeAction {
 
     private int					itemId				= 0;

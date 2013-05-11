@@ -2,12 +2,8 @@ package al.aldi.tope.view.adapter;
 
 import java.util.Locale;
 
-import org.apache.http.cookie.SM;
-
 import al.aldi.tope.R;
 import al.aldi.tope.Tope;
-import al.aldi.tope.R.string;
-import al.aldi.tope.controller.SettingsMgr;
 import al.aldi.tope.view.DummySectionFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

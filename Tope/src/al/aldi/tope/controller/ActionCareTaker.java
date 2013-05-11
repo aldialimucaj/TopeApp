@@ -11,6 +11,14 @@ import al.aldi.tope.model.db.ClientDataSource;
 import android.app.Activity;
 import android.os.Looper;
 
+
+/**
+ * It takes care of the HTTP response. It runs is execution function under
+ * a separate thread.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class ActionCareTaker extends Thread {
     ITopeAction			action;
     Activity			activity;
@@ -18,6 +26,12 @@ public class ActionCareTaker extends Thread {
     ClientDataSource	source;
     boolean				successful	= true;
 
+    /**
+     * Main Constructor
+     * @param action
+     * @param activity
+     * @param response
+     */
     public ActionCareTaker(ITopeAction action, Activity activity, TopeResponse response) {
         super();
         this.action = action;
@@ -33,6 +47,10 @@ public class ActionCareTaker extends Thread {
         source = new ClientDataSource(activity.getApplicationContext());
     }
 
+    /**
+     * The new thread function which iterates over the active clients and executes
+     * the command on all of them. It also print a message about the outcome.
+     */
     public void run() {
 
         Looper.prepare();
@@ -51,6 +69,9 @@ public class ActionCareTaker extends Thread {
         Looper.loop();
     }
 
+    /**
+     * Executes the Tope command
+     */
     public void execute() {
         start();
     }

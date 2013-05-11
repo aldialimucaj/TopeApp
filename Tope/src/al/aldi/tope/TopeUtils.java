@@ -91,7 +91,7 @@ public class TopeUtils {
             Toast.makeText(activity, "[Successful] " + action.getTitle(), Toast.LENGTH_LONG).show();
         } else {
             String errMsg = "";
-            if(null != topeResponse && !topeResponse.getMessage().equals("null"))
+            if(null != topeResponse && null != topeResponse.getMessage() && !topeResponse.getMessage().equals("null"))
             {
                 errMsg =  ".\n" + topeResponse.getMessage();
             }
