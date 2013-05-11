@@ -67,10 +67,15 @@ public class TopeUtils {
     }
 
     public static void printSuccessMsg(ITopeAction action, TopeResponse topeResponse, Activity activity) {
-        if (topeResponse.isSuccessful()) {
-            Toast.makeText(activity, "Successful: " + action.getTitle(), Toast.LENGTH_LONG).show();
+        if (null != topeResponse && topeResponse.isSuccessful()) {
+            Toast.makeText(activity, "[Successful] " + action.getTitle(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(activity, "Failed: " + action.getTitle() + "\n" + topeResponse.getMessage(), Toast.LENGTH_LONG).show();
+            String errMsg = "";
+            if(null != topeResponse && null != topeResponse.getMessage())
+            {
+                errMsg =  ".\n" + topeResponse.getMessage();
+            }
+            Toast.makeText(activity, "[Failed] " + action.getTitle() + errMsg, Toast.LENGTH_LONG).show();
         }
     }
 
