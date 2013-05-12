@@ -21,6 +21,7 @@ import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.IconItemAdapter;
+import al.aldi.tope.view.listeners.ActionClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -73,28 +74,10 @@ public class OsSectionFragment extends Fragment {
         gridView.setAdapter(adapter);
 
         /**
-         * This is the
+         * This is the main listener for the actions
          */
-        gridView.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                ITopeAction action = ((ITopeAction) items.elementAt(position));
+        gridView.setOnItemClickListener(new ActionClickListener(items, getActivity()));
 
-                ActionCareTaker act = new ActionCareTaker(action, getActivity());
-                act.execute();
-
-                if (action.hasOppositeAction()) {
-
-                    ImageView imageView = (ImageView) v.findViewById(R.id.gridActionImage);
-                    imageView.setImageResource(action.getOppositeAction().getItemId());
-
-                    TextView tv1 = (TextView) v.findViewById(R.id.gridActionText);
-                    tv1.setText(TestLib.addRoundBrackets(action.getOppositeAction().getTitle()));
-
-                    action = action.getOppositeAction();
-                    items.set(position, action);
-                }
-            }
-        });
         return rootView;
     }
 
