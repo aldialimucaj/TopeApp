@@ -50,6 +50,7 @@ public final class R {
         public static final int system_sound_off=0x7f02000f;
         public static final int system_sound_on=0x7f020010;
         public static final int system_standby=0x7f020011;
+        public static final int tope_icon=0x7f020012;
     }
     public static final class id {
         public static final int actionName=0x7f08000b;
