@@ -11,13 +11,13 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int bg_handle_pressed=0x7f040006;
-        public static final int black=0x7f040005;
-        public static final int blue=0x7f040000;
-        public static final int darkblue=0x7f040001;
-        public static final int grayEnd=0x7f040004;
-        public static final int grayStart=0x7f040003;
-        public static final int red=0x7f040002;
+        public static final int bg_handle_pressed=0x7f060006;
+        public static final int black=0x7f060005;
+        public static final int blue=0x7f060000;
+        public static final int darkblue=0x7f060001;
+        public static final int grayEnd=0x7f060004;
+        public static final int grayStart=0x7f060003;
+        public static final int red=0x7f060002;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -26,10 +26,10 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f050000;
-        public static final int activity_vertical_margin=0x7f050001;
-        public static final int item_height=0x7f050002;
-        public static final int section_div_height=0x7f050003;
+        public static final int activity_horizontal_margin=0x7f070000;
+        public static final int activity_vertical_margin=0x7f070001;
+        public static final int item_height=0x7f070002;
+        public static final int section_div_height=0x7f070003;
     }
     public static final class drawable {
         public static final int bg_handle=0x7f020000;
@@ -52,33 +52,33 @@ public final class R {
         public static final int system_standby=0x7f020011;
     }
     public static final class id {
-        public static final int actionName=0x7f06000b;
-        public static final int actionValue=0x7f06000c;
-        public static final int action_add_client=0x7f060018;
-        public static final int action_clients=0x7f06001a;
-        public static final int action_delete_selected=0x7f060019;
-        public static final int action_settings=0x7f060017;
-        public static final int buttonCancel=0x7f060009;
-        public static final int buttonExecute=0x7f06000a;
-        public static final int buttonOk=0x7f060008;
-        public static final int click_remove=0x7f060001;
-        public static final int clientActive=0x7f060005;
-        public static final int clientIp=0x7f060003;
-        public static final int clientName=0x7f060002;
-        public static final int clientPass=0x7f060007;
-        public static final int clientPort=0x7f060004;
-        public static final int clientUser=0x7f060006;
-        public static final int client_active=0x7f060011;
-        public static final int client_name_text=0x7f06000f;
-        public static final int drag_handle=0x7f060000;
-        public static final int fragmentGridView=0x7f060014;
-        public static final int gridActionImage=0x7f060015;
-        public static final int gridActionText=0x7f060016;
-        public static final int mylist=0x7f060013;
-        public static final int pager=0x7f06000d;
-        public static final int pager_title_strip=0x7f06000e;
-        public static final int section_label=0x7f060012;
-        public static final int tel_nr=0x7f060010;
+        public static final int actionName=0x7f08000b;
+        public static final int actionValue=0x7f08000c;
+        public static final int action_add_client=0x7f080018;
+        public static final int action_clients=0x7f08001a;
+        public static final int action_delete_selected=0x7f080019;
+        public static final int action_settings=0x7f080017;
+        public static final int buttonCancel=0x7f080009;
+        public static final int buttonExecute=0x7f08000a;
+        public static final int buttonOk=0x7f080008;
+        public static final int click_remove=0x7f080001;
+        public static final int clientActive=0x7f080005;
+        public static final int clientIp=0x7f080003;
+        public static final int clientName=0x7f080002;
+        public static final int clientPass=0x7f080007;
+        public static final int clientPort=0x7f080004;
+        public static final int clientUser=0x7f080006;
+        public static final int client_active=0x7f080011;
+        public static final int client_name_text=0x7f08000f;
+        public static final int drag_handle=0x7f080000;
+        public static final int fragmentGridView=0x7f080014;
+        public static final int gridActionImage=0x7f080015;
+        public static final int gridActionText=0x7f080016;
+        public static final int mylist=0x7f080013;
+        public static final int pager=0x7f08000d;
+        public static final int pager_title_strip=0x7f08000e;
+        public static final int section_label=0x7f080012;
+        public static final int tel_nr=0x7f080010;
     }
     public static final class layout {
         public static final int activity_client_add_edit=0x7f030000;
@@ -99,46 +99,46 @@ public final class R {
         public static final int tope=0x7f090003;
     }
     public static final class string {
-        public static final int action_clients=0x7f070002;
-        public static final int action_clients_add=0x7f07000b;
-        public static final int action_clients_delete_selected=0x7f07000c;
-        public static final int action_settings=0x7f070001;
-        public static final int app_name=0x7f070000;
-        public static final int hello_world=0x7f070023;
-        public static final int os_op_hibernate=0x7f070016;
-        public static final int os_op_lockinput=0x7f07001b;
-        public static final int os_op_lockscreen=0x7f07001a;
-        public static final int os_op_logoff=0x7f070018;
-        public static final int os_op_logon=0x7f070019;
-        public static final int os_op_monitoroff=0x7f07001e;
-        public static final int os_op_monitoron=0x7f07001d;
-        public static final int os_op_restart=0x7f070015;
-        public static final int os_op_shutdown=0x7f070014;
-        public static final int os_op_soundoff=0x7f07001f;
-        public static final int os_op_soundon=0x7f070020;
-        public static final int os_op_standby=0x7f070017;
-        public static final int os_op_unlockinput=0x7f07001c;
-        public static final int title_activity_client_add_edit=0x7f070021;
+        public static final int action_clients=0x7f040002;
+        public static final int action_clients_add=0x7f04000b;
+        public static final int action_clients_delete_selected=0x7f04000c;
+        public static final int action_settings=0x7f040001;
+        public static final int app_name=0x7f040000;
+        public static final int hello_world=0x7f040023;
+        public static final int os_op_hibernate=0x7f040016;
+        public static final int os_op_lockinput=0x7f04001b;
+        public static final int os_op_lockscreen=0x7f04001a;
+        public static final int os_op_logoff=0x7f040018;
+        public static final int os_op_logon=0x7f040019;
+        public static final int os_op_monitoroff=0x7f04001e;
+        public static final int os_op_monitoron=0x7f04001d;
+        public static final int os_op_restart=0x7f040015;
+        public static final int os_op_shutdown=0x7f040014;
+        public static final int os_op_soundoff=0x7f04001f;
+        public static final int os_op_soundon=0x7f040020;
+        public static final int os_op_standby=0x7f040017;
+        public static final int os_op_unlockinput=0x7f04001c;
+        public static final int title_activity_client_add_edit=0x7f040021;
         /**  CLIENT 
          */
-        public static final int title_activity_clients=0x7f07000a;
-        public static final int title_activity_parameters=0x7f070022;
-        public static final int title_button_cancel=0x7f070008;
-        public static final int title_button_execute=0x7f070007;
-        public static final int title_button_ok=0x7f070006;
-        public static final int title_client_active=0x7f070010;
-        public static final int title_client_ip=0x7f07000e;
-        public static final int title_client_name=0x7f07000d;
-        public static final int title_client_pass=0x7f070012;
-        public static final int title_client_port=0x7f07000f;
-        public static final int title_client_user=0x7f070011;
+        public static final int title_activity_clients=0x7f04000a;
+        public static final int title_activity_parameters=0x7f040022;
+        public static final int title_button_cancel=0x7f040008;
+        public static final int title_button_execute=0x7f040007;
+        public static final int title_button_ok=0x7f040006;
+        public static final int title_client_active=0x7f040010;
+        public static final int title_client_ip=0x7f04000e;
+        public static final int title_client_name=0x7f04000d;
+        public static final int title_client_pass=0x7f040012;
+        public static final int title_client_port=0x7f04000f;
+        public static final int title_client_user=0x7f040011;
         /**  OS OPERATION 
          */
-        public static final int title_os_command=0x7f070013;
-        public static final int title_section1=0x7f070003;
-        public static final int title_section2=0x7f070004;
-        public static final int title_section3=0x7f070005;
-        public static final int title_test=0x7f070009;
+        public static final int title_os_command=0x7f040013;
+        public static final int title_section1=0x7f040003;
+        public static final int title_section2=0x7f040004;
+        public static final int title_section3=0x7f040005;
+        public static final int title_test=0x7f040009;
     }
     public static final class style {
         /** 
@@ -161,11 +161,33 @@ public final class R {
         res/values-v11/styles.xml on API 14+ devices.
     
  API 14 theme customizations can go here. 
+
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    
+
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        
+
+        Base application theme for API 11+. This theme completely replaces
+        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+    
+ API 11 theme customizations can go here. 
+
+        Base application theme for API 14+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v11/styles.xml on API 14+ devices.
+    
+ API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f080000;
+        public static final int AppBaseTheme=0x7f050000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
+ Application theme. 
+ All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f080001;
+        public static final int AppTheme=0x7f050001;
     }
 }

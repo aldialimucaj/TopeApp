@@ -13,6 +13,7 @@ import static al.aldi.tope.TopeCommands.OS_UNLOCK_INPUT;
 
 import java.util.Vector;
 
+import al.aldi.android.test.TestLib;
 import al.aldi.tope.R;
 import al.aldi.tope.TopeCommands;
 import al.aldi.tope.TopeUtils;
@@ -71,6 +72,9 @@ public class OsSectionFragment extends Fragment {
 
         gridView.setAdapter(adapter);
 
+        /**
+         * This is the
+         */
         gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ITopeAction action = ((ITopeAction) items.elementAt(position));
@@ -84,7 +88,7 @@ public class OsSectionFragment extends Fragment {
                     imageView.setImageResource(action.getOppositeAction().getItemId());
 
                     TextView tv1 = (TextView) v.findViewById(R.id.gridActionText);
-                    tv1.setText(action.getOppositeAction().getTitle());
+                    tv1.setText(TestLib.addRoundBrackets(action.getOppositeAction().getTitle()));
 
                     action = action.getOppositeAction();
                     items.set(position, action);
