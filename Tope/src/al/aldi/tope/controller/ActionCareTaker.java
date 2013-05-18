@@ -11,7 +11,6 @@ import al.aldi.tope.model.db.ClientDataSource;
 import android.app.Activity;
 import android.os.Looper;
 
-
 /**
  * It takes care of the HTTP response. It runs is execution function under
  * a separate thread.
@@ -28,6 +27,7 @@ public class ActionCareTaker extends Thread {
 
     /**
      * Main Constructor
+     *
      * @param action
      * @param activity
      * @param response
@@ -54,18 +54,21 @@ public class ActionCareTaker extends Thread {
     public void run() {
 
         Looper.prepare();
+        if (null != action) {
+            source.open();
+            List<TopeResponse> topeResponses = new ArrayList<TopeResponse>();
+            List<TopeClient> clients = source.getAllActive(); /* reads all acitve clients from the database */
+            for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
+                TopeClient topeClient = (TopeClient) iterator.next();
+                TopeResponse topeResponse = action.execute(topeClient);
+                successful &= topeResponse.isSuccessful();
+                topeResponses.add(topeResponse);
+            }
 
-        source.open();
-        List<TopeResponse> topeResponses = new ArrayList<TopeResponse>();
-        List<TopeClient> clients = source.getAllActive(); /* reads all acitve clients from the database */
-        for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
-            TopeClient topeClient = (TopeClient) iterator.next();
-            TopeResponse topeResponse = action.execute(topeClient);
-            successful &= topeResponse.isSuccessful();
-            topeResponses.add(topeResponse);
+            TopeUtils.printBulkSuccessMsg(topeResponses, action, activity);
+        } else{
+            TopeUtils.printMsg(activity, "Error: Action is null!");
         }
-
-        TopeUtils.printBulkSuccessMsg(topeResponses, action, activity);
         Looper.loop();
     }
 

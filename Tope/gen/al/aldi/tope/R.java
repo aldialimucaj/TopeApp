@@ -55,10 +55,10 @@ public final class R {
     public static final class id {
         public static final int actionName=0x7f08000b;
         public static final int actionValue=0x7f08000c;
-        public static final int action_add_client=0x7f080018;
-        public static final int action_clients=0x7f08001a;
-        public static final int action_delete_selected=0x7f080019;
-        public static final int action_settings=0x7f080017;
+        public static final int action_add_client=0x7f080019;
+        public static final int action_clients=0x7f08001b;
+        public static final int action_delete_selected=0x7f08001a;
+        public static final int action_settings=0x7f080018;
         public static final int buttonCancel=0x7f080009;
         public static final int buttonExecute=0x7f08000a;
         public static final int buttonOk=0x7f080008;
@@ -80,6 +80,7 @@ public final class R {
         public static final int pager_title_strip=0x7f08000e;
         public static final int section_label=0x7f080012;
         public static final int tel_nr=0x7f080010;
+        public static final int test_test_action=0x7f080017;
     }
     public static final class layout {
         public static final int activity_client_add_edit=0x7f030000;
@@ -94,10 +95,11 @@ public final class R {
         public static final int gridview_item_layout=0x7f030009;
     }
     public static final class menu {
-        public static final int client_add_edit=0x7f090000;
-        public static final int clients=0x7f090001;
-        public static final int parameters=0x7f090002;
-        public static final int tope=0x7f090003;
+        public static final int action_dynamic_menu=0x7f090000;
+        public static final int client_add_edit=0x7f090001;
+        public static final int clients=0x7f090002;
+        public static final int parameters=0x7f090003;
+        public static final int tope=0x7f090004;
     }
     public static final class string {
         public static final int action_clients=0x7f040002;

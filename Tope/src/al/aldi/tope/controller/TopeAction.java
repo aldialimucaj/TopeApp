@@ -21,13 +21,13 @@ import android.os.Parcelable;
  */
 public class TopeAction implements ITopeAction {
 
-    private int					itemId				= 0;
-    private String				title				= null;
-    private String				command				= null;
+    private int		itemId	= 0;
+    private String	title	= null;
+    private String	command	= null;
 
-    ITopeExecutable				exec;
-    ITopeAction					oppositeAction;
-    ITopePayload				payload;
+    ITopeExecutable	exec;
+    ITopeAction		oppositeAction;
+    ITopePayload	payload;
 
     public TopeAction() {
 
@@ -74,6 +74,11 @@ public class TopeAction implements ITopeAction {
             throw new ExceptionInInitializerError("ITopeExecutable exec not implemented");
         }
         return exec.run(client);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + itemId + "] " + command;
     }
 
     public String getCommand() {
@@ -160,7 +165,5 @@ public class TopeAction implements ITopeAction {
                                                             return new TopeAction[size];
                                                         }
                                                     };
-
-
 
 }
