@@ -3,11 +3,11 @@ package al.aldi.tope.view;
 import java.util.HashMap;
 
 import al.aldi.tope.R;
-import al.aldi.tope.TopeUtils;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.db.ClientDataSource;
+import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.adapter.ParametersActivityAdapter;
 import android.app.Activity;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package al.aldi.tope;
+package al.aldi.tope.utils;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,7 +11,6 @@ import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
-import al.aldi.tope.utils.TopeHttpUtil;
 import al.aldi.tope.view.adapter.ITopeLongClickAdapter;
 import al.aldi.tope.view.listeners.ActionLongClickListener;
 import android.app.Activity;

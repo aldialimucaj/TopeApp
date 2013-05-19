@@ -4,13 +4,16 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import al.aldi.tope.R;
-import al.aldi.tope.TopeUtils;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.ITopeAction;
-import al.aldi.tope.view.listeners.ActionTouchListener;
+import al.aldi.tope.utils.TopeActionUtils;
+import al.aldi.tope.utils.TopeUtils;
+import al.aldi.tope.view.dialog.DynamicActionLongClickDialog;
+import al.aldi.tope.view.listeners.ActionTouchAlphaListener;
 import android.app.Activity;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,19 +22,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class IconItemAdapter<E> extends BaseAdapter implements ITopeLongClickAdapter {
+public class IconItemAdapter<E> extends BaseAdapter {
 
-    public static final int			WIDTH_160				= 160;
-    public static final int			HEIGHT_250				= 250;
-    public static final int			HEIGHT_230				= 230;
-    Vector<ITopeAction>				actions;
-    private Activity				activity;
+    public static final int				WIDTH_160			= 160;
+    public static final int				HEIGHT_250			= 250;
+    public static final int				HEIGHT_230			= 230;
 
-    HashMap<ITopeAction, View>		topeActionViewMap		= new HashMap<ITopeAction, View>();
-    HashMap<ITopeAction, Object>	topeActionCommandMap	= new HashMap<ITopeAction, Object>();
+    private Activity					activity;
+    private Fragment					fragment;
+
+    IconItemAdapter<ITopeAction>		adapter				= null;
+    TopeActionUtils						osActions			= null;
+    Vector<ITopeAction>					actions				= null;
+
+    private HashMap<ITopeAction, View>	topeActionViewMap	= null;
 
     public IconItemAdapter() {
-        super();
+        osActions = TopeActionUtils.TopeActionUtilsManager.getOsActionUtil();
+        actions = osActions.getActions();
     }
 
     public IconItemAdapter(Activity activity, Vector<ITopeAction> itmes) {
@@ -47,7 +55,7 @@ public class IconItemAdapter<E> extends BaseAdapter implements ITopeLongClickAda
 
             v.setPadding(15, 15, 15, 15);
 
-            ITopeAction action = ((ITopeAction) getItem(position));
+            final ITopeAction action = ((ITopeAction) getItem(position));
             TextView tv = (TextView) v.findViewById(R.id.gridActionText);
             tv.setText(action.getTitle());
 
@@ -56,17 +64,31 @@ public class IconItemAdapter<E> extends BaseAdapter implements ITopeLongClickAda
             imageView.setImageResource(action.getItemId());
             /* need to store the image id as tag in order to be able to read it once it fires a click event */
             imageView.setTag(action.getItemId());
-            topeActionViewMap.put(actions.get(position), v);
 
-            imageView.setOnTouchListener(new ActionTouchListener());
+            imageView.setOnTouchListener(new ActionTouchAlphaListener());
 
             /* ON_LONG_CLICK */
 
-            v.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            /*
+             * Legacy, to be deleted!!!
+             * v.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+             *
+             * public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+             * menu.setHeaderTitle("Context Menu");
+             * menu.add(0, v.getId(), 0, "Add parameters");
+             * }
+             * });
+             */
+            v.setOnLongClickListener(new View.OnLongClickListener() {
 
-                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-                    menu.setHeaderTitle("Context Menu");
-                    menu.add(0, v.getId(), 0, "Add parameters");
+                @Override
+                public boolean onLongClick(View v) {
+                    DynamicActionLongClickDialog td = new DynamicActionLongClickDialog();
+                    Bundle args = new Bundle();
+                    args.putParcelable(DynamicActionLongClickDialog.KEY_DYNAMIC_VIEW, action);
+                    td.setArguments(args);
+                    td.show(fragment.getChildFragmentManager(), "TAG");
+                    return false;
                 }
             });
 
@@ -75,6 +97,9 @@ public class IconItemAdapter<E> extends BaseAdapter implements ITopeLongClickAda
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /* ****************** */
+                    /* EXECUTING ACTION */
+                    /* ****************** */
                     ITopeAction action = ((ITopeAction) TopeUtils.getAction(actions, v));
                     ActionCareTaker act = new ActionCareTaker(action, getActivity());
                     act.execute();
@@ -85,7 +110,8 @@ public class IconItemAdapter<E> extends BaseAdapter implements ITopeLongClickAda
                         actionImage.setImageResource(action.getOppositeAction().getItemId());
                         actionImage.setTag(action.getOppositeAction().getItemId());
 
-                        actionImage.setOnTouchListener(new ActionTouchListener());
+                        /* setting the alpha changer as the action image is touched */
+                        actionImage.setOnTouchListener(new ActionTouchAlphaListener());
 
                         TextView descriptionText = (TextView) v.findViewById(R.id.gridActionText);
                         descriptionText.setText(action.getOppositeAction().getTitle());
@@ -94,6 +120,7 @@ public class IconItemAdapter<E> extends BaseAdapter implements ITopeLongClickAda
 
                         action = action.getOppositeAction();
 
+                        /* Swapping item the with the opposite action in the rendering list */
                         actions.set(indexToReplace, action);
                     }
 
@@ -122,14 +149,6 @@ public class IconItemAdapter<E> extends BaseAdapter implements ITopeLongClickAda
         return a.getItemId();
     }
 
-    public HashMap<ITopeAction, View> getTopeActionViewMap() {
-        return topeActionViewMap;
-    }
-
-    public void setTopeActionViewMap(HashMap<ITopeAction, View> topeActionViewMap) {
-        this.topeActionViewMap = topeActionViewMap;
-    }
-
     public Vector<ITopeAction> getActions() {
         return actions;
     }
@@ -144,6 +163,14 @@ public class IconItemAdapter<E> extends BaseAdapter implements ITopeLongClickAda
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+    public Fragment getFragment() {
+        return fragment;
+    }
+
+    public void setFragment(Fragment fragment) {
+        this.fragment = fragment;
     }
 
 }

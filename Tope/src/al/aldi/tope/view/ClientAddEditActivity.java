@@ -1,8 +1,8 @@
 package al.aldi.tope.view;
 
 import al.aldi.tope.R;
-import al.aldi.tope.TopeUtils;
 import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.utils.TopeUtils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
