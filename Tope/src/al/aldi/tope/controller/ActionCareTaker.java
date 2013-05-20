@@ -63,10 +63,11 @@ public class ActionCareTaker extends Thread {
                 TopeResponse topeResponse = action.execute(topeClient);
                 successful &= topeResponse.isSuccessful();
                 topeResponses.add(topeResponse);
+                action.getPayload().clear();
             }
 
             TopeUtils.printBulkSuccessMsg(topeResponses, action, activity);
-        } else{
+        } else {
             TopeUtils.printMsg(activity, "Error: Action is null!");
         }
         Looper.loop();

@@ -56,4 +56,9 @@ public class TopePayload implements ITopePayload {
     public List<String> getPayloads() {
         return payloads;
     }
+
+    @Override
+    public void clear() {
+        params.clear();
+    }
 }

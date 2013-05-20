@@ -1,11 +1,13 @@
 package al.aldi.tope.view.dialog.fragment;
 
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import al.aldi.tope.R;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.model.ITopePayload;
 import al.aldi.tope.model.TopePayload;
+import al.aldi.tope.model.TopeResponse;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -17,9 +19,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 public class StandardActionDialog1 extends LinearLayout {
@@ -39,9 +41,11 @@ public class StandardActionDialog1 extends LinearLayout {
         LinearLayout ll = (LinearLayout) li.inflate(R.layout.dialog_standard1, this, false);
 
         buttonExecutionDate = (Button) ll.findViewById(R.id.dialog_name_setExecutionDate);
+        buttonExecutionDate.setText(R.string.dialog_text_setExecDate);
         buttonTimer = (Button) ll.findViewById(R.id.dialog_name_setTimer);
+        buttonTimer.setText(R.string.dialog_text_setTimer);
         // TimePicker tp = (TimePicker) ll.findViewById(R.id.dialog_timePicker1);
-        // tp.setIs24HourView(true);
+
 
         buttonTimer.setOnClickListener(new View.OnClickListener() {
 
@@ -66,7 +70,7 @@ public class StandardActionDialog1 extends LinearLayout {
                                         buttonTimer.setText(timeInSec + " Secs");
                                         ITopePayload payload = action.getPayload();
                                         try {
-                                            payload.addPayload(TopePayload.PARAM_TIME_TO_WAIT, String.valueOf(timeInSec*1000));
+                                            payload.addPayload(TopePayload.PARAM_TIME_TO_WAIT, String.valueOf(timeInSec * 1000));
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -92,7 +96,20 @@ public class StandardActionDialog1 extends LinearLayout {
                 DialogFragment df = new DialogFragment() {
                     @Override
                     public Dialog onCreateDialog(Bundle savedInstanceState) {
-                        final TimePicker tp = new TimePicker(getContext());
+                        final LinearLayout ll2 = new LinearLayout(getContext());
+                        ll2.setOrientation(LinearLayout.VERTICAL);
+                        final TimePicker						tp					= new TimePicker(getContext());
+                        tp.setIs24HourView(true);
+                        final Calendar c = Calendar.getInstance();
+                        int hour = c.get(Calendar.HOUR_OF_DAY);
+                        int minute = c.get(Calendar.MINUTE);
+                        tp.setCurrentHour(hour);
+                        tp.setCurrentMinute(minute);
+
+                        final DatePicker dp = new DatePicker(getContext());
+                        dp.setCalendarViewShown(false);
+                        ll2.addView(tp);
+                        ll2.addView(dp);
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -100,18 +117,18 @@ public class StandardActionDialog1 extends LinearLayout {
 
                         .setMessage("Set Time and Date")// TODO: you might wanna replace this a custom title
 
-                                .setView(tp)
+                                .setView(ll2)
 
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         tp.clearFocus();
-                                        buttonExecutionDate.setText(tp.getCurrentHour() + ":" + tp.getCurrentMinute());
-                                        Date date = new Date(System.currentTimeMillis());
-                                        date.setHours(Integer.valueOf(tp.getCurrentHour()));
-                                        date.setMinutes(Integer.valueOf(tp.getCurrentMinute()));
+                                        GregorianCalendar gc = new GregorianCalendar(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(), tp.getCurrentHour(), tp.getCurrentMinute());
+                                        buttonExecutionDate.setText(tp.getCurrentHour() + ":" + tp.getCurrentMinute() + " on " + dp.getYear() + "/" + dp.getMonth() + "/"
+                                                + dp.getDayOfMonth());
                                         ITopePayload payload = action.getPayload();
                                         try {
-                                            payload.addPayload(TopePayload.PARAM_TIME_TO_EXEC, date.toString());
+                                            Log.i(TAG, "Executing on: " + TopeResponse.formatDate(gc.getTime()) + " "+ gc.getTimeInMillis());
+                                            payload.addPayload(TopePayload.PARAM_TIME_TO_EXEC, TopeResponse.formatDate(gc.getTime()));
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }

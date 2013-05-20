@@ -81,13 +81,25 @@ public class OsSectionFragment extends Fragment {
 
         actions.clear(); /* clearing the cached activities before recreating them */
 
+        /* *************************************************************************** */
+
         actions.add(topeUtils.addAction(OS_POWER_OFF, R.drawable.system_shutdown, getString(R.string.os_op_shutdown)));
+
+        /* *************************************************************************** */
 
         actions.add(topeUtils.addAction(OS_RESTART, R.drawable.system_restart, getString(R.string.os_op_restart)));
 
+        /* *************************************************************************** */
+
         actions.add(topeUtils.addAction(OS_HIBERNATE, R.drawable.system_hibernate, getString(R.string.os_op_hibernate)));
 
-        actions.add(topeUtils.addAction(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby)));
+        /* *************************************************************************** */
+
+        ITopeAction standByAction = topeUtils.addAction(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby));
+        actions.add(standByAction);
+        osActions.setViewActions(standByAction, new StandardActionDialog1(getActivity(), testAction, this));
+
+        /* *************************************************************************** */
 
         actions.add(topeUtils.addAction(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen)));
 

@@ -18,32 +18,33 @@ import al.aldi.andorid.filehandling.JSONUtils;
  */
 public class TopeResponse {
 
-    public static final String	JSON_RES_SUCCESS		= "success";
-    public static final String	JSON_RES_STATUS_CODE	= "statusCode";
-    public static final String	JSON_RES_MESSAGE		= "message";
-    public static final String	JSON_RES_COMMAND		= "command";
-    public static final String	JSON_RES_ID				= "responseId";
-    public static final String	JSON_REQ_ID				= "requestId";
-    public static final String	JSON_RES_DATE			= "date";
+    public static final String				JSON_RES_SUCCESS		= "success";
+    public static final String				JSON_RES_STATUS_CODE	= "statusCode";
+    public static final String				JSON_RES_MESSAGE		= "message";
+    public static final String				JSON_RES_COMMAND		= "command";
+    public static final String				JSON_RES_ID				= "responseId";
+    public static final String				JSON_REQ_ID				= "requestId";
+    public static final String				JSON_RES_DATE			= "date";
     /* * * * */
-    public static final String	STR_TRUE				= "true";
-    public static final String	STR_FALSE				= "false";
-    public static final String	DATE_FORMAT_FULL		= "yyyy-MM-dd HH:mm:ss";
+    public static final String				STR_TRUE				= "true";
+    public static final String				STR_FALSE				= "false";
+    public static final String				DATE_FORMAT_FULL		= "yyyy-MM-dd HH:mm:ss";
 
-    private boolean				successful;
-    private String				statusCode;
-    private String				command;
-    private String				message;
-    private String				requestId;
-    private String				responseId;
-    private Date				date;
+    public static final SimpleDateFormat	sdf						= new SimpleDateFormat(DATE_FORMAT_FULL, Locale.GERMANY);
+
+    private boolean							successful;
+    private String							statusCode;
+    private String							command;
+    private String							message;
+    private String							requestId;
+    private String							responseId;
+    private Date							date;
 
     public TopeResponse() {
         this.successful = false;
     }
 
     public TopeResponse(JSONObject jo) {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_FULL, Locale.GERMANY);
         JSONUtils ju = new JSONUtils(jo);
         try {
             this.successful = ju.readAttr(JSON_RES_SUCCESS).equals(STR_TRUE);
@@ -68,6 +69,32 @@ public class TopeResponse {
         this.requestId = requestId;
         this.responseId = responseId;
         this.date = date;
+    }
+
+    /**
+     * Formats a date into a String
+     *
+     * @param date
+     * @return formated date
+     */
+    public static String formatDate(Date date) {
+        return sdf.format(date);
+    }
+
+    /**
+     * Parses a date out of a String
+     *
+     * @param date
+     * @return date or null
+     */
+    public static Date formatString(String date) {
+
+        try {
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public String toString() {

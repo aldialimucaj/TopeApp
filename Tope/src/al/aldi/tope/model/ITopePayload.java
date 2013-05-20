@@ -17,5 +17,7 @@ public interface ITopePayload extends Serializable {
 
     public List<String> getPayloads();
 
+    public void clear();
+
 
 }
