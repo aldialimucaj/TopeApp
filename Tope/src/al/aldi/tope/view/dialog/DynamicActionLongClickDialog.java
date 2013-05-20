@@ -1,7 +1,9 @@
 package al.aldi.tope.view.dialog;
 
+import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.utils.TopeActionUtils;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -15,16 +17,18 @@ import android.widget.TextView;
 
 public class DynamicActionLongClickDialog extends DialogFragment {
 
-    public static final String    DYNAMIC_DIALOG        = "DynamicDialog";
-    public static final String    KEY_DYNAMIC_VIEW    = "dynamicView";
+    public static final String	DIALOG_CANCEL		= "Cancel";
+    public static final String	DIALOG_EXECUTE		= "Execute";
+    public static final String	DYNAMIC_DIALOG		= "DynamicDialog";
+    public static final String	KEY_DYNAMIC_VIEW	= "dynamicView";
 
-    LinearLayout                innerView            = null;
-    View                        dynamicView            = null;
-    LinearLayout.LayoutParams    layoutParams        = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    LinearLayout				innerView			= null;
+    View						dynamicView			= null;
+    LinearLayout.LayoutParams	layoutParams		= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
     /* ACTION */
-    ITopeAction                    action                = null;
-    TopeActionUtils                actionUtil            = null;
+    ITopeAction					action				= null;
+    TopeActionUtils				actionUtil			= null;
 
     public DynamicActionLongClickDialog() {
 
@@ -44,8 +48,8 @@ public class DynamicActionLongClickDialog extends DialogFragment {
                 dynamicView = (View) actionUtil.getViewFromActions(action);
 
                 /* if the view is already registered then we need to unregister it first before reusing it */
-                if (dynamicView.getParent() != null) {
-                    ((ViewGroup)dynamicView.getParent()).removeAllViews();
+                if (null != dynamicView && null != dynamicView.getParent()) {
+                    ((ViewGroup) dynamicView.getParent()).removeAllViews();
                 }
             }
         }
@@ -61,11 +65,13 @@ public class DynamicActionLongClickDialog extends DialogFragment {
 
                 .setView(dynamicView == null ? innerView : dynamicView)
 
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(DIALOG_EXECUTE, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
+                         /* ACTION EXECUTION */
+                        ActionCareTaker act = new ActionCareTaker(action, getActivity());
+                        act.execute();
                     }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(DIALOG_CANCEL, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
                     }

@@ -55,10 +55,10 @@ public final class R {
     public static final class id {
         public static final int actionName=0x7f08000b;
         public static final int actionValue=0x7f08000c;
-        public static final int action_add_client=0x7f080019;
-        public static final int action_clients=0x7f08001b;
-        public static final int action_delete_selected=0x7f08001a;
-        public static final int action_settings=0x7f080018;
+        public static final int action_add_client=0x7f08001c;
+        public static final int action_clients=0x7f08001e;
+        public static final int action_delete_selected=0x7f08001d;
+        public static final int action_settings=0x7f08001b;
         public static final int buttonCancel=0x7f080009;
         public static final int buttonExecute=0x7f08000a;
         public static final int buttonOk=0x7f080008;
@@ -71,16 +71,19 @@ public final class R {
         public static final int clientUser=0x7f080006;
         public static final int client_active=0x7f080011;
         public static final int client_name_text=0x7f08000f;
+        public static final int dialog_name_setExecutionDate=0x7f080013;
+        public static final int dialog_name_setTimer=0x7f080014;
+        public static final int dialog_standard=0x7f080012;
         public static final int drag_handle=0x7f080000;
-        public static final int fragmentGridView=0x7f080014;
-        public static final int gridActionImage=0x7f080015;
-        public static final int gridActionText=0x7f080016;
-        public static final int mylist=0x7f080013;
+        public static final int fragmentGridView=0x7f080017;
+        public static final int gridActionImage=0x7f080018;
+        public static final int gridActionText=0x7f080019;
+        public static final int mylist=0x7f080016;
         public static final int pager=0x7f08000d;
         public static final int pager_title_strip=0x7f08000e;
-        public static final int section_label=0x7f080012;
+        public static final int section_label=0x7f080015;
         public static final int tel_nr=0x7f080010;
-        public static final int test_test_action=0x7f080017;
+        public static final int test_test_action=0x7f08001a;
     }
     public static final class layout {
         public static final int activity_client_add_edit=0x7f030000;
@@ -89,10 +92,11 @@ public final class R {
         public static final int activity_parameters_items=0x7f030003;
         public static final int activity_tope=0x7f030004;
         public static final int client_list=0x7f030005;
-        public static final int fragment_tope_dummy=0x7f030006;
-        public static final int fragment_tope_os=0x7f030007;
-        public static final int gridview_fragment_os=0x7f030008;
-        public static final int gridview_item_layout=0x7f030009;
+        public static final int dialog_standard1=0x7f030006;
+        public static final int fragment_tope_dummy=0x7f030007;
+        public static final int fragment_tope_os=0x7f030008;
+        public static final int gridview_fragment_os=0x7f030009;
+        public static final int gridview_item_layout=0x7f03000a;
     }
     public static final class menu {
         public static final int action_dynamic_menu=0x7f090000;
@@ -107,6 +111,14 @@ public final class R {
         public static final int action_clients_delete_selected=0x7f04000c;
         public static final int action_settings=0x7f040001;
         public static final int app_name=0x7f040000;
+        public static final int dialog_text1=0x7f040026;
+        public static final int dialog_text2=0x7f040027;
+        /**  ********* 
+  DIALOGS  
+ ********* 
+         */
+        public static final int dialog_text_setExecDate=0x7f040024;
+        public static final int dialog_text_setTimer=0x7f040025;
         public static final int hello_world=0x7f040023;
         public static final int os_op_hibernate=0x7f040016;
         public static final int os_op_lockinput=0x7f04001b;

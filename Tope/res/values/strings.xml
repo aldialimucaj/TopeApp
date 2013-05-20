@@ -43,4 +43,13 @@
     <string name="title_activity_parameters">Action Parameters</string>
     <string name="hello_world">Hello world!</string>
 
+    <!-- ********* -->
+    <!--  DIALOGS  -->
+    <!-- ********* -->
+    <string name="dialog_text_setExecDate">Execution Date</string>
+    <string name="dialog_text_setTimer">Timer</string>
+    <string name="dialog_text1">Text1</string>
+    <string name="dialog_text2">Text2</string>
+
+
 </resources>

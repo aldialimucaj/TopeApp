@@ -10,6 +10,7 @@ import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.utils.TopeActionUtils;
 import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.adapter.IconItemAdapter;
+import al.aldi.tope.view.dialog.fragment.StandardActionDialog1;
 import al.aldi.tope.view.dialog.fragment.TestActionDialog;
 import al.aldi.tope.view.listeners.ActionClickListener;
 import android.os.Bundle;
@@ -28,19 +29,19 @@ public class OsSectionFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    public static final String        ARG_SECTION_NUMBER            = "section_number";
+    public static final String		ARG_SECTION_NUMBER			= "section_number";
 
-    public static final String        INTENT_CLICKED_ACTION        = "ACTION";
-    public static final String        INTENT_CLICKED_ACTION_ID    = "ACTION_ID";
+    public static final String		INTENT_CLICKED_ACTION		= "ACTION";
+    public static final String		INTENT_CLICKED_ACTION_ID	= "ACTION_ID";
 
-    GridView                        gridView                    = null;
+    GridView						gridView					= null;
 
-    IconItemAdapter<ITopeAction>    adapter                        = null;
-    TopeActionUtils                    osActions                    = null;
-    Vector<ITopeAction>                actions                        = null;
+    IconItemAdapter<ITopeAction>	adapter						= null;
+    TopeActionUtils					osActions					= null;
+    Vector<ITopeAction>				actions						= null;
 
     /* ******************* ITopeActions ******************** */
-    ITopeAction                        testAction                    = null;
+    ITopeAction						testAction					= null;
 
     public OsSectionFragment() {
         osActions = TopeActionUtils.TopeActionUtilsManager.getOsActionUtil();
@@ -118,7 +119,8 @@ public class OsSectionFragment extends Fragment {
 
         testAction = topeUtils.addAction(OS_TEST, R.drawable.info, getString(R.string.title_test));
         actions.add(testAction);
-        osActions.setViewActions(testAction, new TestActionDialog(getActivity(), testAction));
+        // osActions.setViewActions(testAction, new TestActionDialog(getActivity(), testAction));
+        osActions.setViewActions(testAction, new StandardActionDialog1(getActivity(), testAction, this));
 
     }
 
