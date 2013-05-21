@@ -1,6 +1,5 @@
 package al.aldi.tope.view.adapter;
 
-import java.util.HashMap;
 import java.util.Vector;
 
 import al.aldi.tope.R;
@@ -13,7 +12,6 @@ import al.aldi.tope.view.listeners.ActionTouchAlphaListener;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +32,6 @@ public class IconItemAdapter<E> extends BaseAdapter {
     IconItemAdapter<ITopeAction>		adapter				= null;
     TopeActionUtils						osActions			= null;
     Vector<ITopeAction>					actions				= null;
-
-    private HashMap<ITopeAction, View>	topeActionViewMap	= null;
 
     public IconItemAdapter() {
         osActions = TopeActionUtils.TopeActionUtilsManager.getOsActionUtil();

@@ -3,7 +3,7 @@ package al.aldi.tope.view.dialog;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.utils.TopeActionUtils;
-import android.app.Activity;
+import al.aldi.tope.view.dialog.fragment.ITopeActionDialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -15,6 +15,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * The hub resolving the connection between the action and the dynamic dialogs they have registered.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
 public class DynamicActionLongClickDialog extends DialogFragment {
 
     public static final String	DIALOG_CANCEL		= "Cancel";
@@ -67,17 +73,31 @@ public class DynamicActionLongClickDialog extends DialogFragment {
 
                 .setPositiveButton(DIALOG_EXECUTE, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                         /* ACTION EXECUTION */
+                        /* ACTION EXECUTION */
                         ActionCareTaker act = new ActionCareTaker(action, getActivity());
                         act.execute();
                     }
                 }).setNegativeButton(DIALOG_CANCEL, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
+                        action.getPayload().clear();
                     }
                 });
+
+        cleanUp(dynamicView);
+
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+
+    /**
+     * reset the view if necessary
+     *
+     * @param v
+     */
+    private void cleanUp(View v) {
+        if (null != v && v instanceof ITopeActionDialog) {
+            ((ITopeActionDialog) v).cleanUp();
+        }
     }
 
     private void createDummyView() {

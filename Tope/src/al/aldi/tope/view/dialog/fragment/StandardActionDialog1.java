@@ -16,17 +16,25 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TimePicker;
 
-public class StandardActionDialog1 extends LinearLayout {
+
+/**
+ * Standard Action Dialog which offers an execution date and a timer for the action.
+ *
+ * @author Aldi Alimucaj
+ *
+ */
+public class StandardActionDialog1 extends LinearLayout implements ITopeActionDialog {
     protected static final String	TAG					= "StandardActionDialog1";
-    LinearLayout.LayoutParams		layoutParams		= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    LinearLayout.LayoutParams		layoutParams		= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
     Button							buttonExecutionDate	= null;
     Button							buttonTimer			= null;
 
@@ -36,15 +44,15 @@ public class StandardActionDialog1 extends LinearLayout {
 
     public StandardActionDialog1(final Context context, final ITopeAction action, final Fragment fragment) {
         super(context);
+        layoutParams.setMargins(10, 0, 10, 0);
 
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout ll = (LinearLayout) li.inflate(R.layout.dialog_standard1, this, false);
 
         buttonExecutionDate = (Button) ll.findViewById(R.id.dialog_name_setExecutionDate);
-        buttonExecutionDate.setText(R.string.dialog_text_setExecDate);
+
         buttonTimer = (Button) ll.findViewById(R.id.dialog_name_setTimer);
-        buttonTimer.setText(R.string.dialog_text_setTimer);
-        // TimePicker tp = (TimePicker) ll.findViewById(R.id.dialog_timePicker1);
+
 
 
         buttonTimer.setOnClickListener(new View.OnClickListener() {
@@ -54,23 +62,39 @@ public class StandardActionDialog1 extends LinearLayout {
                 DialogFragment df = new DialogFragment() {
                     @Override
                     public Dialog onCreateDialog(Bundle savedInstanceState) {
-                        final EditText tv = new EditText(getContext());
+                        final LinearLayout ll1 = new LinearLayout(getContext());
+                        ll1.setOrientation(LinearLayout.HORIZONTAL);
+                        ll1.setGravity(Gravity.CENTER);
+
+                        final NumberPicker npMinutes = new NumberPicker(getContext());
+                        npMinutes.setPadding(10, 0, 0, 0);
+                        npMinutes.setMinValue(0);
+                        npMinutes.setMaxValue(59);
+                        final NumberPicker npHours = new NumberPicker(getContext());
+                        //npHours.setPadding(10, 0, 0, 0);
+                        npHours.setMinValue(0);
+                        npHours.setMaxValue(23);
+
+                        ll1.addView(npHours, layoutParams);
+                        ll1.addView(npMinutes, layoutParams);
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
                         builder
 
-                        .setMessage("Set Timer")// TODO: you might wanna replace this a custom title
+                        .setMessage("Set Timer (HH:MM)")// TODO: you might wanna replace this a custom title
 
-                                .setView(tv)
+                                .setView(ll1)
 
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        int timeInSec = Integer.valueOf(tv.getText().toString());
-                                        buttonTimer.setText(timeInSec + " Secs");
+                                        int timeInMin = npMinutes.getValue();
+                                        int timeInHrs = npHours.getValue();
+                                        buttonTimer.setText(timeInHrs + " Hours " + timeInMin + " Min");
+                                        int timerSum = (timeInHrs * 60 * 60) + (timeInMin * 60);
                                         ITopePayload payload = action.getPayload();
                                         try {
-                                            payload.addPayload(TopePayload.PARAM_TIME_TO_WAIT, String.valueOf(timeInSec * 1000));
+                                            payload.addPayload(TopePayload.PARAM_TIME_TO_WAIT, String.valueOf(timerSum * 1000));
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -127,7 +151,7 @@ public class StandardActionDialog1 extends LinearLayout {
                                                 + dp.getDayOfMonth());
                                         ITopePayload payload = action.getPayload();
                                         try {
-                                            Log.i(TAG, "Executing on: " + TopeResponse.formatDate(gc.getTime()) + " "+ gc.getTimeInMillis());
+                                            Log.i(TAG, "Executing at: " + TopeResponse.formatDate(gc.getTime()) + " "+ gc.getTimeInMillis());
                                             payload.addPayload(TopePayload.PARAM_TIME_TO_EXEC, TopeResponse.formatDate(gc.getTime()));
                                         } catch (Exception e) {
                                             e.printStackTrace();
@@ -150,4 +174,12 @@ public class StandardActionDialog1 extends LinearLayout {
         addView(ll);
 
     }
+
+    @Override
+    public void cleanUp() {
+        buttonExecutionDate.setText(R.string.dialog_text_setExecDate);
+        buttonTimer.setText(R.string.dialog_text_setTimer);
+
+    }
 }
+

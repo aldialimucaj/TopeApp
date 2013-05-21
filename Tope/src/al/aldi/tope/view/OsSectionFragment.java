@@ -11,7 +11,6 @@ import al.aldi.tope.utils.TopeActionUtils;
 import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.adapter.IconItemAdapter;
 import al.aldi.tope.view.dialog.fragment.StandardActionDialog1;
-import al.aldi.tope.view.dialog.fragment.TestActionDialog;
 import al.aldi.tope.view.listeners.ActionClickListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -97,7 +96,7 @@ public class OsSectionFragment extends Fragment {
 
         ITopeAction standByAction = topeUtils.addAction(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby));
         actions.add(standByAction);
-        osActions.setViewActions(standByAction, new StandardActionDialog1(getActivity(), testAction, this));
+        osActions.setViewActions(standByAction, new StandardActionDialog1(getActivity(), standByAction, this));
 
         /* *************************************************************************** */
 

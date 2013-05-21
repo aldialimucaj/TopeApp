@@ -63,9 +63,10 @@ public class ActionCareTaker extends Thread {
                 TopeResponse topeResponse = action.execute(topeClient);
                 successful &= topeResponse.isSuccessful();
                 topeResponses.add(topeResponse);
-                action.getPayload().clear();
             }
 
+            // clearing the payload, as it is to be reset every time.
+            action.getPayload().clear();
             TopeUtils.printBulkSuccessMsg(topeResponses, action, activity);
         } else {
             TopeUtils.printMsg(activity, "Error: Action is null!");
