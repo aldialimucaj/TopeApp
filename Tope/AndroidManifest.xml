@@ -14,7 +14,7 @@
         android:allowBackup="true"
         android:icon="@drawable/tope_icon"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo"
+        android:theme="@style/AppBaseTheme"
         android:screenOrientation="portrait"
         >
         <activity
