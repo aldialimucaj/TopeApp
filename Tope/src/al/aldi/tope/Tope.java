@@ -8,8 +8,10 @@ import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.Clients;
 import al.aldi.tope.view.adapter.TopeSectionsPagerAdapter;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +51,10 @@ public class Tope extends FragmentActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        PagerTabStrip pagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_title_strip);
+        pagerTabStrip.setDrawFullUnderline(true);
+        pagerTabStrip.setTabIndicatorColor(0x669900);
 
     }
 
