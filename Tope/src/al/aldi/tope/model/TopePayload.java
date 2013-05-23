@@ -16,6 +16,7 @@ public class TopePayload implements ITopePayload {
 
     public static final String	PARAM_USER			= "user";
     public static final String	PARAM_PASSWORD		= "password";
+    public static final String  PARAM_DOMAIN        = "domain";
 
     public static final String	PARAM_TIME_TO_WAIT	= "timeToWait";
     public static final String	PARAM_TIME_TO_EXEC	= "timeToExecute";
@@ -30,6 +31,7 @@ public class TopePayload implements ITopePayload {
     private void registerPayloads() {
         payloads.add(PARAM_USER);
         payloads.add(PARAM_PASSWORD);
+        payloads.add(PARAM_DOMAIN);
         payloads.add(PARAM_TIME_TO_WAIT);
         payloads.add(PARAM_TIME_TO_EXEC);
     }

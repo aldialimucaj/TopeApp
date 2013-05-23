@@ -44,6 +44,7 @@ public class ClientAddEditActivity extends Activity {
         Switch cactive = (Switch) findViewById(R.id.clientActive);
         TextView cuser = (TextView) findViewById(R.id.clientUser);
         TextView cpass = (TextView) findViewById(R.id.clientPass);
+        TextView cdomain = (TextView) findViewById(R.id.clientDomain);
 
         cname.setText(client.getName());
         cip.setText(client.getIp());
@@ -51,6 +52,7 @@ public class ClientAddEditActivity extends Activity {
         cactive.setChecked(client.isActive());
         cuser.setText(client.getUser());
         cpass.setText(client.getPass());
+        cdomain.setText(client.getDomain());
     }
 
     private void initListeners() {
@@ -65,12 +67,14 @@ public class ClientAddEditActivity extends Activity {
                 Switch cactive = (Switch) findViewById(R.id.clientActive);
                 TextView cuser = (TextView) findViewById(R.id.clientUser);
                 TextView cpass = (TextView) findViewById(R.id.clientPass);
+                TextView cdomain = (TextView) findViewById(R.id.clientDomain);
 
                 String name = cname.getText().toString();
                 String ip = cip.getText().toString();
                 String port = cport.getText().toString();
                 String user = cuser.getText().toString();
                 String pass = cpass.getText().toString();
+                String domain = cdomain.getText().toString();
                 boolean active = cactive.isChecked();
 
                 if (name.equals("")) {
@@ -82,11 +86,11 @@ public class ClientAddEditActivity extends Activity {
                     port = TopeUtils.TOPE_DEFAULT_PORT;
                 }
                 if (null == client) {
-                    TopeClient clinet = new TopeClient(name, ip, port, user, pass, active);
+                    TopeClient clinet = new TopeClient(name, ip, port, user, pass, domain, active);
                     clinet.setContext(getApplicationContext());
                     clinet.insertDb();
                 } else {
-                    TopeClient updateClinet = new TopeClient(name, ip, port, user, pass, active);
+                    TopeClient updateClinet = new TopeClient(name, ip, port, user, pass, domain, active);
                     updateClinet.setId(client.getId());
                     updateClinet.setContext(getApplicationContext());
                     updateClinet.updateDb();

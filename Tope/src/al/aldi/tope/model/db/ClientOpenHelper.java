@@ -22,6 +22,7 @@ public class ClientOpenHelper extends SQLiteOpenHelper {
     public static final String	CLIENT_ACTIVE		= "active";
     public static final String	CLIENT_USER			= "user";
     public static final String	CLIENT_PASS			= "pass";
+    public static final String	CLIENT_DOMAIN	    = "domain";
 
     private static final String	CLIENT_TABLE_CREATE	= "CREATE TABLE " + CLIENT_TABLE_NAME + " ("
     + CLIENT_NAME 	+ " TEXT, "
@@ -29,7 +30,8 @@ public class ClientOpenHelper extends SQLiteOpenHelper {
     + CLIENT_PORT   + " TEXT, "
     + CLIENT_ACTIVE + " TEXT, "
     + CLIENT_USER   + " TEXT, "
-    + CLIENT_PASS   + " TEXT "
+    + CLIENT_PASS   + " TEXT, "
+    + CLIENT_DOMAIN + " TEXT "
 
 
             +");";

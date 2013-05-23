@@ -22,6 +22,7 @@
     <string name="title_client_active">Active</string>
     <string name="title_client_user">Username</string>
     <string name="title_client_pass">Password</string>
+    <string name="title_client_domain">Domain</string>
 
     <!-- OS OPERATION -->
 

@@ -57,6 +57,7 @@ public class TopeUtils {
                 try {
                     action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
                     action.getPayload().addPayload(TopePayload.PARAM_PASSWORD, topeClient.getPass());
+                    action.getPayload().addPayload(TopePayload.PARAM_DOMAIN, topeClient.getDomain());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

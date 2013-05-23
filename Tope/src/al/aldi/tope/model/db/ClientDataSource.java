@@ -1,13 +1,6 @@
 package al.aldi.tope.model.db;
 
-import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_ACTIVE;
-import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_ID;
-import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_IP;
-import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_NAME;
-import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_PASS;
-import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_PORT;
-import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_TABLE_NAME;
-import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_USER;
+import static al.aldi.tope.model.db.ClientOpenHelper.*;
 
 import java.util.Vector;
 
@@ -28,7 +21,7 @@ public class ClientDataSource {
     // Database fields
     private SQLiteDatabase		database;
     private ClientOpenHelper	dbClientHelper;
-    private String[]			allColumns	= { CLIENT_ID, CLIENT_NAME, CLIENT_IP, CLIENT_PORT, CLIENT_USER, CLIENT_PASS, CLIENT_ACTIVE };
+    private String[]			allColumns	= { CLIENT_ID, CLIENT_NAME, CLIENT_IP, CLIENT_PORT, CLIENT_USER, CLIENT_PASS, CLIENT_ACTIVE, CLIENT_DOMAIN };
     private Context				context;
 
     static ClientDataSource		instance;
@@ -65,6 +58,7 @@ public class ClientDataSource {
         values.put(CLIENT_ACTIVE, client.isActive());
         values.put(CLIENT_USER, client.getUser());
         values.put(CLIENT_PASS, client.getPass());
+        values.put(CLIENT_DOMAIN, client.getDomain());
 
         long insertId = database.insert(CLIENT_TABLE_NAME, null, values);
 
@@ -182,6 +176,7 @@ public class ClientDataSource {
         values.put(CLIENT_USER, client.getUser());
         values.put(CLIENT_PASS, client.getPass());
         values.put(CLIENT_ACTIVE, client.isActive());
+        values.put(CLIENT_DOMAIN, client.getDomain());
 
         database.update(CLIENT_TABLE_NAME, values, CLIENT_ID + " = ?", new String[] { String.valueOf(id) });
     }
@@ -200,6 +195,7 @@ public class ClientDataSource {
         client.setUser(cursor.getString(4));
         client.setPass(cursor.getString(5));
         client.setActive(cursor.getInt(6) == 1);
+        client.setDomain(cursor.getString(7));
 
         return client;
     }

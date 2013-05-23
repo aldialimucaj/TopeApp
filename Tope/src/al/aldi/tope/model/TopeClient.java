@@ -25,6 +25,7 @@ public class TopeClient implements Parcelable {
     private String				port;
     private String				user;
     private String				pass;
+    private String				domain;
     private boolean				active;
     private Context				context;
 
@@ -58,6 +59,17 @@ public class TopeClient implements Parcelable {
         this.port = port;
         this.user = user;
         this.pass = pass;
+        this.active = active;
+    }
+
+    public TopeClient(String name, String ip, String port, String user, String pass, String domain, boolean active) {
+        super();
+        this.name = name;
+        this.ip = ip;
+        this.port = port;
+        this.user = user;
+        this.pass = pass;
+        this.domain = domain;
         this.active = active;
     }
 
@@ -208,6 +220,15 @@ public class TopeClient implements Parcelable {
         this.pass = pass;
     }
 
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -231,6 +252,7 @@ public class TopeClient implements Parcelable {
         dest.writeByte((byte) (active ? 1 : 0));
         dest.writeString(user);
         dest.writeString(pass);
+        dest.writeString(domain);
 
     }
 
@@ -242,6 +264,7 @@ public class TopeClient implements Parcelable {
         active = in.readByte() == 1;
         user = in.readString();
         pass = in.readString();
+        domain = in.readString();
     }
 
     @SuppressWarnings("rawtypes")
