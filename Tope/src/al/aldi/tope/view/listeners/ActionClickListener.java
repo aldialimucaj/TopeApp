@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import al.aldi.tope.R;
 import al.aldi.tope.controller.ActionCareTaker;
-import al.aldi.tope.controller.ITopeAction;
+import al.aldi.tope.model.ITopeAction;
 import android.app.Activity;
 import android.view.View;
 import android.widget.AdapterView;

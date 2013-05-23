@@ -3,7 +3,7 @@ package al.aldi.tope.utils;
 import java.util.HashMap;
 import java.util.Vector;
 
-import al.aldi.tope.controller.ITopeAction;
+import al.aldi.tope.model.ITopeAction;
 import android.util.Log;
 import android.view.View;
 

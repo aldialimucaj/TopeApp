@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import al.aldi.tope.R;
-import al.aldi.tope.controller.ITopeAction;
+import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.ITopePayload;
 import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.TopeResponse;

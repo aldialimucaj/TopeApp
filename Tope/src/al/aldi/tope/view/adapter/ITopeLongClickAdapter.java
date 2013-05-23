@@ -2,7 +2,7 @@ package al.aldi.tope.view.adapter;
 
 import java.util.HashMap;
 
-import al.aldi.tope.controller.ITopeAction;
+import al.aldi.tope.model.ITopeAction;
 import android.view.View;
 
 public interface ITopeLongClickAdapter {

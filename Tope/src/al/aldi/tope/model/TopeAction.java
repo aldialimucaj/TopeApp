@@ -1,8 +1,6 @@
-package al.aldi.tope.controller;
+package al.aldi.tope.model;
 
-import al.aldi.tope.model.ITopePayload;
-import al.aldi.tope.model.TopeClient;
-import al.aldi.tope.model.TopeResponse;
+import al.aldi.tope.controller.ITopeExecutable;
 import android.os.Parcel;
 import android.os.Parcelable;
 

@@ -5,7 +5,7 @@ import static al.aldi.tope.utils.TopeCommands.*;
 import java.util.Vector;
 
 import al.aldi.tope.R;
-import al.aldi.tope.controller.ITopeAction;
+import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.utils.TopeActionUtils;
 import al.aldi.tope.utils.TopeUtils;

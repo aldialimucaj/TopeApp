@@ -1,7 +1,7 @@
 package al.aldi.tope.view.dialog;
 
 import al.aldi.tope.controller.ActionCareTaker;
-import al.aldi.tope.controller.ITopeAction;
+import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.utils.TopeActionUtils;
 import al.aldi.tope.view.dialog.fragment.ITopeActionDialog;
 import android.app.AlertDialog;

@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import al.aldi.tope.controller.ITopeAction;
 import al.aldi.tope.controller.ITopeExecutable;
-import al.aldi.tope.controller.TopeAction;
+import al.aldi.tope.model.ITopeAction;
+import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.TopeResponse;
