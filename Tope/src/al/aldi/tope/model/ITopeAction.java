@@ -13,13 +13,21 @@ public interface ITopeAction extends Parcelable {
 
     public void setExecutable(ITopeExecutable exec);
 
+    public int getActionId();
+
+    public void setActionId(int actionId);
+
     public String getTitle();
 
-    public int getItemId();
+    public int getIconId();
 
     public String getCommand();
 
     public void setCommand(String command);
+
+    public boolean isActive();
+
+    public void setActive(boolean active);
 
     public ITopePayload getPayload();
 

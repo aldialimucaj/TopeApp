@@ -19,13 +19,17 @@ import android.os.Parcelable;
  */
 public class TopeAction implements ITopeAction {
 
-    private int		itemId	= 0;
-    private String	title	= null;
-    private String	command	= null;
+    private int     actionId         = -1;
+    private int     iconId           = 0;
+    private String  title            = null;
+    private String  command          = null;
+    private int     revisionId       = 0;
+    private boolean active           = true;
+    private int     oppositeActionId = -1;
 
-    ITopeExecutable	exec;
-    ITopeAction		oppositeAction;
-    ITopePayload	payload;
+    ITopeExecutable exec;
+    ITopeAction     oppositeAction;
+    ITopePayload    payload;
 
     public TopeAction() {
 
@@ -36,31 +40,31 @@ public class TopeAction implements ITopeAction {
     }
 
     public TopeAction(int itemId) {
-        this.itemId = itemId;
+        this.iconId = itemId;
     }
 
     public TopeAction(int itemId, String title) {
-        this.itemId = itemId;
+        this.iconId = itemId;
         this.title = title;
     }
 
     public TopeAction(int itemId, String title, ITopePayload payload) {
         super();
-        this.itemId = itemId;
+        this.iconId = itemId;
         this.title = title;
         this.payload = payload;
     }
 
     public TopeAction(int itemId, String title, String command) {
         super();
-        this.itemId = itemId;
+        this.iconId = itemId;
         this.title = title;
         this.command = command;
     }
 
     public TopeAction(int itemId, String title, String command, ITopePayload payload) {
         super();
-        this.itemId = itemId;
+        this.iconId = itemId;
         this.title = title;
         this.command = command;
         this.payload = payload;
@@ -76,7 +80,7 @@ public class TopeAction implements ITopeAction {
 
     @Override
     public String toString() {
-        return "[" + itemId + "] " + command;
+        return "[" + iconId + "] " + command;
     }
 
     @Override
@@ -84,7 +88,7 @@ public class TopeAction implements ITopeAction {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((command == null) ? 0 : command.hashCode());
-        result = prime * result + itemId;
+        result = prime * result + iconId;
         result = prime * result + ((title == null) ? 0 : title.hashCode());
         return result;
     }
@@ -103,7 +107,7 @@ public class TopeAction implements ITopeAction {
                 return false;
         } else if (!command.equals(other.command))
             return false;
-        if (itemId != other.itemId)
+        if (iconId != other.iconId)
             return false;
         if (title == null) {
             if (other.title != null)
@@ -113,12 +117,36 @@ public class TopeAction implements ITopeAction {
         return true;
     }
 
+    public int getActionId() {
+        return actionId;
+    }
+
+    public void setActionId(int actionId) {
+        this.actionId = actionId;
+    }
+
+    public void setIconId(int iconId) {
+        this.iconId = iconId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getCommand() {
         return command;
     }
 
     public void setCommand(String command) {
         this.command = command;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public ITopePayload getPayload() {
@@ -130,8 +158,8 @@ public class TopeAction implements ITopeAction {
     }
 
     @Override
-    public int getItemId() {
-        return itemId;
+    public int getIconId() {
+        return iconId;
     }
 
     @Override
@@ -142,6 +170,22 @@ public class TopeAction implements ITopeAction {
     @Override
     public String getTitle() {
         return title;
+    }
+
+    public int getRevisionId() {
+        return revisionId;
+    }
+
+    public void setRevisionId(int revisionId) {
+        this.revisionId = revisionId;
+    }
+
+    public int getOppositeActionId() {
+        return oppositeActionId;
+    }
+
+    public void setOppositeActionId(int oppositeActionId) {
+        this.oppositeActionId = oppositeActionId;
     }
 
     @Override
@@ -176,26 +220,26 @@ public class TopeAction implements ITopeAction {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(itemId);
+        dest.writeLong(iconId);
         dest.writeString(title);
         dest.writeString(command);
     }
 
     private void readFromParcel(Parcel in) {
-        itemId = (int) in.readLong();
+        iconId = (int) in.readLong();
         title = in.readString();
         command = in.readString();
     }
 
     @SuppressWarnings("rawtypes")
-    public static final Parcelable.Creator	CREATOR	= new Parcelable.Creator() {
-                                                        public TopeAction createFromParcel(Parcel in) {
-                                                            return new TopeAction(in);
-                                                        }
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+                                                       public TopeAction createFromParcel(Parcel in) {
+                                                           return new TopeAction(in);
+                                                       }
 
-                                                        public TopeAction[] newArray(int size) {
-                                                            return new TopeAction[size];
-                                                        }
-                                                    };
+                                                       public TopeAction[] newArray(int size) {
+                                                           return new TopeAction[size];
+                                                       }
+                                                   };
 
 }

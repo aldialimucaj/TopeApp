@@ -12,26 +12,33 @@ import java.util.List;
  */
 public class TopePayload implements ITopePayload {
 
-    private static final long	serialVersionUID	= 3291081158751882587L;
+    private static final long  serialVersionUID      = 3291081158751882587L;
 
-    public static final String	PARAM_USER			= "user";
-    public static final String	PARAM_PASSWORD		= "password";
-    public static final String  PARAM_DOMAIN        = "domain";
+    public static final String PARAM_ACTION_ID       = "actionId";
+    public static final String PARAM_USER            = "user";
+    public static final String PARAM_PASSWORD        = "password";
+    public static final String PARAM_DOMAIN          = "domain";
 
-    public static final String	PARAM_TIME_TO_WAIT	= "timeToWait";
-    public static final String	PARAM_TIME_TO_EXEC	= "timeToExecute";
+    public static final String PARAM_ACTIVE          = "active";
+    public static final String PARAM_OPPOSITE_ACTION = "oppositeAction";
 
-    private List<String>		payloads			= new ArrayList<String>();
-    HashMap<String, String>		params				= new HashMap<String, String>();
+    public static final String PARAM_TIME_TO_WAIT    = "timeToWait";
+    public static final String PARAM_TIME_TO_EXEC    = "timeToExecute";
+
+    private List<String>       payloads              = new ArrayList<String>();
+    HashMap<String, String>    params                = new HashMap<String, String>();
 
     public TopePayload() {
         registerPayloads();
     }
 
     private void registerPayloads() {
+        payloads.add(PARAM_ACTION_ID);
         payloads.add(PARAM_USER);
         payloads.add(PARAM_PASSWORD);
         payloads.add(PARAM_DOMAIN);
+        payloads.add(PARAM_ACTIVE);
+        payloads.add(PARAM_OPPOSITE_ACTION);
         payloads.add(PARAM_TIME_TO_WAIT);
         payloads.add(PARAM_TIME_TO_EXEC);
     }

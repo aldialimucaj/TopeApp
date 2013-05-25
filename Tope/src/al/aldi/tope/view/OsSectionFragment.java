@@ -100,7 +100,9 @@ public class OsSectionFragment extends Fragment {
 
         /* *************************************************************************** */
 
-        actions.add(topeUtils.addAction(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen)));
+        ITopeAction lockScreen = topeUtils.addAction(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen));
+        lockScreen.setActionId(6);
+        actions.add(lockScreen);
 
         /* *************************************************************************** */
 
@@ -112,11 +114,11 @@ public class OsSectionFragment extends Fragment {
 
         /* *************************************************************************** */
 
-        ITopeAction action1 = topeUtils.addAction(OS_LOCK_INPUT, R.drawable.input_keyboard, getString(R.string.os_op_lockinput));
-        ITopeAction action2 = topeUtils.addAction(OS_UNLOCK_INPUT, R.drawable.input_keyboard_blocked, getString(R.string.os_op_unlockinput));
-        action1.setOppositeAction(action2);
-        action2.setOppositeAction(action1);
-        actions.add(action1);
+        ITopeAction lockInput = topeUtils.addAction(OS_LOCK_INPUT, R.drawable.input_keyboard, getString(R.string.os_op_lockinput));
+        ITopeAction unlockInput = topeUtils.addAction(OS_UNLOCK_INPUT, R.drawable.input_keyboard_blocked, getString(R.string.os_op_unlockinput));
+        lockInput.setOppositeAction(unlockInput);
+        unlockInput.setOppositeAction(lockInput);
+        actions.add(lockInput);
 
         /* *************************************************************************** */
 
@@ -124,6 +126,8 @@ public class OsSectionFragment extends Fragment {
         ITopeAction soundOn = topeUtils.addAction(OS_SOUND_ON, R.drawable.system_sound_on, getString(R.string.os_op_soundon));
         soundOff.setOppositeAction(soundOn);
         soundOn.setOppositeAction(soundOff);
+        soundOff.setActionId(11);
+        soundOn.setActionId(12);
         actions.add(soundOff);
 
         /* *************************************************************************** */

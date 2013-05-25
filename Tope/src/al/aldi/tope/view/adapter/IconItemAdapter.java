@@ -57,9 +57,9 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
             ImageView imageView = (ImageView) v.findViewById(R.id.gridActionImage);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setImageResource(action.getItemId());
+            imageView.setImageResource(action.getIconId());
             /* need to store the image id as tag in order to be able to read it once it fires a click event */
-            imageView.setTag(action.getItemId());
+            imageView.setTag(action.getIconId());
 
             imageView.setOnTouchListener(new ActionTouchAlphaListener());
 
@@ -103,8 +103,8 @@ public class IconItemAdapter<E> extends BaseAdapter {
                     if (null != action && action.hasOppositeAction()) {
 
                         ImageView actionImage = (ImageView) v.findViewById(R.id.gridActionImage);
-                        actionImage.setImageResource(action.getOppositeAction().getItemId());
-                        actionImage.setTag(action.getOppositeAction().getItemId());
+                        actionImage.setImageResource(action.getOppositeAction().getIconId());
+                        actionImage.setTag(action.getOppositeAction().getIconId());
 
                         /* setting the alpha changer as the action image is touched */
                         actionImage.setOnTouchListener(new ActionTouchAlphaListener());
@@ -142,7 +142,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         ITopeAction a = actions.elementAt(position);
-        return a.getItemId();
+        return a.getIconId();
     }
 
     public Vector<ITopeAction> getActions() {

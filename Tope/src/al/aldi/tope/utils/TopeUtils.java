@@ -58,6 +58,7 @@ public class TopeUtils {
                     action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
                     action.getPayload().addPayload(TopePayload.PARAM_PASSWORD, topeClient.getPass());
                     action.getPayload().addPayload(TopePayload.PARAM_DOMAIN, topeClient.getDomain());
+                    action.getPayload().addPayload(TopePayload.PARAM_ACTION_ID, String.valueOf(action.getActionId()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -82,7 +83,7 @@ public class TopeUtils {
         ITopeAction action = null;
         for (Iterator<ITopeAction> iterator = actions.iterator(); iterator.hasNext();) {
             ITopeAction iTopeAction = (ITopeAction) iterator.next();
-            if (iTopeAction.getItemId() == id) {
+            if (iTopeAction.getIconId() == id) {
                 action = iTopeAction;
             }
         }
