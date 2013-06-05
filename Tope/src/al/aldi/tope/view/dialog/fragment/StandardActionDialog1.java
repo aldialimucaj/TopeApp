@@ -7,7 +7,7 @@ import al.aldi.tope.R;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.ITopePayload;
 import al.aldi.tope.model.TopePayload;
-import al.aldi.tope.model.TopeResponse;
+import al.aldi.tope.model.JsonTopeResponse;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -42,11 +42,11 @@ public class StandardActionDialog1 extends LinearLayout implements ITopeActionDi
         super(context);
     }
 
-    public StandardActionDialog1(final Context context, final ITopeAction action, final Fragment fragment) {
-        super(context);
+    public StandardActionDialog1(final ITopeAction action, final Fragment fragment) {
+        super(fragment.getActivity());
         layoutParams.setMargins(10, 0, 10, 0);
 
-        LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater li = (LayoutInflater) fragment.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout ll = (LinearLayout) li.inflate(R.layout.dialog_standard1, this, false);
 
         buttonExecutionDate = (Button) ll.findViewById(R.id.dialog_name_setExecutionDate);
@@ -151,8 +151,8 @@ public class StandardActionDialog1 extends LinearLayout implements ITopeActionDi
                                                 + dp.getDayOfMonth());
                                         ITopePayload payload = action.getPayload();
                                         try {
-                                            Log.i(TAG, "Executing at: " + TopeResponse.formatDate(gc.getTime()) + " "+ gc.getTimeInMillis());
-                                            payload.addPayload(TopePayload.PARAM_TIME_TO_EXEC, TopeResponse.formatDate(gc.getTime()));
+                                            Log.i(TAG, "Executing at: " + JsonTopeResponse.formatDate(gc.getTime()) + " "+ gc.getTimeInMillis());
+                                            payload.addPayload(TopePayload.PARAM_TIME_TO_EXEC, JsonTopeResponse.formatDate(gc.getTime()));
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }

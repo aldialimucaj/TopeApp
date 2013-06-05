@@ -1,15 +1,20 @@
 package al.aldi.tope.utils;
 
-import static al.aldi.tope.model.TopeResponse.JSON_RES_STATUS_CODE;
-
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import al.aldi.andorid.net.HttpUtils;
+import al.aldi.tope.model.JsonTopeResponse;
 import al.aldi.tope.model.TopeResponse;
+import al.aldi.tope.model.responses.EmptyResponse;
+import al.aldi.tope.model.responses.TestResponse;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Helper class to translate tope requests into tope responses.
@@ -17,7 +22,20 @@ import al.aldi.tope.model.TopeResponse;
  * @author Aldi Alimucaj
  *
  */
-public class TopeHttpUtil {
+public class TopeHttpUtil<E> {
+
+    private static final String TAG = "al.aldi.tope.utils.TopeHttpUtil";
+    Gson gson = new GsonBuilder().setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL).create();
+
+    E tr;
+
+    public TopeHttpUtil(E response) {
+        this.tr = response;
+    }
+
+    public TopeHttpUtil() {
+    }
+
     /**
      * Sends a get request to the following url and returns true if Server
      * responds with successful request. CODE 200
@@ -26,30 +44,41 @@ public class TopeHttpUtil {
      *            url to be called
      * @param params
      *            hashmap with params
-     * @return ture if code 200
+     * @return true if code 200
+     * @throws IllegalAccessException
+     * @throws InstantiationException
      */
-    public static TopeResponse sendPostRequestWithParams(final String url, final HashMap<String, String> params) {
+    @SuppressWarnings("unchecked")
+    public E sendPostRequestWithParams(final String url, final HashMap<String, String> params) {
         HttpResponse res = HttpUtils.sendPostRequestWithParams(url, params);
-        if(null == res){
-            return new TopeResponse();
+        if (null == res) {
+            tr = (E) new TopeResponse<EmptyResponse>();
+            return tr;
         }
 
-        TopeResponse tr;
         try {
-            /* Reading the response */
-            JSONObject jo = HttpUtils.httpEntitiyToJson(res.getEntity());
-            /* Add to the response the default status code which comes through the http response */
-            jo.put(JSON_RES_STATUS_CODE, res.getStatusLine().getStatusCode());
-            tr = new TopeResponse(jo);
+
+            Type responseType = new TypeToken<TopeResponse<TestResponse>>() {}.getType();
+            String jsonString = HttpUtils.httpEntitiyToSafeString(res.getEntity());
+            tr = gson.fromJson(jsonString, responseType);
+
             // TODO: remove
-            System.out.println(jo);
+            Log.i(TAG, tr.toString());
 
-            return tr;//RETURN
+            return tr;// RETURN
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new TopeResponse(); // return default empty response in order not to return null
+        return tr; // return default empty response in order not to return null
+    }
+
+    public void printResponseToJSON(HttpResponse res){
+        String json = HttpUtils.httpEntitiyToSafeString(res.getEntity());
+        Gson gson = new GsonBuilder().setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL).create();;
+        @SuppressWarnings("rawtypes")
+        TopeResponse response = gson.fromJson(json, TopeResponse.class);
+        Log.i(TAG, response.toString());
     }
 }

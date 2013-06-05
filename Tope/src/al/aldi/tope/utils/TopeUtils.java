@@ -6,9 +6,9 @@ import java.util.List;
 
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
+import al.aldi.tope.model.JsonTopeResponse;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
-import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.ITopeLongClickAdapter;
@@ -47,28 +47,40 @@ public class TopeUtils {
      * @param title
      * @return
      */
-    public ITopeAction addAction(final String actionStr, int itemId, String title) {
-        final ITopeAction action = new TopeAction(itemId, title, actionStr, new TopePayload());
+    @Deprecated
+    public ITopeAction addAction(final String actionStr, int itemId, String title) {/*
+        final ITopeAction action = new TopeAction(itemId, title, actionStr);
 
         action.setExecutable(new ITopeExecutable() {
-            @Override
-            public TopeResponse run(TopeClient topeClient) {
-                TopeResponse topeResponse = null;
-                try {
-                    action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
-                    action.getPayload().addPayload(TopePayload.PARAM_PASSWORD, topeClient.getPass());
-                    action.getPayload().addPayload(TopePayload.PARAM_DOMAIN, topeClient.getDomain());
-                    action.getPayload().addPayload(TopePayload.PARAM_ACTION_ID, String.valueOf(action.getActionId()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                topeResponse = TopeHttpUtil.sendPostRequestWithParams(topeClient.getSslURL(actionStr), action.getPayload().getParameters());
+//            public JsonTopeResponse run(TopeClient topeClient) {
+//                JsonTopeResponse topeResponse = null;
+//                try {
+//                    action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
+//                    action.getPayload().addPayload(TopePayload.PARAM_PASSWORD, topeClient.getPass());
+//                    action.getPayload().addPayload(TopePayload.PARAM_DOMAIN, topeClient.getDomain());
+//                    action.getPayload().addPayload(TopePayload.PARAM_ACTION_ID, String.valueOf(action.getActionId()));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                topeResponse = TopeHttpUtil.sendPostRequestWithParams(topeClient.getSslURL(actionStr), action.getPayload().getParameters());
+//
+//                return topeResponse;
+//            }
 
-                return topeResponse;
+            @Override
+            public Object run(TopeClient client) {
+                return null;
+            }
+
+            public void postRun(Object response) {
+                // TODO Auto-generated method stub
+
             }
         });
 
         return action;
+        */
+        return null;
     }
 
     /**

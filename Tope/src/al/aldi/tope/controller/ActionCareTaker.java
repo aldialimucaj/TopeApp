@@ -6,6 +6,7 @@ import java.util.List;
 
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.JsonTopeResponse;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.utils.TopeUtils;
@@ -19,10 +20,10 @@ import android.os.Looper;
  * @author Aldi Alimucaj
  *
  */
-public class ActionCareTaker extends Thread {
-    ITopeAction			action;
+public class ActionCareTaker<E> extends Thread {
+    ITopeAction<E>			action;
     Activity			activity;
-    TopeResponse		response;
+    JsonTopeResponse		response;
     ClientDataSource	source;
     boolean				successful	= true;
 
@@ -33,7 +34,7 @@ public class ActionCareTaker extends Thread {
      * @param activity
      * @param response
      */
-    public ActionCareTaker(ITopeAction action, Activity activity, TopeResponse response) {
+    public ActionCareTaker(ITopeAction<E> action, Activity activity, JsonTopeResponse response) {
         super();
         this.action = action;
         this.activity = activity;
@@ -41,7 +42,7 @@ public class ActionCareTaker extends Thread {
         source = new ClientDataSource(activity.getApplicationContext());
     }
 
-    public ActionCareTaker(ITopeAction action, Activity activity) {
+    public ActionCareTaker(ITopeAction<E> action, Activity activity) {
         super();
         this.action = action;
         this.activity = activity;
@@ -61,7 +62,7 @@ public class ActionCareTaker extends Thread {
             List<TopeClient> clients = source.getAllActive(); /* reads all acitve clients from the database */
             for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
                 TopeClient topeClient = (TopeClient) iterator.next();
-                TopeResponse topeResponse = action.execute(topeClient);
+                TopeResponse topeResponse = (TopeResponse) action.execute(topeClient);
                 successful &= topeResponse.isSuccessful();
                 topeResponses.add(topeResponse);
             }
@@ -82,11 +83,11 @@ public class ActionCareTaker extends Thread {
         start();
     }
 
-    public TopeResponse getResponse() {
+    public JsonTopeResponse getResponse() {
         return response;
     }
 
-    public void setResponse(TopeResponse response) {
+    public void setResponse(JsonTopeResponse response) {
         this.response = response;
     }
 

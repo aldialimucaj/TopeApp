@@ -1,8 +1,10 @@
 package al.aldi.tope.model;
 
 import al.aldi.tope.controller.ITopeExecutable;
+import al.aldi.tope.utils.TopeActionUtils;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
 
 /**
  * Implementation of the tope action which represent a user action
@@ -17,7 +19,7 @@ import android.os.Parcelable;
  * @author Aldi Alimucaj
  *
  */
-public class TopeAction implements ITopeAction {
+public class TopeAction<E> implements ITopeAction<E> {
 
     private int     actionId         = -1;
     private int     iconId           = 0;
@@ -27,12 +29,14 @@ public class TopeAction implements ITopeAction {
     private boolean active           = true;
     private int     oppositeActionId = -1;
 
-    ITopeExecutable exec;
-    ITopeAction     oppositeAction;
-    ITopePayload    payload;
+    /* context view which will be shown if long click for example */
+    View            contextView      = null;
+
+    ITopeExecutable<E> exec;
+    ITopeAction<E>     oppositeAction;
+    ITopePayload    payload          = new TopePayload();
 
     public TopeAction() {
-
     }
 
     public TopeAction(Parcel in) {
@@ -62,6 +66,13 @@ public class TopeAction implements ITopeAction {
         this.command = command;
     }
 
+    public TopeAction(String command, int itemId, String title) {
+        super();
+        this.iconId = itemId;
+        this.title = title;
+        this.command = command;
+    }
+
     public TopeAction(int itemId, String title, String command, ITopePayload payload) {
         super();
         this.iconId = itemId;
@@ -71,7 +82,7 @@ public class TopeAction implements ITopeAction {
     }
 
     @Override
-    public TopeResponse execute(TopeClient client) {
+    public E execute(TopeClient client) {
         if (null == exec) {
             throw new ExceptionInInitializerError("ITopeExecutable exec not implemented");
         }
@@ -87,8 +98,11 @@ public class TopeAction implements ITopeAction {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + actionId;
+        result = prime * result + (active ? 1231 : 1237);
         result = prime * result + ((command == null) ? 0 : command.hashCode());
         result = prime * result + iconId;
+        result = prime * result + revisionId;
         result = prime * result + ((title == null) ? 0 : title.hashCode());
         return result;
     }
@@ -101,13 +115,20 @@ public class TopeAction implements ITopeAction {
             return false;
         if (getClass() != obj.getClass())
             return false;
+        @SuppressWarnings("rawtypes")
         TopeAction other = (TopeAction) obj;
+        if (actionId != other.actionId)
+            return false;
+        if (active != other.active)
+            return false;
         if (command == null) {
             if (other.command != null)
                 return false;
         } else if (!command.equals(other.command))
             return false;
         if (iconId != other.iconId)
+            return false;
+        if (revisionId != other.revisionId)
             return false;
         if (title == null) {
             if (other.title != null)
@@ -157,13 +178,23 @@ public class TopeAction implements ITopeAction {
         this.payload = payload;
     }
 
+
+
+    public View getContextView() {
+        return contextView;
+    }
+
+    public void setContextView(View contextView) {
+        this.contextView = contextView;
+    }
+
     @Override
     public int getIconId() {
         return iconId;
     }
 
     @Override
-    public void setExecutable(ITopeExecutable exec) {
+    public void setExecutable(ITopeExecutable<E> exec) {
         this.exec = exec;
     }
 
@@ -194,12 +225,12 @@ public class TopeAction implements ITopeAction {
     }
 
     @Override
-    public void setOppositeAction(ITopeAction opAction) {
+    public void setOppositeAction(ITopeAction<E> opAction) {
         this.oppositeAction = opAction;
     }
 
     @Override
-    public ITopeAction getOppositeAction() {
+    public ITopeAction<E> getOppositeAction() {
         return oppositeAction;
     }
 

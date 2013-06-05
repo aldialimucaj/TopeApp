@@ -49,9 +49,8 @@ public class DynamicActionLongClickDialog extends DialogFragment {
             Object object = getArguments().get(KEY_DYNAMIC_VIEW);
 
             if (null != object && object instanceof ITopeAction) {
-                actionUtil = TopeActionUtils.TopeActionUtilsManager.getOsActionUtil();
                 action = (ITopeAction) object;
-                dynamicView = (View) actionUtil.getViewFromActions(action);
+                dynamicView = action.getContextView();
 
                 /* if the view is already registered then we need to unregister it first before reusing it */
                 if (null != dynamicView && null != dynamicView.getParent()) {
