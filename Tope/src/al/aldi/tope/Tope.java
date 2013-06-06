@@ -5,7 +5,7 @@ import java.util.List;
 
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.db.ClientDataSource;
-import al.aldi.tope.view.Clients;
+import al.aldi.tope.view.ClientsListActivity;
 import al.aldi.tope.view.adapter.TopeSectionsPagerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
@@ -90,7 +90,7 @@ public class Tope extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_clients:
-            startActivity(new Intent(this, Clients.class));
+            startActivity(new Intent(this, ClientsListActivity.class));
         }
         return super.onOptionsItemSelected(item);
 

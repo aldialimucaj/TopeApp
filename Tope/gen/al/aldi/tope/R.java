@@ -55,9 +55,9 @@ public final class R {
     public static final class id {
         public static final int actionName=0x7f08000c;
         public static final int actionValue=0x7f08000d;
-        public static final int action_add_client=0x7f08001d;
-        public static final int action_clients=0x7f08001f;
-        public static final int action_delete_selected=0x7f08001e;
+        public static final int action_add_client=0x7f08001f;
+        public static final int action_clients=0x7f080021;
+        public static final int action_delete_selected=0x7f080020;
         public static final int action_settings=0x7f08001c;
         public static final int buttonCancel=0x7f08000a;
         public static final int buttonExecute=0x7f08000b;
@@ -71,7 +71,9 @@ public final class R {
         public static final int clientPort=0x7f080004;
         public static final int clientUser=0x7f080006;
         public static final int client_active=0x7f080012;
+        public static final int client_edit=0x7f08001e;
         public static final int client_name_text=0x7f080010;
+        public static final int client_synchronize=0x7f08001d;
         public static final int dialog_name_setExecutionDate=0x7f080014;
         public static final int dialog_name_setTimer=0x7f080015;
         public static final int dialog_standard=0x7f080013;
@@ -102,9 +104,10 @@ public final class R {
     public static final class menu {
         public static final int action_dynamic_menu=0x7f090000;
         public static final int client_add_edit=0x7f090001;
-        public static final int clients=0x7f090002;
-        public static final int parameters=0x7f090003;
-        public static final int tope=0x7f090004;
+        public static final int client_add_edit_menu=0x7f090002;
+        public static final int clients=0x7f090003;
+        public static final int parameters=0x7f090004;
+        public static final int tope=0x7f090005;
     }
     public static final class string {
         public static final int action_clients=0x7f040002;
@@ -112,33 +115,35 @@ public final class R {
         public static final int action_clients_delete_selected=0x7f04000c;
         public static final int action_settings=0x7f040001;
         public static final int app_name=0x7f040000;
-        public static final int dialog_text1=0x7f040027;
-        public static final int dialog_text2=0x7f040028;
+        public static final int client_edit_edit=0x7f040015;
+        public static final int client_edit_synchronize=0x7f040014;
+        public static final int dialog_text1=0x7f040029;
+        public static final int dialog_text2=0x7f04002a;
         /**  ********* 
   DIALOGS  
  ********* 
          */
-        public static final int dialog_text_setExecDate=0x7f040025;
-        public static final int dialog_text_setTimer=0x7f040026;
-        public static final int hello_world=0x7f040024;
-        public static final int os_op_hibernate=0x7f040017;
-        public static final int os_op_lockinput=0x7f04001c;
-        public static final int os_op_lockscreen=0x7f04001b;
-        public static final int os_op_logoff=0x7f040019;
-        public static final int os_op_logon=0x7f04001a;
-        public static final int os_op_monitoroff=0x7f04001f;
-        public static final int os_op_monitoron=0x7f04001e;
-        public static final int os_op_restart=0x7f040016;
-        public static final int os_op_shutdown=0x7f040015;
-        public static final int os_op_soundoff=0x7f040020;
-        public static final int os_op_soundon=0x7f040021;
-        public static final int os_op_standby=0x7f040018;
-        public static final int os_op_unlockinput=0x7f04001d;
-        public static final int title_activity_client_add_edit=0x7f040022;
+        public static final int dialog_text_setExecDate=0x7f040027;
+        public static final int dialog_text_setTimer=0x7f040028;
+        public static final int hello_world=0x7f040026;
+        public static final int os_op_hibernate=0x7f040019;
+        public static final int os_op_lockinput=0x7f04001e;
+        public static final int os_op_lockscreen=0x7f04001d;
+        public static final int os_op_logoff=0x7f04001b;
+        public static final int os_op_logon=0x7f04001c;
+        public static final int os_op_monitoroff=0x7f040021;
+        public static final int os_op_monitoron=0x7f040020;
+        public static final int os_op_restart=0x7f040018;
+        public static final int os_op_shutdown=0x7f040017;
+        public static final int os_op_soundoff=0x7f040022;
+        public static final int os_op_soundon=0x7f040023;
+        public static final int os_op_standby=0x7f04001a;
+        public static final int os_op_unlockinput=0x7f04001f;
+        public static final int title_activity_client_add_edit=0x7f040024;
         /**  CLIENT 
          */
         public static final int title_activity_clients=0x7f04000a;
-        public static final int title_activity_parameters=0x7f040023;
+        public static final int title_activity_parameters=0x7f040025;
         public static final int title_button_cancel=0x7f040008;
         public static final int title_button_execute=0x7f040007;
         public static final int title_button_ok=0x7f040006;
@@ -151,7 +156,7 @@ public final class R {
         public static final int title_client_user=0x7f040011;
         /**  OS OPERATION 
          */
-        public static final int title_os_command=0x7f040014;
+        public static final int title_os_command=0x7f040016;
         public static final int title_section1=0x7f040003;
         public static final int title_section2=0x7f040004;
         public static final int title_section3=0x7f040005;

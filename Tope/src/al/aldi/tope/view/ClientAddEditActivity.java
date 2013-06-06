@@ -6,8 +6,13 @@ import al.aldi.tope.utils.TopeUtils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -15,7 +20,7 @@ import android.widget.Toast;
 
 public class ClientAddEditActivity extends Activity {
 
-    TopeClient	client	= null;
+    TopeClient client = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +38,7 @@ public class ClientAddEditActivity extends Activity {
             return;
         }
 
-        client = (TopeClient) extras.getParcelable(Clients.INTENT_CLICKED_ITEM_ID);
+        client = (TopeClient) extras.getParcelable(ClientsListActivity.INTENT_CLICKED_ITEM_ID);
         setDataFromClient(client);
     }
 

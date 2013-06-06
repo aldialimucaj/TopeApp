@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="al.aldi.tope.view.Clients"
+            android:name="al.aldi.tope.view.ClientsListActivity"
             android:label="@string/title_activity_clients"
             android:parentActivityName="al.aldi.tope.Tope" >
             <meta-data

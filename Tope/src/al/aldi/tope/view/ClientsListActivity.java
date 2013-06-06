@@ -9,11 +9,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * List Activity showing the clients.
@@ -21,7 +25,7 @@ import android.widget.ListView;
  * @author Aldi Alimucaj
  *
  */
-public class Clients extends ListActivity {
+public class ClientsListActivity extends ListActivity {
     ClientDataSource			source					= null;
     public static final String	INTENT_CLICKED_ITEM_ID	= "selected_id";
 
@@ -43,18 +47,40 @@ public class Clients extends ListActivity {
 
     private void initListener() {
         ListView list = this.getListView();
+        registerForContextMenu(list);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(Clients.this, ClientAddEditActivity.class);
+                Intent i = new Intent(ClientsListActivity.this, ClientAddEditActivity.class);
 
-                ListView list = Clients.this.getListView();
+                ListView list = ClientsListActivity.this.getListView();
                 Parcelable client = (TopeClient) list.getItemAtPosition(position);
 
                 i.putExtra(INTENT_CLICKED_ITEM_ID, client);
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.client_add_edit_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.client_edit:
+                Toast.makeText(getApplicationContext(), "Edit Client", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.client_synchronize:
+                Toast.makeText(getApplicationContext(), "Synchronize Client", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     protected void onDestroy() {

@@ -96,9 +96,10 @@ public class OsSectionFragment extends Fragment {
 
         /* *************************************************************************** */
 
-        ITopeAction<TopeResponse<TestResponse>> standByAction = new TopeAction<TopeResponse<TestResponse>>(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby));
+        // UP TO DATE
+        ITopeAction<TopeResponse<Object>> standByAction = new TopeAction<TopeResponse<Object>>(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby));
         standByAction.setActionId(2);
-        standByAction.setExecutable(new TestExecutor(standByAction, this));
+        standByAction.setExecutable(new DefaultExecutor<TopeResponse<Object>>(standByAction, this));
         actions.add(standByAction);
 
         /* *************************************************************************** */
@@ -111,8 +112,12 @@ public class OsSectionFragment extends Fragment {
 
         /* *************************************************************************** */
 
-        ITopeAction<TopeResponse<TestResponse>> monitorOn = new TopeAction<TopeResponse<TestResponse>>(OS_MONITOR_ON, R.drawable.system_monitor, getString(R.string.os_op_monitoron));
-        ITopeAction<TopeResponse<TestResponse>> monitorOff = new TopeAction<TopeResponse<TestResponse>>(OS_MONITOR_OFF, R.drawable.system_monitor_off, getString(R.string.os_op_monitoroff));
+        ITopeAction<TopeResponse<Object>> monitorOn = new TopeAction<TopeResponse<Object>>(OS_MONITOR_ON, R.drawable.system_monitor, getString(R.string.os_op_monitoron));
+        ITopeAction<TopeResponse<Object>> monitorOff = new TopeAction<TopeResponse<Object>>(OS_MONITOR_OFF, R.drawable.system_monitor_off, getString(R.string.os_op_monitoroff));
+        monitorOn.setActionId(7);
+        monitorOff.setActionId(8);
+        monitorOn.setExecutable(new DefaultExecutor<TopeResponse<Object>>(monitorOn, this));
+        monitorOff.setExecutable(new DefaultExecutor<TopeResponse<Object>>(monitorOff, this));
         monitorOn.setOppositeAction(monitorOff);
         monitorOff.setOppositeAction(monitorOn);
         actions.add(monitorOff);

@@ -23,6 +23,8 @@
     <string name="title_client_user">Username</string>
     <string name="title_client_pass">Password</string>
     <string name="title_client_domain">Domain</string>
+    <string name="client_edit_synchronize">Synchronize</string>
+    <string name="client_edit_edit">Edit</string>
 
     <!-- OS OPERATION -->
 
