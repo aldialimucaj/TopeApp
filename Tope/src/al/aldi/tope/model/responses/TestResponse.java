@@ -1,6 +1,6 @@
 package al.aldi.tope.model.responses;
 
-public class TestResponse {
+public class TestResponse implements ITopeResponsePayload {
     String testMessage = null;
 
     public TestResponse() {

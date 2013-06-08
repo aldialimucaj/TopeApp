@@ -1,7 +1,11 @@
 package al.aldi.tope.controller.executables;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
+import al.aldi.tope.model.JsonTopeResponse;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.utils.TopeHttpUtil;
@@ -12,6 +16,7 @@ public abstract class MainExecutor<E> implements ITopeExecutable<E> {
     ITopeAction<E> action       = null;
     E              topeResponse = null;
     Fragment       fragment     = null;
+    Gson           gson         = new GsonBuilder().setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL).create();
 
     public MainExecutor(ITopeAction<E> action, Fragment fragment) {
         this.action = action;
@@ -30,16 +35,19 @@ public abstract class MainExecutor<E> implements ITopeExecutable<E> {
             e.printStackTrace();
         }
 
-        topeResponse = new TopeHttpUtil<E>().sendPostRequestWithParams(topeClient.getSslURL(action.getCommand()), action.getPayload().getParameters());
+        String responseString = new TopeHttpUtil<E>().sendPostRequestWithParamsRetString(topeClient.getSslURL(action.getMethod()), action.getPayload().getParameters());
 
         /* ******************** CALLING ABSTRACT METHOD TO TAKE CARE OF THE OUTPUT ******************** */
-        
+        topeResponse = convertResponse(responseString);
+
         postRun(topeResponse);
-        
+
         /* ******************************************************************************************** */
 
         return topeResponse;
     }
+
+    public abstract E convertResponse(String jsonString);
 
     public abstract void postRun(E response);
 

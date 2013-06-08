@@ -1,7 +1,6 @@
 package al.aldi.tope.model;
 
 import al.aldi.tope.controller.ITopeExecutable;
-import al.aldi.tope.utils.TopeActionUtils;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
@@ -21,20 +20,23 @@ import android.view.View;
  */
 public class TopeAction<E> implements ITopeAction<E> {
 
-    private int     actionId         = -1;
-    private int     iconId           = 0;
-    private String  title            = null;
-    private String  command          = null;
-    private int     revisionId       = 0;
-    private boolean active           = true;
-    private int     oppositeActionId = -1;
+    private long       actionId         = -1;
+    private long       clientId         = -1;
+    private int        itemId           = 0;
+    private String     module           = null;
+    private String     method           = null;
+    private String     commandFullPath  = null;
+    private String     title            = null;
+    private boolean    active           = true;
+    private int        revisionId       = 0;
+    private long       oppositeActionId = -1;
 
     /* context view which will be shown if long click for example */
-    View            contextView      = null;
+    View               contextView      = null;
 
     ITopeExecutable<E> exec;
     ITopeAction<E>     oppositeAction;
-    ITopePayload    payload          = new TopePayload();
+    ITopePayload       payload          = new TopePayload();
 
     public TopeAction() {
     }
@@ -44,40 +46,40 @@ public class TopeAction<E> implements ITopeAction<E> {
     }
 
     public TopeAction(int itemId) {
-        this.iconId = itemId;
+        this.itemId = itemId;
     }
 
     public TopeAction(int itemId, String title) {
-        this.iconId = itemId;
+        this.itemId = itemId;
         this.title = title;
     }
 
     public TopeAction(int itemId, String title, ITopePayload payload) {
         super();
-        this.iconId = itemId;
+        this.itemId = itemId;
         this.title = title;
         this.payload = payload;
     }
 
     public TopeAction(int itemId, String title, String command) {
         super();
-        this.iconId = itemId;
+        this.itemId = itemId;
         this.title = title;
-        this.command = command;
+        this.method = command;
     }
 
     public TopeAction(String command, int itemId, String title) {
         super();
-        this.iconId = itemId;
+        this.itemId = itemId;
         this.title = title;
-        this.command = command;
+        this.method = command;
     }
 
     public TopeAction(int itemId, String title, String command, ITopePayload payload) {
         super();
-        this.iconId = itemId;
+        this.itemId = itemId;
         this.title = title;
-        this.command = command;
+        this.method = command;
         this.payload = payload;
     }
 
@@ -91,20 +93,20 @@ public class TopeAction<E> implements ITopeAction<E> {
 
     @Override
     public String toString() {
-        return "[" + iconId + "] " + command;
+        return "[" + actionId + "] " + method;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result + actionId;
+        long result = 1;
+        result = actionId;
         result = prime * result + (active ? 1231 : 1237);
-        result = prime * result + ((command == null) ? 0 : command.hashCode());
-        result = prime * result + iconId;
+        result = prime * result + ((method == null) ? 0 : method.hashCode());
+        result = prime * result + itemId;
         result = prime * result + revisionId;
         result = prime * result + ((title == null) ? 0 : title.hashCode());
-        return result;
+        return (int) result;
     }
 
     @Override
@@ -121,12 +123,12 @@ public class TopeAction<E> implements ITopeAction<E> {
             return false;
         if (active != other.active)
             return false;
-        if (command == null) {
-            if (other.command != null)
+        if (method == null) {
+            if (other.method != null)
                 return false;
-        } else if (!command.equals(other.command))
+        } else if (!method.equals(other.method))
             return false;
-        if (iconId != other.iconId)
+        if (itemId != other.itemId)
             return false;
         if (revisionId != other.revisionId)
             return false;
@@ -138,28 +140,55 @@ public class TopeAction<E> implements ITopeAction<E> {
         return true;
     }
 
-    public int getActionId() {
+
+
+    public long getActionId() {
         return actionId;
     }
 
-    public void setActionId(int actionId) {
+    public void setActionId(long actionId) {
         this.actionId = actionId;
     }
 
-    public void setIconId(int iconId) {
-        this.iconId = iconId;
+
+    public long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(long clientId) {
+        this.clientId = clientId;
+    }
+
+    public void setItemId(int iconId) {
+        this.itemId = iconId;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getCommand() {
-        return command;
+    public String getMethod() {
+        return method;
     }
 
-    public void setCommand(String command) {
-        this.command = command;
+    public void setMethod(String command) {
+        this.method = command;
+    }
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
+    }
+
+    public String getCommandFullPath() {
+        return commandFullPath;
+    }
+
+    public void setCommandFullPath(String commandFullPath) {
+        this.commandFullPath = commandFullPath;
     }
 
     public boolean isActive() {
@@ -178,8 +207,6 @@ public class TopeAction<E> implements ITopeAction<E> {
         this.payload = payload;
     }
 
-
-
     public View getContextView() {
         return contextView;
     }
@@ -189,8 +216,8 @@ public class TopeAction<E> implements ITopeAction<E> {
     }
 
     @Override
-    public int getIconId() {
-        return iconId;
+    public int getItemId() {
+        return itemId;
     }
 
     @Override
@@ -211,11 +238,11 @@ public class TopeAction<E> implements ITopeAction<E> {
         this.revisionId = revisionId;
     }
 
-    public int getOppositeActionId() {
+    public long getOppositeActionId() {
         return oppositeActionId;
     }
 
-    public void setOppositeActionId(int oppositeActionId) {
+    public void setOppositeActionId(long oppositeActionId) {
         this.oppositeActionId = oppositeActionId;
     }
 
@@ -251,15 +278,15 @@ public class TopeAction<E> implements ITopeAction<E> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(iconId);
+        dest.writeLong(itemId);
         dest.writeString(title);
-        dest.writeString(command);
+        dest.writeString(method);
     }
 
     private void readFromParcel(Parcel in) {
-        iconId = (int) in.readLong();
+        itemId = (int) in.readLong();
         title = in.readString();
-        command = in.readString();
+        method = in.readString();
     }
 
     @SuppressWarnings("rawtypes")

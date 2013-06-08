@@ -95,7 +95,7 @@ public class TopeUtils {
         ITopeAction action = null;
         for (Iterator<ITopeAction> iterator = actions.iterator(); iterator.hasNext();) {
             ITopeAction iTopeAction = (ITopeAction) iterator.next();
-            if (iTopeAction.getIconId() == id) {
+            if (iTopeAction.getItemId() == id) {
                 action = iTopeAction;
             }
         }

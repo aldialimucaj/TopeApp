@@ -1,8 +1,14 @@
 package al.aldi.tope.view;
 
+import static al.aldi.tope.utils.TopeCommands.*;
 import al.aldi.tope.R;
+import al.aldi.tope.controller.executables.ActionSynchExecutor;
+import al.aldi.tope.model.ITopeAction;
+import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
+import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -16,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -71,12 +78,38 @@ public class ClientsListActivity extends ListActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        View v = info.targetView;
         switch (item.getItemId()) {
             case R.id.client_edit:
                 Toast.makeText(getApplicationContext(), "Edit Client", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.client_synchronize:
                 Toast.makeText(getApplicationContext(), "Synchronize Client", Toast.LENGTH_SHORT).show();
+
+                /* Creating thread because this is the main thread */
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        /* creating the synchronization action. no need to store this in the action list as this action is not shown in the grid */
+                        ITopeAction<TopeResponse<ActionSynchResponse>> standByAction = new TopeAction<TopeResponse<ActionSynchResponse>>(OS_SYNCH_ACTIONS, 0, getString(R.string.client_edit_synchronize));
+                        standByAction.setActionId(0);
+                        ActionSynchExecutor executor =  new ActionSynchExecutor(standByAction, getApplicationContext());
+                        standByAction.setExecutable(executor);
+
+                        TopeClient client;
+                        ListView list = ClientsListActivity.this.getListView();
+                        client = (TopeClient) list.getItemAtPosition(info.position);
+                        executor.setClient(client);
+
+                        standByAction.execute(client);
+
+                    }
+                }).start();
+
+
+
                 return true;
             default:
                 return super.onContextItemSelected(item);

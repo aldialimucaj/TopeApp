@@ -1,5 +1,5 @@
 package al.aldi.tope.model.responses;
 
-public class EmptyResponse {
+public class EmptyResponse implements ITopeResponsePayload {
 
 }

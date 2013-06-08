@@ -40,7 +40,7 @@ public class ActionClickListener implements OnItemClickListener {
         if (action.hasOppositeAction()) {
 
             ImageView actionImage = (ImageView) v.findViewById(R.id.gridActionImage);
-            actionImage.setImageResource(action.getOppositeAction().getIconId());
+            actionImage.setImageResource(action.getOppositeAction().getItemId());
 
             TextView descriptionText = (TextView) v.findViewById(R.id.gridActionText);
             descriptionText.setText(action.getOppositeAction().getTitle());

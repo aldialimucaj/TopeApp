@@ -9,7 +9,6 @@ import al.aldi.andorid.net.HttpUtils;
 import al.aldi.tope.model.JsonTopeResponse;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.responses.EmptyResponse;
-import al.aldi.tope.model.responses.TestResponse;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -24,10 +23,10 @@ import com.google.gson.reflect.TypeToken;
  */
 public class TopeHttpUtil<E> {
 
-    private static final String TAG = "al.aldi.tope.utils.TopeHttpUtil";
-    Gson gson = new GsonBuilder().setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL).create();
+    private static final String TAG  = "al.aldi.tope.utils.TopeHttpUtil";
+    Gson                        gson = new GsonBuilder().setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL).create();
 
-    E tr;
+    E                           tr;
 
     public TopeHttpUtil(E response) {
         this.tr = response;
@@ -57,9 +56,10 @@ public class TopeHttpUtil<E> {
         }
 
         try {
-
-            Type responseType = new TypeToken<TopeResponse<TestResponse>>() {}.getType();
             String jsonString = HttpUtils.httpEntitiyToSafeString(res.getEntity());
+
+            Type responseType = new TypeToken<E>() {
+            }.getType();
             tr = gson.fromJson(jsonString, responseType);
 
             // TODO: remove
@@ -74,9 +74,31 @@ public class TopeHttpUtil<E> {
         return tr; // return default empty response in order not to return null
     }
 
-    public void printResponseToJSON(HttpResponse res){
+    public String sendPostRequestWithParamsRetString(final String url, final HashMap<String, String> params) {
+        HttpResponse res = HttpUtils.sendPostRequestWithParams(url, params);
+        if (null == res) {
+            return null;
+        }
+
+        try {
+            String jsonString = HttpUtils.httpEntitiyToSafeString(res.getEntity());
+
+            // TODO: remove
+            Log.i(TAG, jsonString);
+
+            return jsonString;// RETURN
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null; // return default empty response in order not to return null
+    }
+
+    public void printResponseToJSON(HttpResponse res) {
         String json = HttpUtils.httpEntitiyToSafeString(res.getEntity());
-        Gson gson = new GsonBuilder().setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL).create();;
+        Gson gson = new GsonBuilder().setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL).create();
+        ;
         @SuppressWarnings("rawtypes")
         TopeResponse response = gson.fromJson(json, TopeResponse.class);
         Log.i(TAG, response.toString());

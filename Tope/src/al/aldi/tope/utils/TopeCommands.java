@@ -23,5 +23,7 @@ public class TopeCommands {
     public static final String OS_SOUND_ON = "/os/soundMute";
     public static final String OS_SOUND_EXACT = "/os/sound_EXACT";
     public static final String OS_TEST = "/os/test";
+
+    public static final String OS_SYNCH_ACTIONS = "/os/synchActions";
 }
 

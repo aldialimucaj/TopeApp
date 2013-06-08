@@ -43,7 +43,7 @@ public class ParametersActivity extends Activity {
 
         ClientDataSource source = new ClientDataSource(this.getApplicationContext());
         TopeUtils topeUtils = new TopeUtils(source);
-        action = topeUtils.addAction(action.getCommand(), action.getIconId(), action.getTitle());
+        action = topeUtils.addAction(action.getMethod(), action.getItemId(), action.getTitle());
 
         linearLayout = (LinearLayout) inflater.inflate(R.layout.activity_parameters, null);
         // linearLayout = (LinearLayout) findViewById(R.layout.activity_parameters);
