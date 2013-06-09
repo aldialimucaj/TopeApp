@@ -2,14 +2,20 @@ package al.aldi.tope.view;
 
 import static al.aldi.tope.utils.TopeCommands.*;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import al.aldi.tope.R;
+import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.controller.executables.DefaultExecutor;
 import al.aldi.tope.controller.executables.TestExecutor;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeResponse;
+import al.aldi.tope.model.db.ActionDataSource;
+import al.aldi.tope.model.responses.EmptyResponse;
 import al.aldi.tope.model.responses.TestResponse;
 import al.aldi.tope.utils.TopeActionUtils;
 import al.aldi.tope.view.adapter.IconItemAdapter;
@@ -40,6 +46,10 @@ public class OsSectionFragment extends Fragment {
     IconItemAdapter<ITopeAction>            adapter                  = null;
     TopeActionUtils                         osActions                = null;
     Vector<ITopeAction>                     actions                  = null;
+    HashMap<String, Integer>                commandIconMap           = new HashMap<String, Integer>();
+    HashMap<String, String>                 oppositeActionsMap       = new HashMap<String, String>();
+    HashMap<String, ITopeExecutable>        executorMap              = new HashMap<String, ITopeExecutable>();
+    HashMap<String, String>                 actionTitlesMap          = new HashMap<String, String>();
 
     /* ******************* ITopeActions ******************** */
     ITopeAction<TopeResponse<TestResponse>> testAction               = null;
@@ -53,13 +63,18 @@ public class OsSectionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("OsSectionFragment.onCreateView()");
+        fillIconMap();
+        fillTitlesMap();
+        setExecutorsMap();
+        setOppositeActionsMap();
         final View rootView = inflater.inflate(R.layout.gridview_fragment_os, container, false);
 
         gridView = (GridView) rootView.findViewById(R.id.fragmentGridView);
         registerForContextMenu(gridView);
 
         /* init the commands to show in the screen */
-        initCommands();
+        // initCommands();
+        initCommandsAutomatically();
 
         /* creating the grid adapter */
         adapter = new IconItemAdapter<ITopeAction>(getActivity(), actions);
@@ -76,12 +91,112 @@ public class OsSectionFragment extends Fragment {
         return rootView;
     }
 
+
+
+    private void initCommandsAutomatically() {
+        actions.clear(); /* clearing the cached activities before recreating them */
+
+        ActionDataSource dataSource = new ActionDataSource(getActivity());
+        List<TopeAction> dbActions = dataSource.getAll();
+        for (Iterator iterator = dbActions.iterator(); iterator.hasNext();) {
+            TopeAction topeAction = (TopeAction) iterator.next();
+            String command = topeAction.getCommandFullPath();
+            topeAction.setItemId(commandIconMap.get(command));
+
+            /* setting the executor */
+            if (executorMap.containsKey(topeAction.getCommandFullPath())) {
+                ITopeExecutable exe = executorMap.get(topeAction.getCommandFullPath());
+                exe.setAction(topeAction);
+                topeAction.setExecutable(exe);
+            } else {
+                topeAction.setExecutable(new DefaultExecutor(topeAction, this));
+            }
+
+            /* setting the title */
+            if(actionTitlesMap.containsKey(topeAction.getCommandFullPath())){
+                topeAction.setTitle(actionTitlesMap.get(topeAction.getCommandFullPath()));
+            }
+
+            /* setting opposite actions */
+            setOpposite(dbActions, topeAction);
+
+            /* adding the action if it is not an opposite action. */
+            if (!isOppositeAction(topeAction)) {
+                actions.add(topeAction);
+            }
+
+        }
+    }
+
+    private boolean isOppositeAction(TopeAction action) {
+        return oppositeActionsMap.containsValue(action.getCommandFullPath());
+    }
+
+    private void setOpposite(List<TopeAction> dbActions, TopeAction action) {
+        if (!action.hasOppositeAction() && oppositeActionsMap.containsKey(action.getCommandFullPath())) {
+
+            for (Iterator iterator = dbActions.iterator(); iterator.hasNext();) {
+                TopeAction oppositeAction = (TopeAction) iterator.next();
+                if (oppositeAction.getCommandFullPath().equals(oppositeActionsMap.get(action.getCommandFullPath()))) {
+                    action.setOppositeAction(oppositeAction);
+                    oppositeAction.setOppositeAction(action);
+                }
+            }
+
+        }
+    }
+
+    private void fillTitlesMap() {
+        actionTitlesMap.put(OS_HIBERNATE, getString(R.string.os_op_hibernate));
+        actionTitlesMap.put(OS_LOCK_INPUT, getString(R.string.os_op_lockinput));
+        actionTitlesMap.put(OS_LOCK_SCREEN, getString(R.string.os_op_lockscreen));
+        actionTitlesMap.put(OS_LOG_OUT, getString(R.string.os_op_logoff));
+        actionTitlesMap.put(OS_MONITOR_OFF, getString(R.string.os_op_monitoroff));
+        actionTitlesMap.put(OS_MONITOR_ON, getString(R.string.os_op_monitoron));
+        actionTitlesMap.put(OS_SHUTDOWN, getString(R.string.os_op_shutdown));
+        actionTitlesMap.put(OS_RESTART, getString(R.string.os_op_restart));
+        actionTitlesMap.put(OS_SOUND_ON, getString(R.string.os_op_soundon));
+        actionTitlesMap.put(OS_SOUND_OFF, getString(R.string.os_op_soundoff));
+        actionTitlesMap.put(OS_STAND_BY, getString(R.string.os_op_standby));
+        actionTitlesMap.put(OS_TEST, getString(R.string.title_test));
+        actionTitlesMap.put(OS_UNLOCK_INPUT, getString(R.string.os_op_unlockinput));
+
+    }
+
+    private void setExecutorsMap() {
+        executorMap.put(OS_TEST, new TestExecutor(this));
+    }
+
+    private void setOppositeActionsMap() {
+        oppositeActionsMap.put(OS_LOCK_INPUT, OS_UNLOCK_INPUT);
+        oppositeActionsMap.put(OS_MONITOR_OFF, OS_MONITOR_ON);
+        oppositeActionsMap.put(OS_SOUND_OFF, OS_SOUND_ON);
+
+    }
+
+    private void fillIconMap() {
+        commandIconMap.put(OS_HIBERNATE, R.drawable.system_hibernate);
+        commandIconMap.put(OS_LOCK_INPUT, R.drawable.system_input_keyboard);
+        commandIconMap.put(OS_LOCK_SCREEN, R.drawable.system_lock_screen);
+        commandIconMap.put(OS_LOG_OUT, R.drawable.system_log_out);
+        commandIconMap.put(OS_MONITOR_OFF, R.drawable.system_monitor_off);
+        commandIconMap.put(OS_MONITOR_ON, R.drawable.system_monitor);
+        commandIconMap.put(OS_SHUTDOWN, R.drawable.system_shutdown);
+        commandIconMap.put(OS_RESTART, R.drawable.system_restart);
+        commandIconMap.put(OS_SOUND_ON, R.drawable.system_sound_on);
+        commandIconMap.put(OS_SOUND_OFF, R.drawable.system_sound_off);
+        commandIconMap.put(OS_STAND_BY, R.drawable.system_standby);
+        commandIconMap.put(OS_TEST, R.drawable.info);
+        commandIconMap.put(OS_UNLOCK_INPUT, R.drawable.system_input_keyboard_blocked);
+
+    }
+
     private void initCommands() {
         actions.clear(); /* clearing the cached activities before recreating them */
 
         /* *************************************************************************** */
 
-        ITopeAction<TopeResponse<TestResponse>> powerOffAction = new TopeAction<TopeResponse<TestResponse>>(OS_POWER_OFF, R.drawable.system_shutdown, getString(R.string.os_op_shutdown));
+        ITopeAction<TopeResponse<TestResponse>> powerOffAction = new TopeAction<TopeResponse<TestResponse>>(OS_SHUTDOWN, R.drawable.system_shutdown, getString(R.string.os_op_shutdown));
         actions.add(powerOffAction);
 
         /* *************************************************************************** */
@@ -97,43 +212,43 @@ public class OsSectionFragment extends Fragment {
         /* *************************************************************************** */
 
         // UP TO DATE
-        ITopeAction<TopeResponse<Object>> standByAction = new TopeAction<TopeResponse<Object>>(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby));
+        ITopeAction standByAction = new TopeAction<TopeResponse<Object>>(OS_STAND_BY, R.drawable.system_standby, getString(R.string.os_op_standby));
         standByAction.setActionId(2);
-        standByAction.setExecutable(new DefaultExecutor<TopeResponse<Object>>(standByAction, this));
+        standByAction.setExecutable(new DefaultExecutor(standByAction, this));
         actions.add(standByAction);
 
         /* *************************************************************************** */
 
         // UP TO DATE
-        ITopeAction<TopeResponse<Object>> lockScreen = new TopeAction<TopeResponse<Object>>(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen));
+        ITopeAction lockScreen = new TopeAction<TopeResponse<Object>>(OS_LOCK_SCREEN, R.drawable.system_lock_screen, getString(R.string.os_op_lockscreen));
         lockScreen.setActionId(6);
-        lockScreen.setExecutable(new DefaultExecutor<TopeResponse<Object>>(lockScreen, this));
+        lockScreen.setExecutable(new DefaultExecutor(lockScreen, this));
         actions.add(lockScreen);
 
         /* *************************************************************************** */
 
-        ITopeAction<TopeResponse<Object>> monitorOn = new TopeAction<TopeResponse<Object>>(OS_MONITOR_ON, R.drawable.system_monitor, getString(R.string.os_op_monitoron));
-        ITopeAction<TopeResponse<Object>> monitorOff = new TopeAction<TopeResponse<Object>>(OS_MONITOR_OFF, R.drawable.system_monitor_off, getString(R.string.os_op_monitoroff));
+        ITopeAction monitorOn = new TopeAction<TopeResponse<Object>>(OS_MONITOR_ON, R.drawable.system_monitor, getString(R.string.os_op_monitoron));
+        ITopeAction monitorOff = new TopeAction<TopeResponse<Object>>(OS_MONITOR_OFF, R.drawable.system_monitor_off, getString(R.string.os_op_monitoroff));
         monitorOn.setActionId(7);
         monitorOff.setActionId(8);
-        monitorOn.setExecutable(new DefaultExecutor<TopeResponse<Object>>(monitorOn, this));
-        monitorOff.setExecutable(new DefaultExecutor<TopeResponse<Object>>(monitorOff, this));
+        monitorOn.setExecutable(new DefaultExecutor(monitorOn, this));
+        monitorOff.setExecutable(new DefaultExecutor(monitorOff, this));
         monitorOn.setOppositeAction(monitorOff);
         monitorOff.setOppositeAction(monitorOn);
         actions.add(monitorOff);
 
         /* *************************************************************************** */
 
-        ITopeAction<TopeResponse<TestResponse>> lockInput = new TopeAction<TopeResponse<TestResponse>>(OS_LOCK_INPUT, R.drawable.input_keyboard, getString(R.string.os_op_lockinput));
-        ITopeAction<TopeResponse<TestResponse>> unlockInput = new TopeAction<TopeResponse<TestResponse>>(OS_UNLOCK_INPUT, R.drawable.input_keyboard_blocked, getString(R.string.os_op_unlockinput));
+        ITopeAction<TopeResponse<TestResponse>> lockInput = new TopeAction<TopeResponse<TestResponse>>(OS_LOCK_INPUT, R.drawable.system_input_keyboard, getString(R.string.os_op_lockinput));
+        ITopeAction<TopeResponse<TestResponse>> unlockInput = new TopeAction<TopeResponse<TestResponse>>(OS_UNLOCK_INPUT, R.drawable.system_input_keyboard_blocked, getString(R.string.os_op_unlockinput));
         lockInput.setOppositeAction(unlockInput);
         unlockInput.setOppositeAction(lockInput);
         actions.add(lockInput);
 
         /* *************************************************************************** */
 
-        ITopeAction<TopeResponse<TestResponse>> soundOff = new TopeAction<TopeResponse<TestResponse>>(OS_SOUND_OFF, R.drawable.system_sound_off, getString(R.string.os_op_soundoff));
-        ITopeAction<TopeResponse<TestResponse>> soundOn = new TopeAction<TopeResponse<TestResponse>>(OS_SOUND_ON, R.drawable.system_sound_on, getString(R.string.os_op_soundon));
+        ITopeAction<TopeResponse<TestResponse>> soundOff = new TopeAction<TopeResponse<TestResponse>>(OS_SOUND_ON, R.drawable.system_sound_off, getString(R.string.os_op_soundoff));
+        ITopeAction<TopeResponse<TestResponse>> soundOn = new TopeAction<TopeResponse<TestResponse>>(OS_SOUND_OFF, R.drawable.system_sound_on, getString(R.string.os_op_soundon));
         soundOff.setOppositeAction(soundOn);
         soundOn.setOppositeAction(soundOff);
         soundOff.setActionId(11);

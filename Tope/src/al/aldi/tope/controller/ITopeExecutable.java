@@ -1,5 +1,6 @@
 package al.aldi.tope.controller;
 
+import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeClient;
 
 /**
@@ -24,4 +25,6 @@ public interface ITopeExecutable<E> {
     public E run(TopeClient client);
 
     public abstract void postRun(E response);
+
+    public void setAction(ITopeAction<E> action);
 }

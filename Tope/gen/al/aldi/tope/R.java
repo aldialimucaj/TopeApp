@@ -36,9 +36,9 @@ public final class R {
         public static final int drag=0x7f020001;
         public static final int ic_launcher=0x7f020002;
         public static final int info=0x7f020003;
-        public static final int input_keyboard=0x7f020004;
-        public static final int input_keyboard_blocked=0x7f020005;
-        public static final int system_hibernate=0x7f020006;
+        public static final int system_hibernate=0x7f020004;
+        public static final int system_input_keyboard=0x7f020005;
+        public static final int system_input_keyboard_blocked=0x7f020006;
         public static final int system_lock_input=0x7f020007;
         public static final int system_lock_screen=0x7f020008;
         public static final int system_log_in=0x7f020009;

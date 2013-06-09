@@ -73,6 +73,7 @@ public class TopeAction<E> implements ITopeAction<E> {
         this.itemId = itemId;
         this.title = title;
         this.method = command;
+        this.commandFullPath = command;
     }
 
     public TopeAction(int itemId, String title, String command, ITopePayload payload) {
@@ -140,8 +141,6 @@ public class TopeAction<E> implements ITopeAction<E> {
         return true;
     }
 
-
-
     public long getActionId() {
         return actionId;
     }
@@ -149,7 +148,6 @@ public class TopeAction<E> implements ITopeAction<E> {
     public void setActionId(long actionId) {
         this.actionId = actionId;
     }
-
 
     public long getClientId() {
         return clientId;

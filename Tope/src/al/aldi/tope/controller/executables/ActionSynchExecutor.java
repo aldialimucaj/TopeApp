@@ -12,6 +12,7 @@ import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -43,8 +44,7 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
         dataSource.dropTable();
         dataSource.createTable();
         dataSource.addAll(actionsList);
-        List<TopeAction> actionsList2 = dataSource.getAll();
-
+        // List<TopeAction> actionsList2 = dataSource.getAll();
     }
 
     public TopeClient getClient() {
@@ -62,6 +62,16 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
         TopeResponse<ActionSynchResponse> tr = gson.fromJson(jsonString, responseType);
 
         return tr;
+    }
+
+    @Override
+    public void setAction(ITopeAction action) {
+        this.action = action;
+    }
+
+    @Override
+    public void setFragment(Fragment fragment) {
+       this.fragment = fragment;
     }
 
 }

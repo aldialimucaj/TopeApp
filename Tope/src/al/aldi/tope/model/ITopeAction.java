@@ -26,6 +26,10 @@ public interface ITopeAction<E> extends Parcelable {
 
     public int getItemId();
 
+    public String getCommandFullPath();
+
+    public void setCommandFullPath(String commandFullPath);
+
     public String getMethod();
 
     public void setMethod(String command);

@@ -35,7 +35,8 @@ public abstract class MainExecutor<E> implements ITopeExecutable<E> {
             e.printStackTrace();
         }
 
-        String responseString = new TopeHttpUtil<E>().sendPostRequestWithParamsRetString(topeClient.getSslURL(action.getMethod()), action.getPayload().getParameters());
+        //String responseString = new TopeHttpUtil<E>().sendPostRequestWithParamsRetString(topeClient.getSslURL(action.getMethod()), action.getPayload().getParameters());
+        String responseString = new TopeHttpUtil<E>().sendPostRequestWithParamsRetString(topeClient.getSslURL(action.getCommandFullPath()), action.getPayload().getParameters());
 
         /* ******************** CALLING ABSTRACT METHOD TO TAKE CARE OF THE OUTPUT ******************** */
         topeResponse = convertResponse(responseString);
@@ -47,8 +48,14 @@ public abstract class MainExecutor<E> implements ITopeExecutable<E> {
         return topeResponse;
     }
 
+    public void setAction(ITopeAction action) {
+        this.action = action;
+    }
+
     public abstract E convertResponse(String jsonString);
 
     public abstract void postRun(E response);
+
+    public abstract void setFragment(Fragment fragment);
 
 }

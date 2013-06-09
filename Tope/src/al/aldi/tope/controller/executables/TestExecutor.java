@@ -20,6 +20,15 @@ public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> imple
     TopeResponse<TestResponse>              topeResponse = null;
     Fragment                                fragment     = null;
 
+
+    public TestExecutor(){
+        super(null, null);
+    }
+
+    public TestExecutor( Fragment fragment){
+        super(null, fragment);
+    }
+
     public TestExecutor(ITopeAction<TopeResponse<TestResponse>> testAction, Fragment fragment) {
         super(testAction, fragment);
         this.action = testAction;
@@ -49,5 +58,17 @@ public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> imple
         TopeResponse<TestResponse> tr = gson.fromJson(jsonString, responseType);
         return tr;
     }
+
+    @Override
+    public void setAction(ITopeAction action) {
+        super.setAction(action);
+        this.action = action;
+    }
+    @Override
+    public void setFragment(Fragment fragment) {
+       this.fragment = fragment;
+       this.action.setContextView(new StandardActionDialog1(action, fragment));
+    }
+
 
 }
