@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import al.aldi.tope.model.ITopeAction;
-import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.JsonTopeResponse;
+import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.utils.TopeUtils;
@@ -20,8 +20,8 @@ import android.os.Looper;
  * @author Aldi Alimucaj
  *
  */
-public class ActionCareTaker<E> extends Thread {
-    ITopeAction<E>			action;
+public class ActionCareTaker extends Thread {
+    ITopeAction			action;
     Activity			activity;
     JsonTopeResponse		response;
     ClientDataSource	source;
@@ -34,7 +34,7 @@ public class ActionCareTaker<E> extends Thread {
      * @param activity
      * @param response
      */
-    public ActionCareTaker(ITopeAction<E> action, Activity activity, JsonTopeResponse response) {
+    public ActionCareTaker(ITopeAction action, Activity activity, JsonTopeResponse response) {
         super();
         this.action = action;
         this.activity = activity;
@@ -42,7 +42,7 @@ public class ActionCareTaker<E> extends Thread {
         source = new ClientDataSource(activity.getApplicationContext());
     }
 
-    public ActionCareTaker(ITopeAction<E> action, Activity activity) {
+    public ActionCareTaker(ITopeAction action, Activity activity) {
         super();
         this.action = action;
         this.activity = activity;
@@ -58,10 +58,12 @@ public class ActionCareTaker<E> extends Thread {
         Looper.prepare();
         if (null != action) {
             source.open();
+            @SuppressWarnings("rawtypes")
             List<TopeResponse> topeResponses = new ArrayList<TopeResponse>();
             List<TopeClient> clients = source.getAllActive(); /* reads all acitve clients from the database */
             for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
                 TopeClient topeClient = (TopeClient) iterator.next();
+                @SuppressWarnings("rawtypes")
                 TopeResponse topeResponse = (TopeResponse) action.execute(topeClient);
                 successful &= topeResponse.isSuccessful();
                 topeResponses.add(topeResponse);

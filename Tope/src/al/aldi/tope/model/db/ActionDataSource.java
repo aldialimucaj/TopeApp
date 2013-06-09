@@ -19,8 +19,6 @@ public class ActionDataSource {
     private String[]                allColumns = {ID, CLIENT_ID, ITEM_ID, MODULE, METHOD, COMMAND_FULL, TITLE, ACTIVE, REVISION_ID, OPPOSITE_ACTION };
     private Context                 context;
 
-    private static ActionDataSource instance;
-
     public ActionDataSource(Context context) {
         super();
         this.context = context;
@@ -59,7 +57,8 @@ public class ActionDataSource {
     }
 
     public void addAll(List<TopeAction> actions){
-        for (Iterator iterator = actions.iterator(); iterator.hasNext();) {
+        for (@SuppressWarnings("rawtypes")
+        Iterator iterator = actions.iterator(); iterator.hasNext();) {
             TopeAction topeAction = (TopeAction) iterator.next();
             create(topeAction);
         }
@@ -109,6 +108,16 @@ public class ActionDataSource {
 
         return action;
     }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+
 
 
 }

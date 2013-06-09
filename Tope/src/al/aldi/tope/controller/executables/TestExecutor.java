@@ -12,11 +12,11 @@ import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 
-public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> implements ITopeExecutable<TopeResponse<TestResponse>> {
+public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> implements ITopeExecutable {
 
     private static final String             TAG          = "al.aldi.tope.controller.executables.TestExecutable";
 
-    ITopeAction<TopeResponse<TestResponse>> action       = null;
+    ITopeAction action       = null;
     TopeResponse<TestResponse>              topeResponse = null;
     Fragment                                fragment     = null;
 
@@ -29,7 +29,7 @@ public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> imple
         super(null, fragment);
     }
 
-    public TestExecutor(ITopeAction<TopeResponse<TestResponse>> testAction, Fragment fragment) {
+    public TestExecutor(ITopeAction testAction, Fragment fragment) {
         super(testAction, fragment);
         this.action = testAction;
         this.fragment = fragment;
@@ -37,12 +37,13 @@ public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> imple
     }
 
     @Override
-    public void postRun(TopeResponse<TestResponse> response) {
+    public void postRun(Object response) {
         if (null == response) {
             return;
         }
 
-        TestResponse testResponse = response.getPayload();
+        @SuppressWarnings("rawtypes")
+        TestResponse testResponse = (TestResponse) ((TopeResponse) response).getPayload();
         if (null != testResponse) {
             String testMsg = testResponse.getTestMessage();
             if (null != testMsg) {

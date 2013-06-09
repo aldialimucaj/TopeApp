@@ -8,7 +8,6 @@ import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.ClientsListActivity;
 import al.aldi.tope.view.adapter.TopeSectionsPagerAdapter;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerTabStrip;

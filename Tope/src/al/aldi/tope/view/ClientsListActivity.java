@@ -6,9 +6,7 @@ import al.aldi.tope.controller.executables.ActionSynchExecutor;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
-import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
-import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -79,7 +77,6 @@ public class ClientsListActivity extends ListActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        View v = info.targetView;
         switch (item.getItemId()) {
             case R.id.client_edit:
                 Toast.makeText(getApplicationContext(), "Edit Client", Toast.LENGTH_SHORT).show();
@@ -93,7 +90,7 @@ public class ClientsListActivity extends ListActivity {
                     @Override
                     public void run() {
                         /* creating the synchronization action. no need to store this in the action list as this action is not shown in the grid */
-                        ITopeAction<TopeResponse<ActionSynchResponse>> standByAction = new TopeAction<TopeResponse<ActionSynchResponse>>(OS_SYNCH_ACTIONS, 0, getString(R.string.client_edit_synchronize));
+                        ITopeAction standByAction = new TopeAction(OS_SYNCH_ACTIONS, 0, getString(R.string.client_edit_synchronize));
                         standByAction.setActionId(0);
                         ActionSynchExecutor executor =  new ActionSynchExecutor(standByAction, getApplicationContext());
                         standByAction.setExecutable(executor);

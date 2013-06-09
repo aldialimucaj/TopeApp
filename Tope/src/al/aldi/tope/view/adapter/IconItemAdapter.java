@@ -29,7 +29,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
     private Activity					activity;
     private Fragment					fragment;
 
-    IconItemAdapter<ITopeAction<E>>		adapter				= null;
+    IconItemAdapter<ITopeAction>		adapter				= null;
     TopeActionUtils						osActions			= null;
     Vector<ITopeAction>					actions				= null;
 
@@ -51,8 +51,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
             v.setPadding(15, 15, 15, 15);
 
-            @SuppressWarnings("unchecked")
-            final ITopeAction<E> action = ((ITopeAction<E>) getItem(position));
+            final ITopeAction action = ((ITopeAction) getItem(position));
             TextView tv = (TextView) v.findViewById(R.id.gridActionText);
             tv.setText(action.getTitle());
 
@@ -97,7 +96,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
                     /* ****************** */
                     /* EXECUTING ACTION */
                     /* ****************** */
-                    ITopeAction<E> action = ((ITopeAction<E>) TopeUtils.getAction(actions, v));
+                    ITopeAction action = ((ITopeAction) TopeUtils.getAction(actions, v));
                     ActionCareTaker act = new ActionCareTaker(action, getActivity());
                     act.execute();
 

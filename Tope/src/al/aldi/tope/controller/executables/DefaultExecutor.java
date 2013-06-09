@@ -9,7 +9,6 @@ import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.responses.EmptyResponse;
-import al.aldi.tope.model.responses.TestResponse;
 import android.support.v4.app.Fragment;
 
 import com.google.gson.reflect.TypeToken;
@@ -18,20 +17,20 @@ import com.google.gson.reflect.TypeToken;
  * @author Aldi Alimucaj
  *
  */
-public class DefaultExecutor extends MainExecutor<TopeResponse> implements ITopeExecutable<TopeResponse>  {
+public class DefaultExecutor extends MainExecutor<TopeResponse<EmptyResponse>> implements ITopeExecutable {
 
-    ITopeAction<TopeResponse> action       = null;
-    TopeResponse              topeResponse = null;
-    Fragment                  fragment     = null;
+    ITopeAction                 action       = null;
+    TopeResponse<EmptyResponse> topeResponse = null;
+    Fragment                    fragment     = null;
 
-    public DefaultExecutor(ITopeAction<TopeResponse> defaultAction, Fragment fragment) {
+    public DefaultExecutor(ITopeAction defaultAction, Fragment fragment) {
         super(defaultAction, fragment);
         this.action = defaultAction;
         this.fragment = fragment;
     }
 
     @Override
-    public void postRun(TopeResponse response) {
+    public void postRun(Object response) {
         // TODO Auto-generated method stub
 
     }
@@ -48,10 +47,10 @@ public class DefaultExecutor extends MainExecutor<TopeResponse> implements ITope
     public void setAction(ITopeAction action) {
         this.action = action;
     }
+
     @Override
     public void setFragment(Fragment fragment) {
-       this.fragment = fragment;
+        this.fragment = fragment;
     }
-
 
 }

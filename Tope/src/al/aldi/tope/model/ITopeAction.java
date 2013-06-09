@@ -13,10 +13,10 @@ import android.view.View;
  * @author Aldi Alimucaj
  *
  */
-public interface ITopeAction<E> extends Parcelable {
-    public E execute(TopeClient client);
+public interface ITopeAction extends Parcelable {
+    public Object execute(TopeClient client);
 
-    public void setExecutable(ITopeExecutable<E> exec);
+    public void setExecutable(ITopeExecutable exec);
 
     public long getActionId();
 
@@ -50,9 +50,9 @@ public interface ITopeAction<E> extends Parcelable {
 
     public void switchAction();
 
-    public void setOppositeAction(ITopeAction<E> action);
+    public void setOppositeAction(ITopeAction action);
 
-    public ITopeAction<E> getOppositeAction();
+    public ITopeAction getOppositeAction();
 
     public boolean hasOppositeAction();
 }

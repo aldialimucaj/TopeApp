@@ -16,26 +16,27 @@ import android.support.v4.app.Fragment;
 
 import com.google.gson.reflect.TypeToken;
 
-public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchResponse>> implements ITopeExecutable<TopeResponse<ActionSynchResponse>> {
+public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchResponse>> implements ITopeExecutable {
 
     private TopeClient client;
     private Context    context;
 
-    public ActionSynchExecutor(ITopeAction<TopeResponse<ActionSynchResponse>> action, Context context) {
+    public ActionSynchExecutor(ITopeAction action, Context context) {
         super(action, null);
         this.context = context;
     }
 
     @Override
-    public void postRun(TopeResponse<ActionSynchResponse> response) {
+    public void postRun(Object response) {
         System.out.println(response);
-        ActionSynchResponse actions = response.getPayload();
+        @SuppressWarnings("unchecked")
+        ActionSynchResponse actions = (ActionSynchResponse) ((TopeResponse<ActionSynchResponse>) response).getPayload();
         System.out.println(actions);
 
         /* ***************************** ADDING ACTIONS TO DB ********************************************** */
 
         List<TopeAction> actionsList = actions.getActions();
-        for (Iterator iterator = actionsList.iterator(); iterator.hasNext();) {
+        for (Iterator<TopeAction> iterator = actionsList.iterator(); iterator.hasNext();) {
             TopeAction topeAction = (TopeAction) iterator.next();
             topeAction.setClientId(client.getId());
         }

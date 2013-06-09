@@ -4,11 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
-import al.aldi.tope.model.JsonTopeResponse;
-import al.aldi.tope.model.TopeAction;
-import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.ITopeLongClickAdapter;
@@ -36,51 +32,6 @@ public class TopeUtils {
     public TopeUtils(ClientDataSource source) {
         super();
         this.source = source;
-    }
-
-    /**
-     * Prepares the action to execute. It creates an executable for the action and sets it as the default one.
-     * Depending on the presence of payload, it sends a GET or POST request.
-     *
-     * @param actionStr
-     * @param itemId
-     * @param title
-     * @return
-     */
-    @Deprecated
-    public ITopeAction addAction(final String actionStr, int itemId, String title) {/*
-        final ITopeAction action = new TopeAction(itemId, title, actionStr);
-
-        action.setExecutable(new ITopeExecutable() {
-//            public JsonTopeResponse run(TopeClient topeClient) {
-//                JsonTopeResponse topeResponse = null;
-//                try {
-//                    action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
-//                    action.getPayload().addPayload(TopePayload.PARAM_PASSWORD, topeClient.getPass());
-//                    action.getPayload().addPayload(TopePayload.PARAM_DOMAIN, topeClient.getDomain());
-//                    action.getPayload().addPayload(TopePayload.PARAM_ACTION_ID, String.valueOf(action.getActionId()));
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                topeResponse = TopeHttpUtil.sendPostRequestWithParams(topeClient.getSslURL(actionStr), action.getPayload().getParameters());
-//
-//                return topeResponse;
-//            }
-
-            @Override
-            public Object run(TopeClient client) {
-                return null;
-            }
-
-            public void postRun(Object response) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-
-        return action;
-        */
-        return null;
     }
 
     /**
@@ -176,6 +127,7 @@ public class TopeUtils {
      * @param topeResponse
      * @param activity
      */
+    @SuppressWarnings("rawtypes")
     public static void printSuccessMsg(ITopeAction action, TopeResponse topeResponse, Activity activity) {
         if (null != topeResponse && topeResponse.isSuccessful()) {
             Toast.makeText(activity, "[Successful] " + action.getTitle(), Toast.LENGTH_LONG).show();
@@ -211,6 +163,7 @@ public class TopeUtils {
      * @param action
      * @param activity
      */
+    @SuppressWarnings("rawtypes")
     public static void printBulkSuccessMsg(List<TopeResponse> topeResponses, ITopeAction action, Activity activity) {
         int size = topeResponses.size();
 

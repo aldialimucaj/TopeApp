@@ -11,7 +11,7 @@ import al.aldi.tope.model.TopeClient;
  * @param <K>
  *
  */
-public interface ITopeExecutable<E> {
+public interface ITopeExecutable {
 
     /**
      * Runs the command. This is the first step of calling the server.
@@ -22,9 +22,9 @@ public interface ITopeExecutable<E> {
      * @param client
      * @return the TopeResponse&lt;E&gt;
      */
-    public E run(TopeClient client);
+    public Object run(TopeClient client);
 
-    public abstract void postRun(E response);
+    public abstract void postRun(Object response);
 
-    public void setAction(ITopeAction<E> action);
+    public void setAction(ITopeAction action);
 }

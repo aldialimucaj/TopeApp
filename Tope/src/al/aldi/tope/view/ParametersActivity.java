@@ -6,8 +6,6 @@ import al.aldi.tope.R;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopePayload;
-import al.aldi.tope.model.db.ClientDataSource;
-import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.adapter.ParametersActivityAdapter;
 import android.app.Activity;
 import android.content.Context;
@@ -40,10 +38,6 @@ public class ParametersActivity extends Activity {
         Intent intent = getIntent();
 
         action = (ITopeAction) intent.getParcelableExtra(OsSectionFragment.INTENT_CLICKED_ACTION);
-
-        ClientDataSource source = new ClientDataSource(this.getApplicationContext());
-        TopeUtils topeUtils = new TopeUtils(source);
-        action = topeUtils.addAction(action.getMethod(), action.getItemId(), action.getTitle());
 
         linearLayout = (LinearLayout) inflater.inflate(R.layout.activity_parameters, null);
         // linearLayout = (LinearLayout) findViewById(R.layout.activity_parameters);

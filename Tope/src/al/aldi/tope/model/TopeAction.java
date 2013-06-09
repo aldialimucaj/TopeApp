@@ -18,25 +18,25 @@ import android.view.View;
  * @author Aldi Alimucaj
  *
  */
-public class TopeAction<E> implements ITopeAction<E> {
+public class TopeAction implements ITopeAction {
 
-    private long       actionId         = -1;
-    private long       clientId         = -1;
-    private int        itemId           = 0;
-    private String     module           = null;
-    private String     method           = null;
-    private String     commandFullPath  = null;
-    private String     title            = null;
-    private boolean    active           = true;
-    private int        revisionId       = 0;
-    private long       oppositeActionId = -1;
+    private long    actionId         = -1;
+    private long    clientId         = -1;
+    private int     itemId           = 0;
+    private String  module           = null;
+    private String  method           = null;
+    private String  commandFullPath  = null;
+    private String  title            = null;
+    private boolean active           = true;
+    private int     revisionId       = 0;
+    private long    oppositeActionId = -1;
 
     /* context view which will be shown if long click for example */
-    View               contextView      = null;
+    View            contextView      = null;
 
-    ITopeExecutable<E> exec;
-    ITopeAction<E>     oppositeAction;
-    ITopePayload       payload          = new TopePayload();
+    ITopeExecutable exec;
+    ITopeAction     oppositeAction;
+    ITopePayload    payload          = new TopePayload();
 
     public TopeAction() {
     }
@@ -85,7 +85,7 @@ public class TopeAction<E> implements ITopeAction<E> {
     }
 
     @Override
-    public E execute(TopeClient client) {
+    public Object execute(TopeClient client) {
         if (null == exec) {
             throw new ExceptionInInitializerError("ITopeExecutable exec not implemented");
         }
@@ -118,7 +118,6 @@ public class TopeAction<E> implements ITopeAction<E> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        @SuppressWarnings("rawtypes")
         TopeAction other = (TopeAction) obj;
         if (actionId != other.actionId)
             return false;
@@ -219,7 +218,7 @@ public class TopeAction<E> implements ITopeAction<E> {
     }
 
     @Override
-    public void setExecutable(ITopeExecutable<E> exec) {
+    public void setExecutable(ITopeExecutable exec) {
         this.exec = exec;
     }
 
@@ -250,12 +249,12 @@ public class TopeAction<E> implements ITopeAction<E> {
     }
 
     @Override
-    public void setOppositeAction(ITopeAction<E> opAction) {
+    public void setOppositeAction(ITopeAction opAction) {
         this.oppositeAction = opAction;
     }
 
     @Override
-    public ITopeAction<E> getOppositeAction() {
+    public ITopeAction getOppositeAction() {
         return oppositeAction;
     }
 
