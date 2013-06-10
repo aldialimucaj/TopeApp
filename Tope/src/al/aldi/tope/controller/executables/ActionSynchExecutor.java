@@ -75,4 +75,10 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
        this.fragment = fragment;
     }
 
+    @Override
+    public void preRun(Object response) {
+        // TODO Auto-generated method stub
+
+    }
+
 }

@@ -46,6 +46,10 @@
     <string name="title_activity_parameters">Action Parameters</string>
     <string name="hello_world">Hello world!</string>
 
+    <!-- OS OPERATION -->
+
+    <string name="prog_op_openBrowserWithUrl">Open Browser</string>
+
     <!-- ********* -->
     <!--  DIALOGS  -->
     <!-- ********* -->

@@ -8,6 +8,9 @@ package al.aldi.tope.utils;
  *
  */
 public class TopeCommands {
+
+    /* ***********************************  OS  **************************************** */
+
     public static final String OS_LOCK_SCREEN = "/os/lockScreen";
     public static final String OS_LOG_ON = "/os/logon";
     public static final String OS_STAND_BY = "/os/standbyPC";
@@ -25,5 +28,11 @@ public class TopeCommands {
     public static final String OS_TEST = "/os/test";
 
     public static final String OS_SYNCH_ACTIONS = "/os/synchActions";
+
+    /* ************************************* PROG ************************************** */
+
+    public static final String PROG_BROWSER_OPEN_URL = "/prog/openBrowserWithUrl";
+
+
 }
 

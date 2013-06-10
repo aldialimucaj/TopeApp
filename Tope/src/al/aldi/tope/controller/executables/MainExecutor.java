@@ -2,6 +2,7 @@ package al.aldi.tope.controller.executables;
 
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
+import al.aldi.tope.model.ITopePayload;
 import al.aldi.tope.model.JsonTopeResponse;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopePayload;
@@ -13,10 +14,11 @@ import com.google.gson.GsonBuilder;
 
 public abstract class MainExecutor<E> implements ITopeExecutable {
 
-    ITopeAction action       = null;
-    E           topeResponse = null;
-    Fragment    fragment     = null;
-    Gson        gson         = new GsonBuilder().setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL).create();
+    ITopeAction  action       = null;
+    E            topeResponse = null;
+    Fragment     fragment     = null;
+    Gson         gson         = new GsonBuilder().setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL).create();
+    ITopePayload payload      = null;
 
     public MainExecutor(ITopeAction action, Fragment fragment) {
         this.action = action;
@@ -25,6 +27,13 @@ public abstract class MainExecutor<E> implements ITopeExecutable {
 
     @Override
     public Object run(TopeClient topeClient) {
+
+        /* ******************************************************************************************** */
+
+        preRun(payload);
+
+        /* ******************************************************************************************** */
+
         try {
 
             action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
@@ -35,8 +44,6 @@ public abstract class MainExecutor<E> implements ITopeExecutable {
             e.printStackTrace();
         }
 
-        // String responseString = new TopeHttpUtil<E>().sendPostRequestWithParamsRetString(topeClient.getSslURL(action.getMethod()),
-        // action.getPayload().getParameters());
         String responseString = new TopeHttpUtil<E>().sendPostRequestWithParamsRetString(topeClient.getSslURL(action.getCommandFullPath()), action.getPayload().getParameters());
 
         /* ******************** CALLING ABSTRACT METHOD TO TAKE CARE OF THE OUTPUT ******************** */
@@ -54,6 +61,8 @@ public abstract class MainExecutor<E> implements ITopeExecutable {
     }
 
     public abstract E convertResponse(String jsonString);
+
+    public abstract void preRun(Object response);
 
     public abstract void postRun(Object response);
 

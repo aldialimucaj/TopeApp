@@ -3,8 +3,10 @@ package al.aldi.tope.utils;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import al.aldi.tope.model.ITopeAction;
+import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.ITopeLongClickAdapter;
@@ -23,11 +25,11 @@ import android.widget.Toast;
  *
  */
 public class TopeUtils {
-    public static final String	LOG_TAG				= "al.aldi.tope.TopeUtils";
+    public static final String LOG_TAG           = "al.aldi.tope.TopeUtils";
 
-    public static final String	TOPE_DEFAULT_PORT	= "8080";
+    public static final String TOPE_DEFAULT_PORT = "8080";
 
-    ClientDataSource			source				= null;
+    ClientDataSource           source            = null;
 
     public TopeUtils(ClientDataSource source) {
         super();
@@ -181,6 +183,17 @@ public class TopeUtils {
             }
         }
         Toast.makeText(activity, "Run [" + size + "], Successful {" + successfullyRun + "}, Action (" + action.getTitle() + ")", Toast.LENGTH_LONG).show();
+    }
+
+    public static List<TopeAction> filterActions(List<TopeAction> actions, String prefix) {
+        List<TopeAction> filteredActions = new Vector<TopeAction>();
+        for (Iterator<TopeAction> iterator = actions.iterator(); iterator.hasNext();) {
+            TopeAction topeAction = (TopeAction) iterator.next();
+            if (topeAction.getCommandFullPath().startsWith(prefix)) {
+                filteredActions.add(topeAction);
+            }
+        }
+        return filteredActions;
     }
 
 }

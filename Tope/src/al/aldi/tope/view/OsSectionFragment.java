@@ -15,6 +15,7 @@ import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.utils.TopeActionUtils;
+import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.adapter.IconItemAdapter;
 import al.aldi.tope.view.listeners.ActionClickListener;
 import android.os.Bundle;
@@ -33,23 +34,25 @@ public class OsSectionFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    public static final String              ARG_SECTION_NUMBER       = "section_number";
+    public static final String       ARG_SECTION_NUMBER       = "section_number";
 
-    public static final String              INTENT_CLICKED_ACTION    = "ACTION";
-    public static final String              INTENT_CLICKED_ACTION_ID = "ACTION_ID";
+    public static final String       INTENT_CLICKED_ACTION    = "ACTION";
+    public static final String       INTENT_CLICKED_ACTION_ID = "ACTION_ID";
 
-    GridView                                gridView                 = null;
+    public static final String       ACTION_PREFIX            = "/os/";
 
-    IconItemAdapter<ITopeAction>            adapter                  = null;
-    TopeActionUtils                         osActions                = null;
-    Vector<ITopeAction>                     actions                  = null;
-    HashMap<String, Integer>                commandIconMap           = new HashMap<String, Integer>();
-    HashMap<String, String>                 oppositeActionsMap       = new HashMap<String, String>();
-    HashMap<String, ITopeExecutable>        executorMap              = new HashMap<String, ITopeExecutable>();
-    HashMap<String, String>                 actionTitlesMap          = new HashMap<String, String>();
+    GridView                         gridView                 = null;
+
+    IconItemAdapter<ITopeAction>     adapter                  = null;
+    TopeActionUtils                  osActions                = null;
+    Vector<ITopeAction>              actions                  = null;
+    private HashMap<String, Integer>         commandIconMap           = new HashMap<String, Integer>();
+    private HashMap<String, String>          oppositeActionsMap       = new HashMap<String, String>();
+    private HashMap<String, ITopeExecutable> executorMap              = new HashMap<String, ITopeExecutable>();
+    private HashMap<String, String>          actionTitlesMap          = new HashMap<String, String>();
 
     /* ******************* ITopeActions ******************** */
-    ITopeAction testAction               = null;
+    ITopeAction                      testAction               = null;
 
     public OsSectionFragment() {
         osActions = TopeActionUtils.TopeActionUtilsManager.getOsActionUtil();
@@ -70,7 +73,6 @@ public class OsSectionFragment extends Fragment {
         registerForContextMenu(gridView);
 
         /* init the commands to show in the screen */
-        // initCommands();
         initCommandsAutomatically();
 
         /* creating the grid adapter */
@@ -82,19 +84,19 @@ public class OsSectionFragment extends Fragment {
         /* This is the main listener for the actions */
         gridView.setOnItemClickListener(new ActionClickListener(actions, getActivity()));
 
-        /* TODO: REMOVE */
-        // initLongClickListeners();
 
         return rootView;
     }
-
-
 
     private void initCommandsAutomatically() {
         actions.clear(); /* clearing the cached activities before recreating them */
 
         ActionDataSource dataSource = new ActionDataSource(getActivity());
         List<TopeAction> dbActions = dataSource.getAll();
+
+        /* filter the actions in order to get just those with the Fragment prefix */
+        dbActions = TopeUtils.filterActions(dbActions, ACTION_PREFIX);
+
         for (Iterator<TopeAction> iterator = dbActions.iterator(); iterator.hasNext();) {
             TopeAction topeAction = (TopeAction) iterator.next();
             String command = topeAction.getCommandFullPath();
@@ -110,7 +112,7 @@ public class OsSectionFragment extends Fragment {
             }
 
             /* setting the title */
-            if(actionTitlesMap.containsKey(topeAction.getCommandFullPath())){
+            if (actionTitlesMap.containsKey(topeAction.getCommandFullPath())) {
                 topeAction.setTitle(actionTitlesMap.get(topeAction.getCommandFullPath()));
             }
 

@@ -25,7 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TimePicker;
 
-
 /**
  * Standard Action Dialog which offers an execution date and a timer for the action.
  *
@@ -33,10 +32,10 @@ import android.widget.TimePicker;
  *
  */
 public class StandardActionDialog1 extends LinearLayout implements ITopeActionDialog {
-    protected static final String	TAG					= "StandardActionDialog1";
-    LinearLayout.LayoutParams		layoutParams		= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-    Button							buttonExecutionDate	= null;
-    Button							buttonTimer			= null;
+    protected static final String TAG                 = "StandardActionDialog1";
+    LinearLayout.LayoutParams     layoutParams        = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    Button                        buttonExecutionDate = null;
+    Button                        buttonTimer         = null;
 
     public StandardActionDialog1(Context context) {
         super(context);
@@ -52,8 +51,6 @@ public class StandardActionDialog1 extends LinearLayout implements ITopeActionDi
         buttonExecutionDate = (Button) ll.findViewById(R.id.dialog_name_setExecutionDate);
 
         buttonTimer = (Button) ll.findViewById(R.id.dialog_name_setTimer);
-
-
 
         buttonTimer.setOnClickListener(new View.OnClickListener() {
 
@@ -71,7 +68,7 @@ public class StandardActionDialog1 extends LinearLayout implements ITopeActionDi
                         npMinutes.setMinValue(0);
                         npMinutes.setMaxValue(59);
                         final NumberPicker npHours = new NumberPicker(getContext());
-                        //npHours.setPadding(10, 0, 0, 0);
+                        // npHours.setPadding(10, 0, 0, 0);
                         npHours.setMinValue(0);
                         npHours.setMaxValue(23);
 
@@ -122,7 +119,7 @@ public class StandardActionDialog1 extends LinearLayout implements ITopeActionDi
                     public Dialog onCreateDialog(Bundle savedInstanceState) {
                         final LinearLayout ll2 = new LinearLayout(getContext());
                         ll2.setOrientation(LinearLayout.VERTICAL);
-                        final TimePicker						tp					= new TimePicker(getContext());
+                        final TimePicker tp = new TimePicker(getContext());
                         tp.setIs24HourView(true);
                         final Calendar c = Calendar.getInstance();
                         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -147,11 +144,10 @@ public class StandardActionDialog1 extends LinearLayout implements ITopeActionDi
                                     public void onClick(DialogInterface dialog, int id) {
                                         tp.clearFocus();
                                         GregorianCalendar gc = new GregorianCalendar(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(), tp.getCurrentHour(), tp.getCurrentMinute());
-                                        buttonExecutionDate.setText(tp.getCurrentHour() + ":" + tp.getCurrentMinute() + " on " + dp.getYear() + "/" + dp.getMonth() + "/"
-                                                + dp.getDayOfMonth());
+                                        buttonExecutionDate.setText(tp.getCurrentHour() + ":" + tp.getCurrentMinute() + " on " + dp.getYear() + "/" + dp.getMonth() + "/" + dp.getDayOfMonth());
                                         ITopePayload payload = action.getPayload();
                                         try {
-                                            Log.i(TAG, "Executing at: " + JsonTopeResponse.formatDate(gc.getTime()) + " "+ gc.getTimeInMillis());
+                                            Log.i(TAG, "Executing at: " + JsonTopeResponse.formatDate(gc.getTime()) + " " + gc.getTimeInMillis());
                                             payload.addPayload(TopePayload.PARAM_TIME_TO_EXEC, JsonTopeResponse.formatDate(gc.getTime()));
                                         } catch (Exception e) {
                                             e.printStackTrace();
@@ -177,9 +173,13 @@ public class StandardActionDialog1 extends LinearLayout implements ITopeActionDi
 
     @Override
     public void cleanUp() {
-        buttonExecutionDate.setText(R.string.dialog_text_setExecDate);
-        buttonTimer.setText(R.string.dialog_text_setTimer);
+        if (null != buttonExecutionDate) {
+            buttonExecutionDate.setText(R.string.dialog_text_setExecDate);
+        }
+
+        if (null != buttonTimer) {
+            buttonTimer.setText(R.string.dialog_text_setTimer);
+        }
 
     }
 }
-

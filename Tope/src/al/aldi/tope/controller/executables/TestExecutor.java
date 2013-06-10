@@ -71,5 +71,11 @@ public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> imple
        this.action.setContextView(new StandardActionDialog1(action, fragment));
     }
 
+    @Override
+    public void preRun(Object response) {
+        // TODO Auto-generated method stub
+
+    }
+
 
 }

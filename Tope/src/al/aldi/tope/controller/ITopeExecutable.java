@@ -24,6 +24,8 @@ public interface ITopeExecutable {
      */
     public Object run(TopeClient client);
 
+    public abstract void preRun(Object response);
+
     public abstract void postRun(Object response);
 
     public void setAction(ITopeAction action);

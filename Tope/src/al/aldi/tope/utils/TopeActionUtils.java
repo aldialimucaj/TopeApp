@@ -66,12 +66,20 @@ public class TopeActionUtils {
 
     public static class TopeActionUtilsManager {
         private static TopeActionUtils    smOsActions    = null;
+        private static TopeActionUtils    smProgActions    = null;
 
         public static TopeActionUtils getOsActionUtil() {
             if (null == smOsActions) {
                 smOsActions = new TopeActionUtils();
             }
             return smOsActions;
+        }
+
+        public static TopeActionUtils getProgActionUtil() {
+            if (null == smProgActions) {
+                smProgActions = new TopeActionUtils();
+            }
+            return smProgActions;
         }
 
     }

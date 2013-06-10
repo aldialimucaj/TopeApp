@@ -25,6 +25,12 @@ public class TopePayload implements ITopePayload {
     public static final String PARAM_TIME_TO_WAIT    = "timeToWait";
     public static final String PARAM_TIME_TO_EXEC    = "timeToExecute";
 
+    public static final String PARAM_ARG_0           = "arg0";
+    public static final String PARAM_ARG_1           = "arg1";
+    public static final String PARAM_ARG_2           = "arg2";
+    public static final String PARAM_ARG_3           = "arg3";
+    public static final String PARAM_ARG_4           = "arg4";
+
     private List<String>       payloads              = new ArrayList<String>();
     HashMap<String, String>    params                = new HashMap<String, String>();
 
@@ -41,6 +47,11 @@ public class TopePayload implements ITopePayload {
         payloads.add(PARAM_OPPOSITE_ACTION);
         payloads.add(PARAM_TIME_TO_WAIT);
         payloads.add(PARAM_TIME_TO_EXEC);
+        payloads.add(PARAM_ARG_0);
+        payloads.add(PARAM_ARG_1);
+        payloads.add(PARAM_ARG_2);
+        payloads.add(PARAM_ARG_3);
+        payloads.add(PARAM_ARG_4);
     }
 
     /**
