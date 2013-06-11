@@ -18,6 +18,7 @@ public class TopePayload implements ITopePayload {
     public static final String PARAM_USER            = "user";
     public static final String PARAM_PASSWORD        = "password";
     public static final String PARAM_DOMAIN          = "domain";
+    public static final String PARAM_METHOD          = "method";
 
     public static final String PARAM_ACTIVE          = "active";
     public static final String PARAM_OPPOSITE_ACTION = "oppositeAction";
@@ -43,6 +44,7 @@ public class TopePayload implements ITopePayload {
         payloads.add(PARAM_USER);
         payloads.add(PARAM_PASSWORD);
         payloads.add(PARAM_DOMAIN);
+        payloads.add(PARAM_METHOD);
         payloads.add(PARAM_ACTIVE);
         payloads.add(PARAM_OPPOSITE_ACTION);
         payloads.add(PARAM_TIME_TO_WAIT);

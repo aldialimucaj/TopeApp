@@ -39,6 +39,7 @@ public abstract class MainExecutor<E> implements ITopeExecutable {
             action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
             action.getPayload().addPayload(TopePayload.PARAM_PASSWORD, topeClient.getPass());
             action.getPayload().addPayload(TopePayload.PARAM_DOMAIN, topeClient.getDomain());
+            action.getPayload().addPayload(TopePayload.PARAM_METHOD, action.getMethod());
             action.getPayload().addPayload(TopePayload.PARAM_ACTION_ID, String.valueOf(action.getActionId()));
         } catch (Exception e) {
             e.printStackTrace();

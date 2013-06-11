@@ -21,11 +21,11 @@ import android.os.Looper;
  *
  */
 public class ActionCareTaker extends Thread {
-    ITopeAction			action;
-    Activity			activity;
-    JsonTopeResponse		response;
-    ClientDataSource	source;
-    boolean				successful	= true;
+    ITopeAction      action;
+    Activity         activity;
+    JsonTopeResponse response;
+    ClientDataSource source;
+    boolean          successful = true;
 
     /**
      * Main Constructor

@@ -136,6 +136,28 @@ public class ClientDataSource {
     }
 
     /**
+     * Return all clients which are <b> marked as active and support this method </b>.
+     * This clients will be sending the requests the their respective servers.
+     * @return
+     */
+    public Vector<TopeClient> getAllActive(String method) {
+        Vector<TopeClient> vec = new Vector<TopeClient>();
+        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, CLIENT_ACTIVE + "= '1'", null, null, null, null);
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            TopeClient client = cursorToClient(cursor);
+            client.setContext(context);
+            vec.add(client);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
+        return vec;
+    }
+
+    /**
      * Get client by ID.
      * @param id
      * @return

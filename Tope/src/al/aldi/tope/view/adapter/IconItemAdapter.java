@@ -10,7 +10,9 @@ import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.dialog.DynamicActionLongClickDialog;
 import al.aldi.tope.view.listeners.ActionTouchAlphaListener;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +81,12 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
                 @Override
                 public boolean onLongClick(View v) {
+                    Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(TopeUtils.TOPE_ACTION_CLICK_VIBRATION_SHORT);
+
+                    /* ****************** */
+                    /* SHOWING DIALOG     */
+                    /* ****************** */
                     DynamicActionLongClickDialog td = new DynamicActionLongClickDialog();
                     Bundle args = new Bundle();
                     args.putParcelable(DynamicActionLongClickDialog.KEY_DYNAMIC_VIEW, action);
@@ -93,6 +101,9 @@ public class IconItemAdapter<E> extends BaseAdapter {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(TopeUtils.TOPE_ACTION_CLICK_VIBRATION_SHORT);
+
                     /* ****************** */
                     /* EXECUTING ACTION */
                     /* ****************** */
