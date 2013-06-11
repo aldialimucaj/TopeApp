@@ -14,18 +14,16 @@ import com.google.gson.reflect.TypeToken;
 
 public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> implements ITopeExecutable {
 
-    private static final String             TAG          = "al.aldi.tope.controller.executables.TestExecutable";
+    private static final String TAG          = "al.aldi.tope.controller.executables.TestExecutable";
 
-    ITopeAction action       = null;
-    TopeResponse<TestResponse>              topeResponse = null;
-    Fragment                                fragment     = null;
+    ITopeAction                 action       = null;
+    Fragment                    fragment     = null;
 
-
-    public TestExecutor(){
+    public TestExecutor() {
         super(null, null);
     }
 
-    public TestExecutor( Fragment fragment){
+    public TestExecutor(Fragment fragment) {
         super(null, fragment);
     }
 
@@ -65,10 +63,11 @@ public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> imple
         super.setAction(action);
         this.action = action;
     }
+
     @Override
     public void setFragment(Fragment fragment) {
-       this.fragment = fragment;
-       this.action.setContextView(new StandardActionDialog1(action, fragment));
+        this.fragment = fragment;
+        this.action.setContextView(new StandardActionDialog1(action, fragment));
     }
 
     @Override
@@ -76,6 +75,5 @@ public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> imple
         // TODO Auto-generated method stub
 
     }
-
 
 }

@@ -3,7 +3,7 @@ package al.aldi.tope.model;
 import java.util.Date;
 
 public class TopeResponse<E> {
-    private boolean successful    = false;
+    private boolean success    = false;
     private int     statusCode = 0;
     private String  message    = null;
     private String  command    = null;
@@ -18,7 +18,7 @@ public class TopeResponse<E> {
 
     @Override
     public String toString() {
-        return "TopeResponse [success=" + successful + ", statusCode=" + statusCode + ", message=" + message + ", command=" + command + ", responseId=" + responseId + ", requestId="
+        return "TopeResponse [success=" + success + ", statusCode=" + statusCode + ", message=" + message + ", command=" + command + ", responseId=" + responseId + ", requestId="
                 + requestId + ", date=" + date + ", payload=" + (payload!=null?payload.getClass():"null") + "]";
     }
 
@@ -32,11 +32,11 @@ public class TopeResponse<E> {
     }
 
     public boolean isSuccessful() {
-        return successful;
+        return success;
     }
 
     public void setSuccess(boolean success) {
-        this.successful = success;
+        this.success = success;
     }
 
     public int getStatusCode() {
