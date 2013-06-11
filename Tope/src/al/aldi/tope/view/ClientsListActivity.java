@@ -2,17 +2,23 @@ package al.aldi.tope.view;
 
 import static al.aldi.tope.utils.TopeCommands.*;
 import al.aldi.tope.R;
+import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.executables.ActionSynchExecutor;
+import al.aldi.tope.controller.executables.CallWithArgsExecutor;
 import al.aldi.tope.model.ITopeAction;
+import al.aldi.tope.model.ITopePayload;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -31,12 +37,22 @@ import android.widget.Toast;
  *
  */
 public class ClientsListActivity extends ListActivity {
-    ClientDataSource			source					= null;
-    public static final String	INTENT_CLICKED_ITEM_ID	= "selected_id";
+
+    private static final String TAG                    = "al.aldi.tope.view.ClientsListActivity";
+    public static final String  INTENT_CLICKED_ITEM_ID = "selected_id";
+    ClientDataSource            source                 = null;
+    Intent                      intent                 = null;
+    Uri                         data                   = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        intent = getIntent();
+        if (null != intent) {
+            data = intent.getData();
+        }
 
         initListener();
 
@@ -74,42 +90,62 @@ public class ClientsListActivity extends ListActivity {
         inflater.inflate(R.menu.client_add_edit_menu, menu);
     }
 
+    private void executeOnClients() {
+        Log.i(TAG, "Uri: " + data.toString());
+
+        // TODO: this should be done by calling the database
+        ITopeAction executeToClientAction = new TopeAction("openBrowserWithUrl", 0, getString(R.string.prog_op_openBrowserWithUrl));
+        executeToClientAction.setCommandFullPath(PROG_BROWSER_OPEN_URL);
+        executeToClientAction.setActionId(0);
+        CallWithArgsExecutor executor = new CallWithArgsExecutor(executeToClientAction, getApplicationContext());
+        executeToClientAction.setExecutable(executor);
+
+        ITopePayload payload = executeToClientAction.getPayload();
+
+        try {
+            payload.addPayload(TopePayload.PARAM_ARG_0, data.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ActionCareTaker act = new ActionCareTaker(executeToClientAction, this);
+        act.execute();
+    }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-            case R.id.client_edit:
-                Toast.makeText(getApplicationContext(), "Edit Client", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.client_synchronize:
-                Toast.makeText(getApplicationContext(), "Synchronize Client", Toast.LENGTH_SHORT).show();
+        case R.id.client_edit:
+            Toast.makeText(getApplicationContext(), "Edit Client", Toast.LENGTH_SHORT).show();
+            return true;
+        case R.id.client_synchronize:
+            Toast.makeText(getApplicationContext(), "Synchronize Client", Toast.LENGTH_SHORT).show();
 
-                /* Creating thread because this is the main thread */
-                new Thread(new Runnable() {
+            /* Creating thread because this is the main thread */
+            new Thread(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        /* creating the synchronization action. no need to store this in the action list as this action is not shown in the grid */
-                        ITopeAction standByAction = new TopeAction(OS_SYNCH_ACTIONS, 0, getString(R.string.client_edit_synchronize));
-                        standByAction.setActionId(0);
-                        ActionSynchExecutor executor =  new ActionSynchExecutor(standByAction, getApplicationContext());
-                        standByAction.setExecutable(executor);
+                @Override
+                public void run() {
+                    /* creating the synchronization action. no need to store this in the action list as this action is not shown in the grid */
+                    ITopeAction synchronizeAction = new TopeAction(OS_SYNCH_ACTIONS, 0, getString(R.string.client_edit_synchronize));
+                    synchronizeAction.setActionId(0);
+                    ActionSynchExecutor executor = new ActionSynchExecutor(synchronizeAction, getApplicationContext());
+                    synchronizeAction.setExecutable(executor);
 
-                        TopeClient client;
-                        ListView list = ClientsListActivity.this.getListView();
-                        client = (TopeClient) list.getItemAtPosition(info.position);
-                        executor.setClient(client);
+                    TopeClient client;
+                    ListView list = ClientsListActivity.this.getListView();
+                    client = (TopeClient) list.getItemAtPosition(info.position);
+                    executor.setClient(client);
 
-                        standByAction.execute(client);
+                    synchronizeAction.execute(client);
 
-                    }
-                }).start();
+                }
+            }).start();
 
-
-
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+            return true;
+        default:
+            return super.onContextItemSelected(item);
         }
     }
 
@@ -162,7 +198,12 @@ public class ClientsListActivity extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.clients, menu);
+        if (null != intent) {
+            getMenuInflater().inflate(R.menu.clients_with_intent, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.clients, menu);
+        }
+
         return true;
     }
 
@@ -177,8 +218,11 @@ public class ClientsListActivity extends ListActivity {
             break;
         case R.id.action_delete_selected:
             deleteSelected();
+            break;
+        case R.id.action_execute_on_clients:
+            executeOnClients();
+            break;
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

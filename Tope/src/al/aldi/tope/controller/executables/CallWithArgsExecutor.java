@@ -13,6 +13,7 @@ import al.aldi.tope.model.responses.EmptyResponse;
 import al.aldi.tope.utils.TopeCommands;
 import al.aldi.tope.view.dialog.fragment.CallWithTextActionDialog;
 import al.aldi.tope.view.dialog.fragment.IDialogFieldTypes;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.google.gson.reflect.TypeToken;
@@ -36,7 +37,9 @@ public class CallWithArgsExecutor extends MainExecutor<TopeResponse<EmptyRespons
         checkActionType();
     }
 
-
+    public CallWithArgsExecutor(ITopeAction defaultAction, Context context) {
+        super(defaultAction, null);
+    }
 
     public CallWithArgsExecutor(ITopeAction defaultAction, Fragment fragment, IDialogFieldTypes type) {
         this(defaultAction, fragment);
@@ -49,11 +52,11 @@ public class CallWithArgsExecutor extends MainExecutor<TopeResponse<EmptyRespons
     }
 
     private void checkActionType() {
-       if(null != action){
-           if(action.getCommandFullPath().equals(TopeCommands.PROG_BROWSER_OPEN_URL)){
-               setFieldType(IDialogFieldTypes.TEXT_URL);
-           }
-       }
+        if (null != action) {
+            if (action.getCommandFullPath().equals(TopeCommands.PROG_BROWSER_OPEN_URL)) {
+                setFieldType(IDialogFieldTypes.TEXT_URL);
+            }
+        }
 
     }
 
@@ -80,8 +83,12 @@ public class CallWithArgsExecutor extends MainExecutor<TopeResponse<EmptyRespons
     public void setAction(ITopeAction action) {
         this.action = action;
         super.setAction(action);
-        dialog = new CallWithTextActionDialog(action, fragment);
-        action.setContextView(dialog);
+
+        if (null != fragment) {
+            dialog = new CallWithTextActionDialog(action, fragment);
+            action.setContextView(dialog);
+        }
+
         checkActionType();
     }
 

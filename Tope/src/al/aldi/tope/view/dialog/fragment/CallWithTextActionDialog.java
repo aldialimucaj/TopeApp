@@ -6,8 +6,6 @@ import al.aldi.tope.model.ITopePayload;
 import al.aldi.tope.model.TopePayload;
 import android.content.Context;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.LinearLayout;

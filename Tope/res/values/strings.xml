@@ -16,6 +16,8 @@
     <string name="title_activity_clients">Clients</string>
     <string name="action_clients_add">Add Client</string>
     <string name="action_clients_delete_selected">Delete Selected</string>
+    <string name="action_clients_execute_on_clients">Execute</string>
+    <string name="action_clients_select_all">Select All</string>
     <string name="title_client_name">Client Name</string>
     <string name="title_client_ip">IP Address</string>
     <string name="title_client_port">Host Port</string>
@@ -51,12 +53,11 @@
     <string name="prog_op_openBrowserWithUrl">Open Browser</string>
 
     <!-- ********* -->
-    <!--  DIALOGS  -->
+    <!-- DIALOGS -->
     <!-- ********* -->
     <string name="dialog_text_setExecDate">Execution Date</string>
     <string name="dialog_text_setTimer">Timer</string>
     <string name="dialog_text1">Text1</string>
     <string name="dialog_text2">Text2</string>
-
 
 </resources>
