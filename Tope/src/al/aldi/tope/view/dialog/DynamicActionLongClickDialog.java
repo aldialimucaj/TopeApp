@@ -74,6 +74,9 @@ public class DynamicActionLongClickDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         /* ACTION EXECUTION */
                         ActionCareTaker act = new ActionCareTaker(action, getActivity());
+                        if(dynamicView instanceof ITopeActionDialog){
+                            ((ITopeActionDialog)dynamicView).setUp();
+                        }
                         act.execute();
                     }
                 }).setNegativeButton(DIALOG_CANCEL, new DialogInterface.OnClickListener() {

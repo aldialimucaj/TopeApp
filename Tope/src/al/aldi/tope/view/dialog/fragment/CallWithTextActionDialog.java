@@ -22,6 +22,8 @@ public class CallWithTextActionDialog extends LinearLayout implements ITopeActio
     protected static final String TAG          = "CallWithTextActionDialog";
     LinearLayout.LayoutParams     layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
     EditText                      editText1    = null;
+    IDialogFieldTypes             fieldType    = null;
+    ITopeAction                   action       = null;
 
     public CallWithTextActionDialog(Context context) {
         super(context);
@@ -29,6 +31,7 @@ public class CallWithTextActionDialog extends LinearLayout implements ITopeActio
 
     public CallWithTextActionDialog(final ITopeAction action, final Fragment fragment) {
         super(fragment.getActivity());
+        this.action = action;
         layoutParams.setMargins(10, 0, 10, 0);
 
         LayoutInflater li = (LayoutInflater) fragment.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -36,29 +39,49 @@ public class CallWithTextActionDialog extends LinearLayout implements ITopeActio
 
         editText1 = (EditText) ll.findViewById(R.id.dialog_name_editText1);
 
-        editText1.addTextChangedListener(new TextWatcher(){
-            public void afterTextChanged(Editable s) {
-                ITopePayload payload = action.getPayload();
-                try {
-                    payload.addPayload(TopePayload.PARAM_ARG_0, getText1Value());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
-        });
-
         addView(ll);
 
     }
 
-    public String getText1Value(){
+    public CallWithTextActionDialog(final ITopeAction action, final Fragment fragment, IDialogFieldTypes type) {
+        this(action, fragment);
+        this.fieldType = type;
+    }
+
+    @Override
+    public void setUp() {
+        ITopePayload payload = action.getPayload();
+        try {
+            payload.addPayload(TopePayload.PARAM_ARG_0, getText1Value());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public String getText1Value() {
+        String httpPrefix = "http://";
+        String httpsPrefix = "https://";
+        String returnText = "";
+        String editTxt = editText1.getText().toString();
+        if (fieldType == IDialogFieldTypes.TEXT_URL && !editTxt.startsWith(httpPrefix) && !editTxt.startsWith(httpsPrefix)) {
+            returnText += httpPrefix + editText1.getText().toString();
+            return returnText;
+        }
         return editText1.getText().toString();
     }
 
     @Override
     public void cleanUp() {
-        //editText1.setText("");
+        // editText1.setText("");
     }
+
+    public IDialogFieldTypes getFieldType() {
+        return fieldType;
+    }
+
+    public void setFieldType(IDialogFieldTypes fieldType) {
+        this.fieldType = fieldType;
+    }
+
 }

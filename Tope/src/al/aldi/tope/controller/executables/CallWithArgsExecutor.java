@@ -10,7 +10,9 @@ import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.ITopePayload;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.responses.EmptyResponse;
+import al.aldi.tope.utils.TopeCommands;
 import al.aldi.tope.view.dialog.fragment.CallWithTextActionDialog;
+import al.aldi.tope.view.dialog.fragment.IDialogFieldTypes;
 import android.support.v4.app.Fragment;
 
 import com.google.gson.reflect.TypeToken;
@@ -21,22 +23,38 @@ import com.google.gson.reflect.TypeToken;
  */
 public class CallWithArgsExecutor extends MainExecutor<TopeResponse<EmptyResponse>> implements ITopeExecutable {
 
-    ITopeAction                 action       = null;
     TopeResponse<EmptyResponse> topeResponse = null;
-    Fragment                    fragment     = null;
-    ITopePayload                payload      = null;
+    IDialogFieldTypes           fieldType    = null;
+
+    CallWithTextActionDialog    dialog       = null;
 
     public CallWithArgsExecutor(ITopeAction defaultAction, Fragment fragment) {
         super(defaultAction, fragment);
         this.action = defaultAction;
-        this.fragment = fragment;
+        dialog = new CallWithTextActionDialog(action, fragment);
+        defaultAction.setContextView(dialog);
+        checkActionType();
+    }
 
-        defaultAction.setContextView(new CallWithTextActionDialog(action, fragment));
+
+
+    public CallWithArgsExecutor(ITopeAction defaultAction, Fragment fragment, IDialogFieldTypes type) {
+        this(defaultAction, fragment);
+        this.fieldType = type;
     }
 
     public CallWithArgsExecutor(Fragment fragment) {
         super(null, fragment);
         this.fragment = fragment;
+    }
+
+    private void checkActionType() {
+       if(null != action){
+           if(action.getCommandFullPath().equals(TopeCommands.PROG_BROWSER_OPEN_URL)){
+               setFieldType(IDialogFieldTypes.TEXT_URL);
+           }
+       }
+
     }
 
     @Override
@@ -62,7 +80,9 @@ public class CallWithArgsExecutor extends MainExecutor<TopeResponse<EmptyRespons
     public void setAction(ITopeAction action) {
         this.action = action;
         super.setAction(action);
-        action.setContextView(new CallWithTextActionDialog(action, fragment));
+        dialog = new CallWithTextActionDialog(action, fragment);
+        action.setContextView(dialog);
+        checkActionType();
     }
 
     @Override
@@ -76,6 +96,17 @@ public class CallWithArgsExecutor extends MainExecutor<TopeResponse<EmptyRespons
 
     public void setPayload(ITopePayload payload) {
         this.payload = payload;
+    }
+
+    public IDialogFieldTypes getFieldType() {
+        return fieldType;
+    }
+
+    public void setFieldType(IDialogFieldTypes fieldType) {
+        this.fieldType = fieldType;
+        if (null != dialog) {
+            dialog.setFieldType(fieldType);
+        }
     }
 
 }

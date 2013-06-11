@@ -77,7 +77,7 @@ public class TopeHttpUtil<E> {
     public String sendPostRequestWithParamsRetString(final String url, final HashMap<String, String> params) {
         HttpResponse res = HttpUtils.sendPostRequestWithParams(url, params);
         if (null == res) {
-            return null;
+            return "{}";
         }
 
         try {
@@ -92,7 +92,7 @@ public class TopeHttpUtil<E> {
             e.printStackTrace();
         }
 
-        return null; // return default empty response in order not to return null
+        return "{}"; // return default empty response in order not to return null
     }
 
     public void printResponseToJSON(HttpResponse res) {

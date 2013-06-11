@@ -182,4 +182,10 @@ public class StandardActionDialog1 extends LinearLayout implements ITopeActionDi
         }
 
     }
+
+    @Override
+    public void setUp() {
+        // TODO Auto-generated method stub
+
+    }
 }
