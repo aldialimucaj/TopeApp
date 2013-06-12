@@ -50,7 +50,7 @@ public class ClientsListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
         intent = getIntent();
-        if (null != intent) {
+        if (null != intent && null != intent.getData()) {
             data = intent.getData();
         }
 
@@ -91,25 +91,30 @@ public class ClientsListActivity extends ListActivity {
     }
 
     private void executeOnClients() {
-        Log.i(TAG, "Uri: " + data.toString());
+        if (null != data) {
+            Log.i(TAG, "Uri: " + data.toString());
 
-        // TODO: this should be done by calling the database
-        ITopeAction executeToClientAction = new TopeAction("openBrowserWithUrl", 0, getString(R.string.prog_op_openBrowserWithUrl));
-        executeToClientAction.setCommandFullPath(PROG_BROWSER_OPEN_URL);
-        executeToClientAction.setActionId(0);
-        CallWithArgsExecutor executor = new CallWithArgsExecutor(executeToClientAction, getApplicationContext());
-        executeToClientAction.setExecutable(executor);
+            // TODO: this should be done by calling the database
+            ITopeAction executeToClientAction = new TopeAction("openBrowserWithUrl", 0, getString(R.string.prog_op_openBrowserWithUrl));
+            executeToClientAction.setCommandFullPath(PROG_BROWSER_OPEN_URL);
+            executeToClientAction.setActionId(0);
+            CallWithArgsExecutor executor = new CallWithArgsExecutor(executeToClientAction, getApplicationContext());
+            executeToClientAction.setExecutable(executor);
 
-        ITopePayload payload = executeToClientAction.getPayload();
+            ITopePayload payload = executeToClientAction.getPayload();
 
-        try {
-            payload.addPayload(TopePayload.PARAM_ARG_0, data.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                payload.addPayload(TopePayload.PARAM_ARG_0, data.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            ActionCareTaker act = new ActionCareTaker(executeToClientAction, this);
+            act.execute();
+        }else{
+            //TODO: pass the intent to the child and back. dont lose it.
+            Toast.makeText(getApplicationContext(), "Info was lost. Try again.", Toast.LENGTH_LONG).show();
         }
-
-        ActionCareTaker act = new ActionCareTaker(executeToClientAction, this);
-        act.execute();
     }
 
     @Override
