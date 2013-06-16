@@ -1,13 +1,14 @@
 package al.aldi.tope.view.adapter;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
+import al.aldi.android.view.ImageUtils;
 import al.aldi.tope.R;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
-import al.aldi.tope.utils.TopeActionUtils;
 import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.dialog.DynamicActionLongClickDialog;
 import al.aldi.tope.view.listeners.ActionTouchAlphaListener;
@@ -26,32 +27,28 @@ import android.widget.TextView;
 
 public class IconItemAdapter<E> extends BaseAdapter {
 
-    public static final int      WIDTH_160    = 160;
-    public static final int      HEIGHT_250   = 250;
-    public static final int      HEIGHT_230   = 230;
+    public static final int      WIDTH_160         = 160;
+    public static final int      HEIGHT_250        = 250;
+    public static final int      HEIGHT_230        = 230;
 
     private Activity             activity;
     private Fragment             fragment;
 
-    IconItemAdapter<ITopeAction> adapter      = null;
-    TopeActionUtils              osActions    = null;
-    Vector<ITopeAction>          actions      = null;
-    HashMap<TopeAction, Integer> dbActionsMap = null;
+    Vector<ITopeAction>          actions           = null;
+    HashMap<TopeAction, Integer> dbActionsMap      = null;
 
-    public IconItemAdapter() {
-        osActions = TopeActionUtils.TopeActionUtilsManager.getOsActionUtil();
-        actions = osActions.getActions();
-    }
+    private int                  maxEntryOccurency = 0;
 
     public IconItemAdapter(Activity activity, Vector<ITopeAction> itmes) {
         this.activity = activity;
         this.actions = itmes;
     }
 
-    public IconItemAdapter(Activity activity, HashMap<TopeAction, Integer> dbActionsMap) {
+    public IconItemAdapter(Activity activity, Vector<ITopeAction> items, HashMap<TopeAction, Integer> dbActionsMap) {
         this.activity = activity;
         this.dbActionsMap = dbActionsMap;
-        this.actions = new Vector<ITopeAction>(dbActionsMap.keySet());
+        this.actions = items;
+        this.maxEntryOccurency = getMaxClientOccurencies(dbActionsMap);
     }
 
     @Override
@@ -74,11 +71,12 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
             imageView.setOnTouchListener(new ActionTouchAlphaListener());
 
+            /* making the image look dim if the action is not supported by all clients */
             if (null != dbActionsMap && null != action) {
-                int actionOccurency = dbActionsMap.get(action);
-                if (actionOccurency < dbActionsMap.size()) {
-                    // the actions is not found IN all clients
-
+                int actionOccurency = getClientOccurency(dbActionsMap, (TopeAction) action);
+                if (actionOccurency < maxEntryOccurency) {
+                    imageView.setOnTouchListener(new ActionTouchAlphaListener(150));
+                    ImageUtils.setImageAlpha(imageView, 150);
                 }
             }
 
@@ -145,6 +143,27 @@ public class IconItemAdapter<E> extends BaseAdapter {
         } else {
             return (LinearLayout) convertView;
         }
+    }
+
+    private int getMaxClientOccurencies(HashMap<TopeAction, Integer> dbActionsMap) {
+        int i = 0;
+        for (Map.Entry<TopeAction, Integer> entry : dbActionsMap.entrySet()) {
+            if (entry.getValue() > i) {
+                i = entry.getValue();
+            }
+        }
+
+        return i;
+    }
+
+    private int getClientOccurency(HashMap<TopeAction, Integer> dbActionsMap, TopeAction action) {
+        for (Map.Entry<TopeAction, Integer> entry : dbActionsMap.entrySet()) {
+            if (entry.getKey().getCommandFullPath().equals(action.getCommandFullPath())) {
+                return entry.getValue();
+            }
+        }
+
+        return -1;
     }
 
     @Override

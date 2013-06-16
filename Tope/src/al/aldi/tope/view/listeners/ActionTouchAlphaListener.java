@@ -13,15 +13,24 @@ import android.widget.ImageView;
  *
  */
 public class ActionTouchAlphaListener implements OnTouchListener {
-    public static int	ALPHA_ACTION_DOWN	= 100;
-    public static int	ALPHA_ACTION_UP		= 255;
+    public static int ALPHA_ACTION_DOWN = 100;
+    public static int ALPHA_ACTION_UP   = 255;
+    int               maxAlpha          = ALPHA_ACTION_UP;
+
+    public ActionTouchAlphaListener() {
+        super();
+    }
+
+    public ActionTouchAlphaListener(int maxAlpha) {
+        super();
+        this.maxAlpha = maxAlpha;
+    }
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
 
         if (view instanceof ImageView) {
             ImageView actionImage = (ImageView) view;
-            float alpha = ALPHA_ACTION_UP - actionImage.getAlpha();
             switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 ImageUtils.setImageAlpha(actionImage, ALPHA_ACTION_DOWN);
@@ -30,7 +39,7 @@ public class ActionTouchAlphaListener implements OnTouchListener {
             }
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL: {
-                ImageUtils.setImageAlpha(actionImage, (int) alpha);
+                ImageUtils.setImageAlpha(actionImage, maxAlpha);
                 return ((View) view.getParent()).onTouchEvent(event);
             }
             }

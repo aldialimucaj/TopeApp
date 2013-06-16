@@ -77,7 +77,7 @@ public class OsSectionFragment extends Fragment {
         initCommandsAutomatically();
 
         /* creating the grid adapter */
-        adapter = new IconItemAdapter<ITopeAction>(getActivity(), actions);
+        adapter = new IconItemAdapter<ITopeAction>(getActivity(), actions, dbActionsMap);
         adapter.setFragment(this);
 
         gridView.setAdapter(adapter);
@@ -92,7 +92,7 @@ public class OsSectionFragment extends Fragment {
         /* init the commands to show in the screen */
         initCommandsAutomatically();
         /* creating the grid adapter */
-        adapter = new IconItemAdapter<ITopeAction>(getActivity(), actions);
+        adapter = new IconItemAdapter<ITopeAction>(getActivity(), actions, dbActionsMap);
         adapter.setFragment(this);
 
         gridView.setAdapter(adapter);
@@ -111,7 +111,7 @@ public class OsSectionFragment extends Fragment {
 
         ActionDataSource actionDataSource = new ActionDataSource(getActivity());
         actionDataSource.open();
-        HashMap<TopeAction, Integer> dbActionsMap = actionDataSource.getAllOccurencies();
+        dbActionsMap = actionDataSource.getAllOccurencies();
         List<TopeAction> dbActions = new Vector<TopeAction>(dbActionsMap.keySet());
 
         /* filter the actions in order to get just those with the Fragment prefix */
