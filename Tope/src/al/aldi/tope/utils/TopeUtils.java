@@ -199,4 +199,13 @@ public class TopeUtils {
         return filteredActions;
     }
 
+    public static Vector<ITopeAction> convertActions(List<TopeAction> actions) {
+        Vector<ITopeAction> convertedActions = new Vector<ITopeAction>();
+        for (Iterator<TopeAction> iterator = actions.iterator(); iterator.hasNext();) {
+            ITopeAction topeAction = (ITopeAction) iterator.next();
+            convertedActions.add(topeAction);
+        }
+        return convertedActions;
+    }
+
 }

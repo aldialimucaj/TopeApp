@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.db.BaseProvider;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.ClientsListActivity;
 import al.aldi.tope.view.adapter.TopeSectionsPagerAdapter;
@@ -29,18 +30,19 @@ public class Tope extends FragmentActivity {
      * will keep every loaded fragment in memory. If this becomes too memory
      * intensive, it may be best to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    TopeSectionsPagerAdapter	mSectionsPagerAdapter;
+    TopeSectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    ViewPager					mViewPager;
+    ViewPager                mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tope);
 
+        initDatabase();
         //test();
 
         // Create the adapter that will return a fragment for each of the three
@@ -57,10 +59,16 @@ public class Tope extends FragmentActivity {
 
     }
 
+    private void initDatabase() {
+        BaseProvider source = new BaseProvider(getApplicationContext());
+        source.getWritableDatabase();
+        source.close();
+    }
+
     /**
      * Test Function that add some default clients
      */
-    protected void test() {//TODO: Remove this function before production
+    protected void test() {// TODO: Remove this function before production
         ClientDataSource source = new ClientDataSource(getApplicationContext());
         source.open();
 

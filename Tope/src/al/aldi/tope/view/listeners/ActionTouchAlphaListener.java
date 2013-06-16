@@ -18,8 +18,10 @@ public class ActionTouchAlphaListener implements OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
+
         if (view instanceof ImageView) {
             ImageView actionImage = (ImageView) view;
+            float alpha = ALPHA_ACTION_UP - actionImage.getAlpha();
             switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 ImageUtils.setImageAlpha(actionImage, ALPHA_ACTION_DOWN);
@@ -28,7 +30,7 @@ public class ActionTouchAlphaListener implements OnTouchListener {
             }
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL: {
-                ImageUtils.setImageAlpha(actionImage, ALPHA_ACTION_UP);
+                ImageUtils.setImageAlpha(actionImage, (int) alpha);
                 return ((View) view.getParent()).onTouchEvent(event);
             }
             }

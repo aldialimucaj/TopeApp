@@ -34,25 +34,26 @@ public class OsSectionFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    public static final String       ARG_SECTION_NUMBER       = "section_number";
+    public static final String               ARG_SECTION_NUMBER       = "section_number";
 
-    public static final String       INTENT_CLICKED_ACTION    = "ACTION";
-    public static final String       INTENT_CLICKED_ACTION_ID = "ACTION_ID";
+    public static final String               INTENT_CLICKED_ACTION    = "ACTION";
+    public static final String               INTENT_CLICKED_ACTION_ID = "ACTION_ID";
 
-    public static final String       ACTION_PREFIX            = "/os/";
+    public static final String               OS_ACTION_PREFIX            = "/os/";
 
-    GridView                         gridView                 = null;
+    GridView                                 gridView                 = null;
 
-    IconItemAdapter<ITopeAction>     adapter                  = null;
-    TopeActionUtils                  osActions                = null;
-    Vector<ITopeAction>              actions                  = null;
+    IconItemAdapter<ITopeAction>             adapter                  = null;
+    TopeActionUtils                          osActions                = null;
+    Vector<ITopeAction>                      actions                  = null;
+    HashMap<TopeAction, Integer>             dbActionsMap             = null;
     private HashMap<String, Integer>         commandIconMap           = new HashMap<String, Integer>();
     private HashMap<String, String>          oppositeActionsMap       = new HashMap<String, String>();
     private HashMap<String, ITopeExecutable> executorMap              = new HashMap<String, ITopeExecutable>();
     private HashMap<String, String>          actionTitlesMap          = new HashMap<String, String>();
 
     /* ******************* ITopeActions ******************** */
-    ITopeAction                      testAction               = null;
+    ITopeAction                              testAction               = null;
 
     public OsSectionFragment() {
         osActions = TopeActionUtils.TopeActionUtilsManager.getOsActionUtil();
@@ -84,21 +85,47 @@ public class OsSectionFragment extends Fragment {
         /* This is the main listener for the actions */
         gridView.setOnItemClickListener(new ActionClickListener(actions, getActivity()));
 
-
         return rootView;
     }
+    @Override
+    public void onStart() {
+        /* init the commands to show in the screen */
+        initCommandsAutomatically();
+        /* creating the grid adapter */
+        adapter = new IconItemAdapter<ITopeAction>(getActivity(), actions);
+        adapter.setFragment(this);
+
+        gridView.setAdapter(adapter);
+
+        /* This is the main listener for the actions */
+        gridView.setOnItemClickListener(new ActionClickListener(actions, getActivity()));
+
+        super.onStart();
+        System.out.println("OsSectionFragment.onStart()");
+
+    }
+
 
     private void initCommandsAutomatically() {
         actions.clear(); /* clearing the cached activities before recreating them */
 
-        ActionDataSource dataSource = new ActionDataSource(getActivity());
-        List<TopeAction> dbActions = dataSource.getAll();
+        ActionDataSource actionDataSource = new ActionDataSource(getActivity());
+        actionDataSource.open();
+        HashMap<TopeAction, Integer> dbActionsMap = actionDataSource.getAllOccurencies();
+        List<TopeAction> dbActions = new Vector<TopeAction>(dbActionsMap.keySet());
 
         /* filter the actions in order to get just those with the Fragment prefix */
-        dbActions = TopeUtils.filterActions(dbActions, ACTION_PREFIX);
+        dbActions = TopeUtils.filterActions(dbActions, OS_ACTION_PREFIX);
 
         for (Iterator<TopeAction> iterator = dbActions.iterator(); iterator.hasNext();) {
             TopeAction topeAction = (TopeAction) iterator.next();
+            int actionOccurency = dbActionsMap.get(topeAction);
+            if (actionOccurency <= 0) {
+                continue;// the actions is not found at all in the client set
+            }
+            if (actionOccurency < dbActions.size()) {
+                // the actions is not found IN all clients
+            }
             String command = topeAction.getCommandFullPath();
             topeAction.setItemId(commandIconMap.get(command));
 
@@ -125,6 +152,8 @@ public class OsSectionFragment extends Fragment {
             }
 
         }
+
+        actionDataSource.close();
     }
 
     private boolean isOppositeAction(TopeAction action) {

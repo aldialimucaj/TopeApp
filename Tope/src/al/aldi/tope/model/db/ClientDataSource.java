@@ -1,10 +1,12 @@
 package al.aldi.tope.model.db;
 
+import static al.aldi.tope.model.db.ActionOpenHelper.*;
 import static al.aldi.tope.model.db.ClientOpenHelper.*;
 
 import java.util.Vector;
 
 import al.aldi.tope.model.TopeClient;
+import al.aldi.utils.classes.AldiStringUtils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,12 +21,12 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class ClientDataSource {
     // Database fields
-    private SQLiteDatabase		database;
-    private ClientOpenHelper	dbClientHelper;
-    private String[]			allColumns	= { CLIENT_ID, CLIENT_NAME, CLIENT_IP, CLIENT_PORT, CLIENT_USER, CLIENT_PASS, CLIENT_ACTIVE, CLIENT_DOMAIN };
-    private Context				context;
+    private SQLiteDatabase   database;
+    private ClientOpenHelper dbClientHelper;
+    private String[]         allColumns = { CLIENT_OWN_ID, CLIENT_NAME, CLIENT_IP, CLIENT_PORT, CLIENT_USER, CLIENT_PASS, CLIENT_ACTIVE, CLIENT_DOMAIN };
+    private Context          context;
 
-    static ClientDataSource		instance;
+    static ClientDataSource  instance;
 
     public ClientDataSource(Context context) {
         super();
@@ -46,6 +48,7 @@ public class ClientDataSource {
 
     /**
      * Create a new client into the database.
+     *
      * @param client
      * @return
      */
@@ -83,7 +86,7 @@ public class ClientDataSource {
 
         long insertId = database.insert(CLIENT_TABLE_NAME, null, values);
 
-        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, CLIENT_ID + " = " + insertId, null, null, null, null);
+        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, ClientOpenHelper.CLIENT_OWN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
         client = cursorToClient(cursor);
         cursor.close();
@@ -94,6 +97,7 @@ public class ClientDataSource {
 
     /**
      * Get all clients.
+     *
      * @return
      */
     public Vector<TopeClient> getAll() {
@@ -116,6 +120,7 @@ public class ClientDataSource {
     /**
      * Return all clients which are marked as active.
      * This clients will be sending the requests the their respective servers.
+     *
      * @return
      */
     public Vector<TopeClient> getAllActive() {
@@ -138,11 +143,12 @@ public class ClientDataSource {
     /**
      * Return all clients which are <b> marked as active and support this method </b>.
      * This clients will be sending the requests the their respective servers.
+     *
      * @return
      */
     public Vector<TopeClient> getAllActive(String method) {
         Vector<TopeClient> vec = new Vector<TopeClient>();
-        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, CLIENT_ACTIVE + "= '1'", null, null, null, null);
+        Cursor cursor = innerJoin(method);
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
@@ -157,13 +163,21 @@ public class ClientDataSource {
         return vec;
     }
 
+    private Cursor innerJoin(String method) {
+        String sql = "SELECT " + AldiStringUtils.arrayToString(allColumns, "c.", ", ") + " FROM " + CLIENT_TABLE_NAME + " AS c INNER JOIN " + ACTION_TABLE_NAME + " AS a ON c." + ClientOpenHelper.CLIENT_OWN_ID + "=a."
+                + ActionOpenHelper.CLIENT_ID + " WHERE a." + METHOD + "='" + method + "' AND c." + CLIENT_ACTIVE + "= '1';";
+        System.out.println(sql);
+        return database.rawQuery(sql, null);
+    }
+
     /**
      * Get client by ID.
+     *
      * @param id
      * @return
      */
     public TopeClient getClient(long id) {
-        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, CLIENT_ID + "= ?", new String[] { String.valueOf(id) }, null, null, null);
+        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, ClientOpenHelper.CLIENT_OWN_ID + "= ?", new String[] { String.valueOf(id) }, null, null, null);
         cursor.moveToFirst();
 
         TopeClient client = cursorToClient(cursor);
@@ -176,16 +190,18 @@ public class ClientDataSource {
 
     /**
      * Delete client from the database.
+     *
      * @param client
      */
     public void deleteClient(TopeClient client) {
         long id = client.getId();
         System.out.println("Comment deleted with id: " + id);
-        database.delete(CLIENT_TABLE_NAME, CLIENT_ID + " = " + id, null);
+        database.delete(CLIENT_TABLE_NAME, ClientOpenHelper.CLIENT_OWN_ID + " = " + id, null);
     }
 
     /**
      * Update the client with the new client representation.
+     *
      * @param client
      */
     public void updateClient(TopeClient client) {
@@ -200,11 +216,12 @@ public class ClientDataSource {
         values.put(CLIENT_ACTIVE, client.isActive());
         values.put(CLIENT_DOMAIN, client.getDomain());
 
-        database.update(CLIENT_TABLE_NAME, values, CLIENT_ID + " = ?", new String[] { String.valueOf(id) });
+        database.update(CLIENT_TABLE_NAME, values, ClientOpenHelper.CLIENT_OWN_ID + " = ?", new String[] { String.valueOf(id) });
     }
 
     /**
      * Transforming a cursor data set into a client by matching the fields.
+     *
      * @param cursor
      * @return
      */

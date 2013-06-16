@@ -10,12 +10,15 @@ import al.aldi.tope.model.ITopePayload;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopePayload;
+import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
+import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -111,14 +114,15 @@ public class ClientsListActivity extends ListActivity {
 
             ActionCareTaker act = new ActionCareTaker(executeToClientAction, this);
             act.execute();
-        }else{
-            //TODO: pass the intent to the child and back. dont lose it.
+        } else {
+            // TODO: pass the intent to the child and back. dont lose it.
             Toast.makeText(getApplicationContext(), "Info was lost. Try again.", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        System.out.println("ClientsListActivity.onContextItemSelected()");
         final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
         case R.id.client_edit:
@@ -143,7 +147,12 @@ public class ClientsListActivity extends ListActivity {
                     client = (TopeClient) list.getItemAtPosition(info.position);
                     executor.setClient(client);
 
-                    synchronizeAction.execute(client);
+                    Object response = synchronizeAction.execute(client);
+                    if (null == response || null == ((TopeResponse<ActionSynchResponse>) response).getPayload()) {
+                        Looper.prepare();
+                        Toast.makeText(getApplicationContext(), "Could not synchronize client. Please check your connection.", Toast.LENGTH_SHORT).show();
+                        Looper.loop();
+                    }
 
                 }
             }).start();
@@ -203,7 +212,7 @@ public class ClientsListActivity extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if (null != intent) {
+        if (null != data) {
             getMenuInflater().inflate(R.menu.clients_with_intent, menu);
         } else {
             getMenuInflater().inflate(R.menu.clients, menu);
@@ -229,5 +238,15 @@ public class ClientsListActivity extends ListActivity {
             break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        System.out.println("ClientsListActivity.onSaveInstanceState()");
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        System.out.println("ClientsListActivity.onRestoreInstanceState()");
     }
 }

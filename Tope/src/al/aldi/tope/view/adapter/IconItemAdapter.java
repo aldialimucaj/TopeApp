@@ -1,10 +1,12 @@
 package al.aldi.tope.view.adapter;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import al.aldi.tope.R;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.model.ITopeAction;
+import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.utils.TopeActionUtils;
 import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.dialog.DynamicActionLongClickDialog;
@@ -24,16 +26,17 @@ import android.widget.TextView;
 
 public class IconItemAdapter<E> extends BaseAdapter {
 
-    public static final int				WIDTH_160			= 160;
-    public static final int				HEIGHT_250			= 250;
-    public static final int				HEIGHT_230			= 230;
+    public static final int      WIDTH_160    = 160;
+    public static final int      HEIGHT_250   = 250;
+    public static final int      HEIGHT_230   = 230;
 
-    private Activity					activity;
-    private Fragment					fragment;
+    private Activity             activity;
+    private Fragment             fragment;
 
-    IconItemAdapter<ITopeAction>		adapter				= null;
-    TopeActionUtils						osActions			= null;
-    Vector<ITopeAction>					actions				= null;
+    IconItemAdapter<ITopeAction> adapter      = null;
+    TopeActionUtils              osActions    = null;
+    Vector<ITopeAction>          actions      = null;
+    HashMap<TopeAction, Integer> dbActionsMap = null;
 
     public IconItemAdapter() {
         osActions = TopeActionUtils.TopeActionUtilsManager.getOsActionUtil();
@@ -43,6 +46,12 @@ public class IconItemAdapter<E> extends BaseAdapter {
     public IconItemAdapter(Activity activity, Vector<ITopeAction> itmes) {
         this.activity = activity;
         this.actions = itmes;
+    }
+
+    public IconItemAdapter(Activity activity, HashMap<TopeAction, Integer> dbActionsMap) {
+        this.activity = activity;
+        this.dbActionsMap = dbActionsMap;
+        this.actions = new Vector<ITopeAction>(dbActionsMap.keySet());
     }
 
     @Override
@@ -65,18 +74,16 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
             imageView.setOnTouchListener(new ActionTouchAlphaListener());
 
+            if (null != dbActionsMap && null != action) {
+                int actionOccurency = dbActionsMap.get(action);
+                if (actionOccurency < dbActionsMap.size()) {
+                    // the actions is not found IN all clients
+
+                }
+            }
+
             /* ON_LONG_CLICK */
 
-            /*
-             * Legacy, to be deleted!!!
-             * v.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-             *
-             * public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-             * menu.setHeaderTitle("Context Menu");
-             * menu.add(0, v.getId(), 0, "Add parameters");
-             * }
-             * });
-             */
             v.setOnLongClickListener(new View.OnLongClickListener() {
 
                 @Override
@@ -85,7 +92,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
                     vibrator.vibrate(TopeUtils.TOPE_ACTION_CLICK_VIBRATION_SHORT);
 
                     /* ****************** */
-                    /* SHOWING DIALOG     */
+                    /* SHOWING DIALOG */
                     /* ****************** */
                     DynamicActionLongClickDialog td = new DynamicActionLongClickDialog();
                     Bundle args = new Bundle();

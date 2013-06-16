@@ -8,6 +8,7 @@ import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.JsonTopeResponse;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopeResponse;
+import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.utils.TopeUtils;
 import android.app.Activity;
@@ -25,6 +26,7 @@ public class ActionCareTaker extends Thread {
     Activity         activity;
     JsonTopeResponse response;
     ClientDataSource source;
+    ActionDataSource actionSource;
     boolean          successful = true;
 
     /**
@@ -40,6 +42,7 @@ public class ActionCareTaker extends Thread {
         this.activity = activity;
         this.response = response;
         source = new ClientDataSource(activity.getApplicationContext());
+        actionSource = new ActionDataSource(activity.getApplicationContext());
     }
 
     public ActionCareTaker(ITopeAction action, Activity activity) {
@@ -47,6 +50,7 @@ public class ActionCareTaker extends Thread {
         this.action = action;
         this.activity = activity;
         source = new ClientDataSource(activity.getApplicationContext());
+        actionSource = new ActionDataSource(activity.getApplicationContext());
     }
 
     /**
@@ -58,9 +62,13 @@ public class ActionCareTaker extends Thread {
         Looper.prepare();
         if (null != action) {
             source.open();
+            actionSource.open();
+
+
             @SuppressWarnings("rawtypes")
             List<TopeResponse> topeResponses = new ArrayList<TopeResponse>();
-            List<TopeClient> clients = source.getAllActive(); /* reads all acitve clients from the database */
+            List<TopeClient> clients = source.getAllActive(action.getMethod()); /* reads all acitve clients from the database */
+            //List<TopeClient> clients = source.getAllActive();/* reads all acitve clients from the database */
             for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
                 TopeClient topeClient = (TopeClient) iterator.next();
                 @SuppressWarnings("rawtypes")
@@ -72,6 +80,9 @@ public class ActionCareTaker extends Thread {
             // clearing the payload, as it is to be reset every time.
             action.getPayload().clear();
             TopeUtils.printBulkSuccessMsg(topeResponses, action, activity);
+
+            source.close();
+            actionSource.close();
         } else {
             TopeUtils.printMsg(activity, "Error: Action is null!");
         }
