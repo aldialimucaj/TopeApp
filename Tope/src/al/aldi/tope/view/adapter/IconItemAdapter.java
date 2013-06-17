@@ -39,11 +39,6 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
     private int                  maxEntryOccurency = 0;
 
-    public IconItemAdapter(Activity activity, Vector<ITopeAction> itmes) {
-        this.activity = activity;
-        this.actions = itmes;
-    }
-
     public IconItemAdapter(Activity activity, Vector<ITopeAction> items, HashMap<TopeAction, Integer> dbActionsMap) {
         this.activity = activity;
         this.dbActionsMap = dbActionsMap;

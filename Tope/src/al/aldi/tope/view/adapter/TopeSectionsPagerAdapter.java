@@ -7,7 +7,7 @@ import al.aldi.tope.Tope;
 import al.aldi.tope.view.DummySectionFragment;
 import al.aldi.tope.view.OsSectionFragment;
 import al.aldi.tope.view.ProgramSectionFragment;
-import al.aldi.tope.view.UtilSectionFragment;
+import al.aldi.tope.view.UtilsSectionFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,7 +25,7 @@ public class TopeSectionsPagerAdapter extends FragmentPagerAdapter {
     private final Tope	tope;
     Fragment fragment1 = new OsSectionFragment();
     Fragment fragment2 = new ProgramSectionFragment();
-    Fragment fragment3 = new UtilSectionFragment();
+    Fragment fragment3 = new UtilsSectionFragment();
 
     public TopeSectionsPagerAdapter(Tope tope, FragmentManager fm) {
         super(fm);

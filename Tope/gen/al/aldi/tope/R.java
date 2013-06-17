@@ -102,9 +102,8 @@ public final class R {
         public static final int dialog_with_text1=0x7f030007;
         public static final int fragment_tope_dummy=0x7f030008;
         public static final int fragment_tope_os=0x7f030009;
-        public static final int gridview_fragment_os=0x7f03000a;
-        public static final int gridview_fragment_prog=0x7f03000b;
-        public static final int gridview_item_layout=0x7f03000c;
+        public static final int gridview_fragment=0x7f03000a;
+        public static final int gridview_item_layout=0x7f03000b;
     }
     public static final class menu {
         public static final int action_dynamic_menu=0x7f090000;
