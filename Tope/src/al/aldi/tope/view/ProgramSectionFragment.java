@@ -18,8 +18,6 @@ public class ProgramSectionFragment extends GeneralSectionFragment {
 
     public static final String ACTION_PREFIX      = "/prog/";
 
-    int                        fragmentId         = R.layout.gridview_fragment;
-    int                        fragmentGridId     = R.id.fragmentGridView;
 
     /* ******************* ITopeActions ******************** */
 

@@ -22,7 +22,7 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
     /* ******************* ITopeActions ******************** */
 
     public UtilsSectionFragment() {
-        sectionActions = TopeActionUtils.TopeActionUtilsManager.getProgActionUtil();
+        sectionActions = TopeActionUtils.TopeActionUtilsManager.getUtilsActionUtil();
         actions = sectionActions.getActions();
         super.ACTION_PREFIX = ACTION_PREFIX;
     }

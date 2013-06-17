@@ -8,10 +8,10 @@ import android.util.Log;
 import android.view.View;
 
 public class TopeActionUtils {
-    private static String                LOG_TAG        = "TopeActionUtils";
+    private static String              LOG_TAG    = "TopeActionUtils";
 
-    private Vector<ITopeAction>            actions        = new Vector<ITopeAction>();
-    private HashMap<ITopeAction, View>    actionView    = new HashMap<ITopeAction, View>();
+    private Vector<ITopeAction>        actions    = new Vector<ITopeAction>();
+    private HashMap<ITopeAction, View> actionView = new HashMap<ITopeAction, View>();
 
     private TopeActionUtils() {
         // no public constructor. Singleton
@@ -20,7 +20,7 @@ public class TopeActionUtils {
     public void setViewActions(ITopeAction action, View v) {
         if (actions.contains(action)) {
             actionView.put(action, v);
-        }else{
+        } else {
             Log.w(LOG_TAG, "Adding view before adding action into the list.");
         }
     }
@@ -65,8 +65,9 @@ public class TopeActionUtils {
     }
 
     public static class TopeActionUtilsManager {
-        private static TopeActionUtils    smOsActions    = null;
-        private static TopeActionUtils    smProgActions    = null;
+        private static TopeActionUtils smOsActions    = null;
+        private static TopeActionUtils smProgActions  = null;
+        private static TopeActionUtils smUtilsActions = null;
 
         public static TopeActionUtils getOsActionUtil() {
             if (null == smOsActions) {
@@ -80,6 +81,13 @@ public class TopeActionUtils {
                 smProgActions = new TopeActionUtils();
             }
             return smProgActions;
+        }
+
+        public static TopeActionUtils getUtilsActionUtil() {
+            if (null == smUtilsActions) {
+                smUtilsActions = new TopeActionUtils();
+            }
+            return smUtilsActions;
         }
 
     }

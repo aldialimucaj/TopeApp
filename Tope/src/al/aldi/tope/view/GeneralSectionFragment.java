@@ -36,7 +36,7 @@ public abstract class GeneralSectionFragment extends Fragment {
     public static final String       INTENT_CLICKED_ACTION    = "ACTION";
     public static final String       INTENT_CLICKED_ACTION_ID = "ACTION_ID";
 
-    String       ACTION_PREFIX            = "";
+    String                           ACTION_PREFIX            = "";
 
     GridView                         gridView                 = null;
     int                              fragmentId               = R.layout.gridview_fragment;
@@ -82,6 +82,7 @@ public abstract class GeneralSectionFragment extends Fragment {
 
     @Override
     public void onStart() {
+        System.out.println("GeneralSectionFragment.onStart()");
         /* init the commands to show in the screen */
         initCommandsAutomatically();
         /* creating the grid adapter */
@@ -94,7 +95,6 @@ public abstract class GeneralSectionFragment extends Fragment {
         gridView.setOnItemClickListener(new ActionClickListener(actions, getActivity()));
 
         super.onStart();
-        System.out.println("OsSectionFragment.onStart()");
 
     }
 

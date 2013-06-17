@@ -21,9 +21,6 @@ public class OsSectionFragment extends GeneralSectionFragment {
 
     public static final String               ACTION_PREFIX            = "/os/";
 
-    int                                      fragmentId               = R.layout.gridview_fragment;
-    int                                      fragmentGridId           = R.id.fragmentGridView;
-    
 
     /* ******************* ITopeActions ******************** */
 
