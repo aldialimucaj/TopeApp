@@ -86,7 +86,7 @@ public class ActionDataSource {
 
     public Vector<TopeAction> getAll(List<TopeClient> clients) {
         Vector<TopeAction> finalVec = new Vector<TopeAction>();
-        for (Iterator iterator = clients.iterator(); iterator.hasNext();) {
+        for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
             TopeClient topeClient = (TopeClient) iterator.next();
 
             Vector<TopeAction> vec = new Vector<TopeAction>();
@@ -128,7 +128,6 @@ public class ActionDataSource {
 
             //System.out.println(sql);
 
-            Vector<TopeAction> vec = new Vector<TopeAction>();
             Cursor cursor = database.rawQuery(sql, null);
             cursor.moveToFirst();
 
@@ -146,7 +145,7 @@ public class ActionDataSource {
     private String[] getClientIds(List<TopeClient> clients) {
         String[] ids = new String[clients.size()];
         int index = 0;
-        for (Iterator iterator = clients.iterator(); iterator.hasNext();) {
+        for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
             TopeClient topeClient = (TopeClient) iterator.next();
             ids[index++] = topeClient.getId() + "";
         }

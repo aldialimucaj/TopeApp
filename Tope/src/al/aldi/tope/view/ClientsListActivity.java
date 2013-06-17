@@ -134,6 +134,7 @@ public class ClientsListActivity extends ListActivity {
             /* Creating thread because this is the main thread */
             new Thread(new Runnable() {
 
+                @SuppressWarnings("unchecked")
                 @Override
                 public void run() {
                     /* creating the synchronization action. no need to store this in the action list as this action is not shown in the grid */
