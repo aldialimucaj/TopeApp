@@ -3,6 +3,7 @@ package al.aldi.tope.view;
 import static al.aldi.tope.utils.TopeCommands.*;
 import al.aldi.tope.R;
 import al.aldi.tope.controller.executables.CallWithArgsExecutor;
+import al.aldi.tope.controller.executables.PresenationExecutor;
 import al.aldi.tope.utils.TopeActionUtils;
 
 /**
@@ -29,11 +30,13 @@ public class ProgramSectionFragment extends GeneralSectionFragment {
 
     protected void fillTitlesMap() {
         actionTitlesMap.put(PROG_BROWSER_OPEN_URL, getString(R.string.prog_op_openBrowserWithUrl));
+        actionTitlesMap.put(PROG_POWERPOINT, getString(R.string.prog_op_controlPowerpoint));
 
     }
 
     protected void setExecutorsMap() {
         executorMap.put(PROG_BROWSER_OPEN_URL, new CallWithArgsExecutor(this));
+        executorMap.put(PROG_POWERPOINT, new PresenationExecutor(this));
     }
 
     protected void setOppositeActionsMap() {
@@ -41,7 +44,8 @@ public class ProgramSectionFragment extends GeneralSectionFragment {
     }
 
     protected void fillIconMap() {
-        commandIconMap.put(PROG_BROWSER_OPEN_URL, R.drawable.prog_chromium_browser);
+        commandIconMap.put(PROG_BROWSER_OPEN_URL, R.drawable.progs_chromium_browser);
+        commandIconMap.put(PROG_POWERPOINT, R.drawable.progs_impress);
 
     }
 }

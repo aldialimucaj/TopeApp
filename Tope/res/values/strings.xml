@@ -51,6 +51,7 @@
     <!-- OS OPERATION -->
 
     <string name="prog_op_openBrowserWithUrl">Open Browser</string>
+    <string name="prog_op_controlPowerpoint">Presenation Control</string>
 
     <!-- ********* -->
     <!-- DIALOGS -->
@@ -59,5 +60,6 @@
     <string name="dialog_text_setTimer">Timer</string>
     <string name="dialog_text1">Text1</string>
     <string name="dialog_text2">Text2</string>
+    <string name="title_activity_presenation_control">PresenationControlActivity</string>
 
 </resources>

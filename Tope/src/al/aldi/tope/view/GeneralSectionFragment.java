@@ -107,7 +107,7 @@ public abstract class GeneralSectionFragment extends Fragment {
         List<TopeAction> dbActions = new Vector<TopeAction>(dbActionsMap.keySet());
 
         /* filter the actions in order to get just those with the Fragment prefix */
-        dbActions = TopeUtils.filterActions(dbActions, ACTION_PREFIX);
+        dbActions = TopeUtils.filterActions(dbActions, ACTION_PREFIX);//TODO this is stupid. change this to DB query for exact match
 
         for (Iterator<TopeAction> iterator = dbActions.iterator(); iterator.hasNext();) {
             TopeAction topeAction = (TopeAction) iterator.next();
