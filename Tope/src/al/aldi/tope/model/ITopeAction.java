@@ -33,6 +33,10 @@ public interface ITopeAction extends Parcelable {
     public String getMethod();
 
     public void setMethod(String command);
+    
+    public void setOutputIgnored(boolean ignore);
+    
+    public boolean isOutputIgnored();
 
     public boolean isActive();
 

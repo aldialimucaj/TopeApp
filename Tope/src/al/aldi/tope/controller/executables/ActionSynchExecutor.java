@@ -44,7 +44,6 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
             }
 
             ActionDataSource dataSource = new ActionDataSource(context);
-            //dataSource.dropTable();// TODO: Dont drop the table. just delete all from the client and add the new ones
             dataSource.createTable();
             dataSource.delete((int) client.getId());
             dataSource.addAll(actionsList);

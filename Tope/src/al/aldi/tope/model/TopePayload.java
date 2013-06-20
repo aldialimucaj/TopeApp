@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class TopePayload implements ITopePayload {
 
-    private static final long  serialVersionUID      = 3291081158751882587L;
+    protected static final long  serialVersionUID      = 3291081158751882587L;
 
     public static final String PARAM_ACTION_ID       = "actionId";
     public static final String PARAM_USER            = "user";

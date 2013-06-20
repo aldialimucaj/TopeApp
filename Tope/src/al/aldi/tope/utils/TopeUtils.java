@@ -11,6 +11,7 @@ import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.ITopeLongClickAdapter;
 import al.aldi.tope.view.listeners.ActionLongClickListener;
+import android.R.bool;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
@@ -170,8 +171,13 @@ public class TopeUtils {
      */
     @SuppressWarnings("rawtypes")
     public static void printBulkSuccessMsg(List<TopeResponse> topeResponses, ITopeAction action, Activity activity) {
+        /* actions can define if output should be ignored. in this case no print out */
+        if(action.isOutputIgnored()){
+            return;
+        }
+        
         int size = topeResponses.size();
-
+        
         /* if there is only one response then use the single msg format */
         if (1 == size) {
             printSuccessMsg(action, topeResponses.get(0), activity);

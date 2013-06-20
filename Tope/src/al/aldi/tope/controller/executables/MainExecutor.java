@@ -1,5 +1,7 @@
 package al.aldi.tope.controller.executables;
 
+import java.lang.reflect.Modifier;
+
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.ITopePayload;
@@ -17,12 +19,17 @@ public abstract class MainExecutor<E> implements ITopeExecutable {
     ITopeAction  action       = null;
     E            topeResponse = null;
     Fragment     fragment     = null;
-    Gson         gson         = new GsonBuilder().setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL).create();
+    Gson         gson         = null;
     ITopePayload payload      = null;
 
     public MainExecutor(ITopeAction action, Fragment fragment) {
         this.action = action;
         this.fragment = fragment;
+        GsonBuilder builder = new GsonBuilder()
+        .setDateFormat(JsonTopeResponse.DATE_FORMAT_FULL)
+        //.excludeFieldsWithoutExposeAnnotation()
+        .excludeFieldsWithModifiers(Modifier.PROTECTED);
+        gson = builder.create();
     }
 
     @Override

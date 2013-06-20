@@ -8,22 +8,43 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".PresenationControlActivity" >
 
+    <Button
+        android:id="@+id/presentation_buttonFullScreen"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/imageButtonNext"
+        android:text="@string/title_activity_presenation_control_full_screen" />
+
+    <Button
+        android:id="@+id/presentation_buttonBlackout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButtonPrevious"
+        android:layout_centerHorizontal="true"
+        android:text="@string/title_activity_presenation_control_black_out" />
+
     <ImageButton
         android:id="@+id/imageButtonNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="78dp"
-        android:layout_marginTop="98dp"
+        android:layout_below="@+id/presentation_buttonFullScreen"
         android:src="@drawable/progs_presentation_next" />
 
     <ImageButton
         android:id="@+id/imageButtonPrevious"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/imageButtonNext"
-        android:layout_toLeftOf="@+id/imageButtonNext"
         android:src="@drawable/progs_presentation_previous" />
+
+    <ImageView
+        android:id="@+id/presentation_imageViewLeftRight"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:layout_alignLeft="@+id/presentation_buttonBlackout"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/right_left_arrows" />
 
 </RelativeLayout>

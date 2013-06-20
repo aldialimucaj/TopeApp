@@ -1,5 +1,8 @@
 package al.aldi.tope.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.Since;
+
 import al.aldi.tope.controller.ITopeExecutable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -19,24 +22,38 @@ import android.view.View;
  *
  */
 public class TopeAction implements ITopeAction {
-
+    @Expose
     private long    actionId         = -1;
+    @Expose
     private long    clientId         = -1;
+    @Expose
     private int     itemId           = 0;
+    @Expose
     private String  module           = null;
+    @Expose
     private String  method           = null;
+    @Expose
     private String  commandFullPath  = null;
+    @Expose
     private String  title            = null;
+    @Expose
     private boolean active           = true;
+    @Expose
     private int     revisionId       = 0;
+    @Expose
     private long    oppositeActionId = -1;
+    @Expose
+    private boolean outputIgnored           = true;
 
     /* context view which will be shown if long click for example */
-    View            contextView      = null;
+    protected View            contextView      = null;
 
-    ITopeExecutable exec;
-    ITopeAction     oppositeAction;
-    ITopePayload    payload          = new TopePayload();
+    protected ITopeExecutable exec;
+    
+    protected ITopeAction     oppositeAction;
+    
+    @Expose
+    protected ITopePayload    payload          = new TopePayload();
 
     public TopeAction() {
     }
@@ -272,6 +289,18 @@ public class TopeAction implements ITopeAction {
     public int describeContents() {
         return 0;
     }
+    
+    @Override
+    public void setOutputIgnored(boolean ignore) {
+        outputIgnored = ignore;
+        
+    }
+
+    @Override
+    public boolean isOutputIgnored() {
+        return outputIgnored;
+    }
+
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -297,4 +326,5 @@ public class TopeAction implements ITopeAction {
                                                        }
                                                    };
 
+   
 }

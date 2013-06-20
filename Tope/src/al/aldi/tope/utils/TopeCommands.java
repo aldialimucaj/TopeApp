@@ -33,4 +33,13 @@ public class TopeCommands {
     public static final String PROG_BROWSER_OPEN_URL = "/prog/openBrowserWithUrl";
     public static final String PROG_POWERPOINT       = "/prog/appControllPowerPoint";
 
+    /* ************************************* HTTP ************************************** */
+
+    public static String       ARROW_RIGHT           = "#RIGHT";
+    public static String       ARROW_LEFT            = "#LEFT";
+    public static String       SPACE                 = "#SPACE";
+    public static String       BACKSPACE             = "#BACKSPACE";
+    public static String       BLACK_OUT             = "#PERIOD";
+    public static String       FULL_SCREEN           = "#SHIFTF5";
+
 }

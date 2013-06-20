@@ -60,6 +60,10 @@
     <string name="dialog_text_setTimer">Timer</string>
     <string name="dialog_text1">Text1</string>
     <string name="dialog_text2">Text2</string>
-    <string name="title_activity_presenation_control">PresenationControlActivity</string>
+    
+    <!-- PRESENTATION ACTIVITY -->
+    <string name="title_activity_presenation_control">Presenation Control</string>
+    <string name="title_activity_presenation_control_full_screen">Full Screen</string>
+    <string name="title_activity_presenation_control_black_out">Black Out - Back</string>
 
 </resources>
