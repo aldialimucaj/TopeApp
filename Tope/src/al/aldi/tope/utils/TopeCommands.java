@@ -31,7 +31,8 @@ public class TopeCommands {
     /* ************************************* PROG ************************************** */
 
     public static final String PROG_BROWSER_OPEN_URL = "/prog/openBrowserWithUrl";
-    public static final String PROG_POWERPOINT       = "/prog/appControllPowerPoint";
+    public static final String PROG_POWERPOINT       = "/prog/appControlPowerPoint";
+    public static final String PROG_VLC              = "/prog/appControlVLC";
 
     /* ************************************* HTTP ************************************** */
 
@@ -41,5 +42,9 @@ public class TopeCommands {
     public static String       BACKSPACE             = "#BACKSPACE";
     public static String       BLACK_OUT             = "#PERIOD";
     public static String       FULL_SCREEN           = "#SHIFTF5";
+    public static String       CTRL_LEFT             = "#CTRL-LEFT";
+    public static String       CTRL_RIGHT            = "#CTRL-RIGHT";
+    public static String       CTRL_UP               = "#CTRL-UP";
+    public static String       CTRL_DOWN             = "#CTRL-DOWN";
 
 }

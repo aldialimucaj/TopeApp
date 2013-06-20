@@ -83,6 +83,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="al.aldi.tope.Tope" />
         </activity>
+        <activity
+            android:name="al.aldi.tope.view.VlcControlActivity"
+            android:label="@string/title_activity_vlc_control"
+            android:screenOrientation="portrait"
+            android:parentActivityName="al.aldi.tope.Tope" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="al.aldi.tope.Tope" />
+        </activity>
     </application>
 
 </manifest>

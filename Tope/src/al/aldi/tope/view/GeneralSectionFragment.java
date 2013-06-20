@@ -119,7 +119,11 @@ public abstract class GeneralSectionFragment extends Fragment {
                 // the actions is not found IN all clients
             }
             String command = topeAction.getCommandFullPath();
-            topeAction.setItemId(commandIconMap.get(command));
+            Integer itemId = commandIconMap.get(command);
+            if (null == itemId) {
+                continue;
+            }
+            topeAction.setItemId(itemId);
 
             /* setting the executor */
             if (executorMap.containsKey(topeAction.getCommandFullPath())) {

@@ -52,18 +52,29 @@
 
     <string name="prog_op_openBrowserWithUrl">Open Browser</string>
     <string name="prog_op_controlPowerpoint">Presenation Control</string>
+    <string name="prog_op_controlVLC">VLC Control</string>
 
     <!-- ********* -->
-    <!-- DIALOGS -->
+    <!-- DIALOGS   -->
     <!-- ********* -->
     <string name="dialog_text_setExecDate">Execution Date</string>
     <string name="dialog_text_setTimer">Timer</string>
     <string name="dialog_text1">Text1</string>
     <string name="dialog_text2">Text2</string>
     
+    <!-- ********* -->
+    <!-- ACTIVITES -->
+    <!-- ********* -->
+    
     <!-- PRESENTATION ACTIVITY -->
     <string name="title_activity_presenation_control">Presenation Control</string>
     <string name="title_activity_presenation_control_full_screen">Full Screen</string>
     <string name="title_activity_presenation_control_black_out">Black Out - Back</string>
+    
+    <!-- VLC ACTIVITY -->
+    <string name="title_activity_vlc_control">VLC Control</string>
+    <string name="title_activity_vlc_control_full_screen">Full Screen</string>
+    <string name="title_activity_vlc_control_play">Play</string>
+    <string name="title_activity_vlc_control_show_time">Show Time</string>
 
 </resources>
