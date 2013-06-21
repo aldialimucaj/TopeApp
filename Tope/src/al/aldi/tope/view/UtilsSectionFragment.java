@@ -41,4 +41,10 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
     protected void fillIconMap() {
 
     }
+
+    @Override
+    protected void postRenderingActions() {
+        // TODO Auto-generated method stub
+        
+    }
 }

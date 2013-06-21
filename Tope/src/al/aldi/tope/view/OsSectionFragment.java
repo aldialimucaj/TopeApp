@@ -76,4 +76,11 @@ public class OsSectionFragment extends GeneralSectionFragment {
         commandIconMap.put(OS_UNLOCK_INPUT, R.drawable.system_input_keyboard_blocked);
 
     }
+
+
+    @Override
+    protected void postRenderingActions() {
+        // TODO Auto-generated method stub
+        
+    }
 }

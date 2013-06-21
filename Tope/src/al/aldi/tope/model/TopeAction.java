@@ -1,12 +1,11 @@
 package al.aldi.tope.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.Since;
-
 import al.aldi.tope.controller.ITopeExecutable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
+
+import com.google.gson.annotations.Expose;
 
 /**
  * Implementation of the tope action which represent a user action
@@ -17,41 +16,41 @@ import android.view.View;
  * Actioncions may also contain opposite actions which are called to replace
  * the original action. An action executable object is the object that
  * takes care of the execution of the HTTP Request to the active clients.
- *
+ * 
  * @author Aldi Alimucaj
- *
+ * 
  */
 public class TopeAction implements ITopeAction {
     @Expose
-    private long    actionId         = -1;
+    private long              actionId         = -1;
     @Expose
-    private long    clientId         = -1;
+    private long              clientId         = -1;
     @Expose
-    private int     itemId           = 0;
+    private int               itemId           = 0;
     @Expose
-    private String  module           = null;
+    private String            module           = null;
     @Expose
-    private String  method           = null;
+    private String            method           = null;
     @Expose
-    private String  commandFullPath  = null;
+    private String            commandFullPath  = null;
     @Expose
-    private String  title            = null;
+    private String            title            = null;
     @Expose
-    private boolean active           = true;
+    private boolean           active           = true;
     @Expose
-    private int     revisionId       = 0;
+    private int               revisionId       = 0;
     @Expose
-    private long    oppositeActionId = -1;
+    private long              oppositeActionId = -1;
     @Expose
-    private boolean outputIgnored           = true;
+    private boolean           outputIgnored    = false;
 
     /* context view which will be shown if long click for example */
     protected View            contextView      = null;
 
     protected ITopeExecutable exec;
-    
+
     protected ITopeAction     oppositeAction;
-    
+
     @Expose
     protected ITopePayload    payload          = new TopePayload();
 
@@ -289,18 +288,17 @@ public class TopeAction implements ITopeAction {
     public int describeContents() {
         return 0;
     }
-    
+
     @Override
     public void setOutputIgnored(boolean ignore) {
         outputIgnored = ignore;
-        
+
     }
 
     @Override
     public boolean isOutputIgnored() {
         return outputIgnored;
     }
-
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -326,5 +324,4 @@ public class TopeAction implements ITopeAction {
                                                        }
                                                    };
 
-   
 }

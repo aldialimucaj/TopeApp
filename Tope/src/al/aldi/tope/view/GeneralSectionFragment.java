@@ -14,9 +14,9 @@ import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.utils.TopeActionUtils;
 import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.adapter.IconItemAdapter;
-import al.aldi.tope.view.listeners.ActionClickListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,35 +27,38 @@ import android.widget.GridView;
  * displays dummy text.
  */
 public abstract class GeneralSectionFragment extends Fragment {
+    private static final String           TAG                      = "al.aldi.tope.view.GeneralSectionFragment";
+
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
-    public static final String       ARG_SECTION_NUMBER       = "section_number";
+    public static final String            ARG_SECTION_NUMBER       = "section_number";
 
-    public static final String       INTENT_CLICKED_ACTION    = "ACTION";
-    public static final String       INTENT_CLICKED_ACTION_ID = "ACTION_ID";
+    public static final String            INTENT_CLICKED_ACTION    = "ACTION";
+    public static final String            INTENT_CLICKED_ACTION_ID = "ACTION_ID";
 
-    String                           ACTION_PREFIX            = "";
+    String                                ACTION_PREFIX            = "";
 
-    GridView                         gridView                 = null;
-    int                              fragmentId               = R.layout.gridview_fragment;
-    int                              fragmentGridId           = R.id.fragmentGridView;
+    GridView                              gridView                 = null;
+    int                                   fragmentId               = R.layout.gridview_fragment;
+    int                                   fragmentGridId           = R.id.fragmentGridView;
 
-    IconItemAdapter<ITopeAction>     adapter                  = null;
-    TopeActionUtils                  sectionActions           = null;
-    Vector<ITopeAction>              actions                  = null;
-    HashMap<TopeAction, Integer>     dbActionsMap             = null;
-    HashMap<String, Integer>         commandIconMap           = new HashMap<String, Integer>();
-    HashMap<String, String>          oppositeActionsMap       = new HashMap<String, String>();
-    HashMap<String, ITopeExecutable> executorMap              = new HashMap<String, ITopeExecutable>();
-    HashMap<String, String>          actionTitlesMap          = new HashMap<String, String>();
+    IconItemAdapter<ITopeAction>          adapter                  = null;
+    TopeActionUtils                       sectionActions           = null;
+    Vector<ITopeAction>                   actions                  = null;
+    HashMap<TopeAction, Integer>          dbActionsMap             = null;
+    HashMap<String, Integer>              commandIconMap           = new HashMap<String, Integer>();
+    HashMap<String, String>               oppositeActionsMap       = new HashMap<String, String>();
+    HashMap<String, ITopeExecutable>      executorMap              = new HashMap<String, ITopeExecutable>();
+    HashMap<String, String>               actionTitlesMap          = new HashMap<String, String>();
+    HashMap<String, ActionClickBehaviour> clickBehaviourMap        = new HashMap<String, ActionClickBehaviour>();
 
     /* ******************* ITopeActions ******************** */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("OsSectionFragment.onCreateView()");
+        Log.i(TAG, "OsSectionFragment.onCreateView()");
         fillIconMap();
         fillTitlesMap();
         setExecutorsMap();
@@ -74,15 +77,14 @@ public abstract class GeneralSectionFragment extends Fragment {
 
         gridView.setAdapter(adapter);
 
-        /* This is the main listener for the actions */
-        gridView.setOnItemClickListener(new ActionClickListener(actions, getActivity()));
+        postRenderingActions();
 
         return rootView;
     }
 
     @Override
     public void onStart() {
-        System.out.println("GeneralSectionFragment.onStart()");
+        Log.i(TAG, "GeneralSectionFragment.onStart()");
         /* init the commands to show in the screen */
         initCommandsAutomatically();
         /* creating the grid adapter */
@@ -91,8 +93,7 @@ public abstract class GeneralSectionFragment extends Fragment {
 
         gridView.setAdapter(adapter);
 
-        /* This is the main listener for the actions */
-        gridView.setOnItemClickListener(new ActionClickListener(actions, getActivity()));
+        postRenderingActions();
 
         super.onStart();
 
@@ -107,7 +108,7 @@ public abstract class GeneralSectionFragment extends Fragment {
         List<TopeAction> dbActions = new Vector<TopeAction>(dbActionsMap.keySet());
 
         /* filter the actions in order to get just those with the Fragment prefix */
-        dbActions = TopeUtils.filterActions(dbActions, ACTION_PREFIX);//TODO this is stupid. change this to DB query for exact match
+        dbActions = TopeUtils.filterActions(dbActions, ACTION_PREFIX);// TODO this is stupid. change this to DB query for exact match
 
         for (Iterator<TopeAction> iterator = dbActions.iterator(); iterator.hasNext();) {
             TopeAction topeAction = (TopeAction) iterator.next();
@@ -177,4 +178,18 @@ public abstract class GeneralSectionFragment extends Fragment {
     protected abstract void setOppositeActionsMap();
 
     protected abstract void fillIconMap();
+
+    protected abstract void postRenderingActions();
+
+    public HashMap<String, ActionClickBehaviour> getClickBehaviourMap() {
+        return clickBehaviourMap;
+    }
+
+    public void setClickBehaviourMap(HashMap<String, ActionClickBehaviour> clickBehaviourMap) {
+        this.clickBehaviourMap = clickBehaviourMap;
+    }
+
+    public static enum ActionClickBehaviour {
+        NORMAL, CLICK_ONLY, LONG_CLICK_ONLY, BEHAVE_BOTH_CLICK, BEHAVE_BOTH_LONG_CLICK, SWAP
+    }
 }

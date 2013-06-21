@@ -10,6 +10,8 @@ import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.utils.TopeUtils;
+import al.aldi.tope.view.GeneralSectionFragment;
+import al.aldi.tope.view.GeneralSectionFragment.ActionClickBehaviour;
 import al.aldi.tope.view.dialog.DynamicActionLongClickDialog;
 import al.aldi.tope.view.listeners.ActionTouchAlphaListener;
 import android.app.Activity;
@@ -19,6 +21,7 @@ import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -39,11 +42,14 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
     private int                  maxEntryOccurency = 0;
 
+    Vibrator                     vibrator          = null;
+
     public IconItemAdapter(Activity activity, Vector<ITopeAction> items, HashMap<TopeAction, Integer> dbActionsMap) {
         this.activity = activity;
         this.dbActionsMap = dbActionsMap;
         this.actions = items;
         this.maxEntryOccurency = getMaxClientOccurencies(dbActionsMap);
+        vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
@@ -77,11 +83,10 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
             /* ON_LONG_CLICK */
 
-            v.setOnLongClickListener(new View.OnLongClickListener() {
+            AllClickListeners onLongClickListener = new AllClickListeners() {
 
                 @Override
                 public boolean onLongClick(View v) {
-                    Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(TopeUtils.TOPE_ACTION_CLICK_VIBRATION_SHORT);
 
                     /* ****************** */
@@ -94,14 +99,19 @@ public class IconItemAdapter<E> extends BaseAdapter {
                     td.show(fragment.getChildFragmentManager(), "TAG");
                     return false;
                 }
-            });
+                
+                public void onClick(View v) {
+                    onLongClick(v);
+                }
+            };
+            v.setOnLongClickListener(onLongClickListener);
 
             /* ON_CLICK */
 
-            v.setOnClickListener(new View.OnClickListener() {
+            AllClickListeners onClickListener = new AllClickListeners() {
                 @Override
                 public void onClick(View v) {
-                    Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+
                     vibrator.vibrate(TopeUtils.TOPE_ACTION_CLICK_VIBRATION_SHORT);
 
                     /* ****************** */
@@ -132,7 +142,23 @@ public class IconItemAdapter<E> extends BaseAdapter {
                     }
 
                 }
-            });
+                
+                public boolean onLongClick(View v) {
+                    onLongClick(v);
+                    return false;
+                }
+            };
+            v.setOnClickListener(onClickListener);
+            
+            ActionClickBehaviour clickBehaviour = getActionBehaviour( (TopeAction) action);
+            switch (clickBehaviour) {
+            case BEHAVE_BOTH_LONG_CLICK:
+                v.setOnClickListener((OnClickListener) onLongClickListener);
+                break;
+
+            default:
+                break;
+            }
 
             return v;
         } else {
@@ -159,6 +185,17 @@ public class IconItemAdapter<E> extends BaseAdapter {
         }
 
         return -1;
+    }
+
+    private GeneralSectionFragment.ActionClickBehaviour getActionBehaviour(TopeAction action) {
+        GeneralSectionFragment gsf = (GeneralSectionFragment) fragment;
+        HashMap<String, ActionClickBehaviour> clickBehaviourMap = gsf.getClickBehaviourMap();
+        for (Map.Entry<String, ActionClickBehaviour> entry : clickBehaviourMap.entrySet()) {
+            if (entry.getKey().equals(action.getCommandFullPath())) {
+                return entry.getValue();
+            }
+        }
+        return ActionClickBehaviour.NORMAL;
     }
 
     @Override
@@ -200,5 +237,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
     }
+    
+    abstract class AllClickListeners implements View.OnLongClickListener, View.OnClickListener {}
 
 }

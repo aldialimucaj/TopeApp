@@ -49,4 +49,10 @@ public class ProgramSectionFragment extends GeneralSectionFragment {
         commandIconMap.put(PROG_POWERPOINT, R.drawable.progs_impress);
         commandIconMap.put(PROG_VLC, R.drawable.progs_vlc);
     }
+
+    @Override
+    protected void postRenderingActions() {
+        clickBehaviourMap.put(PROG_BROWSER_OPEN_URL, ActionClickBehaviour.BEHAVE_BOTH_LONG_CLICK);
+        
+    }
 }
