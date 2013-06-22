@@ -48,11 +48,15 @@
     <string name="title_activity_parameters">Action Parameters</string>
     <string name="hello_world">Hello world!</string>
 
-    <!-- OS OPERATION -->
+    <!-- PROG OPERATION -->
 
     <string name="prog_op_openBrowserWithUrl">Open Browser</string>
     <string name="prog_op_controlPowerpoint">Presenation Control</string>
     <string name="prog_op_controlVLC">VLC Control</string>
+    
+    <!-- UTIL OPERATION -->
+    <string name="util_op_sendMessage">Send Message</string>
+    <string name="util_op_beep">Send a Bell</string>
 
     <!-- ********* -->
     <!-- DIALOGS   -->

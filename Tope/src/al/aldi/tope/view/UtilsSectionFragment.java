@@ -1,6 +1,8 @@
 package al.aldi.tope.view;
 
+import static al.aldi.tope.utils.TopeCommands.*;
 import al.aldi.tope.R;
+import al.aldi.tope.controller.executables.CallWithArgsExecutor;
 import al.aldi.tope.utils.TopeActionUtils;
 
 /**
@@ -8,16 +10,9 @@ import al.aldi.tope.utils.TopeActionUtils;
  * displays dummy text.
  */
 public class UtilsSectionFragment extends GeneralSectionFragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    public static final String ARG_SECTION_NUMBER = "section_number";
 
-    public static final String ACTION_PREFIX      = "/utils/";
+    public static final String ACTION_PREFIX      = "/util/";
 
-    int                        fragmentId         = R.layout.gridview_fragment;
-    int                        fragmentGridId     = R.id.fragmentGridView;
 
     /* ******************* ITopeActions ******************** */
 
@@ -28,10 +23,13 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
     }
 
     protected void fillTitlesMap() {
-
+        actionTitlesMap.put(UTIL_SHOW_MSG, getString(R.string.util_op_sendMessage));
+        actionTitlesMap.put(UTIL_BEEP, getString(R.string.util_op_beep));
+        
     }
 
     protected void setExecutorsMap() {
+        executorMap.put(UTIL_SHOW_MSG, new CallWithArgsExecutor(this));
     }
 
     protected void setOppositeActionsMap() {
@@ -39,12 +37,13 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
     }
 
     protected void fillIconMap() {
-
+        commandIconMap.put(UTIL_SHOW_MSG, R.drawable.info);
+        commandIconMap.put(UTIL_BEEP, R.drawable.utils_bell);
     }
 
     @Override
     protected void postRenderingActions() {
-        // TODO Auto-generated method stub
+        clickBehaviourMap.put(UTIL_SHOW_MSG, ActionClickBehaviour.BEHAVE_BOTH_LONG_CLICK);
         
     }
 }

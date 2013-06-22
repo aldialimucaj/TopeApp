@@ -12,11 +12,6 @@ import al.aldi.tope.utils.TopeActionUtils;
  * displays dummy text.
  */
 public class ProgramSectionFragment extends GeneralSectionFragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    public static final String ARG_SECTION_NUMBER = "section_number";
 
     public static final String ACTION_PREFIX      = "/prog/";
 
