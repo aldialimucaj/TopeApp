@@ -65,6 +65,7 @@ public final class R {
         public static final int system_standby=0x7f02001e;
         public static final int tope_icon=0x7f02001f;
         public static final int utils_bell=0x7f020020;
+        public static final int utils_text_to_speech=0x7f020021;
     }
     public static final class id {
         public static final int actionName=0x7f08000c;
@@ -152,14 +153,14 @@ public final class R {
         public static final int app_name=0x7f040000;
         public static final int client_edit_edit=0x7f040017;
         public static final int client_edit_synchronize=0x7f040016;
-        public static final int dialog_text1=0x7f040030;
-        public static final int dialog_text2=0x7f040031;
+        public static final int dialog_text1=0x7f040031;
+        public static final int dialog_text2=0x7f040032;
         /**  ********* 
  DIALOGS   
  ********* 
          */
-        public static final int dialog_text_setExecDate=0x7f04002e;
-        public static final int dialog_text_setTimer=0x7f04002f;
+        public static final int dialog_text_setExecDate=0x7f04002f;
+        public static final int dialog_text_setTimer=0x7f040030;
         public static final int hello_world=0x7f040028;
         public static final int os_op_hibernate=0x7f04001b;
         public static final int os_op_lockinput=0x7f040020;
@@ -189,15 +190,15 @@ public final class R {
  ********* 
  PRESENTATION ACTIVITY 
          */
-        public static final int title_activity_presenation_control=0x7f040032;
-        public static final int title_activity_presenation_control_black_out=0x7f040034;
-        public static final int title_activity_presenation_control_full_screen=0x7f040033;
+        public static final int title_activity_presenation_control=0x7f040033;
+        public static final int title_activity_presenation_control_black_out=0x7f040035;
+        public static final int title_activity_presenation_control_full_screen=0x7f040034;
         /**  VLC ACTIVITY 
          */
-        public static final int title_activity_vlc_control=0x7f040035;
-        public static final int title_activity_vlc_control_full_screen=0x7f040036;
-        public static final int title_activity_vlc_control_play=0x7f040037;
-        public static final int title_activity_vlc_control_show_time=0x7f040038;
+        public static final int title_activity_vlc_control=0x7f040036;
+        public static final int title_activity_vlc_control_full_screen=0x7f040037;
+        public static final int title_activity_vlc_control_play=0x7f040038;
+        public static final int title_activity_vlc_control_show_time=0x7f040039;
         public static final int title_button_cancel=0x7f040008;
         public static final int title_button_execute=0x7f040007;
         public static final int title_button_ok=0x7f040006;
@@ -219,6 +220,7 @@ public final class R {
         /**  UTIL OPERATION 
          */
         public static final int util_op_sendMessage=0x7f04002c;
+        public static final int util_op_textToSpeech=0x7f04002e;
     }
     public static final class style {
         public static final int ActionBar_Transparent_Topeclient=0x7f050002;

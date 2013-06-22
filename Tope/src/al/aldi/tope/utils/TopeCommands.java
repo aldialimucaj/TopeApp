@@ -33,11 +33,12 @@ public class TopeCommands {
     public static final String PROG_BROWSER_OPEN_URL = "/prog/openBrowserWithUrl";
     public static final String PROG_POWERPOINT       = "/prog/appControlPowerPoint";
     public static final String PROG_VLC              = "/prog/appControlVLC";
-    
+
     /* ************************************* PROG ************************************** */
 
-    public static final String UTIL_SHOW_MSG = "/util/showMsg";
-    public static final String UTIL_BEEP = "/util/beep";
+    public static final String UTIL_SHOW_MSG         = "/util/showMsg";
+    public static final String UTIL_BEEP             = "/util/beep";
+    public static final String UTIL_READ_OUT_LOUD    = "/util/readOutLoud";
 
     /* ************************************* HTTP ************************************** */
 
