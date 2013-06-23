@@ -52,6 +52,17 @@
                 <data
                     android:host="*"
                     android:scheme="file" />
+                <data
+                    android:host="*"
+                    android:scheme="vnd.youtube" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
             </intent-filter>
 
             <meta-data
@@ -77,8 +88,8 @@
         <activity
             android:name="al.aldi.tope.view.PresenationControlActivity"
             android:label="@string/title_activity_presenation_control"
-            android:screenOrientation="portrait"
-            android:parentActivityName="al.aldi.tope.Tope" >
+            android:parentActivityName="al.aldi.tope.Tope"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="al.aldi.tope.Tope" />
@@ -86,8 +97,8 @@
         <activity
             android:name="al.aldi.tope.view.VlcControlActivity"
             android:label="@string/title_activity_vlc_control"
-            android:screenOrientation="portrait"
-            android:parentActivityName="al.aldi.tope.Tope" >
+            android:parentActivityName="al.aldi.tope.Tope"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="al.aldi.tope.Tope" />

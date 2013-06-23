@@ -15,6 +15,7 @@ import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
 import android.app.ListActivity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,9 +36,9 @@ import android.widget.Toast;
 
 /**
  * List Activity showing the clients.
- *
+ * 
  * @author Aldi Alimucaj
- *
+ * 
  */
 public class ClientsListActivity extends ListActivity {
 
@@ -46,6 +47,7 @@ public class ClientsListActivity extends ListActivity {
     ClientDataSource            source                 = null;
     Intent                      intent                 = null;
     Uri                         data                   = null;
+    ClipData                    clipData               = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,12 @@ public class ClientsListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
         intent = getIntent();
-        if (null != intent && null != intent.getData()) {
+        if (null != intent || null != intent.getData()) {
             data = intent.getData();
+        }
+
+        if (null != intent || null != intent.getClipData()) {
+            clipData = intent.getClipData();
         }
 
         initListener();
@@ -94,8 +100,15 @@ public class ClientsListActivity extends ListActivity {
     }
 
     private void executeOnClients() {
-        if (null != data) {
-            Log.i(TAG, "Uri: " + data.toString());
+        String uri = null;
+        if(null != data){
+            uri = data.toString();
+        }
+        if(null != clipData){
+            uri = clipData.getItemAt(0).getText().toString();
+        }
+        if (null != uri) {
+            Log.i(TAG, "Uri: " + uri);
 
             // TODO: this should be done by calling the database
             ITopeAction executeToClientAction = new TopeAction("openBrowserWithUrl", 0, getString(R.string.prog_op_openBrowserWithUrl));
@@ -107,7 +120,7 @@ public class ClientsListActivity extends ListActivity {
             ITopePayload payload = executeToClientAction.getPayload();
 
             try {
-                payload.addPayload(TopePayload.PARAM_ARG_0, data.toString());
+                payload.addPayload(TopePayload.PARAM_ARG_0, uri);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -213,7 +226,7 @@ public class ClientsListActivity extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if (null != data) {
+        if (null != data || null != clipData) {
             getMenuInflater().inflate(R.menu.clients_with_intent, menu);
         } else {
             getMenuInflater().inflate(R.menu.clients, menu);
