@@ -14,6 +14,7 @@ import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
+import al.aldi.utils.classes.AldiStringUtils;
 import android.app.ListActivity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -101,32 +102,51 @@ public class ClientsListActivity extends ListActivity {
 
     private void executeOnClients() {
         String uri = null;
-        if(null != data){
+        if (null != data) {
             uri = data.toString();
         }
-        if(null != clipData){
+        if (null != clipData) {
             uri = clipData.getItemAt(0).getText().toString();
         }
         if (null != uri) {
             Log.i(TAG, "Uri: " + uri);
 
-            // TODO: this should be done by calling the database
-            ITopeAction executeToClientAction = new TopeAction("openBrowserWithUrl", 0, getString(R.string.prog_op_openBrowserWithUrl));
-            executeToClientAction.setCommandFullPath(PROG_BROWSER_OPEN_URL);
-            executeToClientAction.setActionId(0);
-            CallWithArgsExecutor executor = new CallWithArgsExecutor(executeToClientAction, getApplicationContext());
-            executeToClientAction.setExecutable(executor);
+            if (AldiStringUtils.startsWithHttpS(uri)) {
+                // TODO: this should be done by calling the database
+                ITopeAction executeToClientAction = new TopeAction("openBrowserWithUrl", 0, getString(R.string.prog_op_openBrowserWithUrl));
+                executeToClientAction.setCommandFullPath(PROG_BROWSER_OPEN_URL);
+                executeToClientAction.setActionId(0);
+                CallWithArgsExecutor executor = new CallWithArgsExecutor(executeToClientAction, getApplicationContext());
+                executeToClientAction.setExecutable(executor);
 
-            ITopePayload payload = executeToClientAction.getPayload();
+                ITopePayload payload = executeToClientAction.getPayload();
 
-            try {
-                payload.addPayload(TopePayload.PARAM_ARG_0, uri);
-            } catch (Exception e) {
-                e.printStackTrace();
+                try {
+                    payload.addPayload(TopePayload.PARAM_ARG_0, uri);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                ActionCareTaker act = new ActionCareTaker(executeToClientAction, this);
+                act.execute();
+            } else {
+                ITopeAction executeToClientAction = new TopeAction("readOutLoud", 0, getString(R.string.util_op_textToSpeech));
+                executeToClientAction.setCommandFullPath(UTIL_READ_OUT_LOUD);
+                executeToClientAction.setActionId(0);
+                CallWithArgsExecutor executor = new CallWithArgsExecutor(executeToClientAction, getApplicationContext());
+                executeToClientAction.setExecutable(executor);
+
+                ITopePayload payload = executeToClientAction.getPayload();
+
+                try {
+                    payload.addPayload(TopePayload.PARAM_ARG_0, uri);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                ActionCareTaker act = new ActionCareTaker(executeToClientAction, this);
+                act.execute();
             }
-
-            ActionCareTaker act = new ActionCareTaker(executeToClientAction, this);
-            act.execute();
         } else {
             // TODO: pass the intent to the child and back. dont lose it.
             Toast.makeText(getApplicationContext(), "Info was lost. Try again.", Toast.LENGTH_LONG).show();
