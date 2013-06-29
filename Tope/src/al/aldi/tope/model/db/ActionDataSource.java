@@ -102,7 +102,7 @@ public class ActionDataSource {
     
     private Vector<TopeAction> getAllWithPrefix(String prefix) {
         Vector<TopeAction> vec = new Vector<TopeAction>();
-        Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, COMMAND_FULL+ " LIKE '"+prefix+"%'", null, null, null, null);
+        Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, COMMAND_FULL+ " LIKE '"+prefix+"%'", null, null, null, ACTION_OWN_ID);
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
@@ -190,7 +190,9 @@ public class ActionDataSource {
             + CLIENT_TABLE_NAME + " AS c INNER JOIN " + ACTION_TABLE_NAME
             + " AS a ON c." + ClientOpenHelper.CLIENT_OWN_ID + "=a." + ActionOpenHelper.CLIENT_ID
             + " WHERE a." + METHOD + "='" + topeAction.getMethod() +"'"
-            + " AND a."+CLIENT_ID+" IN ("+ AldiStringUtils.arrayToString(getClientIds(clients), ",") +");";
+            + " AND a."+CLIENT_ID+" IN ("+ AldiStringUtils.arrayToString(getClientIds(clients), ",") +")"
+            + " ORDER BY "+ ACTION_OWN_ID
+            + " ;";
             
             //System.out.println(sql);
 
