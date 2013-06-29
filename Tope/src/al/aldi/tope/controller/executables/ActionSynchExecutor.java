@@ -11,6 +11,7 @@ import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
+import al.aldi.tope.utils.TopeSynchUtils;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
 
     @Override
     public void postRun(Object response) {
+        TopeSynchUtils tsu = new TopeSynchUtils();
 
         @SuppressWarnings("unchecked")
         ActionSynchResponse actions = (ActionSynchResponse) ((TopeResponse<ActionSynchResponse>) response).getPayload();
@@ -41,7 +43,7 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
             for (Iterator<TopeAction> iterator = actionsList.iterator(); iterator.hasNext();) {
                 TopeAction topeAction = (TopeAction) iterator.next();
                 topeAction.setClientId(client.getId());
-                topeAction.setTitle("");
+                topeAction.setTitle(String.valueOf(tsu.getTitle(topeAction.getCommandFullPath())));
             }
 
             ActionDataSource dataSource = new ActionDataSource(context);

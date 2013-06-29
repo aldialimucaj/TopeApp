@@ -51,7 +51,6 @@ public abstract class GeneralSectionFragment extends Fragment {
     HashMap<String, Integer>              commandIconMap           = new HashMap<String, Integer>();
     HashMap<String, String>               oppositeActionsMap       = new HashMap<String, String>();
     HashMap<String, ITopeExecutable>      executorMap              = new HashMap<String, ITopeExecutable>();
-    HashMap<String, String>               actionTitlesMap          = new HashMap<String, String>();
     HashMap<String, ActionClickBehaviour> clickBehaviourMap        = new HashMap<String, ActionClickBehaviour>();
 
     /* ******************* ITopeActions ******************** */
@@ -60,7 +59,6 @@ public abstract class GeneralSectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG, "OsSectionFragment.onCreateView()");
         fillIconMap();
-        fillTitlesMap();
         setExecutorsMap();
         setOppositeActionsMap();
         final View rootView = inflater.inflate(fragmentId, container, false);
@@ -135,11 +133,6 @@ public abstract class GeneralSectionFragment extends Fragment {
                 topeAction.setExecutable(new DefaultExecutor(topeAction, this));
             }
 
-            /* setting the title */
-            if (actionTitlesMap.containsKey(topeAction.getCommandFullPath())) {
-                topeAction.setTitle(actionTitlesMap.get(topeAction.getCommandFullPath()));
-            }
-
             /* setting opposite actions */
             setOpposite(dbActions, topeAction);
 
@@ -170,8 +163,6 @@ public abstract class GeneralSectionFragment extends Fragment {
 
         }
     }
-
-    protected abstract void fillTitlesMap();
 
     protected abstract void setExecutorsMap();
 

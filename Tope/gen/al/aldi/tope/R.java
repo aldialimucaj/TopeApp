@@ -181,6 +181,11 @@ public final class R {
         /**  PROG OPERATION 
          */
         public static final int prog_op_openBrowserWithUrl=0x7f040029;
+        /**  ********* 
+ OTHER 	   
+ ********* 
+         */
+        public static final int tag_other_empty_string=0x7f04003b;
         public static final int title_activity_client_add_edit=0x7f040026;
         /**  CLIENT 
          */

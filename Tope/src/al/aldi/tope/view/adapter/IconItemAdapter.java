@@ -63,7 +63,9 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
             final ITopeAction action = ((ITopeAction) getItem(position));
             TextView tv = (TextView) v.findViewById(R.id.gridActionText);
-            tv.setText(action.getTitle());
+            String title = action.getTitle();
+            int textId = title.equals("")||title.equals("0") ? R.string.tag_other_empty_string : Integer.valueOf(action.getTitle());
+            tv.setText(activity.getString(textId));
 
             ImageView imageView = (ImageView) v.findViewById(R.id.gridActionImage);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -100,7 +102,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
                     td.show(fragment.getChildFragmentManager(), "TAG");
                     return false;
                 }
-                
+
                 public void onClick(View v) {
                     onLongClick(v);
                 }
@@ -143,15 +145,15 @@ public class IconItemAdapter<E> extends BaseAdapter {
                     }
 
                 }
-                
+
                 public boolean onLongClick(View v) {
                     onLongClick(v);
                     return false;
                 }
             };
             v.setOnClickListener(onClickListener);
-            
-            ActionClickBehaviour clickBehaviour = getActionBehaviour( (TopeAction) action);
+
+            ActionClickBehaviour clickBehaviour = getActionBehaviour((TopeAction) action);
             switch (clickBehaviour) {
             case BEHAVE_BOTH_LONG_CLICK:
                 v.setOnClickListener((OnClickListener) onLongClickListener);
@@ -241,7 +243,8 @@ public class IconItemAdapter<E> extends BaseAdapter {
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
     }
-    
-    abstract class AllClickListeners implements View.OnLongClickListener, View.OnClickListener {}
+
+    abstract class AllClickListeners implements View.OnLongClickListener, View.OnClickListener {
+    }
 
 }

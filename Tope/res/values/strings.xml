@@ -82,5 +82,11 @@
     <string name="title_activity_vlc_control_full_screen">Full Screen</string>
     <string name="title_activity_vlc_control_play">Play</string>
     <string name="title_activity_vlc_control_show_time">Show Time</string>
+    
+    <!-- ********* -->
+    <!-- OTHER 	   -->
+    <!-- ********* -->
+    <string name="tag_other_empty_string">#EMPTY#</string>
+    
 
 </resources>

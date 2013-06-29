@@ -23,12 +23,6 @@ public class ProgramSectionFragment extends GeneralSectionFragment {
         super.ACTION_PREFIX = ACTION_PREFIX;
     }
 
-    protected void fillTitlesMap() {
-        actionTitlesMap.put(PROG_BROWSER_OPEN_URL, getString(R.string.prog_op_openBrowserWithUrl));
-        actionTitlesMap.put(PROG_POWERPOINT, getString(R.string.prog_op_controlPowerpoint));
-        actionTitlesMap.put(PROG_VLC, getString(R.string.prog_op_controlVLC));
-    }
-
     protected void setExecutorsMap() {
         executorMap.put(PROG_BROWSER_OPEN_URL, new CallWithArgsExecutor(this));
         executorMap.put(PROG_POWERPOINT, new PresenationExecutor(this));

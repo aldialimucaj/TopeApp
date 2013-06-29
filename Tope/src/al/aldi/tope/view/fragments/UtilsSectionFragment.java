@@ -23,12 +23,6 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
         super.ACTION_PREFIX = ACTION_PREFIX;
     }
 
-    protected void fillTitlesMap() {
-        actionTitlesMap.put(UTIL_SHOW_MSG, getString(R.string.util_op_sendMessage));
-        actionTitlesMap.put(UTIL_BEEP, getString(R.string.util_op_beep));
-        actionTitlesMap.put(UTIL_READ_OUT_LOUD, getString(R.string.util_op_textToSpeech));
-        actionTitlesMap.put(UTIL_READ_CLIPBOARD, getString(R.string.util_op_readClipboard));
-    }
 
     protected void setExecutorsMap() {
         executorMap.put(UTIL_SHOW_MSG, new CallWithArgsExecutor(this));

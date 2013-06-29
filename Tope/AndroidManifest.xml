@@ -70,7 +70,7 @@
                 android:value="al.aldi.tope.Tope" />
         </activity>
         <activity
-            android:name="al.aldi.tope.view.activities.ClientAddEditActivityditActivity"
+            android:name="al.aldi.tope.view.activities.ClientAddEditActivity"
             android:label="@string/title_activity_client_add_edit"
             android:parentActivityName="al.aldi.tope.view.activities.ClientsListActivity" >
             <meta-data

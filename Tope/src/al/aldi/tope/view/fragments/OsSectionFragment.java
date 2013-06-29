@@ -31,23 +31,6 @@ public class OsSectionFragment extends GeneralSectionFragment {
 
     }
   
- 
-    protected void fillTitlesMap() {
-        actionTitlesMap.put(OS_HIBERNATE, getString(R.string.os_op_hibernate));
-        actionTitlesMap.put(OS_LOCK_INPUT, getString(R.string.os_op_lockinput));
-        actionTitlesMap.put(OS_LOCK_SCREEN, getString(R.string.os_op_lockscreen));
-        actionTitlesMap.put(OS_LOG_OUT, getString(R.string.os_op_logoff));
-        actionTitlesMap.put(OS_MONITOR_OFF, getString(R.string.os_op_monitoroff));
-        actionTitlesMap.put(OS_MONITOR_ON, getString(R.string.os_op_monitoron));
-        actionTitlesMap.put(OS_SHUTDOWN, getString(R.string.os_op_shutdown));
-        actionTitlesMap.put(OS_RESTART, getString(R.string.os_op_restart));
-        actionTitlesMap.put(OS_SOUND_ON, getString(R.string.os_op_soundon));
-        actionTitlesMap.put(OS_SOUND_OFF, getString(R.string.os_op_soundoff));
-        actionTitlesMap.put(OS_STAND_BY, getString(R.string.os_op_standby));
-        actionTitlesMap.put(OS_TEST, getString(R.string.title_test));
-        actionTitlesMap.put(OS_UNLOCK_INPUT, getString(R.string.os_op_unlockinput));
-
-    }
 
     protected void setExecutorsMap() {
         executorMap.put(OS_TEST, new TestExecutor(this));
