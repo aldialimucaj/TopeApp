@@ -17,6 +17,12 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * Helper class to access the Database with Action context.
+ * 
+ * @author Aldi Alimucaj
+ *
+ */
 public class ActionDataSource {
     private SQLiteDatabase   database;
     private ActionOpenHelper dbActionHelper;
@@ -60,6 +66,11 @@ public class ActionDataSource {
         return insertId != -1;
     }
 
+    /**
+     * Adds all actions from the list.
+     * 
+     * @param actions
+     */
     public void addAll(List<TopeAction> actions) {
         for (@SuppressWarnings("rawtypes")
         Iterator iterator = actions.iterator(); iterator.hasNext();) {
@@ -68,6 +79,11 @@ public class ActionDataSource {
         }
     }
 
+    /**
+     * Returns all Actions.
+     * 
+     * @return
+     */
     public Vector<TopeAction> getAll() {
         Vector<TopeAction> vec = new Vector<TopeAction>();
         Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, null, null, null, null, null);
@@ -83,7 +99,29 @@ public class ActionDataSource {
 
         return vec;
     }
+    
+    private Vector<TopeAction> getAllWithPrefix(String prefix) {
+        Vector<TopeAction> vec = new Vector<TopeAction>();
+        Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, COMMAND_FULL+ " LIKE '"+prefix+"%'", null, null, null, null);
+        cursor.moveToFirst();
 
+        while (!cursor.isAfterLast()) {
+            TopeAction action = cursorToAction(cursor);
+            vec.add(action);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
+        return vec;
+    }
+
+    /**
+     * Retunrs all actions from this client list.
+     * 
+     * @param clients
+     * @return
+     */
     public Vector<TopeAction> getAll(List<TopeClient> clients) {
         Vector<TopeAction> finalVec = new Vector<TopeAction>();
         for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
@@ -105,27 +143,55 @@ public class ActionDataSource {
         return finalVec;
     }
 
+    /**
+     * Get occurrences without prefix. This returns all actions.
+     * 
+     * @return
+     */
     public HashMap<TopeAction, Integer> getAllOccurencies() {
         ClientDataSource clientDataSource = new ClientDataSource(context);
         clientDataSource.open();
         Vector<TopeClient> clients = clientDataSource.getAllActive();
         clientDataSource.close();
-        return getAllOccurencies(clients);
+        return getAllActionOccurrences(clients, null);
+    }
+    
+    /**
+     * Get occurrences from all Active Clients.
+     * 
+     * @param prefix
+     * @return
+     */
+    public HashMap<TopeAction, Integer> getAllOccurencies(String prefix) {
+        ClientDataSource clientDataSource = new ClientDataSource(context);
+        clientDataSource.open();
+        Vector<TopeClient> clients = clientDataSource.getAllActive();
+        clientDataSource.close();
+        return getAllActionOccurrences(clients, prefix);
     }
 
-    public HashMap<TopeAction, Integer> getAllOccurencies(List<TopeClient> clients) {
+    /**
+     * Returns all action occurrences from the client list. This method is used
+     * to check whether all actions are supported by all active clients.
+     * The mapping is done by [action] = occurrence.
+     * Where occurrence is the number of supported actions by the clients.
+     * 
+     * @param clients
+     * @param prefix
+     * @return
+     */
+    public HashMap<TopeAction, Integer> getAllActionOccurrences(List<TopeClient> clients, String prefix) {
         HashMap<TopeAction, Integer> finalMap = new HashMap<TopeAction, Integer>();
+        Vector<TopeAction> actionsVec = getAllWithPrefix(prefix);
 
-        Vector<TopeAction> clientsVec = getAll();
-
-        for (Iterator<TopeAction> iterator = clientsVec.iterator(); iterator.hasNext();) {
+        for (Iterator<TopeAction> iterator = actionsVec.iterator(); iterator.hasNext();) {
             TopeAction topeAction = (TopeAction) iterator.next();
             String sql = "SELECT COUNT(c.rowid) FROM "
             + CLIENT_TABLE_NAME + " AS c INNER JOIN " + ACTION_TABLE_NAME
             + " AS a ON c." + ClientOpenHelper.CLIENT_OWN_ID + "=a." + ActionOpenHelper.CLIENT_ID
-            + " WHERE a." + METHOD + "='" + topeAction.getMethod()
-            + "' AND a."+CLIENT_ID+" IN ("+ AldiStringUtils.arrayToString(getClientIds(clients), ",") +");";
-
+            + " WHERE a." + METHOD + "='" + topeAction.getMethod() +"'"
+            + " AND a."+CLIENT_ID+" IN ("+ AldiStringUtils.arrayToString(getClientIds(clients), ",") +");";
+            
             //System.out.println(sql);
 
             Cursor cursor = database.rawQuery(sql, null);

@@ -12,7 +12,6 @@ import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.utils.TopeActionUtils;
-import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.adapter.IconItemAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,7 +55,6 @@ public abstract class GeneralSectionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i(TAG, "OsSectionFragment.onCreateView()");
         setExecutorsMap();
         setOppositeActionsMap();
         final View rootView = inflater.inflate(fragmentId, container, false);
@@ -100,11 +98,8 @@ public abstract class GeneralSectionFragment extends Fragment {
 
         ActionDataSource actionDataSource = new ActionDataSource(getActivity());
         actionDataSource.open();
-        dbActionsMap = actionDataSource.getAllOccurencies();
+        dbActionsMap = actionDataSource.getAllOccurencies(ACTION_PREFIX);
         List<TopeAction> dbActions = new Vector<TopeAction>(dbActionsMap.keySet());
-
-        /* filter the actions in order to get just those with the Fragment prefix */
-        dbActions = TopeUtils.filterActions(dbActions, ACTION_PREFIX);// TODO this is stupid. change this to DB query for exact match
 
         for (Iterator<TopeAction> iterator = dbActions.iterator(); iterator.hasNext();) {
             TopeAction topeAction = (TopeAction) iterator.next();
