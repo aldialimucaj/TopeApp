@@ -5,7 +5,7 @@ import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.responses.EmptyResponse;
-import al.aldi.tope.view.PresenationControlActivity;
+import al.aldi.tope.view.activities.PresenationControlActivity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 

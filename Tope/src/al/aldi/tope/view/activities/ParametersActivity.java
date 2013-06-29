@@ -1,4 +1,4 @@
-package al.aldi.tope.view;
+package al.aldi.tope.view.activities;
 
 import java.util.HashMap;
 
@@ -7,6 +7,7 @@ import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.view.adapter.ParametersActivityAdapter;
+import al.aldi.tope.view.fragments.OsSectionFragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

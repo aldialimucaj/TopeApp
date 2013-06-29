@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="al.aldi.tope.view.ClientsListActivity"
+            android:name="al.aldi.tope.view.activities.ClientsListActivity"
             android:label="@string/title_activity_clients"
             android:parentActivityName="al.aldi.tope.Tope" >
             <intent-filter>
@@ -70,15 +70,15 @@
                 android:value="al.aldi.tope.Tope" />
         </activity>
         <activity
-            android:name="al.aldi.tope.view.ClientAddEditActivity"
+            android:name="al.aldi.tope.view.activities.ClientAddEditActivityditActivity"
             android:label="@string/title_activity_client_add_edit"
-            android:parentActivityName="al.aldi.tope.view.ClientsListActivity" >
+            android:parentActivityName="al.aldi.tope.view.activities.ClientsListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="al.aldi.tope.view.Clients" />
         </activity>
         <activity
-            android:name="al.aldi.tope.view.ParametersActivity"
+            android:name="al.aldi.tope.view.activities.ParametersActivity"
             android:label="@string/title_activity_parameters"
             android:parentActivityName="al.aldi.tope.Tope" >
             <meta-data
@@ -86,7 +86,7 @@
                 android:value="al.aldi.tope.Tope" />
         </activity>
         <activity
-            android:name="al.aldi.tope.view.PresenationControlActivity"
+            android:name="al.aldi.tope.view.activities.PresenationControlActivity"
             android:label="@string/title_activity_presenation_control"
             android:parentActivityName="al.aldi.tope.Tope"
             android:screenOrientation="portrait" >
@@ -95,7 +95,7 @@
                 android:value="al.aldi.tope.Tope" />
         </activity>
         <activity
-            android:name="al.aldi.tope.view.VlcControlActivity"
+            android:name="al.aldi.tope.view.activities.VlcControlActivity"
             android:label="@string/title_activity_vlc_control"
             android:parentActivityName="al.aldi.tope.Tope"
             android:screenOrientation="portrait" >

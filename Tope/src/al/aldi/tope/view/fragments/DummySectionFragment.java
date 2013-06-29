@@ -1,4 +1,4 @@
-package al.aldi.tope.view;
+package al.aldi.tope.view.fragments;
 
 import al.aldi.tope.R;
 import android.os.Bundle;

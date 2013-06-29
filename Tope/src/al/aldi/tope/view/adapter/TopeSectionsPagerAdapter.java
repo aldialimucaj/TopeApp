@@ -4,10 +4,10 @@ import java.util.Locale;
 
 import al.aldi.tope.R;
 import al.aldi.tope.Tope;
-import al.aldi.tope.view.DummySectionFragment;
-import al.aldi.tope.view.OsSectionFragment;
-import al.aldi.tope.view.ProgramSectionFragment;
-import al.aldi.tope.view.UtilsSectionFragment;
+import al.aldi.tope.view.fragments.DummySectionFragment;
+import al.aldi.tope.view.fragments.OsSectionFragment;
+import al.aldi.tope.view.fragments.ProgramSectionFragment;
+import al.aldi.tope.view.fragments.UtilsSectionFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -6,7 +6,7 @@ import java.util.List;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.db.BaseProvider;
 import al.aldi.tope.model.db.ClientDataSource;
-import al.aldi.tope.view.ClientsListActivity;
+import al.aldi.tope.view.activities.ClientsListActivity;
 import al.aldi.tope.view.adapter.TopeSectionsPagerAdapter;
 import android.content.Intent;
 import android.os.Bundle;

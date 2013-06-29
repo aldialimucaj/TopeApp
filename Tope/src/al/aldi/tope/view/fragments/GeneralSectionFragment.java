@@ -1,4 +1,4 @@
-package al.aldi.tope.view;
+package al.aldi.tope.view.fragments;
 
 import java.util.HashMap;
 import java.util.Iterator;

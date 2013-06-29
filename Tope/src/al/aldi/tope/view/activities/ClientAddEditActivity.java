@@ -1,4 +1,4 @@
-package al.aldi.tope.view;
+package al.aldi.tope.view.activities;
 
 import al.aldi.tope.R;
 import al.aldi.tope.model.TopeClient;
