@@ -22,6 +22,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -154,6 +155,9 @@ public class IconItemAdapter<E> extends BaseAdapter {
             switch (clickBehaviour) {
             case BEHAVE_BOTH_LONG_CLICK:
                 v.setOnClickListener((OnClickListener) onLongClickListener);
+                break;
+            case BEHAVE_BOTH_CLICK:
+                v.setOnLongClickListener((OnLongClickListener) onClickListener);
                 break;
 
             default:

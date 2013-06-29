@@ -39,6 +39,7 @@ public class TopeCommands {
     public static final String UTIL_SHOW_MSG         = "/util/showMsg";
     public static final String UTIL_BEEP             = "/util/beep";
     public static final String UTIL_READ_OUT_LOUD    = "/util/readOutLoud";
+    public static final String UTIL_READ_CLIPBOARD   = "/util/readClipBoard";
 
     /* ************************************* HTTP ************************************** */
 

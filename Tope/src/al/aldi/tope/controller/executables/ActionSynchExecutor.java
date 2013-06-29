@@ -41,6 +41,7 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
             for (Iterator<TopeAction> iterator = actionsList.iterator(); iterator.hasNext();) {
                 TopeAction topeAction = (TopeAction) iterator.next();
                 topeAction.setClientId(client.getId());
+                topeAction.setTitle("");
             }
 
             ActionDataSource dataSource = new ActionDataSource(context);
@@ -81,9 +82,8 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
     }
 
     @Override
-    public void preRun(Object response) {
-        // TODO Auto-generated method stub
-
+    public boolean preRun(Object response) {
+        return true;
     }
 
 }

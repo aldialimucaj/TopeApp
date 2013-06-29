@@ -30,7 +30,8 @@ public class ActionOpenHelper extends SQLiteOpenHelper {
             TITLE + " varchar(100), " +
             ACTIVE + " varchar(100), " +
             REVISION_ID + " integer, "+
-            OPPOSITE_ACTION + " integer )" // last one, remove comma
+            OPPOSITE_ACTION + " integer, " +
+            "UNIQUE ("+CLIENT_ID+","+COMMAND_FULL+"))" // last one, remove comma
                                               ;
 
     public static String     DB_DROP_TABLE    = "DROP TABLE IF EXISTS " + ACTION_TABLE_NAME;

@@ -19,6 +19,10 @@ import android.support.v4.app.Fragment;
 import com.google.gson.reflect.TypeToken;
 
 /**
+ * 
+ * This class offers the possibility to the action to add arguments to the request.
+ * It also takes care of the dialog which is displayed to accept the manual arguments.  
+ * 
  * @author Aldi Alimucaj
  *
  */
@@ -61,9 +65,10 @@ public class CallWithArgsExecutor extends MainExecutor<TopeResponse<EmptyRespons
     }
 
     @Override
-    public void preRun(Object payload) {
-
+    public boolean preRun(Object response) {
+        return true;
     }
+
 
     @Override
     public void postRun(Object response) {

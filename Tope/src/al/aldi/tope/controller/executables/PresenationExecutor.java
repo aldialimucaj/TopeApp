@@ -36,10 +36,10 @@ public class PresenationExecutor extends MainExecutor<TopeResponse<EmptyResponse
     }
 
     @Override
-    public void preRun(Object response) {
-        // TODO Auto-generated method stub
-        
+    public boolean preRun(Object response) {
+        return true;
     }
+
 
     @Override
     public void postRun(Object response) {

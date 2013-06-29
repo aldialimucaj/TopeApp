@@ -36,10 +36,10 @@ public class VlcExecutor extends MainExecutor<TopeResponse<EmptyResponse>> imple
     }
 
     @Override
-    public void preRun(Object response) {
-        // TODO Auto-generated method stub
-        
+    public boolean preRun(Object response) {
+        return true;
     }
+
 
     @Override
     public void postRun(Object response) {

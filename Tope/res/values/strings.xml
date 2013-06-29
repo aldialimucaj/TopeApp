@@ -58,6 +58,7 @@
     <string name="util_op_sendMessage">Send Message</string>
     <string name="util_op_beep">Send a Bell</string>
     <string name="util_op_textToSpeech">Send Text to Speech</string>
+    <string name="util_op_readClipboard">Copy Clipboard</string>
 
     <!-- ********* -->
     <!-- DIALOGS   -->
