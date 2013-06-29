@@ -1,7 +1,6 @@
 package al.aldi.tope.view.fragments;
 
 import static al.aldi.tope.utils.TopeCommands.*;
-import al.aldi.tope.R;
 import al.aldi.tope.controller.executables.CallWithArgsExecutor;
 import al.aldi.tope.controller.executables.PresenationExecutor;
 import al.aldi.tope.controller.executables.VlcExecutor;
@@ -31,12 +30,6 @@ public class ProgramSectionFragment extends GeneralSectionFragment {
 
     protected void setOppositeActionsMap() {
 
-    }
-
-    protected void fillIconMap() {
-        commandIconMap.put(PROG_BROWSER_OPEN_URL, R.drawable.progs_chromium_browser);
-        commandIconMap.put(PROG_POWERPOINT, R.drawable.progs_impress);
-        commandIconMap.put(PROG_VLC, R.drawable.progs_vlc);
     }
 
     @Override

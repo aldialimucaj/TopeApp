@@ -1,7 +1,6 @@
 package al.aldi.tope.view.fragments;
 
 import static al.aldi.tope.utils.TopeCommands.*;
-import al.aldi.tope.R;
 import al.aldi.tope.controller.executables.CallWithArgsExecutor;
 import al.aldi.tope.controller.executables.ClioboardPayloadExecutor;
 import al.aldi.tope.utils.TopeActionUtils;
@@ -34,12 +33,6 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
 
     }
 
-    protected void fillIconMap() {
-        commandIconMap.put(UTIL_SHOW_MSG, R.drawable.info);
-        commandIconMap.put(UTIL_BEEP, R.drawable.utils_bell);
-        commandIconMap.put(UTIL_READ_OUT_LOUD, R.drawable.utils_text_to_speech);
-        commandIconMap.put(UTIL_READ_CLIPBOARD, R.drawable.utils_clipboard);
-    }
 
     @Override
     protected void postRenderingActions() {

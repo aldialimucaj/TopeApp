@@ -9,9 +9,11 @@ import al.aldi.tope.R;
 public class TopeSynchUtils {
 
     HashMap<String, Integer> actionTitlesMap = new HashMap<String, Integer>();
+    HashMap<String, Integer> commandIconMap  = new HashMap<String, Integer>();
 
     public TopeSynchUtils() {
         createTitles();
+        createIcons();
     }
 
     public int getTitle(String hashFullCommand) {
@@ -24,11 +26,58 @@ public class TopeSynchUtils {
         }
         return title;
     }
+    
+    public int getIcon(String hashFullCommand) {
+        int icon = 0;
+        if (commandIconMap.containsKey(hashFullCommand)) {
+            Integer tempIcon = commandIconMap.get(hashFullCommand);
+            if (null != tempIcon) {
+                icon = tempIcon;
+            }
+        }
+        return icon;
+    }
+
+    private void createIcons() {
+        /* *************************************************************************** */
+        /* *********************************** OS ************************************ */
+        /* *************************************************************************** */
+        commandIconMap.put(OS_HIBERNATE, R.drawable.system_hibernate);
+        commandIconMap.put(OS_LOCK_INPUT, R.drawable.system_input_keyboard);
+        commandIconMap.put(OS_LOCK_SCREEN, R.drawable.system_lock_screen);
+        commandIconMap.put(OS_LOG_OUT, R.drawable.system_log_out);
+        commandIconMap.put(OS_MONITOR_OFF, R.drawable.system_monitor_off);
+        commandIconMap.put(OS_MONITOR_ON, R.drawable.system_monitor);
+        commandIconMap.put(OS_SHUTDOWN, R.drawable.system_shutdown);
+        commandIconMap.put(OS_RESTART, R.drawable.system_restart);
+        commandIconMap.put(OS_SOUND_ON, R.drawable.system_sound_on);
+        commandIconMap.put(OS_SOUND_OFF, R.drawable.system_sound_off);
+        commandIconMap.put(OS_STAND_BY, R.drawable.system_standby);
+        commandIconMap.put(OS_TEST, R.drawable.info);
+        commandIconMap.put(OS_UNLOCK_INPUT, R.drawable.system_input_keyboard_blocked);
+        
+        /* *************************************************************************** */
+        /* ***************************** PROG **************************************** */
+        /* *************************************************************************** */
+        commandIconMap.put(PROG_BROWSER_OPEN_URL, R.drawable.progs_chromium_browser);
+        commandIconMap.put(PROG_POWERPOINT, R.drawable.progs_impress);
+        commandIconMap.put(PROG_VLC, R.drawable.progs_vlc);
+        
+        /* *************************************************************************** */
+        /* ***************************** UTILS *************************************** */
+        /* *************************************************************************** */
+        commandIconMap.put(UTIL_SHOW_MSG, R.drawable.info);
+        commandIconMap.put(UTIL_BEEP, R.drawable.utils_bell);
+        commandIconMap.put(UTIL_READ_OUT_LOUD, R.drawable.utils_text_to_speech);
+        commandIconMap.put(UTIL_READ_CLIPBOARD, R.drawable.utils_clipboard);
+        
+        
+    }
 
     private void createTitles() {
 
         /* *************************************************************************** */
-        /* ***************************** OS ************************************ */
+        /* *********************************** OS ************************************ */
         /* *************************************************************************** */
         actionTitlesMap.put(OS_HIBERNATE, R.string.os_op_hibernate);
         actionTitlesMap.put(OS_LOCK_INPUT, R.string.os_op_lockinput);

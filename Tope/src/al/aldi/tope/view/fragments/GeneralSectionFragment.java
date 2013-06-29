@@ -48,7 +48,6 @@ public abstract class GeneralSectionFragment extends Fragment {
     TopeActionUtils                       sectionActions           = null;
     Vector<ITopeAction>                   actions                  = null;
     HashMap<TopeAction, Integer>          dbActionsMap             = null;
-    HashMap<String, Integer>              commandIconMap           = new HashMap<String, Integer>();
     HashMap<String, String>               oppositeActionsMap       = new HashMap<String, String>();
     HashMap<String, ITopeExecutable>      executorMap              = new HashMap<String, ITopeExecutable>();
     HashMap<String, ActionClickBehaviour> clickBehaviourMap        = new HashMap<String, ActionClickBehaviour>();
@@ -58,7 +57,6 @@ public abstract class GeneralSectionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG, "OsSectionFragment.onCreateView()");
-        fillIconMap();
         setExecutorsMap();
         setOppositeActionsMap();
         final View rootView = inflater.inflate(fragmentId, container, false);
@@ -118,15 +116,10 @@ public abstract class GeneralSectionFragment extends Fragment {
                 // the actions is not found IN all clients
             }
             String command = topeAction.getCommandFullPath();
-            Integer itemId = commandIconMap.get(command);
-            if (null == itemId) {
-                continue;
-            }
-            topeAction.setItemId(itemId);
 
             /* setting the executor */
-            if (executorMap.containsKey(topeAction.getCommandFullPath())) {
-                ITopeExecutable exe = executorMap.get(topeAction.getCommandFullPath());
+            if (executorMap.containsKey(command)) {
+                ITopeExecutable exe = executorMap.get(command);
                 exe.setAction(topeAction);
                 topeAction.setExecutable(exe);
             } else {
@@ -167,8 +160,6 @@ public abstract class GeneralSectionFragment extends Fragment {
     protected abstract void setExecutorsMap();
 
     protected abstract void setOppositeActionsMap();
-
-    protected abstract void fillIconMap();
 
     protected abstract void postRenderingActions();
 

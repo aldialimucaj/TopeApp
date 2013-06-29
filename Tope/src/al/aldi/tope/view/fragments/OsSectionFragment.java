@@ -1,7 +1,6 @@
 package al.aldi.tope.view.fragments;
 
 import static al.aldi.tope.utils.TopeCommands.*;
-import al.aldi.tope.R;
 import al.aldi.tope.controller.executables.TestExecutor;
 import al.aldi.tope.utils.TopeActionUtils;
 
@@ -42,24 +41,6 @@ public class OsSectionFragment extends GeneralSectionFragment {
         oppositeActionsMap.put(OS_SOUND_OFF, OS_SOUND_ON);
 
     }
-
-    protected void fillIconMap() {
-        commandIconMap.put(OS_HIBERNATE, R.drawable.system_hibernate);
-        commandIconMap.put(OS_LOCK_INPUT, R.drawable.system_input_keyboard);
-        commandIconMap.put(OS_LOCK_SCREEN, R.drawable.system_lock_screen);
-        commandIconMap.put(OS_LOG_OUT, R.drawable.system_log_out);
-        commandIconMap.put(OS_MONITOR_OFF, R.drawable.system_monitor_off);
-        commandIconMap.put(OS_MONITOR_ON, R.drawable.system_monitor);
-        commandIconMap.put(OS_SHUTDOWN, R.drawable.system_shutdown);
-        commandIconMap.put(OS_RESTART, R.drawable.system_restart);
-        commandIconMap.put(OS_SOUND_ON, R.drawable.system_sound_on);
-        commandIconMap.put(OS_SOUND_OFF, R.drawable.system_sound_off);
-        commandIconMap.put(OS_STAND_BY, R.drawable.system_standby);
-        commandIconMap.put(OS_TEST, R.drawable.info);
-        commandIconMap.put(OS_UNLOCK_INPUT, R.drawable.system_input_keyboard_blocked);
-
-    }
-
 
     @Override
     protected void postRenderingActions() {

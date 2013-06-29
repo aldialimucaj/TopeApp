@@ -78,14 +78,6 @@
                 android:value="al.aldi.tope.view.Clients" />
         </activity>
         <activity
-            android:name="al.aldi.tope.view.activities.ParametersActivity"
-            android:label="@string/title_activity_parameters"
-            android:parentActivityName="al.aldi.tope.Tope" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="al.aldi.tope.Tope" />
-        </activity>
-        <activity
             android:name="al.aldi.tope.view.activities.PresenationControlActivity"
             android:label="@string/title_activity_presenation_control"
             android:parentActivityName="al.aldi.tope.Tope"

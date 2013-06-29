@@ -44,6 +44,7 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
                 TopeAction topeAction = (TopeAction) iterator.next();
                 topeAction.setClientId(client.getId());
                 topeAction.setTitle(String.valueOf(tsu.getTitle(topeAction.getCommandFullPath())));
+                topeAction.setItemId(tsu.getIcon(topeAction.getCommandFullPath()));
             }
 
             ActionDataSource dataSource = new ActionDataSource(context);

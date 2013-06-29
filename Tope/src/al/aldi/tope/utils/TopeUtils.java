@@ -11,7 +11,6 @@ import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.adapter.ITopeLongClickAdapter;
 import al.aldi.tope.view.listeners.ActionLongClickListener;
-import android.R.bool;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
