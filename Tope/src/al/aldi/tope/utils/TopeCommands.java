@@ -40,6 +40,7 @@ public class TopeCommands {
     public static final String UTIL_BEEP             = "/util/beep";
     public static final String UTIL_READ_OUT_LOUD    = "/util/readOutLoud";
     public static final String UTIL_READ_CLIPBOARD   = "/util/readClipBoard";
+    public static final String UTIL_PING             = "/util/ping";
 
     /* ************************************* HTTP ************************************** */
 

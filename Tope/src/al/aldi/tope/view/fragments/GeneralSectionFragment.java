@@ -107,6 +107,9 @@ public abstract class GeneralSectionFragment extends Fragment {
             if (actionOccurency <= 0) {
                 continue;// the actions is not found at all in the client set
             }
+            if (!topeAction.isActive() ) {
+                continue; // in case the action has been shut down
+            }
             if (actionOccurency < dbActions.size()) {
                 // the actions is not found IN all clients
             }

@@ -3,6 +3,8 @@ package al.aldi.tope.utils;
 import static al.aldi.tope.utils.TopeCommands.*;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
 
 import al.aldi.tope.R;
 
@@ -10,10 +12,26 @@ public class TopeSynchUtils {
 
     HashMap<String, Integer> actionTitlesMap = new HashMap<String, Integer>();
     HashMap<String, Integer> commandIconMap  = new HashMap<String, Integer>();
+    Vector<String>           ignoreActions   = new Vector<String>();
 
     public TopeSynchUtils() {
         createTitles();
         createIcons();
+        createIgnoreActions();
+    }
+
+    private void createIgnoreActions() {
+        ignoreActions.add(UTIL_PING);
+    }
+
+    public boolean isIgnored(String hashFullCommand) {
+        for (Iterator<String> iterator = ignoreActions.iterator(); iterator.hasNext();) {
+            String type = (String) iterator.next();
+            if (type.equals(hashFullCommand)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getTitle(String hashFullCommand) {
@@ -26,7 +44,7 @@ public class TopeSynchUtils {
         }
         return title;
     }
-    
+
     public int getIcon(String hashFullCommand) {
         int icon = 0;
         if (commandIconMap.containsKey(hashFullCommand)) {
@@ -55,14 +73,14 @@ public class TopeSynchUtils {
         commandIconMap.put(OS_STAND_BY, R.drawable.system_standby);
         commandIconMap.put(OS_TEST, R.drawable.info);
         commandIconMap.put(OS_UNLOCK_INPUT, R.drawable.system_input_keyboard_blocked);
-        
+
         /* *************************************************************************** */
         /* ***************************** PROG **************************************** */
         /* *************************************************************************** */
         commandIconMap.put(PROG_BROWSER_OPEN_URL, R.drawable.progs_chromium_browser);
         commandIconMap.put(PROG_POWERPOINT, R.drawable.progs_impress);
         commandIconMap.put(PROG_VLC, R.drawable.progs_vlc);
-        
+
         /* *************************************************************************** */
         /* ***************************** UTILS *************************************** */
         /* *************************************************************************** */
@@ -70,8 +88,7 @@ public class TopeSynchUtils {
         commandIconMap.put(UTIL_BEEP, R.drawable.utils_bell);
         commandIconMap.put(UTIL_READ_OUT_LOUD, R.drawable.utils_text_to_speech);
         commandIconMap.put(UTIL_READ_CLIPBOARD, R.drawable.utils_clipboard);
-        
-        
+
     }
 
     private void createTitles() {
