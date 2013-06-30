@@ -126,14 +126,14 @@ public class Tope extends FragmentActivity {
                                 if (indexPing < clientSize) {
                                     if(indexPing == 0){
                                      // RED
-                                        pagerTabStrip.setTabIndicatorColor(0xFF3300);
+                                        pagerTabStrip.setTabIndicatorColor(0xA40004);
                                     }else{
-                                     // ORANGE
-                                        pagerTabStrip.setTabIndicatorColor(0xFF7F00);
+                                     // YELLOW
+                                        pagerTabStrip.setTabIndicatorColor(0xFFF400);
                                     }
                                 } else {
                                     // GREEN
-                                    pagerTabStrip.setTabIndicatorColor(0x669900);
+                                    pagerTabStrip.setTabIndicatorColor(0x00CC00);
                                 }
 
                             }
@@ -151,7 +151,7 @@ public class Tope extends FragmentActivity {
                 }
             }).start();
         } else {
-            pagerTabStrip.setTabIndicatorColor(0xDBDBDB);
+            pagerTabStrip.setTabIndicatorColor(0x030303);
         }
     }
 
