@@ -11,13 +11,15 @@ import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopeResponse;
-import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.BaseProvider;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.view.activities.ClientsListActivity;
+import al.aldi.tope.view.activities.TopeSettingsAcitivity;
 import al.aldi.tope.view.adapter.TopeSectionsPagerAdapter;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -48,14 +50,18 @@ public class Tope extends FragmentActivity {
     ViewPager                mViewPager;
     PagerTabStrip            pagerTabStrip             = null;
     ClientDataSource         source;
-    ActionDataSource         actionSource;
-    boolean                  successful                = true;
+
     boolean                  stop                      = false;
+
+    int                      clientSize                = 0;
+    int                      indexPing                 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tope);
+
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
 
         initDatabase();
         // test();
@@ -73,15 +79,15 @@ public class Tope extends FragmentActivity {
         pagerTabStrip.setTabIndicatorColor(0x669900);
 
         source = new ClientDataSource(getApplicationContext());
-        actionSource = new ActionDataSource(getApplicationContext());
         startStatusChecking();
 
     }
 
     private void startStatusChecking() {
-        // here we get the value from the properties
-        boolean ping = false;
-        
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean ping = prefs.getBoolean("ping_clients_checkbox", false);
+
         if (ping) {
             new Thread(new Runnable() {
 
@@ -95,18 +101,21 @@ public class Tope extends FragmentActivity {
                     action.setExecutable(executor);
 
                     source.open();
-                    actionSource.open();
-                    while (!stop) {
+                    while (PreferenceManager.getDefaultSharedPreferences(Tope.this).getBoolean("ping_clients_checkbox", false)) {
                         @SuppressWarnings("rawtypes")
                         List<TopeResponse> topeResponses = new ArrayList<TopeResponse>();
-                        List<TopeClient> clients = source.getAllActive(action.getMethod()); /* reads all acitve clients from the database */
-                        // List<TopeClient> clients = source.getAllActive();/* reads all acitve clients from the database */
-                        successful = true;
+                        List<TopeClient> clients = source.getAllActive(); /* reads all acitve clients from the database */
+                        clientSize = clients.size();
+                        indexPing = 0;
+
                         for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
                             TopeClient topeClient = (TopeClient) iterator.next();
                             @SuppressWarnings("rawtypes")
                             TopeResponse topeResponse = (TopeResponse) action.execute(topeClient);
-                            successful &= topeResponse.isSuccessful();
+                            boolean successfulPing = topeResponse.isSuccessful();
+                            if (successfulPing) {
+                                indexPing++;
+                            }
                             topeResponses.add(topeResponse);
                         }
 
@@ -114,10 +123,17 @@ public class Tope extends FragmentActivity {
 
                             @Override
                             public void run() {
-                                if (successful) {
-                                    pagerTabStrip.setTabIndicatorColor(0x669900);
+                                if (indexPing < clientSize) {
+                                    if(indexPing == 0){
+                                     // RED
+                                        pagerTabStrip.setTabIndicatorColor(0xFF3300);
+                                    }else{
+                                     // ORANGE
+                                        pagerTabStrip.setTabIndicatorColor(0xFF7F00);
+                                    }
                                 } else {
-                                    pagerTabStrip.setTabIndicatorColor(0xFF3333);
+                                    // GREEN
+                                    pagerTabStrip.setTabIndicatorColor(0x669900);
                                 }
 
                             }
@@ -131,10 +147,11 @@ public class Tope extends FragmentActivity {
                         }
                     }
                     source.close();
-                    actionSource.close();
 
                 }
             }).start();
+        } else {
+            pagerTabStrip.setTabIndicatorColor(0xDBDBDB);
         }
     }
 
@@ -191,6 +208,10 @@ public class Tope extends FragmentActivity {
         switch (item.getItemId()) {
         case R.id.action_clients:
             startActivity(new Intent(this, ClientsListActivity.class));
+            break;
+        case R.id.action_settings:
+            startActivity(new Intent(this, TopeSettingsAcitivity.class));
+            break;
         }
         return super.onOptionsItemSelected(item);
 

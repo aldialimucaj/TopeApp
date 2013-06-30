@@ -11,5 +11,11 @@
         android:orderInCategory="101"
         android:showAsAction="ifRoom"
         android:title="@string/action_clients_delete_selected"/>
+    
+    <item
+        android:id="@+id/clean_all_actions"
+        android:orderInCategory="102"
+        android:showAsAction="never"
+        android:title="@string/action_clients_clean_all_actions"/>
 
 </menu>

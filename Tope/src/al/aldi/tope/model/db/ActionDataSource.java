@@ -231,6 +231,10 @@ public class ActionDataSource {
     public void delete(int id) {
         dbActionHelper.delete(database, id);
     }
+    
+    public void deleteAll() {
+        dbActionHelper.deleteAll(database);
+    }
 
     /**
      * Transforming a cursor data set into a client by matching the fields.

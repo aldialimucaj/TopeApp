@@ -65,7 +65,11 @@ public class IconItemAdapter<E> extends BaseAdapter {
             TextView tv = (TextView) v.findViewById(R.id.gridActionText);
             String title = action.getTitle();
             int textId = title.equals("")||title.equals("0") ? R.string.tag_other_empty_string : Integer.valueOf(action.getTitle());
+            try{
             tv.setText(activity.getString(textId));
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
 
             ImageView imageView = (ImageView) v.findViewById(R.id.gridActionImage);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);

@@ -34,8 +34,9 @@ public class ActionOpenHelper extends SQLiteOpenHelper {
             "UNIQUE ("+CLIENT_ID+","+COMMAND_FULL+"))" // last one, remove comma
                                               ;
 
-    public static String     DB_DROP_TABLE    = "DROP TABLE IF EXISTS " + ACTION_TABLE_NAME;
-    public static String     DB_DLETE_WITH_ID    = "DELETE FROM " + ACTION_TABLE_NAME + " WHERE "+ CLIENT_ID + " = ?;";
+    public static String        DB_DROP_TABLE     = "DROP TABLE IF EXISTS " + ACTION_TABLE_NAME;
+    public static String        DB_DLETE_WITH_ID  = "DELETE FROM " + ACTION_TABLE_NAME + " WHERE " + CLIENT_ID + " = ?;";
+    public static String        DB_DLETE_ALL      = "DELETE FROM " + ACTION_TABLE_NAME + ";";
 
     public ActionOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -66,6 +67,10 @@ public class ActionOpenHelper extends SQLiteOpenHelper {
 
     public void delete(SQLiteDatabase db, int id){
         db.execSQL(DB_DLETE_WITH_ID, new Integer[] {id});
+    }
+    
+    public void deleteAll(SQLiteDatabase db){
+        db.execSQL(DB_DLETE_ALL);
     }
 
 }

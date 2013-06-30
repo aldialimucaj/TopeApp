@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="ping_clients_checkbox"
+        android:summary="@string/pref_ping_clients_checkbox_description"
+        android:title="@string/pref_ping_clients_checkbox_title" />
+
+
+</PreferenceScreen>

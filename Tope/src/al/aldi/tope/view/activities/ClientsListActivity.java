@@ -11,6 +11,7 @@ import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.TopeResponse;
+import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
@@ -269,6 +270,12 @@ public class ClientsListActivity extends ListActivity {
             break;
         case R.id.action_execute_on_clients:
             executeOnClients();
+            break;
+        case R.id.clean_all_actions:
+            ActionDataSource ads = new ActionDataSource(getApplicationContext());
+            ads.open();
+            ads.deleteAll();
+            ads.close();
             break;
         }
         return super.onOptionsItemSelected(item);
