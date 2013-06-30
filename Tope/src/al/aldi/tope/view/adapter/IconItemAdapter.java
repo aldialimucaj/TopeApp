@@ -64,12 +64,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
             final ITopeAction action = ((ITopeAction) getItem(position));
             TextView tv = (TextView) v.findViewById(R.id.gridActionText);
             String title = action.getTitle();
-            int textId = title.equals("") || title.equals("0") ? R.string.tag_other_empty_string : Integer.valueOf(title);
-            try {
-                tv.setText(activity.getString(textId));
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+            tv.setText(title);
 
             ImageView imageView = (ImageView) v.findViewById(R.id.gridActionImage);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -140,12 +135,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
                         TextView descriptionText = (TextView) v.findViewById(R.id.gridActionText);
                         descriptionText.setText(action.getOppositeAction().getTitle());
                         String title = action.getOppositeAction().getTitle();
-                        int textId = title.equals("") || title.equals("0") ? R.string.tag_other_empty_string : Integer.valueOf(title);
-                        try {
-                            descriptionText.setText(activity.getString(textId));
-                        } catch (Exception e) {
-                            System.out.println(e.getMessage());
-                        }
+                        descriptionText.setText(title);
 
                         int indexToReplace = actions.indexOf(action);
 

@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.List;
 
+import al.aldi.tope.R;
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
@@ -43,7 +44,18 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
             for (Iterator<TopeAction> iterator = actionsList.iterator(); iterator.hasNext();) {
                 TopeAction topeAction = (TopeAction) iterator.next();
                 topeAction.setClientId(client.getId());
-                topeAction.setTitle(String.valueOf(tsu.getTitle(topeAction.getCommandFullPath())));
+                // setting the title
+                String actionTitle = "";
+                int title = tsu.getTitle(topeAction.getCommandFullPath());
+                int textId = title == 0 ? R.string.tag_other_empty_string : title;
+                try {
+                    actionTitle = context.getString(textId);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                topeAction.setTitle(actionTitle);
+                // finished with the title 
+                
                 topeAction.setItemId(tsu.getIcon(topeAction.getCommandFullPath()));
                 topeAction.setActive(!tsu.isIgnored(topeAction.getCommandFullPath()));
             }
