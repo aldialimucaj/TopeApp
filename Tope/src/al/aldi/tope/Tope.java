@@ -76,7 +76,7 @@ public class Tope extends FragmentActivity {
 
         pagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_title_strip);
         pagerTabStrip.setDrawFullUnderline(true);
-        pagerTabStrip.setTabIndicatorColor(0x669900);
+        pagerTabStrip.setTabIndicatorColor(0x030303);
 
         source = new ClientDataSource(getApplicationContext());
         startStatusChecking();
