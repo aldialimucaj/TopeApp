@@ -88,6 +88,7 @@ public class TopeSynchUtils {
         commandIconMap.put(UTIL_BEEP, R.drawable.utils_bell);
         commandIconMap.put(UTIL_READ_OUT_LOUD, R.drawable.utils_text_to_speech);
         commandIconMap.put(UTIL_READ_CLIPBOARD, R.drawable.utils_clipboard);
+        commandIconMap.put(UTIL_QUIT_TOPE, R.drawable.utils_quit_tope);
 
     }
 
@@ -125,5 +126,7 @@ public class TopeSynchUtils {
         actionTitlesMap.put(UTIL_BEEP, R.string.util_op_beep);
         actionTitlesMap.put(UTIL_READ_OUT_LOUD, R.string.util_op_textToSpeech);
         actionTitlesMap.put(UTIL_READ_CLIPBOARD, R.string.util_op_readClipboard);
+        actionTitlesMap.put(UTIL_QUIT_TOPE, R.string.util_op_quitTope);
     }
 }
+

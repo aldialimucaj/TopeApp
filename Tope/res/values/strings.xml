@@ -61,6 +61,7 @@
     <string name="util_op_textToSpeech">Send Text to Speech</string>
     <string name="util_op_readClipboard">Copy Clipboard</string>
     <string name="util_op_ping">Ping</string>
+    <string name="util_op_quitTope">Quit Tope Server</string>
 
     <!-- ********* -->
     <!-- DIALOGS -->

@@ -27,6 +27,7 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
         executorMap.put(UTIL_SHOW_MSG, new CallWithArgsExecutor(this));
         executorMap.put(UTIL_READ_OUT_LOUD, new CallWithArgsExecutor(this));
         executorMap.put(UTIL_READ_CLIPBOARD, new ClioboardPayloadExecutor(this));
+        executorMap.put(UTIL_QUIT_TOPE, new CallWithArgsExecutor(this));
     }
 
     protected void setOppositeActionsMap() {

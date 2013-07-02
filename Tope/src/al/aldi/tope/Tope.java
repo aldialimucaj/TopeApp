@@ -42,7 +42,7 @@ public class Tope extends FragmentActivity {
      */
     TopeSectionsPagerAdapter mSectionsPagerAdapter;
 
-    private static final int THREAD_SLEEP_CHECK_CLIENT = 1000;
+    private static final int THREAD_SLEEP_CHECK_CLIENT = 10000; // 10s
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -183,7 +183,7 @@ public class Tope extends FragmentActivity {
 
         source.create("A-PC-Prod", "192.168.178.35", "8080");
         source.create("A-PC-Test", "192.168.178.35", "8181");
-        source.create("WIN8-Test1", "192.168.178.87", "8080");
+        source.create("WIN8-Test1", "192.168.178.67", "8080");
         source.create("Greta-PC", "192.168.178.27", "8080");
         source.create("Puna-PC", "192.168.178.27", "8080");
 
