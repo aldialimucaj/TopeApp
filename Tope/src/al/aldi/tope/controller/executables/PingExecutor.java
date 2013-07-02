@@ -7,8 +7,11 @@ import java.lang.reflect.Type;
 
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
+import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.responses.EmptyResponse;
+import al.aldi.tope.utils.TopeHttpUtil;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 
@@ -31,8 +34,42 @@ public class PingExecutor extends MainExecutor<TopeResponse<EmptyResponse>> impl
     }
 
     @Override
+    public Object run(TopeClient topeClient) {
+
+        /* ******************************************************************************************** */
+
+        boolean continueExecution = preRun(payload);
+
+        /* ******************************************************************************************** */
+        if (continueExecution) {
+            try {
+
+                action.getPayload().addPayload(TopePayload.PARAM_USER, topeClient.getUser());
+                action.getPayload().addPayload(TopePayload.PARAM_PASSWORD, topeClient.getPass());
+                action.getPayload().addPayload(TopePayload.PARAM_DOMAIN, topeClient.getDomain());
+                action.getPayload().addPayload(TopePayload.PARAM_METHOD, action.getMethod());
+                action.getPayload().addPayload(TopePayload.PARAM_ACTION_ID, String.valueOf(action.getActionId()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String responseString = new TopeHttpUtil<TopeResponse<EmptyResponse>>(2000, 2000).sendPostRequestWithParamsRetString(topeClient.getSslURL(action.getCommandFullPath()), action.getPayload().getParameters());
+
+            /* ******************** CALLING ABSTRACT METHOD TO TAKE CARE OF THE OUTPUT ******************** */
+            topeResponse = convertResponse(responseString);
+
+            postRun(topeResponse);
+
+            /* ******************************************************************************************** */
+        } else {
+            topeResponse = convertResponse("{}");
+        }
+        return topeResponse;
+    }
+
+    @Override
     public void postRun(Object response) {
-        
+
     }
 
     @Override
