@@ -248,6 +248,9 @@ public class ClientsListActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         if (null != data || null != clipData) {
+            ListView list = this.getListView();
+            registerForContextMenu(list);
+            list.setOnItemClickListener(null);
             getMenuInflater().inflate(R.menu.clients_with_intent, menu);
         } else {
             getMenuInflater().inflate(R.menu.clients, menu);
@@ -268,6 +271,7 @@ public class ClientsListActivity extends ListActivity {
         case R.id.action_delete_selected:
             deleteSelected();
             break;
+        case R.id.action_execute_on_clients2:
         case R.id.action_execute_on_clients:
             executeOnClients();
             break;
