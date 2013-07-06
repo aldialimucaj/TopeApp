@@ -250,7 +250,13 @@ public class ClientsListActivity extends ListActivity {
         if (null != data || null != clipData) {
             ListView list = this.getListView();
             registerForContextMenu(list);
-            list.setOnItemClickListener(null);
+            list.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Toast.makeText(getApplicationContext(), "Click Execute instead on the Menu or Action Bar.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
             getMenuInflater().inflate(R.menu.clients_with_intent, menu);
         } else {
             getMenuInflater().inflate(R.menu.clients, menu);
