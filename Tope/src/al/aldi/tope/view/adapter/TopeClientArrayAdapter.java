@@ -18,7 +18,7 @@ public class TopeClientArrayAdapter extends ArrayAdapter<TopeClient> {
 
     private final Context		context;
     private List<TopeClient>	values;
-
+    
     public TopeClientArrayAdapter(Context context, int resource, int textViewResourceId, List<TopeClient> objects) {
         super(context, resource, textViewResourceId, objects);
         this.context = context;
@@ -29,12 +29,12 @@ public class TopeClientArrayAdapter extends ArrayAdapter<TopeClient> {
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.client_list, parent, false);
-        TextView textView = (TextView) rowView.findViewById(R.id.client_name_text);
-        TextView telNrView = (TextView) rowView.findViewById(R.id.tel_nr);
+        TextView textView = (TextView) rowView.findViewById(R.id.client_list_name_text);
+        TextView telNrView = (TextView) rowView.findViewById(R.id.client_list_tel_nr);
         textView.setText(values.get(position).getName());
         telNrView.setText(values.get(position).getIp());
 
-        CheckBox active = (CheckBox) rowView.findViewById(R.id.client_active);
+        CheckBox active = (CheckBox) rowView.findViewById(R.id.client_list_active);
         active.setChecked(values.get(position).isActive());
         active.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 

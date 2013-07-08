@@ -70,7 +70,7 @@ public class ClientsListActivity extends ListActivity {
         source = new ClientDataSource(getApplicationContext());
         source.open();
 
-        TopeClientArrayAdapter adapter = new TopeClientArrayAdapter(getApplicationContext(), R.id.drag_handle, R.id.client_name_text, source.getAll());
+        TopeClientArrayAdapter adapter = new TopeClientArrayAdapter(getApplicationContext(), R.id.client_list_image_view, R.id.client_list_name_text, source.getAll());
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         getListView().setAdapter(adapter);
         // Show the Up button in the action bar.

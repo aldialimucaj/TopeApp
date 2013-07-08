@@ -5,7 +5,7 @@
     android:orientation="horizontal" >
 
     <ImageView
-        android:id="@id/drag_handle"
+        android:id="@id/client_list_image_view"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/item_height"
         android:layout_weight="0"
@@ -19,7 +19,7 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/client_name_text"
+            android:id="@+id/client_list_name_text"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height"
             android:paddingBottom="5dp"
@@ -30,7 +30,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/tel_nr"
+            android:id="@+id/client_list_tel_nr"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/item_height"
             android:layout_marginTop="15dp"
@@ -40,7 +40,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <CheckBox
-            android:id="@+id/client_active"
+            android:id="@+id/client_list_active"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

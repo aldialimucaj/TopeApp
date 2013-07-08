@@ -91,15 +91,16 @@ public final class R {
         public static final int clientPass=0x7f090007;
         public static final int clientPort=0x7f090004;
         public static final int clientUser=0x7f090006;
-        public static final int client_active=0x7f09001e;
         public static final int client_edit=0x7f09002b;
-        public static final int client_name_text=0x7f09001c;
+        public static final int client_list_active=0x7f09001e;
+        public static final int client_list_image_view=0x7f090000;
+        public static final int client_list_name_text=0x7f09001c;
+        public static final int client_list_tel_nr=0x7f09001d;
         public static final int client_synchronize=0x7f09002a;
         public static final int dialog_name_editText1=0x7f090022;
         public static final int dialog_name_setExecutionDate=0x7f090020;
         public static final int dialog_name_setTimer=0x7f090021;
         public static final int dialog_standard=0x7f09001f;
-        public static final int drag_handle=0x7f090000;
         public static final int fragmentGridView=0x7f090025;
         public static final int gridActionImage=0x7f090026;
         public static final int gridActionText=0x7f090027;
@@ -112,7 +113,6 @@ public final class R {
         public static final int presentation_buttonFullScreen=0x7f09000e;
         public static final int presentation_imageViewLeftRight=0x7f090012;
         public static final int section_label=0x7f090023;
-        public static final int tel_nr=0x7f09001d;
         public static final int test_test_action=0x7f090028;
         public static final int vlc_buttonFullScreen=0x7f090015;
         public static final int vlc_buttonPlayPause=0x7f09001a;
