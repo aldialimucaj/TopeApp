@@ -64,7 +64,7 @@ public class Tope extends FragmentActivity {
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
 
         initDatabase();
-        // test();
+//        test();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.

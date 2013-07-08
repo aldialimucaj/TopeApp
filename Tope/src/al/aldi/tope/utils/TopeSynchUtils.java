@@ -10,14 +10,16 @@ import al.aldi.tope.R;
 
 public class TopeSynchUtils {
 
-    HashMap<String, Integer> actionTitlesMap = new HashMap<String, Integer>();
-    HashMap<String, Integer> commandIconMap  = new HashMap<String, Integer>();
-    Vector<String>           ignoreActions   = new Vector<String>();
+    HashMap<String, Integer> actionTitlesMap     = new HashMap<String, Integer>();
+    HashMap<String, Integer> commandIconMap      = new HashMap<String, Integer>();
+    Vector<String>           ignoreActions       = new Vector<String>();
+    Vector<String>           confirmationActions = new Vector<String>();
 
     public TopeSynchUtils() {
         createTitles();
         createIcons();
         createIgnoreActions();
+        createConfirmationActions();
     }
 
     private void createIgnoreActions() {
@@ -26,6 +28,16 @@ public class TopeSynchUtils {
 
     public boolean isIgnored(String hashFullCommand) {
         for (Iterator<String> iterator = ignoreActions.iterator(); iterator.hasNext();) {
+            String type = (String) iterator.next();
+            if (type.equals(hashFullCommand)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean isConfirmationNeeded(String hashFullCommand) {
+        for (Iterator<String> iterator = confirmationActions.iterator(); iterator.hasNext();) {
             String type = (String) iterator.next();
             if (type.equals(hashFullCommand)) {
                 return true;
@@ -54,6 +66,13 @@ public class TopeSynchUtils {
             }
         }
         return icon;
+    }
+    private void createConfirmationActions() {
+        confirmationActions.add(OS_LOG_OUT);
+        confirmationActions.add(OS_RESTART);
+        confirmationActions.add(OS_SHUTDOWN);
+        confirmationActions.add(OS_STAND_BY);
+        confirmationActions.add(OS_HIBERNATE);
     }
 
     private void createIcons() {
@@ -129,4 +148,3 @@ public class TopeSynchUtils {
         actionTitlesMap.put(UTIL_QUIT_TOPE, R.string.util_op_quitTope);
     }
 }
-

@@ -22,37 +22,39 @@ import com.google.gson.annotations.Expose;
  */
 public class TopeAction implements ITopeAction {
     @Expose
-    private long              actionId         = -1;
+    private long              actionId           = -1;
     @Expose
-    private long              clientId         = -1;
+    private long              clientId           = -1;
     @Expose
-    private int               itemId           = 0;
+    private int               itemId             = 0;
     @Expose
-    private String            module           = null;
+    private String            module             = null;
     @Expose
-    private String            method           = null;
+    private String            method             = null;
     @Expose
-    private String            commandFullPath  = null;
+    private String            commandFullPath    = null;
     @Expose
-    private String            title            = null;
+    private String            title              = null;
     @Expose
-    private boolean           active           = true;
+    private boolean           active             = true;
     @Expose
-    private int               revisionId       = 0;
+    private int               revisionId         = 0;
     @Expose
-    private long              oppositeActionId = -1;
+    private long              oppositeActionId   = -1;
     @Expose
-    private boolean           outputIgnored    = false;
+    private boolean           outputIgnored      = false;
+    @Expose
+    private boolean           confirmationNeeded = false;
 
     /* context view which will be shown if long click for example */
-    protected View            contextView      = null;
+    protected View            contextView        = null;
 
     protected ITopeExecutable exec;
 
     protected ITopeAction     oppositeAction;
 
     @Expose
-    protected ITopePayload    payload          = new TopePayload();
+    protected ITopePayload    payload            = new TopePayload();
 
     public TopeAction() {
     }
@@ -298,6 +300,15 @@ public class TopeAction implements ITopeAction {
     @Override
     public boolean isOutputIgnored() {
         return outputIgnored;
+    }
+    
+
+    public boolean isConfirmationNeeded() {
+        return confirmationNeeded;
+    }
+
+    public void setConfirmationNeeded(boolean confirmationNeeded) {
+        this.confirmationNeeded = confirmationNeeded;
     }
 
     @Override

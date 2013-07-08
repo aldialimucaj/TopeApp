@@ -15,7 +15,9 @@ import al.aldi.tope.view.fragments.GeneralSectionFragment;
 import al.aldi.tope.view.fragments.GeneralSectionFragment.ActionClickBehaviour;
 import al.aldi.tope.view.listeners.ActionTouchAlphaListener;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -112,37 +114,34 @@ public class IconItemAdapter<E> extends BaseAdapter {
 
             AllClickListeners onClickListener = new AllClickListeners() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
 
                     vibrator.vibrate(TopeUtils.TOPE_ACTION_CLICK_VIBRATION_SHORT);
 
                     /* ****************** */
                     /* EXECUTING ACTION */
                     /* ****************** */
-                    ITopeAction action = ((ITopeAction) TopeUtils.getAction(actions, v));
-                    ActionCareTaker act = new ActionCareTaker(action, getActivity());
-                    act.execute();
+                    final ITopeAction action = ((ITopeAction) TopeUtils.getAction(actions, v));
+                    /* CONFIRMATION */
+                    if (action.isConfirmationNeeded()) {
+                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    executeAction(action, v);
+                                    break;
 
-                    if (null != action && action.hasOppositeAction()) {
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    return;
+                                }
+                            }
+                        };
 
-                        ImageView actionImage = (ImageView) v.findViewById(R.id.gridActionImage);
-                        actionImage.setImageResource(action.getOppositeAction().getItemId());
-                        actionImage.setTag(action.getOppositeAction().getItemId());
-
-                        /* setting the alpha changer as the action image is touched */
-                        actionImage.setOnTouchListener(new ActionTouchAlphaListener());
-
-                        TextView descriptionText = (TextView) v.findViewById(R.id.gridActionText);
-                        descriptionText.setText(action.getOppositeAction().getTitle());
-                        String title = action.getOppositeAction().getTitle();
-                        descriptionText.setText(title);
-
-                        int indexToReplace = actions.indexOf(action);
-
-                        action = action.getOppositeAction();
-
-                        /* Swapping item the with the opposite action in the rendering list */
-                        actions.set(indexToReplace, action);
+                        AlertDialog.Builder ab = new AlertDialog.Builder(activity);
+                        ab.setMessage("Execute \"" + action.getTitle() + "\"?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+                    } else {
+                        executeAction(action, v);
                     }
 
                 }
@@ -170,6 +169,33 @@ public class IconItemAdapter<E> extends BaseAdapter {
             return v;
         } else {
             return (LinearLayout) convertView;
+        }
+    }
+
+    private void executeAction(ITopeAction action, View v) {
+        ActionCareTaker act = new ActionCareTaker(action, getActivity());
+        act.execute();
+
+        if (null != action && action.hasOppositeAction()) {
+
+            ImageView actionImage = (ImageView) v.findViewById(R.id.gridActionImage);
+            actionImage.setImageResource(action.getOppositeAction().getItemId());
+            actionImage.setTag(action.getOppositeAction().getItemId());
+
+            /* setting the alpha changer as the action image is touched */
+            actionImage.setOnTouchListener(new ActionTouchAlphaListener());
+
+            TextView descriptionText = (TextView) v.findViewById(R.id.gridActionText);
+            descriptionText.setText(action.getOppositeAction().getTitle());
+            String title = action.getOppositeAction().getTitle();
+            descriptionText.setText(title);
+
+            int indexToReplace = actions.indexOf(action);
+
+            action = action.getOppositeAction();
+
+            /* Swapping item the with the opposite action in the rendering list */
+            actions.set(indexToReplace, action);
         }
     }
 

@@ -58,6 +58,7 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
                 
                 topeAction.setItemId(tsu.getIcon(topeAction.getCommandFullPath()));
                 topeAction.setActive(!tsu.isIgnored(topeAction.getCommandFullPath()));
+                topeAction.setConfirmationNeeded(tsu.isConfirmationNeeded(topeAction.getCommandFullPath()));
             }
 
             ActionDataSource dataSource = new ActionDataSource(context);

@@ -26,7 +26,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class ActionDataSource {
     private SQLiteDatabase   database;
     private ActionOpenHelper dbActionHelper;
-    private String[]         allColumns = { ACTION_OWN_ID, CLIENT_ID, ITEM_ID, MODULE, METHOD, COMMAND_FULL, TITLE, ACTIVE, REVISION_ID, OPPOSITE_ACTION };
+    private String[]         allColumns = { ACTION_OWN_ID, CLIENT_ID, ITEM_ID, MODULE, METHOD, COMMAND_FULL, TITLE, ACTIVE, REVISION_ID, OPPOSITE_ACTION, CONFIRMATION_NEEDED };
     private Context          context;
 
     public ActionDataSource(Context context) {
@@ -60,6 +60,7 @@ public class ActionDataSource {
         values.put(ACTIVE, action.isActive());
         values.put(REVISION_ID, action.getRevisionId());
         values.put(OPPOSITE_ACTION, action.getOppositeActionId());
+        values.put(CONFIRMATION_NEEDED, action.isConfirmationNeeded());
 
         long insertId = database.insert(ACTION_TABLE_NAME, null, values);
 
@@ -254,6 +255,7 @@ public class ActionDataSource {
         action.setActive(cursor.getInt(7) == 1);
         action.setRevisionId(Integer.valueOf(cursor.getString(8)));
         action.setOppositeActionId(cursor.getLong(9));
+        action.setConfirmationNeeded(cursor.getInt(10) == 1);
 
         return action;
     }

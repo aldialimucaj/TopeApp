@@ -59,4 +59,8 @@ public interface ITopeAction extends Parcelable {
     public ITopeAction getOppositeAction();
 
     public boolean hasOppositeAction();
+    
+    public boolean isConfirmationNeeded();
+
+    public void setConfirmationNeeded(boolean confirmationNeeded);
 }

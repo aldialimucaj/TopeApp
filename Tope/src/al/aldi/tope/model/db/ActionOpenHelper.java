@@ -6,31 +6,33 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class ActionOpenHelper extends SQLiteOpenHelper {
-    private static final int    DATABASE_VERSION  = 1;
-    private static final String DATABASE_NAME     = "TopeDatabase.db";
-    public static String        ACTION_TABLE_NAME = "tope_action";
+    private static final int    DATABASE_VERSION    = 1;
+    private static final String DATABASE_NAME       = "TopeDatabase.db";
+    public static String        ACTION_TABLE_NAME   = "tope_action";
     public static String        ACTION_OWN_ID       = "actionId";
-    public static String        CLIENT_ID         = "clientId";
-    public static String        ITEM_ID           = "itemId";
-    public static String        MODULE            = "module";
-    public static String        METHOD            = "method";
-    public static String        COMMAND_FULL      = "commandFullPath";
-    public static String        TITLE             = "title";
-    public static String        ACTIVE            = "active";
-    public static String        REVISION_ID       = "revisionId";
-    public static String        OPPOSITE_ACTION   = "oppositeActionId";
+    public static String        CLIENT_ID           = "clientId";
+    public static String        ITEM_ID             = "itemId";
+    public static String        MODULE              = "module";
+    public static String        METHOD              = "method";
+    public static String        COMMAND_FULL        = "commandFullPath";
+    public static String        TITLE               = "title";
+    public static String        ACTIVE              = "active";
+    public static String        REVISION_ID         = "revisionId";
+    public static String        OPPOSITE_ACTION     = "oppositeActionId";
+    public static String        CONFIRMATION_NEEDED = "confirmationNeeded";
 
     public static String     DB_CREATE_TABLE  = "CREATE TABLE IF NOT EXISTS " + ACTION_TABLE_NAME + " (" +
-            ACTION_OWN_ID + " integer not null, " +
-            CLIENT_ID + " integer, " +
-            ITEM_ID + " integer, " +
-            METHOD + " varchar(100), " +
-            COMMAND_FULL + " varchar(100), " +
-            MODULE + " varchar(255), " +
-            TITLE + " varchar(100), " +
-            ACTIVE + " varchar(100), " +
-            REVISION_ID + " integer, "+
-            OPPOSITE_ACTION + " integer, " +
+            ACTION_OWN_ID           + " integer not null, " +
+            CLIENT_ID               + " integer, " +
+            ITEM_ID                 + " integer, " +
+            METHOD                  + " varchar(100), " +
+            COMMAND_FULL            + " varchar(100), " +
+            MODULE                  + " varchar(255), " +
+            TITLE                   + " varchar(100), " +
+            ACTIVE                  + " varchar(100), " +
+            REVISION_ID             + " integer, "+
+            OPPOSITE_ACTION         + " integer, " +
+            CONFIRMATION_NEEDED     + " integer, " +
             "UNIQUE ("+CLIENT_ID+","+COMMAND_FULL+"))" // last one, remove comma
                                               ;
 
