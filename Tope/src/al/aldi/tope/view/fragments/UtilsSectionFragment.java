@@ -3,6 +3,7 @@ package al.aldi.tope.view.fragments;
 import static al.aldi.tope.utils.TopeCommands.*;
 import al.aldi.tope.controller.executables.CallWithArgsExecutor;
 import al.aldi.tope.controller.executables.ClioboardPayloadExecutor;
+import al.aldi.tope.controller.executables.ShortcutsExecutor;
 import al.aldi.tope.utils.TopeActionUtils;
 
 /**
@@ -28,6 +29,7 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
         executorMap.put(UTIL_READ_OUT_LOUD, new CallWithArgsExecutor(this));
         executorMap.put(UTIL_READ_CLIPBOARD, new ClioboardPayloadExecutor(this));
         executorMap.put(UTIL_QUIT_TOPE, new CallWithArgsExecutor(this));
+        executorMap.put(UTIL_SHORTCUTS, new ShortcutsExecutor(this));
     }
 
     protected void setOppositeActionsMap() {
@@ -39,6 +41,7 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
     protected void postRenderingActions() {
         clickBehaviourMap.put(UTIL_SHOW_MSG, ActionClickBehaviour.BEHAVE_BOTH_LONG_CLICK);
         clickBehaviourMap.put(UTIL_READ_OUT_LOUD, ActionClickBehaviour.BEHAVE_BOTH_LONG_CLICK);
+        clickBehaviourMap.put(UTIL_SHORTCUTS, ActionClickBehaviour.BEHAVE_BOTH_CLICK);
     }
 }
 

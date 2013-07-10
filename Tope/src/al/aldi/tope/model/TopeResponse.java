@@ -3,25 +3,37 @@ package al.aldi.tope.model;
 import java.util.Date;
 
 public class TopeResponse<E> {
-    private boolean success    = false;
-    private int     statusCode = 0;
-    private String  message    = null;
-    private String  command    = null;
-    private String  responseId = null;
-    private String  requestId  = null;
-    private Date    date       = null;
-    private E       payload   = null;
+    private boolean success    = false; // set by the server if the command was successful
+    private int     statusCode = 0;     // http status of the call
+    private String  message    = null;  // text message in case of error
+    private String  command    = null;  // command it executed
+    private String  responseId = null;  // unique id
+    private String  requestId  = null;  // unique id
+    private Date    date       = null;  // response date
+    private boolean ignore     = false; // in case the response is obsolete or not awaiting one
+    private E       payload    = null;  // dynamic payload, depending on the request
 
     public TopeResponse() {
+    }
+    
+    public TopeResponse(boolean success) {
+        super();
+        this.success = success;
+    }
+    
+
+    public TopeResponse(boolean success, boolean ignore) {
+        super();
+        this.success = success;
+        this.ignore = ignore;
     }
 
 
     @Override
     public String toString() {
-        return "TopeResponse [success=" + success + ", statusCode=" + statusCode + ", message=" + message + ", command=" + command + ", responseId=" + responseId + ", requestId="
-                + requestId + ", date=" + date + ", payload=" + (payload!=null?payload.getClass():"null") + "]";
+        return "TopeResponse [success=" + success + ", statusCode=" + statusCode + ", message=" + message + ", command=" + command + ", responseId=" + responseId + ", requestId=" + requestId + ", date=" + date
+                + ", payload=" + (payload != null ? payload.getClass() : "null") + "]";
     }
-
 
     public E getPayload() {
         return payload;
@@ -86,5 +98,14 @@ public class TopeResponse<E> {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public boolean isIgnore() {
+        return ignore;
+    }
+
+    public void setIgnore(boolean ignore) {
+        this.ignore = ignore;
+    }
+    
 
 }

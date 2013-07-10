@@ -42,6 +42,7 @@ public class TopeCommands {
     public static final String UTIL_READ_CLIPBOARD   = "/util/readClipBoard";
     public static final String UTIL_PING             = "/util/ping";
     public static final String UTIL_QUIT_TOPE        = "/util/quitTope";
+    public static final String UTIL_SHORTCUTS        = "/util/shortcuts";
 
     /* ************************************* HTTP ************************************** */
 
@@ -51,9 +52,12 @@ public class TopeCommands {
     public static String       BACKSPACE             = "#BACKSPACE";
     public static String       BLACK_OUT             = "#PERIOD";
     public static String       FULL_SCREEN           = "#SHIFTF5";
+    
     public static String       CTRL_LEFT             = "#CTRL-LEFT";
     public static String       CTRL_RIGHT            = "#CTRL-RIGHT";
     public static String       CTRL_UP               = "#CTRL-UP";
     public static String       CTRL_DOWN             = "#CTRL-DOWN";
+    
+    public static String       ALT_F4                = "#ALT-F4";
 
 }

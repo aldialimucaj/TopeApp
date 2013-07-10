@@ -20,9 +20,9 @@ import android.widget.Toast;
 
 /**
  * Utility class for workign with tope objects.
- *
+ * 
  * @author Aldi Alimucaj
- *
+ * 
  */
 public class TopeUtils {
     public static final String LOG_TAG                           = "al.aldi.tope.TopeUtils";
@@ -41,7 +41,7 @@ public class TopeUtils {
 
     /**
      * Get the action out of the list by looking for the item id which it is bound with.
-     *
+     * 
      * @param actions
      * @param id
      *            the Andorid item, like for example the icon.
@@ -60,7 +60,7 @@ public class TopeUtils {
 
     /**
      * Get the action out of the list by looking for the item id which it is bound with.
-     *
+     * 
      * @param actions
      * @param view
      *            the Andorid item, like for example the icon.
@@ -89,7 +89,7 @@ public class TopeUtils {
 
     /**
      * Util method to get back the view.
-     *
+     * 
      * @param map
      * @param action
      * @return
@@ -117,7 +117,7 @@ public class TopeUtils {
 
     /**
      * Print message.
-     *
+     * 
      * @param action
      * @param successful
      */
@@ -127,27 +127,29 @@ public class TopeUtils {
 
     /**
      * Print success message
-     *
+     * 
      * @param action
      * @param topeResponse
      * @param activity
      */
     @SuppressWarnings("rawtypes")
     public static void printSuccessMsg(ITopeAction action, TopeResponse topeResponse, Activity activity) {
-        if (null != topeResponse && topeResponse.isSuccessful()) {
-            Toast.makeText(activity, "[Successful] " + action.getTitle(), Toast.LENGTH_LONG).show();
-        } else {
-            String errMsg = "";
-            if (null != topeResponse && null != topeResponse.getMessage() && !topeResponse.getMessage().equals("null")) {
-                errMsg = ".\n" + topeResponse.getMessage();
+        if (null != topeResponse && !topeResponse.isIgnore()) {
+            if (topeResponse.isSuccessful()) {
+                Toast.makeText(activity, "[Successful] " + action.getTitle(), Toast.LENGTH_LONG).show();
+            } else {
+                String errMsg = "";
+                if (null != topeResponse && null != topeResponse.getMessage() && !topeResponse.getMessage().equals("null")) {
+                    errMsg = ".\n" + topeResponse.getMessage();
+                }
+                Toast.makeText(activity, "[Failed] " + action.getTitle() + errMsg, Toast.LENGTH_LONG).show();
             }
-            Toast.makeText(activity, "[Failed] " + action.getTitle() + errMsg, Toast.LENGTH_LONG).show();
         }
     }
 
     /**
      * Print success message.
-     *
+     * 
      * @param action
      * @param successful
      * @param activity
@@ -163,7 +165,7 @@ public class TopeUtils {
     /**
      * Print bulk message success status. It also checks if there is only one call and in that case
      * it calls the single message print out format.
-     *
+     * 
      * @param topeResponses
      * @param action
      * @param activity
@@ -171,12 +173,12 @@ public class TopeUtils {
     @SuppressWarnings("rawtypes")
     public static void printBulkSuccessMsg(List<TopeResponse> topeResponses, ITopeAction action, Activity activity) {
         /* actions can define if output should be ignored. in this case no print out */
-        if(action.isOutputIgnored()){
+        if (action.isOutputIgnored()) {
             return;
         }
-        
+
         int size = topeResponses.size();
-        
+
         /* if there is only one response then use the single msg format */
         if (1 == size) {
             printSuccessMsg(action, topeResponses.get(0), activity);
@@ -212,7 +214,5 @@ public class TopeUtils {
         }
         return convertedActions;
     }
-    
-    
 
 }

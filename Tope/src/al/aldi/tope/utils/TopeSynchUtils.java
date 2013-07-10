@@ -10,9 +10,13 @@ import al.aldi.tope.R;
 
 public class TopeSynchUtils {
 
+    // matches the action to the titles
     HashMap<String, Integer> actionTitlesMap     = new HashMap<String, Integer>();
+    // matches the actions to the icons which are shown in the fragments
     HashMap<String, Integer> commandIconMap      = new HashMap<String, Integer>();
+    // if the action should be ignored and not shown in the fragments
     Vector<String>           ignoreActions       = new Vector<String>();
+    // if the action needs confirmation before being executed
     Vector<String>           confirmationActions = new Vector<String>();
 
     public TopeSynchUtils() {
@@ -108,7 +112,7 @@ public class TopeSynchUtils {
         commandIconMap.put(UTIL_READ_OUT_LOUD, R.drawable.utils_text_to_speech);
         commandIconMap.put(UTIL_READ_CLIPBOARD, R.drawable.utils_clipboard);
         commandIconMap.put(UTIL_QUIT_TOPE, R.drawable.utils_quit_tope);
-
+        commandIconMap.put(UTIL_SHORTCUTS, R.drawable.utils_shortcuts);
     }
 
     private void createTitles() {
@@ -146,5 +150,6 @@ public class TopeSynchUtils {
         actionTitlesMap.put(UTIL_READ_OUT_LOUD, R.string.util_op_textToSpeech);
         actionTitlesMap.put(UTIL_READ_CLIPBOARD, R.string.util_op_readClipboard);
         actionTitlesMap.put(UTIL_QUIT_TOPE, R.string.util_op_quitTope);
+        actionTitlesMap.put(UTIL_SHORTCUTS, R.string.util_op_shortcuts);
     }
 }
