@@ -46,7 +46,6 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/vlc_imageButtonBackwards"
         android:layout_below="@+id/vlc_buttonPlayPause"
-        android:layout_marginTop="45dp"
         android:src="@drawable/system_sound_low" />
 
     <ImageButton
