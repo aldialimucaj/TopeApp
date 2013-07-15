@@ -74,16 +74,16 @@ public final class R {
     public static final class id {
         public static final int actionName=0x7f09000c;
         public static final int actionValue=0x7f09000d;
-        public static final int action_add_client=0x7f09002c;
-        public static final int action_clients=0x7f090031;
-        public static final int action_delete_selected=0x7f09002d;
-        public static final int action_execute_on_clients=0x7f09002f;
-        public static final int action_execute_on_clients2=0x7f090030;
-        public static final int action_settings=0x7f090029;
+        public static final int action_add_client=0x7f09002d;
+        public static final int action_clients=0x7f090032;
+        public static final int action_delete_selected=0x7f09002e;
+        public static final int action_execute_on_clients=0x7f090030;
+        public static final int action_execute_on_clients2=0x7f090031;
+        public static final int action_settings=0x7f09002a;
         public static final int buttonCancel=0x7f09000a;
         public static final int buttonExecute=0x7f09000b;
         public static final int buttonOk=0x7f090009;
-        public static final int clean_all_actions=0x7f09002e;
+        public static final int clean_all_actions=0x7f09002f;
         public static final int click_remove=0x7f090001;
         public static final int clientActive=0x7f090005;
         public static final int clientDomain=0x7f090008;
@@ -92,12 +92,12 @@ public final class R {
         public static final int clientPass=0x7f090007;
         public static final int clientPort=0x7f090004;
         public static final int clientUser=0x7f090006;
-        public static final int client_edit=0x7f09002b;
+        public static final int client_edit=0x7f09002c;
         public static final int client_list_active=0x7f09001e;
         public static final int client_list_image_view=0x7f090000;
         public static final int client_list_name_text=0x7f09001c;
         public static final int client_list_tel_nr=0x7f09001d;
-        public static final int client_synchronize=0x7f09002a;
+        public static final int client_synchronize=0x7f09002b;
         public static final int dialog_name_editText1=0x7f090022;
         public static final int dialog_name_setExecutionDate=0x7f090020;
         public static final int dialog_name_setTimer=0x7f090021;
@@ -107,6 +107,7 @@ public final class R {
         public static final int gridActionText=0x7f090027;
         public static final int imageButtonNext=0x7f09000f;
         public static final int imageButtonPrevious=0x7f090011;
+        public static final int list_item_simple_no_desc=0x7f090028;
         public static final int mylist=0x7f090024;
         public static final int pager=0x7f090013;
         public static final int pager_title_strip=0x7f090014;
@@ -114,7 +115,7 @@ public final class R {
         public static final int presentation_buttonFullScreen=0x7f09000e;
         public static final int presentation_imageViewLeftRight=0x7f090012;
         public static final int section_label=0x7f090023;
-        public static final int test_test_action=0x7f090028;
+        public static final int test_test_action=0x7f090029;
         public static final int vlc_buttonFullScreen=0x7f090015;
         public static final int vlc_buttonPlayPause=0x7f09001a;
         public static final int vlc_buttonShowTime=0x7f09001b;
@@ -139,6 +140,7 @@ public final class R {
         public static final int fragment_tope_os=0x7f03000c;
         public static final int gridview_fragment=0x7f03000d;
         public static final int gridview_item_layout=0x7f03000e;
+        public static final int list_item_simple_no_desc=0x7f03000f;
     }
     public static final class menu {
         public static final int action_dynamic_menu=0x7f0a0000;

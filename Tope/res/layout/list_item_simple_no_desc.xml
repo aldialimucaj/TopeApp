@@ -1,0 +1,10 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item_simple_no_desc"
+    style="@android:attr/listViewStyle"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dip"
+    android:paddingTop="3dip" 
+    android:textSize="16pt"
+    android:gravity="center"
+    />

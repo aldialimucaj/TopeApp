@@ -3,6 +3,7 @@ package al.aldi.tope.view.activities;
 import static al.aldi.tope.utils.TopeCommands.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import al.aldi.tope.R;
@@ -45,7 +46,8 @@ public class ShortcutsActivity extends ListActivity {
 
         ArrayList<String> values = new ArrayList<String>();
         values.addAll(shortuctsTitle.keySet());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
+        Collections.sort(values);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item_simple_no_desc, values);
         setListAdapter(adapter);
         ListView listView = getListView();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,8 +77,15 @@ public class ShortcutsActivity extends ListActivity {
     }
 
     private void setupKeyMap() {
-        shortuctsTitle.put("Alt-F4", "#ALT-F4");
-
+        shortuctsTitle.put("Alt-F4", ALT_F4);
+        shortuctsTitle.put("Escape", ESCAPE);
+        shortuctsTitle.put("Enter", ENTER);
+        shortuctsTitle.put("Alt-Tab", ALT_TAB);
+        shortuctsTitle.put("Space", SPACE);
+        shortuctsTitle.put("Page Up", PAGE_UP);
+        shortuctsTitle.put("Page Down", PAGE_DOWN);
+        shortuctsTitle.put("Ctrl-W", CTRL_W);
+        shortuctsTitle.put("Ctrl-TAB", CTRL_TAB);
     }
 
     /**

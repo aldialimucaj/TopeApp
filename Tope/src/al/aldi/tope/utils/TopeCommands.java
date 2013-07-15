@@ -46,18 +46,25 @@ public class TopeCommands {
 
     /* ************************************* HTTP ************************************** */
 
+    public static String       ENTER                 = "#ENTER";
+    public static String       ESCAPE                = "#ESC";
     public static String       ARROW_RIGHT           = "#RIGHT";
     public static String       ARROW_LEFT            = "#LEFT";
     public static String       SPACE                 = "#SPACE";
     public static String       BACKSPACE             = "#BACKSPACE";
     public static String       BLACK_OUT             = "#PERIOD";
     public static String       FULL_SCREEN           = "#SHIFTF5";
-    
+    public static String       PAGE_UP               = "#PAGE_UP";
+    public static String       PAGE_DOWN             = "#PAGE_DOWN";
+
     public static String       CTRL_LEFT             = "#CTRL-LEFT";
     public static String       CTRL_RIGHT            = "#CTRL-RIGHT";
     public static String       CTRL_UP               = "#CTRL-UP";
     public static String       CTRL_DOWN             = "#CTRL-DOWN";
-    
+    public static String       CTRL_W                = "#CTRL-W";
+    public static String       CTRL_TAB                = "#CTRL-TAB";
+
     public static String       ALT_F4                = "#ALT-F4";
+    public static String       ALT_TAB               = "#ALT-TAB";
 
 }
