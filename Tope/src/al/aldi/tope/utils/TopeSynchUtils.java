@@ -28,6 +28,7 @@ public class TopeSynchUtils {
 
     private void createIgnoreActions() {
         ignoreActions.add(UTIL_PING);
+        ignoreActions.add(OS_TEST);
     }
 
     public boolean isIgnored(String hashFullCommand) {
