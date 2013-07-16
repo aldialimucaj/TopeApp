@@ -1,10 +1,17 @@
 package al.aldi.tope.view.activities;
 
+import static al.aldi.tope.utils.TopeCommands.*;
 import al.aldi.tope.R;
+import al.aldi.tope.controller.executables.ActionSynchExecutor;
+import al.aldi.tope.model.ITopeAction;
+import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.model.TopeResponse;
+import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.utils.TopeUtils;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.View;
@@ -95,6 +102,30 @@ public class ClientAddEditActivity extends Activity {
                     updateClinet.setContext(getApplicationContext());
                     updateClinet.updateDb();
                 }
+                
+                /* Creating thread because this is the main thread */
+                new Thread(new Runnable() {
+
+                    @SuppressWarnings("unchecked")
+                    @Override
+                    public void run() {
+                        /* creating the synchronization action. no need to store this in the action list as this action is not shown in the grid */
+                        ITopeAction synchronizeAction = new TopeAction(OS_SYNCH_ACTIONS, 0, getString(R.string.client_edit_synchronize));
+                        synchronizeAction.setActionId(0);
+                        ActionSynchExecutor executor = new ActionSynchExecutor(synchronizeAction, getApplicationContext());
+                        synchronizeAction.setExecutable(executor);
+
+                        executor.setClient(client);
+
+                        Object response = synchronizeAction.execute(client);
+                        if (null == response || null == ((TopeResponse<ActionSynchResponse>) response).getPayload()) {
+                            Looper.prepare();
+                            Toast.makeText(getApplicationContext(), "Could not synchronize client. Please check your connection.", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+
+                    }
+                }).start();
 
                 NavUtils.navigateUpFromSameTask(ClientAddEditActivity.this);
             }

@@ -69,8 +69,9 @@ public class ClientsListActivity extends ListActivity {
 
         source = new ClientDataSource(getApplicationContext());
         source.open();
-
         TopeClientArrayAdapter adapter = new TopeClientArrayAdapter(getApplicationContext(), R.id.client_list_image_view, R.id.client_list_name_text, source.getAll());
+        source.close();
+
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         getListView().setAdapter(adapter);
         // Show the Up button in the action bar.
@@ -250,13 +251,12 @@ public class ClientsListActivity extends ListActivity {
         if (null != data || null != clipData) {
             ListView list = this.getListView();
             registerForContextMenu(list);
-            list.setOnItemClickListener(
-                    new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(getApplicationContext(), "Click Execute instead on the Menu or Action Bar.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(getApplicationContext(), "Click Execute instead on the Menu or Action Bar.", Toast.LENGTH_SHORT).show();
+                }
+            });
             getMenuInflater().inflate(R.menu.clients_with_intent, menu);
         } else {
             getMenuInflater().inflate(R.menu.clients, menu);

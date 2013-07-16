@@ -1,6 +1,7 @@
 package al.aldi.tope.model;
 
 import al.aldi.tope.controller.ITopeExecutable;
+import android.annotation.SuppressLint;
 import android.os.Parcelable;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import android.view.View;
  * @author Aldi Alimucaj
  *
  */
+@SuppressLint("ParcelCreator")
 public interface ITopeAction extends Parcelable {
     public Object execute(TopeClient client);
 

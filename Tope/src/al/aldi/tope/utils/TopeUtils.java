@@ -27,7 +27,7 @@ import android.widget.Toast;
 public class TopeUtils {
     public static final String LOG_TAG                           = "al.aldi.tope.TopeUtils";
 
-    public static final String TOPE_DEFAULT_PORT                 = "8080";
+    public static final String TOPE_DEFAULT_PORT                 = "8503";
 
     public static final int    TOPE_ACTION_CLICK_VIBRATION_SHORT = 80;
     public static final int    TOPE_ACTION_CLICK_VIBRATION_LONG  = 200;
