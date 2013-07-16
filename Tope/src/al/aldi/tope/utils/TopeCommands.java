@@ -40,9 +40,11 @@ public class TopeCommands {
     public static final String UTIL_BEEP             = "/util/beep";
     public static final String UTIL_READ_OUT_LOUD    = "/util/readOutLoud";
     public static final String UTIL_READ_CLIPBOARD   = "/util/readClipBoard";
+    public static final String UTIL_WRITE_CLIPBOARD  = "/util/writeClipBoard";
     public static final String UTIL_PING             = "/util/ping";
     public static final String UTIL_QUIT_TOPE        = "/util/quitTope";
     public static final String UTIL_SHORTCUTS        = "/util/shortcuts";
+    
 
     /* ************************************* HTTP ************************************** */
 
@@ -62,7 +64,7 @@ public class TopeCommands {
     public static String       CTRL_UP               = "#CTRL-UP";
     public static String       CTRL_DOWN             = "#CTRL-DOWN";
     public static String       CTRL_W                = "#CTRL-W";
-    public static String       CTRL_TAB                = "#CTRL-TAB";
+    public static String       CTRL_TAB              = "#CTRL-TAB";
 
     public static String       ALT_F4                = "#ALT-F4";
     public static String       ALT_TAB               = "#ALT-TAB";

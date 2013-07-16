@@ -19,21 +19,21 @@ import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 
-public class ClioboardPayloadExecutor extends MainExecutor<TopeResponse<SimpleTextResponse>> implements ITopeExecutable {
+public class ClipboardReadPayloadExecutor extends MainExecutor<TopeResponse<SimpleTextResponse>> implements ITopeExecutable {
 
     private static final String TAG          = "al.aldi.tope.controller.executables.TestExecutable";
 
     ITopeAction                 action       = null;
 
-    public ClioboardPayloadExecutor() {
+    public ClipboardReadPayloadExecutor() {
         super(null, null);
     }
 
-    public ClioboardPayloadExecutor(Fragment fragment) {
+    public ClipboardReadPayloadExecutor(Fragment fragment) {
         super(null, fragment);
     }
 
-    public ClioboardPayloadExecutor(ITopeAction testAction, Fragment fragment) {
+    public ClipboardReadPayloadExecutor(ITopeAction testAction, Fragment fragment) {
         super(testAction, fragment);
         this.action = testAction;
         this.fragment = fragment;

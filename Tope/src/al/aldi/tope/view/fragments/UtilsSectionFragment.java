@@ -2,7 +2,8 @@ package al.aldi.tope.view.fragments;
 
 import static al.aldi.tope.utils.TopeCommands.*;
 import al.aldi.tope.controller.executables.CallWithArgsExecutor;
-import al.aldi.tope.controller.executables.ClioboardPayloadExecutor;
+import al.aldi.tope.controller.executables.ClipboardReadPayloadExecutor;
+import al.aldi.tope.controller.executables.ClipboardWritePayloadExecutor;
 import al.aldi.tope.controller.executables.ShortcutsExecutor;
 import al.aldi.tope.utils.TopeActionUtils;
 
@@ -27,7 +28,8 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
     protected void setExecutorsMap() {
         executorMap.put(UTIL_SHOW_MSG, new CallWithArgsExecutor(this));
         executorMap.put(UTIL_READ_OUT_LOUD, new CallWithArgsExecutor(this));
-        executorMap.put(UTIL_READ_CLIPBOARD, new ClioboardPayloadExecutor(this));
+        executorMap.put(UTIL_READ_CLIPBOARD, new ClipboardReadPayloadExecutor(this));
+        executorMap.put(UTIL_WRITE_CLIPBOARD, new ClipboardWritePayloadExecutor(this));
         executorMap.put(UTIL_QUIT_TOPE, new CallWithArgsExecutor(this));
         executorMap.put(UTIL_SHORTCUTS, new ShortcutsExecutor(this));
     }
