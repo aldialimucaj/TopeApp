@@ -45,6 +45,7 @@
     <string name="os_op_monitoroff">Turn Off Monitor</string>
     <string name="os_op_soundoff">Mute</string>
     <string name="os_op_soundon">Sound On</string>
+    <string name="os_op_wakeOnLan">Wake On Lan</string>
     <string name="title_activity_client_add_edit">ClientAddEditActivity</string>
     <string name="title_activity_parameters">Action Parameters</string>
     <string name="hello_world">Hello world!</string>
@@ -59,8 +60,8 @@
     <string name="util_op_sendMessage">Send Message</string>
     <string name="util_op_beep">Send a Bell</string>
     <string name="util_op_textToSpeech">Send Text to Speech</string>
-    <string name="util_op_readClipboard">Copy Clipboard</string>
-    <string name="util_op_writeClipboard">Paste Clipboard</string>
+    <string name="util_op_readClipboard">Copy PC\'s Clipboard</string>
+    <string name="util_op_writeClipboard">Paste Clipboard to PC</string>
     <string name="util_op_ping">Ping</string>
     <string name="util_op_quitTope">Quit Tope Server</string>
     <string name="util_op_shortcuts">Shortcuts</string>

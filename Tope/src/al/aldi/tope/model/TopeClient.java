@@ -11,23 +11,24 @@ import android.util.Log;
 
 /**
  * A representation of the clinet model with necessary data to access the client.
- *
+ * 
  * @author Aldi Alimucaj
- *
+ * 
  */
 public class TopeClient implements Parcelable {
 
-    private static final String	LOG_TAG	= "TopeClient";
+    private static final String LOG_TAG = "TopeClient";
 
-    private long				id;
-    private String				name;
-    private String				ip;
-    private String				port;
-    private String				user;
-    private String				pass;
-    private String				domain;
-    private boolean				active;
-    private Context				context;
+    private long                id;
+    private String              name;
+    private String              ip;
+    private String              port;
+    private String              user;
+    private String              pass;
+    private String              domain;
+    private boolean             active;
+    private Context             context;
+    private String              mac;
 
     public TopeClient() {
         super();
@@ -196,6 +197,14 @@ public class TopeClient implements Parcelable {
         this.ip = ip;
     }
 
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+
     public String getPort() {
         return port;
     }
@@ -219,7 +228,6 @@ public class TopeClient implements Parcelable {
     public void setPass(String pass) {
         this.pass = pass;
     }
-
 
     public String getDomain() {
         return domain;
@@ -253,7 +261,7 @@ public class TopeClient implements Parcelable {
         dest.writeString(user);
         dest.writeString(pass);
         dest.writeString(domain);
-
+        dest.writeString(mac);
     }
 
     private void readFromParcel(Parcel in) {
@@ -265,16 +273,17 @@ public class TopeClient implements Parcelable {
         user = in.readString();
         pass = in.readString();
         domain = in.readString();
+        mac = in.readString();
     }
 
     @SuppressWarnings("rawtypes")
-    public static final Parcelable.Creator	CREATOR	= new Parcelable.Creator() {
-                                                        public TopeClient createFromParcel(Parcel in) {
-                                                            return new TopeClient(in);
-                                                        }
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+                                                       public TopeClient createFromParcel(Parcel in) {
+                                                           return new TopeClient(in);
+                                                       }
 
-                                                        public TopeClient[] newArray(int size) {
-                                                            return new TopeClient[size];
-                                                        }
-                                                    };
+                                                       public TopeClient[] newArray(int size) {
+                                                           return new TopeClient[size];
+                                                       }
+                                                   };
 }

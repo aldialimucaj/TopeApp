@@ -64,13 +64,14 @@ public final class R {
         public static final int system_sound_off=0x7f02001d;
         public static final int system_sound_on=0x7f02001e;
         public static final int system_standby=0x7f02001f;
-        public static final int tope_icon=0x7f020020;
-        public static final int utils_bell=0x7f020021;
-        public static final int utils_copy_clipboard=0x7f020022;
-        public static final int utils_paste_clipboard=0x7f020023;
-        public static final int utils_quit_tope=0x7f020024;
-        public static final int utils_shortcuts=0x7f020025;
-        public static final int utils_text_to_speech=0x7f020026;
+        public static final int system_wake_on_lan=0x7f020020;
+        public static final int tope_icon=0x7f020021;
+        public static final int utils_bell=0x7f020022;
+        public static final int utils_copy_clipboard=0x7f020023;
+        public static final int utils_paste_clipboard=0x7f020024;
+        public static final int utils_quit_tope=0x7f020025;
+        public static final int utils_shortcuts=0x7f020026;
+        public static final int utils_text_to_speech=0x7f020027;
     }
     public static final class id {
         public static final int actionName=0x7f09000c;
@@ -165,15 +166,15 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int client_edit_edit=0x7f050017;
         public static final int client_edit_synchronize=0x7f050016;
-        public static final int dialog_text1=0x7f050037;
-        public static final int dialog_text2=0x7f050038;
+        public static final int dialog_text1=0x7f050038;
+        public static final int dialog_text2=0x7f050039;
         /**  ********* 
  DIALOGS 
  ********* 
          */
-        public static final int dialog_text_setExecDate=0x7f050035;
-        public static final int dialog_text_setTimer=0x7f050036;
-        public static final int hello_world=0x7f050029;
+        public static final int dialog_text_setExecDate=0x7f050036;
+        public static final int dialog_text_setTimer=0x7f050037;
+        public static final int hello_world=0x7f05002a;
         public static final int os_op_hibernate=0x7f05001c;
         public static final int os_op_lockinput=0x7f050021;
         public static final int os_op_lockscreen=0x7f050020;
@@ -187,48 +188,49 @@ public final class R {
         public static final int os_op_soundon=0x7f050026;
         public static final int os_op_standby=0x7f05001d;
         public static final int os_op_unlockinput=0x7f050022;
+        public static final int os_op_wakeOnLan=0x7f050027;
         /**  Setting's titles 
          */
-        public static final int pref_ping_clients_checkbox_description=0x7f050042;
-        public static final int pref_ping_clients_checkbox_title=0x7f050043;
-        public static final int prog_op_controlPowerpoint=0x7f05002b;
-        public static final int prog_op_controlVLC=0x7f05002c;
+        public static final int pref_ping_clients_checkbox_description=0x7f050043;
+        public static final int pref_ping_clients_checkbox_title=0x7f050044;
+        public static final int prog_op_controlPowerpoint=0x7f05002c;
+        public static final int prog_op_controlVLC=0x7f05002d;
         /**  PROG OPERATION 
          */
-        public static final int prog_op_openBrowserWithUrl=0x7f05002a;
+        public static final int prog_op_openBrowserWithUrl=0x7f05002b;
         /**  ********* 
  OTHER 
  ********* 
          */
-        public static final int tag_other_empty_string=0x7f050040;
-        public static final int title_activity_client_add_edit=0x7f050027;
+        public static final int tag_other_empty_string=0x7f050041;
+        public static final int title_activity_client_add_edit=0x7f050028;
         /**  CLIENT 
          */
         public static final int title_activity_clients=0x7f05000a;
-        public static final int title_activity_parameters=0x7f050028;
+        public static final int title_activity_parameters=0x7f050029;
         /**  ********* 
  ACTIVITES 
  ********* 
  PRESENTATION ACTIVITY 
          */
-        public static final int title_activity_presenation_control=0x7f050039;
-        public static final int title_activity_presenation_control_black_out=0x7f05003b;
-        public static final int title_activity_presenation_control_full_screen=0x7f05003a;
+        public static final int title_activity_presenation_control=0x7f05003a;
+        public static final int title_activity_presenation_control_black_out=0x7f05003c;
+        public static final int title_activity_presenation_control_full_screen=0x7f05003b;
         /**  SHORTCUTS ACTIVITY 
          */
-        public static final int title_activity_shortcuts=0x7f050044;
-        public static final int title_activity_shortcuts_alt_f4=0x7f050045;
+        public static final int title_activity_shortcuts=0x7f050045;
+        public static final int title_activity_shortcuts_alt_f4=0x7f050046;
         /**  ********* 
  SETTINGS 
  ********* 
          */
-        public static final int title_activity_tope_settings=0x7f050041;
+        public static final int title_activity_tope_settings=0x7f050042;
         /**  VLC ACTIVITY 
          */
-        public static final int title_activity_vlc_control=0x7f05003c;
-        public static final int title_activity_vlc_control_full_screen=0x7f05003d;
-        public static final int title_activity_vlc_control_play=0x7f05003e;
-        public static final int title_activity_vlc_control_show_time=0x7f05003f;
+        public static final int title_activity_vlc_control=0x7f05003d;
+        public static final int title_activity_vlc_control_full_screen=0x7f05003e;
+        public static final int title_activity_vlc_control_play=0x7f05003f;
+        public static final int title_activity_vlc_control_show_time=0x7f050040;
         public static final int title_button_cancel=0x7f050008;
         public static final int title_button_execute=0x7f050007;
         public static final int title_button_ok=0x7f050006;
@@ -246,16 +248,16 @@ public final class R {
         public static final int title_section2=0x7f050004;
         public static final int title_section3=0x7f050005;
         public static final int title_test=0x7f050009;
-        public static final int util_op_beep=0x7f05002e;
-        public static final int util_op_ping=0x7f050032;
-        public static final int util_op_quitTope=0x7f050033;
-        public static final int util_op_readClipboard=0x7f050030;
+        public static final int util_op_beep=0x7f05002f;
+        public static final int util_op_ping=0x7f050033;
+        public static final int util_op_quitTope=0x7f050034;
+        public static final int util_op_readClipboard=0x7f050031;
         /**  UTIL OPERATION 
          */
-        public static final int util_op_sendMessage=0x7f05002d;
-        public static final int util_op_shortcuts=0x7f050034;
-        public static final int util_op_textToSpeech=0x7f05002f;
-        public static final int util_op_writeClipboard=0x7f050031;
+        public static final int util_op_sendMessage=0x7f05002e;
+        public static final int util_op_shortcuts=0x7f050035;
+        public static final int util_op_textToSpeech=0x7f050030;
+        public static final int util_op_writeClipboard=0x7f050032;
     }
     public static final class style {
         public static final int ActionBar_Transparent_Topeclient=0x7f060002;

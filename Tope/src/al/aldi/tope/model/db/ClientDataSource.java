@@ -23,7 +23,7 @@ public class ClientDataSource {
     // Database fields
     private SQLiteDatabase   database;
     private ClientOpenHelper dbClientHelper;
-    private String[]         allColumns = { CLIENT_OWN_ID, CLIENT_NAME, CLIENT_IP, CLIENT_PORT, CLIENT_USER, CLIENT_PASS, CLIENT_ACTIVE, CLIENT_DOMAIN };
+    private String[]         allColumns = { CLIENT_OWN_ID, CLIENT_NAME, CLIENT_IP, CLIENT_PORT, CLIENT_USER, CLIENT_PASS, CLIENT_ACTIVE, CLIENT_DOMAIN, CLIENT_MAC };
     private Context          context;
 
     static ClientDataSource  instance;
@@ -62,6 +62,7 @@ public class ClientDataSource {
         values.put(CLIENT_USER, client.getUser());
         values.put(CLIENT_PASS, client.getPass());
         values.put(CLIENT_DOMAIN, client.getDomain());
+        values.put(CLIENT_MAC, client.getMac());
 
         long insertId = database.insert(CLIENT_TABLE_NAME, null, values);
 
@@ -215,6 +216,7 @@ public class ClientDataSource {
         values.put(CLIENT_PASS, client.getPass());
         values.put(CLIENT_ACTIVE, client.isActive());
         values.put(CLIENT_DOMAIN, client.getDomain());
+        values.put(CLIENT_MAC, client.getMac());
 
         database.update(CLIENT_TABLE_NAME, values, ClientOpenHelper.CLIENT_OWN_ID + " = ?", new String[] { String.valueOf(id) });
     }
@@ -235,6 +237,7 @@ public class ClientDataSource {
         client.setPass(cursor.getString(5));
         client.setActive(cursor.getInt(6) == 1);
         client.setDomain(cursor.getString(7));
+        client.setMac(cursor.getString(8));
 
         return client;
     }

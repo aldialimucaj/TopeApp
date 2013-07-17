@@ -2,6 +2,7 @@ package al.aldi.tope.view.fragments;
 
 import static al.aldi.tope.utils.TopeCommands.*;
 import al.aldi.tope.controller.executables.TestExecutor;
+import al.aldi.tope.controller.executables.WakeOnLanExecutor;
 import al.aldi.tope.utils.TopeActionUtils;
 
 /**
@@ -33,6 +34,7 @@ public class OsSectionFragment extends GeneralSectionFragment {
 
     protected void setExecutorsMap() {
         executorMap.put(OS_TEST, new TestExecutor(this));
+        executorMap.put(OS_WAKE_ON_LAN, new WakeOnLanExecutor(this));
     }
 
     protected void setOppositeActionsMap() {

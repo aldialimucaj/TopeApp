@@ -97,6 +97,7 @@ public class TopeSynchUtils {
         commandIconMap.put(OS_STAND_BY, R.drawable.system_standby);
         commandIconMap.put(OS_TEST, R.drawable.info);
         commandIconMap.put(OS_UNLOCK_INPUT, R.drawable.system_input_keyboard_blocked);
+        commandIconMap.put(OS_WAKE_ON_LAN, R.drawable.system_wake_on_lan);
 
         /* *************************************************************************** */
         /* ***************************** PROG **************************************** */
@@ -135,6 +136,7 @@ public class TopeSynchUtils {
         actionTitlesMap.put(OS_STAND_BY, R.string.os_op_standby);
         actionTitlesMap.put(OS_TEST, R.string.title_test);
         actionTitlesMap.put(OS_UNLOCK_INPUT, R.string.os_op_unlockinput);
+        actionTitlesMap.put(OS_WAKE_ON_LAN, R.string.os_op_wakeOnLan);
 
         /* *************************************************************************** */
         /* ***************************** PROG **************************************** */

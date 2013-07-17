@@ -25,6 +25,7 @@ public class TopeCommands {
     public static final String OS_SOUND_OFF          = "/os/soundMute";
     public static final String OS_SOUND_EXACT        = "/os/sound_EXACT";
     public static final String OS_TEST               = "/os/test";
+    public static final String OS_WAKE_ON_LAN        = "/os/wakeOnLan";
 
     public static final String OS_SYNCH_ACTIONS      = "/os/synchActions";
 
@@ -44,7 +45,6 @@ public class TopeCommands {
     public static final String UTIL_PING             = "/util/ping";
     public static final String UTIL_QUIT_TOPE        = "/util/quitTope";
     public static final String UTIL_SHORTCUTS        = "/util/shortcuts";
-    
 
     /* ************************************* HTTP ************************************** */
 

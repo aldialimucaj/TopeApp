@@ -181,11 +181,11 @@ public class Tope extends FragmentActivity {
         ClientDataSource source = new ClientDataSource(getApplicationContext());
         source.open();
 
-        source.create("A-PC-Prod", "192.168.178.35", "8080");
+        source.create("A-PC-Prod", "192.168.178.35", "8503");
         source.create("A-PC-Test", "192.168.178.35", "8181");
-        source.create("WIN8-Test1", "192.168.178.67", "8080");
-        source.create("Greta-PC", "192.168.178.27", "8080");
-        source.create("Puna-PC", "192.168.178.27", "8080");
+        source.create("WIN8-Test1", "192.168.178.67", "8503");
+        source.create("Greta-PC", "192.168.178.27", "8503");
+        source.create("Puna-PC", "10.1.34.50", "8503");
 
         List<TopeClient> clients = source.getAll();
 

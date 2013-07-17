@@ -11,6 +11,7 @@ import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ActionDataSource;
+import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.utils.TopeSynchUtils;
 import android.content.Context;
@@ -36,11 +37,20 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
         TopeSynchUtils tsu = new TopeSynchUtils();
 
         @SuppressWarnings("unchecked")
-        ActionSynchResponse actions = (ActionSynchResponse) ((TopeResponse<ActionSynchResponse>) response).getPayload();
+        TopeResponse<ActionSynchResponse> topeResponse = ((TopeResponse<ActionSynchResponse>) response);
+        ActionSynchResponse actionsSyncResponse = (ActionSynchResponse) topeResponse.getPayload();
+        
 
         /* ***************************** ADDING ACTIONS TO DB ********************************************** */
-        if (null != actions) {
-            List<TopeAction> actionsList = actions.getActions();
+        if (null != actionsSyncResponse) {
+            
+            ClientDataSource cds = new ClientDataSource(context);
+            client.setMac(actionsSyncResponse.getMac());
+            cds.open();
+            cds.updateClient(client);
+            cds.close();
+            
+            List<TopeAction> actionsList = actionsSyncResponse.getActions();
             for (Iterator<TopeAction> iterator = actionsList.iterator(); iterator.hasNext();) {
                 TopeAction topeAction = (TopeAction) iterator.next();
                 topeAction.setClientId(client.getId());
