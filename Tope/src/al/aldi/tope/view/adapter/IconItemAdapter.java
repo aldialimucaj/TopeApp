@@ -1,5 +1,6 @@
 package al.aldi.tope.view.adapter;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -51,6 +52,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
         this.activity = activity;
         this.dbActionsMap = dbActionsMap;
         this.actions = items;
+        Collections.sort(actions);// sort the action by their id. Maybe this is going to change in the future.
         this.maxEntryOccurency = getMaxClientOccurencies(dbActionsMap);
         vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
     }

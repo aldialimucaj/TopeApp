@@ -15,7 +15,7 @@ import android.view.View;
  *
  */
 @SuppressLint("ParcelCreator")
-public interface ITopeAction extends Parcelable {
+public interface ITopeAction extends Parcelable, Comparable<ITopeAction> {
     public Object execute(TopeClient client);
 
     public void setExecutable(ITopeExecutable exec);

@@ -335,4 +335,9 @@ public class TopeAction implements ITopeAction {
                                                        }
                                                    };
 
+    @Override
+    public int compareTo(ITopeAction another) {
+        return Long.valueOf(getActionId()).compareTo(another.getActionId());
+    }
+
 }
