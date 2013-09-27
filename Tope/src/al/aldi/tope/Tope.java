@@ -64,7 +64,7 @@ public class Tope extends FragmentActivity {
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
 
         initDatabase();
-//        test();
+        //test();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
@@ -181,10 +181,11 @@ public class Tope extends FragmentActivity {
         ClientDataSource source = new ClientDataSource(getApplicationContext());
         source.open();
 
-        source.create("A-PC-Prod", "192.168.178.35", "8503");
+        source.create("A-PC-Prod-8", "192.168.178.50", "8503");
+        source.create("A-PC-Prod-Old", "192.168.178.35", "8503");
         source.create("A-PC-Test", "192.168.178.35", "8181");
         source.create("WIN8-Test1", "192.168.178.67", "8503");
-        source.create("Greta-PC", "192.168.178.27", "8503");
+        source.create("Pashate-PC", "192.168.178.27", "8503");
         source.create("Puna-PC", "10.1.34.50", "8503");
 
         List<TopeClient> clients = source.getAll();

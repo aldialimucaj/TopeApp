@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 public class ClientAddEditActivity extends Activity {
 
-    TopeClient client = null;
+    protected TopeClient client = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +93,9 @@ public class ClientAddEditActivity extends Activity {
                     port = TopeUtils.TOPE_DEFAULT_PORT;
                 }
                 if (null == client) {
-                    TopeClient clinet = new TopeClient(name, ip, port, user, pass, domain, active);
-                    clinet.setContext(getApplicationContext());
-                    clinet.insertDb();
+                    client = new TopeClient(name, ip, port, user, pass, domain, active);
+                    client.setContext(getApplicationContext());
+                    client.insertDb();
                 } else {
                     TopeClient updateClinet = new TopeClient(name, ip, port, user, pass, domain, active);
                     updateClinet.setId(client.getId());
