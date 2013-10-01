@@ -21,6 +21,7 @@ import android.widget.TextView;
  * @author Aldi Alimucaj
  *
  */
+//TODO: Use this class instead of inline code in IconItemAdapter
 public class ActionClickListener implements OnItemClickListener {
     Vector<ITopeAction>	items;
     Activity			activity;
