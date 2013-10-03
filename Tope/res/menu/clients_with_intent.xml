@@ -3,7 +3,7 @@
     <item
         android:id="@+id/action_execute_on_clients"
         android:orderInCategory="0"
-        android:showAsAction="withText|always"
+        android:showAsAction="always"
         android:icon="@drawable/menu_execute"
         android:title="@string/action_clients_execute_on_clients"/>
     <item
