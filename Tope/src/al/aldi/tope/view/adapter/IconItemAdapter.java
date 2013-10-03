@@ -78,7 +78,11 @@ public class IconItemAdapter<E> extends BaseAdapter {
 				ITopeAction opTmpAction = action.getOppositeAction();
 				if (PreferencesUtil.readPrefBool(getActivity(), TAG, opTmpAction.getMethod())) {
 					Log.i(TAG, "Rendering " + opTmpAction.getMethod() + " instead of " + action.getMethod() + " ...");
+					
+					// we need to remember the index of this action in the array in order to swap it for the opposite
+					int indexToReplace = actions.indexOf(action);
 					action = action.getOppositeAction();
+					actions.set(indexToReplace, action);
 				}
 			}
 
