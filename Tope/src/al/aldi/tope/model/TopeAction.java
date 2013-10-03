@@ -1,6 +1,7 @@
 package al.aldi.tope.model;
 
 import al.aldi.tope.controller.ITopeExecutable;
+import al.aldi.tope.utils.TopeSynchUtils;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
@@ -55,6 +56,8 @@ public class TopeAction implements ITopeAction {
 
     @Expose
     protected ITopePayload    payload            = new TopePayload();
+
+    TopeSynchUtils            tsu                = null;
 
     public TopeAction() {
     }
@@ -232,7 +235,7 @@ public class TopeAction implements ITopeAction {
 
     @Override
     public int getItemId() {
-        return itemId;
+        return tsu.getIcon(getCommandFullPath());
     }
 
     @Override
@@ -301,7 +304,6 @@ public class TopeAction implements ITopeAction {
     public boolean isOutputIgnored() {
         return outputIgnored;
     }
-    
 
     public boolean isConfirmationNeeded() {
         return confirmationNeeded;
@@ -309,6 +311,14 @@ public class TopeAction implements ITopeAction {
 
     public void setConfirmationNeeded(boolean confirmationNeeded) {
         this.confirmationNeeded = confirmationNeeded;
+    }
+
+    public TopeSynchUtils getTsu() {
+        return tsu;
+    }
+
+    public void setTsu(TopeSynchUtils tsu) {
+        this.tsu = tsu;
     }
 
     @Override

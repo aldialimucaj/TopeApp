@@ -154,79 +154,81 @@ public final class R {
     public static final class string {
         public static final int action_clients=0x7f050002;
         public static final int action_clients_add=0x7f05000b;
+        public static final int action_clients_backup_actions=0x7f050019;
         public static final int action_clients_clean_all_actions=0x7f050018;
         public static final int action_clients_delete_selected=0x7f05000c;
         public static final int action_clients_execute_on_clients=0x7f05000d;
+        public static final int action_clients_restore_actions=0x7f05001a;
         public static final int action_clients_select_all=0x7f05000e;
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int client_edit_edit=0x7f050017;
         public static final int client_edit_synchronize=0x7f050016;
-        public static final int dialog_text1=0x7f050038;
-        public static final int dialog_text2=0x7f050039;
+        public static final int dialog_text1=0x7f05003a;
+        public static final int dialog_text2=0x7f05003b;
         /**  ********* 
  DIALOGS 
  ********* 
          */
-        public static final int dialog_text_setExecDate=0x7f050036;
-        public static final int dialog_text_setTimer=0x7f050037;
-        public static final int hello_world=0x7f05002a;
-        public static final int os_op_hibernate=0x7f05001c;
-        public static final int os_op_lockinput=0x7f050021;
-        public static final int os_op_lockscreen=0x7f050020;
-        public static final int os_op_logoff=0x7f05001e;
-        public static final int os_op_logon=0x7f05001f;
-        public static final int os_op_monitoroff=0x7f050024;
-        public static final int os_op_monitoron=0x7f050023;
-        public static final int os_op_restart=0x7f05001b;
-        public static final int os_op_shutdown=0x7f05001a;
-        public static final int os_op_soundoff=0x7f050025;
-        public static final int os_op_soundon=0x7f050026;
-        public static final int os_op_standby=0x7f05001d;
-        public static final int os_op_unlockinput=0x7f050022;
-        public static final int os_op_wakeOnLan=0x7f050027;
+        public static final int dialog_text_setExecDate=0x7f050038;
+        public static final int dialog_text_setTimer=0x7f050039;
+        public static final int hello_world=0x7f05002c;
+        public static final int os_op_hibernate=0x7f05001e;
+        public static final int os_op_lockinput=0x7f050023;
+        public static final int os_op_lockscreen=0x7f050022;
+        public static final int os_op_logoff=0x7f050020;
+        public static final int os_op_logon=0x7f050021;
+        public static final int os_op_monitoroff=0x7f050026;
+        public static final int os_op_monitoron=0x7f050025;
+        public static final int os_op_restart=0x7f05001d;
+        public static final int os_op_shutdown=0x7f05001c;
+        public static final int os_op_soundoff=0x7f050027;
+        public static final int os_op_soundon=0x7f050028;
+        public static final int os_op_standby=0x7f05001f;
+        public static final int os_op_unlockinput=0x7f050024;
+        public static final int os_op_wakeOnLan=0x7f050029;
         /**  Setting's titles 
          */
-        public static final int pref_ping_clients_checkbox_description=0x7f050043;
-        public static final int pref_ping_clients_checkbox_title=0x7f050044;
-        public static final int prog_op_controlPowerpoint=0x7f05002c;
-        public static final int prog_op_controlVLC=0x7f05002d;
+        public static final int pref_ping_clients_checkbox_description=0x7f050045;
+        public static final int pref_ping_clients_checkbox_title=0x7f050046;
+        public static final int prog_op_controlPowerpoint=0x7f05002e;
+        public static final int prog_op_controlVLC=0x7f05002f;
         /**  PROG OPERATION 
          */
-        public static final int prog_op_openBrowserWithUrl=0x7f05002b;
+        public static final int prog_op_openBrowserWithUrl=0x7f05002d;
         /**  ********* 
  OTHER 
  ********* 
          */
-        public static final int tag_other_empty_string=0x7f050041;
-        public static final int title_activity_client_add_edit=0x7f050028;
+        public static final int tag_other_empty_string=0x7f050043;
+        public static final int title_activity_client_add_edit=0x7f05002a;
         /**  CLIENT 
          */
         public static final int title_activity_clients=0x7f05000a;
-        public static final int title_activity_parameters=0x7f050029;
+        public static final int title_activity_parameters=0x7f05002b;
         /**  ********* 
  ACTIVITES 
  ********* 
  PRESENTATION ACTIVITY 
          */
-        public static final int title_activity_presenation_control=0x7f05003a;
-        public static final int title_activity_presenation_control_black_out=0x7f05003c;
-        public static final int title_activity_presenation_control_full_screen=0x7f05003b;
+        public static final int title_activity_presenation_control=0x7f05003c;
+        public static final int title_activity_presenation_control_black_out=0x7f05003e;
+        public static final int title_activity_presenation_control_full_screen=0x7f05003d;
         /**  SHORTCUTS ACTIVITY 
          */
-        public static final int title_activity_shortcuts=0x7f050045;
-        public static final int title_activity_shortcuts_alt_f4=0x7f050046;
+        public static final int title_activity_shortcuts=0x7f050047;
+        public static final int title_activity_shortcuts_alt_f4=0x7f050048;
         /**  ********* 
  SETTINGS 
  ********* 
          */
-        public static final int title_activity_tope_settings=0x7f050042;
+        public static final int title_activity_tope_settings=0x7f050044;
         /**  VLC ACTIVITY 
          */
-        public static final int title_activity_vlc_control=0x7f05003d;
-        public static final int title_activity_vlc_control_full_screen=0x7f05003e;
-        public static final int title_activity_vlc_control_play=0x7f05003f;
-        public static final int title_activity_vlc_control_show_time=0x7f050040;
+        public static final int title_activity_vlc_control=0x7f05003f;
+        public static final int title_activity_vlc_control_full_screen=0x7f050040;
+        public static final int title_activity_vlc_control_play=0x7f050041;
+        public static final int title_activity_vlc_control_show_time=0x7f050042;
         public static final int title_button_cancel=0x7f050008;
         public static final int title_button_execute=0x7f050007;
         public static final int title_button_ok=0x7f050006;
@@ -239,21 +241,21 @@ public final class R {
         public static final int title_client_user=0x7f050013;
         /**  OS OPERATION 
          */
-        public static final int title_os_command=0x7f050019;
+        public static final int title_os_command=0x7f05001b;
         public static final int title_section1=0x7f050003;
         public static final int title_section2=0x7f050004;
         public static final int title_section3=0x7f050005;
         public static final int title_test=0x7f050009;
-        public static final int util_op_beep=0x7f05002f;
-        public static final int util_op_ping=0x7f050033;
-        public static final int util_op_quitTope=0x7f050034;
-        public static final int util_op_readClipboard=0x7f050031;
+        public static final int util_op_beep=0x7f050031;
+        public static final int util_op_ping=0x7f050035;
+        public static final int util_op_quitTope=0x7f050036;
+        public static final int util_op_readClipboard=0x7f050033;
         /**  UTIL OPERATION 
          */
-        public static final int util_op_sendMessage=0x7f05002e;
-        public static final int util_op_shortcuts=0x7f050035;
-        public static final int util_op_textToSpeech=0x7f050030;
-        public static final int util_op_writeClipboard=0x7f050032;
+        public static final int util_op_sendMessage=0x7f050030;
+        public static final int util_op_shortcuts=0x7f050037;
+        public static final int util_op_textToSpeech=0x7f050032;
+        public static final int util_op_writeClipboard=0x7f050034;
     }
     public static final class style {
         public static final int ActionBar_Transparent_Topeclient=0x7f060002;

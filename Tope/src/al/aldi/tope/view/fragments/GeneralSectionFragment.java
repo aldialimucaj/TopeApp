@@ -12,6 +12,7 @@ import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.utils.TopeActionUtils;
+import al.aldi.tope.utils.TopeSynchUtils;
 import al.aldi.tope.view.adapter.IconItemAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -95,6 +96,7 @@ public abstract class GeneralSectionFragment extends Fragment {
 
     protected void initCommandsAutomatically() {
         actions.clear(); /* clearing the cached activities before recreating them */
+        TopeSynchUtils tsu = new TopeSynchUtils();
 
         ActionDataSource actionDataSource = new ActionDataSource(getActivity());
         actionDataSource.open();
@@ -114,6 +116,7 @@ public abstract class GeneralSectionFragment extends Fragment {
                 // the actions is not found IN all clients
             }
             String command = topeAction.getCommandFullPath();
+            topeAction.setTsu(tsu);
 
             /* setting the executor */
             if (executorMap.containsKey(command)) {
@@ -131,9 +134,7 @@ public abstract class GeneralSectionFragment extends Fragment {
             if (!isOppositeAction(topeAction)) {
                 actions.add(topeAction);
             }
-
         }
-
         actionDataSource.close();
     }
 

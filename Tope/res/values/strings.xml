@@ -28,6 +28,8 @@
     <string name="client_edit_synchronize">Synchronize</string>
     <string name="client_edit_edit">Edit</string>
     <string name="action_clients_clean_all_actions">Clean All Actions</string>
+    <string name="action_clients_backup_actions">Backup Actions</string>
+    <string name="action_clients_restore_actions">Restore Actions</string>
 
     <!-- OS OPERATION -->
 

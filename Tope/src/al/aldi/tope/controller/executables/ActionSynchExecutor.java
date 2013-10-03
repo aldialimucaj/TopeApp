@@ -53,6 +53,7 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
             List<TopeAction> actionsList = actionsSyncResponse.getActions();
             for (Iterator<TopeAction> iterator = actionsList.iterator(); iterator.hasNext();) {
                 TopeAction topeAction = (TopeAction) iterator.next();
+                topeAction.setTsu(tsu);
                 topeAction.setClientId(client.getId());
                 // setting the title
                 String actionTitle = "";
