@@ -1,21 +1,15 @@
 package al.aldi.tope.view.activities;
 
-import static al.aldi.tope.utils.TopeCommands.*;
+import al.aldi.libjaldi.string.AldiStringUtils;
 import al.aldi.tope.R;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.executables.ActionSynchExecutor;
 import al.aldi.tope.controller.executables.CallWithArgsExecutor;
-import al.aldi.tope.model.ITopeAction;
-import al.aldi.tope.model.ITopePayload;
-import al.aldi.tope.model.TopeAction;
-import al.aldi.tope.model.TopeClient;
-import al.aldi.tope.model.TopePayload;
-import al.aldi.tope.model.TopeResponse;
+import al.aldi.tope.model.*;
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
-import al.aldi.utils.classes.AldiStringUtils;
 import android.app.ListActivity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -25,16 +19,14 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.ContextMenu;
+import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import static al.aldi.tope.utils.TopeCommands.*;
 
 /**
  * List Activity showing the clients.

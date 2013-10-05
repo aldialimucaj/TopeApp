@@ -1,21 +1,21 @@
 package al.aldi.tope.model.db;
 
-import static al.aldi.tope.model.db.ActionOpenHelper.*;
-import static al.aldi.tope.model.db.ClientOpenHelper.*;
+import al.aldi.libjaldi.string.AldiStringUtils;
+import al.aldi.tope.model.TopeAction;
+import al.aldi.tope.model.TopeClient;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import al.aldi.tope.model.TopeAction;
-import al.aldi.tope.model.TopeClient;
-import al.aldi.utils.classes.AldiStringUtils;
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
+import static al.aldi.tope.model.db.ActionOpenHelper.*;
+import static al.aldi.tope.model.db.ClientOpenHelper.CLIENT_TABLE_NAME;
 
 /**
  * Helper class to access the Database with Action context.

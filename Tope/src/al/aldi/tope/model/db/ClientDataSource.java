@@ -1,17 +1,18 @@
 package al.aldi.tope.model.db;
 
-import static al.aldi.tope.model.db.ActionOpenHelper.*;
-import static al.aldi.tope.model.db.ClientOpenHelper.*;
-
-import java.util.Vector;
-
 import al.aldi.tope.model.TopeClient;
-import al.aldi.utils.classes.AldiStringUtils;
+import al.aldi.libjaldi.string.AldiStringUtils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.Vector;
+
+import static al.aldi.tope.model.db.ActionOpenHelper.ACTION_TABLE_NAME;
+import static al.aldi.tope.model.db.ActionOpenHelper.METHOD;
+import static al.aldi.tope.model.db.ClientOpenHelper.*;
 
 /**
  * A wrapper class for accessing tope clients from android inbuilt database.
