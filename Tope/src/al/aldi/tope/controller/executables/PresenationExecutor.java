@@ -25,8 +25,10 @@ public class PresenationExecutor extends MainExecutor<TopeResponse<EmptyResponse
     @Override
     public Object run(TopeClient topeClient) {
         fragment.startActivity(new Intent(fragment.getActivity(), PresenationControlActivity.class));
-        
-        return new TopeResponse<EmptyResponse>();
+
+        TopeResponse response =  new TopeResponse<EmptyResponse>();
+        response.setIgnore(true);
+        return response;
     }
 
     @Override

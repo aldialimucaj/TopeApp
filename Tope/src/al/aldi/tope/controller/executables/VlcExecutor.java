@@ -25,8 +25,9 @@ public class VlcExecutor extends MainExecutor<TopeResponse<EmptyResponse>> imple
     @Override
     public Object run(TopeClient topeClient) {
         fragment.startActivity(new Intent(fragment.getActivity(), VlcControlActivity.class));
-        
-        return new TopeResponse<EmptyResponse>();
+        TopeResponse response =  new TopeResponse<EmptyResponse>();
+        response.setIgnore(true);
+        return response;
     }
 
     @Override

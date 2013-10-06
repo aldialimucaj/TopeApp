@@ -1,6 +1,5 @@
 package al.aldi.tope.view.activities;
 
-import static al.aldi.tope.utils.TopeCommands.*;
 import al.aldi.tope.R;
 import al.aldi.tope.controller.executables.ActionSynchExecutor;
 import al.aldi.tope.model.ITopeAction;
@@ -19,6 +18,8 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static al.aldi.tope.utils.TopeCommands.OS_SYNCH_ACTIONS;
 
 public class ClientAddEditActivity extends Activity {
 
@@ -121,6 +122,10 @@ public class ClientAddEditActivity extends Activity {
                         if (null == response || null == ((TopeResponse<ActionSynchResponse>) response).getPayload()) {
                             Looper.prepare();
                             Toast.makeText(getApplicationContext(), "Could not synchronize client. Please check your connection.", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        } else if (null != response) {
+                            Looper.prepare();
+                            Toast.makeText(getApplicationContext(), ((TopeResponse<ActionSynchResponse>) response).getMessage(), Toast.LENGTH_SHORT).show();
                             Looper.loop();
                         }
 

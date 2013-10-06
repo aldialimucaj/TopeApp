@@ -158,6 +158,7 @@ public class ClientsListActivity extends ListActivity {
         case R.id.client_synchronize:
             Toast.makeText(getApplicationContext(), "Synchronize Client", Toast.LENGTH_SHORT).show();
 
+            //TODO: This thread is the same as ClientAddEditActivity.java:108. outsource
             /* Creating thread because this is the main thread */
             new Thread(new Runnable() {
 
@@ -175,10 +176,15 @@ public class ClientsListActivity extends ListActivity {
                     client = (TopeClient) list.getItemAtPosition(info.position);
                     executor.setClient(client);
 
+
                     Object response = synchronizeAction.execute(client);
                     if (null == response || null == ((TopeResponse<ActionSynchResponse>) response).getPayload()) {
                         Looper.prepare();
                         Toast.makeText(getApplicationContext(), "Could not synchronize client. Please check your connection.", Toast.LENGTH_SHORT).show();
+                        Looper.loop();
+                    } else if (null != response) {
+                        Looper.prepare();
+                        Toast.makeText(getApplicationContext(), ((TopeResponse<ActionSynchResponse>) response).getMessage(), Toast.LENGTH_SHORT).show();
                         Looper.loop();
                     }
 
