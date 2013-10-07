@@ -66,6 +66,7 @@ public class ClientDataSource {
         values.put(CLIENT_MAC, client.getMac());
 
         long insertId = database.insert(CLIENT_TABLE_NAME, null, values);
+        client.setId(insertId);
 
         return insertId != -1;
 

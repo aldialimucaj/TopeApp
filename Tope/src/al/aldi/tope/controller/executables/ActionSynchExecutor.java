@@ -1,9 +1,5 @@
 package al.aldi.tope.controller.executables;
 
-import java.lang.reflect.Type;
-import java.util.Iterator;
-import java.util.List;
-
 import al.aldi.tope.R;
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
@@ -17,8 +13,11 @@ import al.aldi.tope.utils.TopeSynchUtils;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-
 import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.Iterator;
+import java.util.List;
 
 public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchResponse>> implements ITopeExecutable {
 
@@ -76,7 +75,7 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
             dataSource.createTable();
             dataSource.delete((int) client.getId());
             dataSource.addAll(actionsList);
-            // List<TopeAction> actionsList2 = dataSource.getAll();
+            //List<TopeAction> actionsList2 = dataSource.getAll();
         } else {
             Log.e(TAG, "Response payload in postRun is null");
         }

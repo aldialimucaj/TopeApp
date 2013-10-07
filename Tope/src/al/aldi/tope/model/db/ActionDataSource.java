@@ -73,11 +73,14 @@ public class ActionDataSource {
      * @param actions
      */
     public void addAll(List<TopeAction> actions) {
+        database.beginTransaction();
         for (@SuppressWarnings("rawtypes")
         Iterator iterator = actions.iterator(); iterator.hasNext();) {
             TopeAction topeAction = (TopeAction) iterator.next();
             create(topeAction);
         }
+        database.setTransactionSuccessful();
+        database.endTransaction();
     }
 
     /**

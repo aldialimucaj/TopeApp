@@ -20,11 +20,11 @@
     <string name="action_clients_select_all">Select All</string>
     <string name="title_client_name">Client Name</string>
     <string name="title_client_ip">IP Address</string>
-    <string name="title_client_port">Host Port</string>
+    <string name="title_client_port">Host Port (optional)</string>
     <string name="title_client_active">Active</string>
-    <string name="title_client_user">Username</string>
-    <string name="title_client_pass">Password</string>
-    <string name="title_client_domain">Domain</string>
+    <string name="title_client_user">Username (optional)</string>
+    <string name="title_client_pass">Password (optional) </string>
+    <string name="title_client_domain">Domain (optional)</string>
     <string name="client_edit_synchronize">Synchronize</string>
     <string name="client_edit_edit">Edit</string>
     <string name="action_clients_clean_all_actions">Clean All Actions</string>

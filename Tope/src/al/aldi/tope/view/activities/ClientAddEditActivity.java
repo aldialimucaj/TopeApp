@@ -85,11 +85,11 @@ public class ClientAddEditActivity extends Activity {
                 String domain = cdomain.getText().toString();
                 boolean active = cactive.isChecked();
 
-                if (name.equals("")) {
+                if (ip.equals("")) {
                     Toast.makeText(ClientAddEditActivity.this, "Cannot crate host with no IP!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (ip.equals("")) {
+                if (port.equals("")) {
                     Toast.makeText(ClientAddEditActivity.this, "No Port set! Taking default port " + TopeUtils.TOPE_DEFAULT_PORT, Toast.LENGTH_SHORT).show();
                     port = TopeUtils.TOPE_DEFAULT_PORT;
                 }
