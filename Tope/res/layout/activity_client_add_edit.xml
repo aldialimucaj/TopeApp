@@ -1,101 +1,102 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <EditText
-        android:id="@+id/clientName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/title_client_name"
-        android:paddingTop="15sp"
-        android:singleLine="true" >
+            android:id="@+id/clientName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_client_name"
+            android:inputType="textCapSentences"
+            android:paddingTop="15sp"
+            android:singleLine="true">
 
-        <requestFocus />
+        <requestFocus/>
     </EditText>
 
     <EditText
-        android:id="@+id/clientIp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/title_client_ip"
-        android:paddingTop="15sp"
-        android:singleLine="true" >
+            android:id="@+id/clientIp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_client_ip"
+            android:paddingTop="15sp"
+            android:singleLine="true">
     </EditText>
 
     <EditText
-        android:id="@+id/clientPort"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/title_client_port"
-        android:paddingTop="15sp"
-        android:singleLine="true" >
+            android:id="@+id/clientPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_client_port"
+            android:paddingTop="15sp"
+            android:singleLine="true">
     </EditText>
 
     <Switch
-        android:id="@+id/clientActive"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/title_client_active"
-        android:paddingLeft="15sp"
-        android:paddingTop="15sp" >
+            android:id="@+id/clientActive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_client_active"
+            android:paddingLeft="15sp"
+            android:paddingTop="15sp"
+            android:checked="true">
     </Switch>
 
     <EditText
-        android:id="@+id/clientUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/title_client_user"
-        android:paddingTop="15sp"
-        android:singleLine="true" >
+            android:id="@+id/clientUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_client_user"
+            android:paddingTop="15sp"
+            android:singleLine="true">
     </EditText>
 
     <EditText
-        android:id="@+id/clientPass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/title_client_pass"
-        android:inputType="textPassword"
-        android:paddingTop="15sp"
-        android:singleLine="true" >
+            android:id="@+id/clientPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_client_pass"
+            android:inputType="textPassword"
+            android:paddingTop="15sp"
+            android:singleLine="true">
     </EditText>
 
     <EditText
-        android:id="@+id/clientDomain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/title_client_domain"
-        android:inputType="textCapCharacters"
-        android:paddingTop="15sp"
-        android:singleLine="true" >
+            android:id="@+id/clientDomain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_client_domain"
+            android:inputType="textCapCharacters"
+            android:paddingTop="15sp"
+            android:singleLine="true">
     </EditText>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="20dp" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="20dp">
 
         <Button
-            android:id="@+id/buttonOk"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".70"
-            android:paddingRight="15sp"
-            android:text="@string/title_button_ok" />
+                android:id="@+id/buttonOk"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".70"
+                android:paddingRight="15sp"
+                android:text="@string/title_button_ok"/>
 
         <Button
-            android:id="@+id/buttonCancel"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".70"
-            android:paddingLeft="15sp"
-            android:paddingRight="15sp"
-            android:text="@string/title_button_cancel" />
+                android:id="@+id/buttonCancel"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".70"
+                android:paddingLeft="15sp"
+                android:paddingRight="15sp"
+                android:text="@string/title_button_cancel"/>
     </LinearLayout>
 
 </LinearLayout>

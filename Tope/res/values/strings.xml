@@ -3,7 +3,7 @@
 
     <string name="app_name">Tope</string>
     <string name="action_settings">Settings</string>
-    <string name="action_clients">Clients</string>
+    <string name="action_clients">Servers</string>
     <string name="title_section1">System</string>
     <string name="title_section2">Applications</string>
     <string name="title_section3">Utils</string>
@@ -13,12 +13,12 @@
     <string name="title_test">Test</string>
 
     <!-- CLIENT -->
-    <string name="title_activity_clients">Clients</string>
-    <string name="action_clients_add">Add Client</string>
+    <string name="title_activity_clients">Servers</string>
+    <string name="action_clients_add">Add Server</string>
     <string name="action_clients_delete_selected">Delete Selected</string>
     <string name="action_clients_execute_on_clients">Execute</string>
     <string name="action_clients_select_all">Select All</string>
-    <string name="title_client_name">Client Name</string>
+    <string name="title_client_name">Server Name</string>
     <string name="title_client_ip">IP Address</string>
     <string name="title_client_port">Host Port (optional)</string>
     <string name="title_client_active">Active</string>
@@ -48,7 +48,7 @@
     <string name="os_op_soundoff">Mute</string>
     <string name="os_op_soundon">Sound On</string>
     <string name="os_op_wakeOnLan">Wake On Lan</string>
-    <string name="title_activity_client_add_edit">ClientAddEditActivity</string>
+    <string name="title_activity_client_add_edit">Edit Server</string>
     <string name="title_activity_parameters">Action Parameters</string>
     <string name="hello_world">Hello world!</string>
 
@@ -96,6 +96,7 @@
     <!-- OTHER -->
     <!-- ********* -->
     <string name="tag_other_empty_string">#EMPTY#</string>
+    <string name="elephant_text">No Servers.\nGo through the menu to add one.</string>
 
     <!-- ********* -->
     <!-- SETTINGS -->
@@ -105,7 +106,7 @@
 
     <!-- Setting's titles -->
     <string name="pref_ping_clients_checkbox_description">Check the client\'s online status automatically and display it in the pager tab strip with color</string>
-    <string name="pref_ping_clients_checkbox_title">Client Status Check</string>
+    <string name="pref_ping_clients_checkbox_title">Server Status Check</string>
     
     <!-- SHORTCUTS ACTIVITY -->
     <string name="title_activity_shortcuts">Shortcuts</string>

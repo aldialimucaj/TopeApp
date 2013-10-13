@@ -202,6 +202,12 @@ public class ClientsListActivity extends ListActivity {
         source.close();
     }
 
+    @Override
+    public void onBackPressed() {
+        NavUtils.navigateUpFromSameTask(ClientsListActivity.this);
+        return;
+    }
+
     // TODO: find smth else to delete many items at once.
     private void removeSelected() {
         ListView list = this.getListView();

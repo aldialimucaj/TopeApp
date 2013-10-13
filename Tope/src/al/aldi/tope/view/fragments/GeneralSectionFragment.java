@@ -1,10 +1,6 @@
 package al.aldi.tope.view.fragments;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
-
+import al.aldi.android.view.ViewGroupUtils;
 import al.aldi.tope.R;
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.controller.executables.DefaultExecutor;
@@ -22,57 +18,59 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
 /**
  * A dummy fragment representing a section of the app, but that simply
  * displays dummy text.
  */
 public abstract class GeneralSectionFragment extends Fragment {
-    private static final String           TAG                      = "al.aldi.tope.view.GeneralSectionFragment";
+    public static final String TAG = "al.aldi.tope.view.fragments.GeneralSectionFragment";
 
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
-    public static final String            ARG_SECTION_NUMBER       = "section_number";
+    public static final String ARG_SECTION_NUMBER = "section_number";
 
-    public static final String            INTENT_CLICKED_ACTION    = "ACTION";
-    public static final String            INTENT_CLICKED_ACTION_ID = "ACTION_ID";
+    public static final String INTENT_CLICKED_ACTION    = "ACTION";
+    public static final String INTENT_CLICKED_ACTION_ID = "ACTION_ID";
 
-    String                                ACTION_PREFIX            = "";
+    String ACTION_PREFIX = "";
 
-    GridView                              gridView                 = null;
-    int                                   fragmentId               = R.layout.gridview_fragment;
-    int                                   fragmentGridId           = R.id.fragmentGridView;
+    GridView  gridView       = null;
+    int       fragmentId     = R.layout.gridview_fragment;
+    int       fragmentGridId = R.id.fragmentGridView;
+    View      rootView       = null;
+    View      fragmentGrid   = null;
+    View      elephantView   = null;
+    ViewGroup container      = null;
 
-    IconItemAdapter<ITopeAction>          adapter                  = null;
-    TopeActionUtils                       sectionActions           = null;
-    Vector<ITopeAction>                   actions                  = null;
-    HashMap<TopeAction, Integer>          dbActionsMap             = null;
-    HashMap<String, String>               oppositeActionsMap       = new HashMap<String, String>();
-    HashMap<String, ITopeExecutable>      executorMap              = new HashMap<String, ITopeExecutable>();
-    HashMap<String, ActionClickBehaviour> clickBehaviourMap        = new HashMap<String, ActionClickBehaviour>();
+    IconItemAdapter<ITopeAction>          adapter            = null;
+    TopeActionUtils                       sectionActions     = null;
+    Vector<ITopeAction>                   actions            = null;
+    HashMap<TopeAction, Integer>          dbActionsMap       = null;
+    HashMap<String, String>               oppositeActionsMap = new HashMap<String, String>();
+    HashMap<String, ITopeExecutable>      executorMap        = new HashMap<String, ITopeExecutable>();
+    HashMap<String, ActionClickBehaviour> clickBehaviourMap  = new HashMap<String, ActionClickBehaviour>();
+
+    boolean elephantPushed = false;
 
     /* ******************* ITopeActions ******************** */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i(TAG, "GeneralSectionFragment.onCreateView()");
+
+        this.container = container;
         setExecutorsMap();
         setOppositeActionsMap();
-        final View rootView = inflater.inflate(fragmentId, container, false);
+        fragmentGrid = inflater.inflate(fragmentId, container, false);
 
-        gridView = (GridView) rootView.findViewById(fragmentGridId);
-        registerForContextMenu(gridView);
-
-        /* init the commands to show in the screen */
-        initCommandsAutomatically();
-
-        /* creating the grid adapter */
-        adapter = new IconItemAdapter<ITopeAction>(getActivity(), actions, dbActionsMap);
-        adapter.setFragment(this);
-
-        gridView.setAdapter(adapter);
-
-        postRenderingActions();
+        rootView = fragmentGrid;
 
         return rootView;
     }
@@ -80,21 +78,54 @@ public abstract class GeneralSectionFragment extends Fragment {
     @Override
     public void onStart() {
         Log.i(TAG, "GeneralSectionFragment.onStart()");
+
         /* init the commands to show in the screen */
-        initCommandsAutomatically();
-        /* creating the grid adapter */
-        adapter = new IconItemAdapter<ITopeAction>(getActivity(), actions, dbActionsMap);
-        adapter.setFragment(this);
-
-        gridView.setAdapter(adapter);
-
-        postRenderingActions();
+        createIcons();
 
         super.onStart();
 
     }
 
-    protected void initCommandsAutomatically() {
+
+    private boolean createIcons() {
+        /* init the commands to show in the screen */
+        boolean clientsExist = initCommandsAutomatically();
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        if (clientsExist) {
+        /* creating the grid adapter */
+            adapter = new IconItemAdapter<ITopeAction>(getActivity(), actions, dbActionsMap);
+            adapter.setFragment(this);
+
+            gridView = (GridView) fragmentGrid.findViewById(fragmentGridId);
+            gridView.setAdapter(adapter);
+
+            //registerForContextMenu(gridView);
+
+            rootView = fragmentGrid;
+
+            postRenderingActions();
+
+        } else if (rootView != elephantView) {
+            elephantPushed = true;
+            ViewGroup parentView = (ViewGroup) rootView.getParent();
+            elephantView = inflater.inflate(R.layout.fragment_no_clients, parentView, true);
+            ViewGroupUtils.removeView(fragmentGrid);
+            rootView = elephantView;
+        }
+
+        return clientsExist;
+    }
+
+
+
+    /**
+     * Initializes commands that are to be shown on the screen
+     *
+     * @return true if commands are selected, false if no client
+     */
+    protected boolean initCommandsAutomatically() {
         actions.clear(); /* clearing the cached activities before recreating them */
         TopeSynchUtils tsu = new TopeSynchUtils();
 
@@ -103,13 +134,21 @@ public abstract class GeneralSectionFragment extends Fragment {
         dbActionsMap = actionDataSource.getAllOccurencies(ACTION_PREFIX);
         List<TopeAction> dbActions = new Vector<TopeAction>(dbActionsMap.keySet());
 
-        for (Iterator<TopeAction> iterator = dbActions.iterator(); iterator.hasNext();) {
+        // check if there are any active actions
+        if (dbActions.size() == 0) {
+            // close data source and return
+            actionDataSource.close();
+            return false;
+        }
+
+
+        for (Iterator<TopeAction> iterator = dbActions.iterator(); iterator.hasNext(); ) {
             TopeAction topeAction = (TopeAction) iterator.next();
             int actionOccurency = dbActionsMap.get(topeAction);
             if (actionOccurency <= 0) {
                 continue;// the actions is not found at all in the client set
             }
-            if (!topeAction.isActive() ) {
+            if (!topeAction.isActive()) {
                 continue; // in case the action has been shut down
             }
             if (actionOccurency < dbActions.size()) {
@@ -136,6 +175,8 @@ public abstract class GeneralSectionFragment extends Fragment {
             }
         }
         actionDataSource.close();
+
+        return true;
     }
 
     protected boolean isOppositeAction(TopeAction action) {
@@ -145,7 +186,7 @@ public abstract class GeneralSectionFragment extends Fragment {
     protected void setOpposite(List<TopeAction> dbActions, TopeAction action) {
         if (!action.hasOppositeAction() && oppositeActionsMap.containsKey(action.getCommandFullPath())) {
 
-            for (Iterator<TopeAction> iterator = dbActions.iterator(); iterator.hasNext();) {
+            for (Iterator<TopeAction> iterator = dbActions.iterator(); iterator.hasNext(); ) {
                 TopeAction oppositeAction = (TopeAction) iterator.next();
                 if (oppositeAction.getCommandFullPath().equals(oppositeActionsMap.get(action.getCommandFullPath()))) {
                     action.setOppositeAction(oppositeAction);
