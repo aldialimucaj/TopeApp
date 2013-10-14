@@ -3,7 +3,7 @@
 
     <string name="app_name">Tope</string>
     <string name="action_settings">Settings</string>
-    <string name="action_clients">Servers</string>
+    <string name="action_clients">Tope Servers</string>
     <string name="title_section1">System</string>
     <string name="title_section2">Applications</string>
     <string name="title_section3">Utils</string>
@@ -12,8 +12,8 @@
     <string name="title_button_cancel">Cancel</string>
     <string name="title_test">Test</string>
 
-    <!-- CLIENT -->
-    <string name="title_activity_clients">Servers</string>
+    <!-- SERVER -->
+    <string name="title_activity_clients">Tope Servers</string>
     <string name="action_clients_add">Add Server</string>
     <string name="action_clients_delete_selected">Delete Selected</string>
     <string name="action_clients_execute_on_clients">Execute</string>

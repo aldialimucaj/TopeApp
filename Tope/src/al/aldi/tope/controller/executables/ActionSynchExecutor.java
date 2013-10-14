@@ -75,6 +75,7 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
             dataSource.createTable();
             dataSource.delete((int) client.getId());
             dataSource.addAll(actionsList);
+            dataSource.close();
             //List<TopeAction> actionsList2 = dataSource.getAll();
         } else {
             Log.e(TAG, "Response payload in postRun is null");

@@ -14,6 +14,7 @@ import android.app.ListActivity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Parcelable;
@@ -43,17 +44,20 @@ public class ClientsListActivity extends ListActivity {
     Uri                         data                   = null;
     ClipData                    clipData               = null;
 
+    final int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+    final int jellyBean = Build.VERSION_CODES.JELLY_BEAN;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
         intent = getIntent();
-        if (null != intent || null != intent.getData()) {
+        if (null != intent && null != intent.getData()) {
             data = intent.getData();
         }
 
-        if (null != intent || null != intent.getClipData()) {
+        if ((null != intent && currentApiVersion >= jellyBean ) && null != intent.getClipData()) {
             clipData = intent.getClipData();
         }
 
