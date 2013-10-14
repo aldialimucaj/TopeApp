@@ -157,7 +157,7 @@ public class ClientsListActivity extends ListActivity {
         final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
         case R.id.client_edit:
-            Toast.makeText(getApplicationContext(), "Edit Client", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Just click to Edit", Toast.LENGTH_SHORT).show();
             return true;
         case R.id.client_synchronize:
             Toast.makeText(getApplicationContext(), "Synchronize Client", Toast.LENGTH_SHORT).show();
