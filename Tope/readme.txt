@@ -1,7 +1,10 @@
-This content is release under GPL v3 Lincense. for more read 
+This content is release under GPL v3 License. For more information read
 
 https://www.gnu.org/licenses/gpl-3.0.en.html
 
+You can find the Documentation about this product at
+
+http://aldi.al/index.php/products/9-tope/4-tope-app
 
 
 === ICONS ===
