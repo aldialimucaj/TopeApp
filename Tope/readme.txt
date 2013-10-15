@@ -1,3 +1,6 @@
+This content is release under GPL v3 Lincense. for more read 
+
+https://www.gnu.org/licenses/gpl-3.0.en.html
 
 
 
