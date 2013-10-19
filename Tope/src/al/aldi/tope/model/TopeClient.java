@@ -1,13 +1,14 @@
 package al.aldi.tope.model;
 
-import java.util.Iterator;
-import java.util.List;
-
+import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * A representation of the clinet model with necessary data to access the client.
@@ -120,6 +121,12 @@ public class TopeClient implements Parcelable {
         return getSslURL() + command;
     }
 
+
+    public void safeDelete() {
+        delete();
+        deleteActions();
+    }
+
     /**
      * Delete client from the database
      */
@@ -128,6 +135,21 @@ public class TopeClient implements Parcelable {
             ClientDataSource source = new ClientDataSource(context);
             source.open();
             source.deleteClient(this);
+            source.close();
+        } else {
+            Log.e(LOG_TAG, "Cannot update client without a context! Please set it up.");
+        }
+    }
+
+    /**
+     * Delete the actions as well otherwise we have zombies around.
+     */
+    public void deleteActions() {
+
+        if (null != context) {
+            ActionDataSource source = new ActionDataSource(context);
+            source.open();
+            source.deleteFromClientId((int) getId());
             source.close();
         } else {
             Log.e(LOG_TAG, "Cannot update client without a context! Please set it up.");

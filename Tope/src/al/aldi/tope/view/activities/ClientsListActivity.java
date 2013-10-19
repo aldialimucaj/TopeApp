@@ -153,49 +153,35 @@ public class ClientsListActivity extends ListActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        System.out.println("ClientsListActivity.onContextItemSelected()");
         final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position;
+        Log.i(TAG, "ClientsListActivity.onContextItemSelected(): [position]: "+position);
+        ListView list = ClientsListActivity.this.getListView();
         switch (item.getItemId()) {
         case R.id.client_edit:
-            Toast.makeText(getApplicationContext(), "Just click to Edit", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(ClientsListActivity.this, ClientAddEditActivity.class);
+
+            Parcelable client = (TopeClient) list.getItemAtPosition(position);
+
+            i.putExtra(INTENT_CLICKED_ITEM_ID, client);
+            startActivity(i);
             return true;
         case R.id.client_synchronize:
             Toast.makeText(getApplicationContext(), "Synchronize Client", Toast.LENGTH_SHORT).show();
 
             //TODO: This thread is the same as ClientAddEditActivity.java:108. outsource
             /* Creating thread because this is the main thread */
-            new Thread(new Runnable() {
-
-                @SuppressWarnings("unchecked")
-                @Override
-                public void run() {
-                    /* creating the synchronization action. no need to store this in the action list as this action is not shown in the grid */
-                    ITopeAction synchronizeAction = new TopeAction(OS_SYNCH_ACTIONS, 0, getString(R.string.client_edit_synchronize));
-                    synchronizeAction.setActionId(0);
-                    ActionSynchExecutor executor = new ActionSynchExecutor(synchronizeAction, getApplicationContext());
-                    synchronizeAction.setExecutable(executor);
-
-                    TopeClient client;
-                    ListView list = ClientsListActivity.this.getListView();
-                    client = (TopeClient) list.getItemAtPosition(info.position);
-                    executor.setClient(client);
-
-
-                    Object response = synchronizeAction.execute(client);
-                    if (null == response || null == ((TopeResponse<ActionSynchResponse>) response).getPayload()) {
-                        Looper.prepare();
-                        Toast.makeText(getApplicationContext(), "Could not synchronize client. Please check your connection.", Toast.LENGTH_SHORT).show();
-                        Looper.loop();
-                    } else if (null != response) {
-                        Looper.prepare();
-                        Toast.makeText(getApplicationContext(), ((TopeResponse<ActionSynchResponse>) response).getMessage(), Toast.LENGTH_SHORT).show();
-                        Looper.loop();
-                    }
-
-                }
-            }).start();
+            SynchTopeServers sts = new SynchTopeServers(info.position);
+            sts.start();
 
             return true;
+        case R.id.client_delete:
+            TopeClientArrayAdapter adapter = (TopeClientArrayAdapter) list.getAdapter();
+            TopeClient t = (TopeClient) adapter.getItem(position);
+            adapter.getValues().remove(t);
+            t.safeDelete();
+            list.invalidateViews();
+
         default:
             return super.onContextItemSelected(item);
         }
@@ -221,7 +207,7 @@ public class ClientsListActivity extends ListActivity {
             TopeClient t = (TopeClient) adapter.getItem(i);
             if (t.isActive()) {
                 adapter.getValues().remove(t);
-                t.delete();
+                t.safeDelete();
                 list.invalidateViews();
 
                 return;
@@ -262,7 +248,8 @@ public class ClientsListActivity extends ListActivity {
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(getApplicationContext(), "Click Execute instead on the Menu or Action Bar.", Toast.LENGTH_SHORT).show();
+                    String executeOnServer = getResources().getString(R.string.server_execute_on_pc);
+                    Toast.makeText(getApplicationContext(), executeOnServer, Toast.LENGTH_SHORT).show();
                 }
             });
             getMenuInflater().inflate(R.menu.clients_with_intent, menu);
@@ -307,5 +294,48 @@ public class ClientsListActivity extends ListActivity {
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         System.out.println("ClientsListActivity.onRestoreInstanceState()");
+    }
+
+    class SynchTopeServers extends Thread {
+        int itemPosition = -1;
+
+        public SynchTopeServers(int itemPosition) {
+            this.itemPosition = itemPosition;
+        }
+
+        @Override
+        public void run() {
+                    /* creating the synchronization action. no need to store this in the action list as this action is not shown in the grid */
+            ITopeAction synchronizeAction = new TopeAction(OS_SYNCH_ACTIONS, 0, getString(R.string.client_edit_synchronize));
+            synchronizeAction.setActionId(0);
+            ActionSynchExecutor executor = new ActionSynchExecutor(synchronizeAction, getApplicationContext());
+            synchronizeAction.setExecutable(executor);
+
+            TopeClient client;
+            ListView list = ClientsListActivity.this.getListView();
+            client = (TopeClient) list.getItemAtPosition(itemPosition);
+            executor.setClient(client);
+
+
+            Object response = synchronizeAction.execute(client);
+            if (null == response || null == ((TopeResponse<ActionSynchResponse>) response).getPayload()) {
+                Looper.prepare();
+                String strCouldNotSynch = getResources().getString(R.string.synch_failed);
+                Toast.makeText(getApplicationContext(), strCouldNotSynch , Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            } else if (null != response) {
+                Looper.prepare();
+                Toast.makeText(getApplicationContext(), ((TopeResponse<ActionSynchResponse>) response).getMessage(), Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+        }
+
+        int getItemPosition() {
+            return itemPosition;
+        }
+
+        void setItemPosition(int itemPosition) {
+            this.itemPosition = itemPosition;
+        }
     }
 }

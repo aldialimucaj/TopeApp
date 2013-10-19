@@ -70,6 +70,10 @@ public class ActionOpenHelper extends SQLiteOpenHelper {
     public void delete(SQLiteDatabase db, int id){
         db.execSQL(DB_DLETE_WITH_ID, new Integer[] {id});
     }
+
+    public void deleteFromClientId(SQLiteDatabase db, int id){
+        db.execSQL(DB_DLETE_WITH_ID, new Integer[] {id});
+    }
     
     public void deleteAll(SQLiteDatabase db){
         db.execSQL(DB_DLETE_ALL);

@@ -9,4 +9,9 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/client_edit_edit"/>
+<item
+            android:id="@+id/client_delete"
+            android:orderInCategory="101"
+            android:showAsAction="never"
+            android:title="@string/client_edit_delete"/>
 </menu>

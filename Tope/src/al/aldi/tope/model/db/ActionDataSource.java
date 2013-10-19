@@ -237,6 +237,10 @@ public class ActionDataSource {
         dbActionHelper.delete(database, id);
     }
 
+    public void deleteFromClientId(int id) {
+        dbActionHelper.deleteFromClientId(database, id);
+    }
+
     public void deleteAll() {
         dbActionHelper.deleteAll(database);
     }

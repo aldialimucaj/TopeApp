@@ -27,9 +27,12 @@
     <string name="title_client_domain">Domain (optional)</string>
     <string name="client_edit_synchronize">Synchronize</string>
     <string name="client_edit_edit">Edit</string>
+    <string name="client_edit_delete">Delete</string>
     <string name="action_clients_clean_all_actions">Clean All Actions</string>
     <string name="action_clients_backup_actions">Backup Actions</string>
     <string name="action_clients_restore_actions">Restore Actions</string>
+    <string name="synch_failed">Could not synchronize client. Please check your connection.</string>
+    <string name="server_execute_on_pc">Click Execute instead on the Menu or Action Bar</string>
 
     <!-- OS OPERATION -->
 
