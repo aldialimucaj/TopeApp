@@ -1,6 +1,7 @@
 package al.aldi.tope.model.db;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.util.Log;
  * 
  */
 public class ClientOpenHelper extends SQLiteOpenHelper {
+    public static final String TAG = "al.aldi.tope.model.db.ClientOpenHelper";
 
     private static final int    DATABASE_VERSION  = 1;
     private static final String DATABASE_NAME     = "TopeDatabase.db";
@@ -44,13 +46,17 @@ public class ClientOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DB_CREATE_TABLE);
-        System.out.println("INFO: NEW DB CREATED: " + CLIENT_TABLE_NAME);
+        Log.i(TAG,"INFO: NEW DB CREATED: " + CLIENT_TABLE_NAME);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(ClientOpenHelper.class.getName(), "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + CLIENT_TABLE_NAME);
+        try {
+            db.execSQL("DROP TABLE IF EXISTS " + CLIENT_TABLE_NAME);
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         onCreate(db);
     }
 

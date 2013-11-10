@@ -30,6 +30,12 @@ public class ActionDataSource {
     private String[] allColumns = {ACTION_OWN_ID, CLIENT_ID, ITEM_ID, MODULE, METHOD, COMMAND_FULL, TITLE, ACTIVE, REVISION_ID, OPPOSITE_ACTION, CONFIRMATION_NEEDED};
     private Context context;
 
+    /**
+     * Create new ActionDataSource objects which handles the connection with database
+     * to persist Action objects.
+     *
+     * @param context Activity context required to create the object
+     */
     public ActionDataSource(Context context) {
         super();
         this.context = context;
@@ -37,20 +43,37 @@ public class ActionDataSource {
         database = dbActionHelper.getWritableDatabase();
     }
 
+    /**
+     * Create database handler
+     * @throws SQLException
+     */
     public void open() throws SQLException {
         database = dbActionHelper.getWritableDatabase();
     }
 
+    /**
+     * Close Database Handler.
+     */
     public void close() {
         if (isOpen()) {
             dbActionHelper.close();
         }
     }
 
+    /**
+     * Check if DB is open and ready to accept queries.
+     * @return
+     */
     public boolean isOpen() {
-        return database.isOpen();
+        return null != database && database.isOpen();
     }
 
+    /**
+     * Inserts an Action object to the database.
+     *
+     * @param action which is going to be persited
+     * @return true if everything goes ok
+     */
     public boolean create(TopeAction action) {
         ContentValues values = new ContentValues();
         values.put(ACTION_OWN_ID, action.getActionId());
@@ -110,6 +133,12 @@ public class ActionDataSource {
         return vec;
     }
 
+    /**
+     * Return all Actions which belong to a groupe which can be given in as a prefix.
+     *
+     * @param prefix
+     * @return
+     */
     private Vector<TopeAction> getAllWithPrefix(String prefix) {
         Vector<TopeAction> vec = new Vector<TopeAction>();
         try {
@@ -285,10 +314,19 @@ public class ActionDataSource {
         return action;
     }
 
+    /**
+     *  Gets the context given in the in constructor or setter.
+     *
+     * @return
+     */
     public Context getContext() {
         return context;
     }
 
+    /**
+     * Set a different context object.
+     * @param context
+     */
     public void setContext(Context context) {
         this.context = context;
     }

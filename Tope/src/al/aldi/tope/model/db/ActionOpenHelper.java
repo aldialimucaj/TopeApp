@@ -1,11 +1,14 @@
 package al.aldi.tope.model.db;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class ActionOpenHelper extends SQLiteOpenHelper {
+    public static final String TAG = "al.aldi.tope.model.db.ActionOpenHelper";
+
     private static final int    DATABASE_VERSION    = 1;
     private static final String DATABASE_NAME       = "TopeDatabase.db";
     public static String        ACTION_TABLE_NAME   = "tope_action";
@@ -46,37 +49,64 @@ public class ActionOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DB_CREATE_TABLE);
-        System.out.println("INFO: NEW DB-Table CREATED: " + ACTION_TABLE_NAME);
+        try {
+            db.execSQL(DB_CREATE_TABLE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, "INFO: NEW DB-Table CREATED: " + ACTION_TABLE_NAME);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(ClientOpenHelper.class.getName(), "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
-        db.execSQL(DB_DROP_TABLE);
+        try {
+            db.execSQL(DB_DROP_TABLE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         onCreate(db);
-
     }
 
     public void dropTable(SQLiteDatabase db){
-        db.execSQL(DB_DROP_TABLE);
+        try {
+            db.execSQL(DB_DROP_TABLE);
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     public void createTable(SQLiteDatabase db){
-        db.execSQL(DB_CREATE_TABLE);
+        try {
+            db.execSQL(DB_CREATE_TABLE);
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     public void delete(SQLiteDatabase db, int id){
-        db.execSQL(DB_DLETE_WITH_ID, new Integer[] {id});
+        try {
+            db.execSQL(DB_DLETE_WITH_ID, new Integer[] {id});
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     public void deleteFromClientId(SQLiteDatabase db, int id){
-        db.execSQL(DB_DLETE_WITH_ID, new Integer[] {id});
+        try {
+            db.execSQL(DB_DLETE_WITH_ID, new Integer[] {id});
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
     
     public void deleteAll(SQLiteDatabase db){
-        db.execSQL(DB_DLETE_ALL);
+        try {
+            db.execSQL(DB_DLETE_ALL);
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
 }

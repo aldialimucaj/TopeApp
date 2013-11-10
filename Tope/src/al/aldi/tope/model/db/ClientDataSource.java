@@ -1,33 +1,36 @@
 package al.aldi.tope.model.db;
 
-import al.aldi.tope.model.TopeClient;
 import al.aldi.libjaldi.string.AldiStringUtils;
+import al.aldi.tope.model.TopeClient;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.Vector;
 
 import static al.aldi.tope.model.db.ActionOpenHelper.ACTION_TABLE_NAME;
 import static al.aldi.tope.model.db.ActionOpenHelper.METHOD;
 import static al.aldi.tope.model.db.ClientOpenHelper.*;
+import static android.util.Log.e;
+import static android.util.Log.i;
 
 /**
  * A wrapper class for accessing tope clients from android inbuilt database.
  *
  * @author Aldi Alimucaj
- *
  */
 public class ClientDataSource {
+    public static final String TAG = "al.aldi.tope.model.db.ClientDataSource";
     // Database fields
     private SQLiteDatabase   database;
     private ClientOpenHelper dbClientHelper;
-    private String[]         allColumns = { CLIENT_OWN_ID, CLIENT_NAME, CLIENT_IP, CLIENT_PORT, CLIENT_USER, CLIENT_PASS, CLIENT_ACTIVE, CLIENT_DOMAIN, CLIENT_MAC };
-    private Context          context;
+    private String[] allColumns = {CLIENT_OWN_ID, CLIENT_NAME, CLIENT_IP, CLIENT_PORT, CLIENT_USER, CLIENT_PASS, CLIENT_ACTIVE, CLIENT_DOMAIN, CLIENT_MAC};
+    private Context context;
 
-    static ClientDataSource  instance;
+    static ClientDataSource instance;
 
     public ClientDataSource(Context context) {
         super();
@@ -35,16 +38,31 @@ public class ClientDataSource {
         this.dbClientHelper = new ClientOpenHelper(context);
     }
 
+    /**
+     * Create database handler
+     *
+     * @throws SQLException
+     */
     public void open() throws SQLException {
         database = dbClientHelper.getWritableDatabase();
     }
 
-    public void close() {
-        dbClientHelper.close();
+    /**
+     * Check if DB is open and ready to accept queries.
+     *
+     * @return
+     */
+    public boolean isOpen() {
+        return null != database && database.isOpen();
     }
 
-    public boolean isOpen() {
-        return database.isOpen();
+    /**
+     * Close Database Handler.
+     */
+    public void close() {
+        if (isOpen()) {
+            dbClientHelper.close();
+        }
     }
 
     /**
@@ -65,7 +83,12 @@ public class ClientDataSource {
         values.put(CLIENT_DOMAIN, client.getDomain());
         values.put(CLIENT_MAC, client.getMac());
 
-        long insertId = database.insert(CLIENT_TABLE_NAME, null, values);
+        long insertId = 0;
+        try {
+            insertId = database.insert(CLIENT_TABLE_NAME, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         client.setId(insertId);
 
         return insertId != -1;
@@ -78,7 +101,7 @@ public class ClientDataSource {
      * @param name
      * @param ip
      * @param port
-     * @return
+     * @return created client or null if unsuccessful
      */
     public TopeClient create(String name, String ip, String port) {
         TopeClient client = null;
@@ -87,15 +110,17 @@ public class ClientDataSource {
         values.put(CLIENT_IP, ip);
         values.put(CLIENT_PORT, port);
 
-        long insertId = database.insert(CLIENT_TABLE_NAME, null, values);
-
-        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, ClientOpenHelper.CLIENT_OWN_ID + " = " + insertId, null, null, null, null);
-        cursor.moveToFirst();
-        client = cursorToClient(cursor);
-        cursor.close();
-
+        long insertId = 0;
+        try {
+            insertId = database.insert(CLIENT_TABLE_NAME, null, values);
+            Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, ClientOpenHelper.CLIENT_OWN_ID + " = " + insertId, null, null, null, null);
+            cursor.moveToFirst();
+            client = cursorToClient(cursor);
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return client;
-
     }
 
     /**
@@ -105,18 +130,20 @@ public class ClientDataSource {
      */
     public Vector<TopeClient> getAll() {
         Vector<TopeClient> vec = new Vector<TopeClient>();
-        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, null, null, null, null, null);
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            TopeClient client = cursorToClient(cursor);
-            client.setContext(context);
-            vec.add(client);
-            cursor.moveToNext();
+        Cursor cursor = null;
+        try {
+            cursor = database.query(CLIENT_TABLE_NAME, allColumns, null, null, null, null, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                TopeClient client = cursorToClient(cursor);
+                client.setContext(context);
+                vec.add(client);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.e(TAG, "ClientDataSource.getAll(): " + e.getMessage());
         }
-
-        cursor.close();
-
         return vec;
     }
 
@@ -128,18 +155,20 @@ public class ClientDataSource {
      */
     public Vector<TopeClient> getAllActive() {
         Vector<TopeClient> vec = new Vector<TopeClient>();
-        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, CLIENT_ACTIVE + "= '1'", null, null, null, null);
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            TopeClient client = cursorToClient(cursor);
-            client.setContext(context);
-            vec.add(client);
-            cursor.moveToNext();
+        Cursor cursor = null;
+        try {
+            cursor = database.query(CLIENT_TABLE_NAME, allColumns, CLIENT_ACTIVE + "= '1'", null, null, null, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                TopeClient client = cursorToClient(cursor);
+                client.setContext(context);
+                vec.add(client);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.e(TAG, "ClientDataSource.getAllActive(): " + e.getMessage());
         }
-
-        cursor.close();
-
         return vec;
     }
 
@@ -152,25 +181,31 @@ public class ClientDataSource {
     public Vector<TopeClient> getAllActive(String method) {
         Vector<TopeClient> vec = new Vector<TopeClient>();
         Cursor cursor = innerJoin(method);
-        cursor.moveToFirst();
+        if (null != cursor) {
+            cursor.moveToFirst();
 
-        while (!cursor.isAfterLast()) {
-            TopeClient client = cursorToClient(cursor);
-            client.setContext(context);
-            vec.add(client);
-            cursor.moveToNext();
+            while (!cursor.isAfterLast()) {
+                TopeClient client = cursorToClient(cursor);
+                client.setContext(context);
+                vec.add(client);
+                cursor.moveToNext();
+            }
+            cursor.close();
         }
-
-        cursor.close();
-
         return vec;
     }
 
     private Cursor innerJoin(String method) {
         String sql = "SELECT " + AldiStringUtils.arrayToString(allColumns, "c.", ", ") + " FROM " + CLIENT_TABLE_NAME + " AS c INNER JOIN " + ACTION_TABLE_NAME + " AS a ON c." + ClientOpenHelper.CLIENT_OWN_ID + "=a."
                 + ActionOpenHelper.CLIENT_ID + " WHERE a." + METHOD + "='" + method + "' AND c." + CLIENT_ACTIVE + "= '1';";
-        System.out.println(sql);
-        return database.rawQuery(sql, null);
+
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery(sql, null);
+        } catch (Exception e) {
+            Log.e(TAG, "ClientDataSource.innerJoin(): " + e.getMessage());
+        }
+        return cursor;
     }
 
     /**
@@ -180,7 +215,12 @@ public class ClientDataSource {
      * @return
      */
     public TopeClient getClient(long id) {
-        Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, ClientOpenHelper.CLIENT_OWN_ID + "= ?", new String[] { String.valueOf(id) }, null, null, null);
+        Cursor cursor = null;
+        try {
+            cursor = database.query(CLIENT_TABLE_NAME, allColumns, ClientOpenHelper.CLIENT_OWN_ID + "= ?", new String[]{String.valueOf(id)}, null, null, null);
+        } catch (Exception e) {
+            Log.e(TAG, "ClientDataSource.getClient(): " + e.getMessage());
+        }
         cursor.moveToFirst();
 
         TopeClient client = cursorToClient(cursor);
@@ -198,8 +238,12 @@ public class ClientDataSource {
      */
     public void deleteClient(TopeClient client) {
         long id = client.getId();
-        System.out.println("Comment deleted with id: " + id);
-        database.delete(CLIENT_TABLE_NAME, ClientOpenHelper.CLIENT_OWN_ID + " = " + id, null);
+        i(TAG, "ClientDataSource.deleteClient(): Comment deleted with id: " + id);
+        try {
+            database.delete(CLIENT_TABLE_NAME, ClientOpenHelper.CLIENT_OWN_ID + " = " + id, null);
+        } catch (Exception e) {
+            Log.e(TAG, "ClientDataSource.deleteClient(): " + e.getMessage());
+        }
     }
 
     /**
@@ -210,7 +254,6 @@ public class ClientDataSource {
     public void updateClient(TopeClient client) {
         long id = client.getId();
         ContentValues values = new ContentValues();
-        // values.put(CLIENT_ID, id);
         values.put(CLIENT_NAME, client.getName());
         values.put(CLIENT_IP, client.getIp());
         values.put(CLIENT_PORT, client.getPort());
@@ -220,7 +263,11 @@ public class ClientDataSource {
         values.put(CLIENT_DOMAIN, client.getDomain());
         values.put(CLIENT_MAC, client.getMac());
 
-        database.update(CLIENT_TABLE_NAME, values, ClientOpenHelper.CLIENT_OWN_ID + " = ?", new String[] { String.valueOf(id) });
+        try {
+            database.update(CLIENT_TABLE_NAME, values, ClientOpenHelper.CLIENT_OWN_ID + " = ?", new String[]{String.valueOf(id)});
+        } catch (Exception e) {
+            e(TAG, "ClientDataSource.updateClient(): " + e.getMessage());
+        }
     }
 
     /**
