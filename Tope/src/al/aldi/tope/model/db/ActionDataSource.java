@@ -8,6 +8,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -76,7 +78,7 @@ public class ActionDataSource {
     public void addAll(List<TopeAction> actions) {
         database.beginTransaction();
         for (@SuppressWarnings("rawtypes")
-            Iterator iterator = actions.iterator(); iterator.hasNext(); ) {
+             Iterator iterator = actions.iterator(); iterator.hasNext(); ) {
             TopeAction topeAction = (TopeAction) iterator.next();
             create(topeAction);
         }
@@ -91,32 +93,38 @@ public class ActionDataSource {
      */
     public Vector<TopeAction> getAll() {
         Vector<TopeAction> vec = new Vector<TopeAction>();
-        Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, null, null, null, null, null);
-        cursor.moveToFirst();
+        try {
+            Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, null, null, null, null, null);
+            cursor.moveToFirst();
 
-        while (!cursor.isAfterLast()) {
-            TopeAction action = cursorToAction(cursor);
-            vec.add(action);
-            cursor.moveToNext();
+            while (!cursor.isAfterLast()) {
+                TopeAction action = cursorToAction(cursor);
+                vec.add(action);
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+        } catch (SQLiteException e) {
+            Log.e("ActionDataSource", e.getMessage());
         }
-
-        cursor.close();
-
         return vec;
     }
 
     private Vector<TopeAction> getAllWithPrefix(String prefix) {
         Vector<TopeAction> vec = new Vector<TopeAction>();
-        Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, COMMAND_FULL + " LIKE '" + prefix + "%'", null, null, null, ACTION_OWN_ID);
-        cursor.moveToFirst();
+        try {
+            Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, COMMAND_FULL + " LIKE '" + prefix + "%'", null, null, null, ACTION_OWN_ID);
+            cursor.moveToFirst();
 
-        while (!cursor.isAfterLast()) {
-            TopeAction action = cursorToAction(cursor);
-            vec.add(action);
-            cursor.moveToNext();
+            while (!cursor.isAfterLast()) {
+                TopeAction action = cursorToAction(cursor);
+                vec.add(action);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        } catch (SQLiteException e) {
+            Log.e("ActionDataSource", e.getMessage());
         }
-
-        cursor.close();
 
         return vec;
     }
@@ -129,20 +137,25 @@ public class ActionDataSource {
      */
     public Vector<TopeAction> getAll(List<TopeClient> clients) {
         Vector<TopeAction> finalVec = new Vector<TopeAction>();
-        for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext(); ) {
-            TopeClient topeClient = (TopeClient) iterator.next();
+        try {
+            for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext(); ) {
+                TopeClient topeClient = (TopeClient) iterator.next();
 
-            Vector<TopeAction> vec = new Vector<TopeAction>();
-            Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, CLIENT_ID + "=?", new String[]{String.valueOf(topeClient.getId())}, null, null, null);
-            cursor.moveToFirst();
+                Vector<TopeAction> vec = new Vector<TopeAction>();
+                Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, CLIENT_ID + "=?", new String[]{String.valueOf(topeClient.getId())}, null, null, null);
+                cursor.moveToFirst();
 
-            while (!cursor.isAfterLast()) {
-                TopeAction action = cursorToAction(cursor);
-                vec.add(action);
-                cursor.moveToNext();
+                while (!cursor.isAfterLast()) {
+                    TopeAction action = cursorToAction(cursor);
+                    vec.add(action);
+                    cursor.moveToNext();
+                }
+
+                cursor.close();
             }
 
-            cursor.close();
+        } catch (SQLiteException e) {
+            Log.e("ActionDataSource", e.getMessage());
         }
 
         return finalVec;
@@ -189,27 +202,31 @@ public class ActionDataSource {
         HashMap<TopeAction, Integer> finalMap = new HashMap<TopeAction, Integer>();
         Vector<TopeAction> actionsVec = getAllWithPrefix(prefix);
 
-        for (Iterator<TopeAction> iterator = actionsVec.iterator(); iterator.hasNext(); ) {
-            TopeAction topeAction = (TopeAction) iterator.next();
-            String sql = "SELECT COUNT(c.rowid) FROM "
-                    + CLIENT_TABLE_NAME + " AS c INNER JOIN " + ACTION_TABLE_NAME
-                    + " AS a ON c." + ClientOpenHelper.CLIENT_OWN_ID + "=a." + ActionOpenHelper.CLIENT_ID
-                    + " WHERE a." + METHOD + "='" + topeAction.getMethod() + "'"
-                    + " AND a." + CLIENT_ID + " IN (" + AldiStringUtils.arrayToString(getClientIds(clients), ",") + ")"
-                    + " ORDER BY " + ACTION_OWN_ID
-                    + " ;";
+        try {
+            for (Iterator<TopeAction> iterator = actionsVec.iterator(); iterator.hasNext(); ) {
+                TopeAction topeAction = (TopeAction) iterator.next();
+                String sql = "SELECT COUNT(c.rowid) FROM "
+                        + CLIENT_TABLE_NAME + " AS c INNER JOIN " + ACTION_TABLE_NAME
+                        + " AS a ON c." + ClientOpenHelper.CLIENT_OWN_ID + "=a." + ActionOpenHelper.CLIENT_ID
+                        + " WHERE a." + METHOD + "='" + topeAction.getMethod() + "'"
+                        + " AND a." + CLIENT_ID + " IN (" + AldiStringUtils.arrayToString(getClientIds(clients), ",") + ")"
+                        + " ORDER BY " + ACTION_OWN_ID
+                        + " ;";
 
-            //System.out.println(sql);
+                //System.out.println(sql);
 
-            Cursor cursor = database.rawQuery(sql, null);
-            cursor.moveToFirst();
+                Cursor cursor = database.rawQuery(sql, null);
+                cursor.moveToFirst();
 
-            while (!cursor.isAfterLast()) {
-                finalMap.put(topeAction, cursor.getInt(0));
-                cursor.moveToNext();
+                while (!cursor.isAfterLast()) {
+                    finalMap.put(topeAction, cursor.getInt(0));
+                    cursor.moveToNext();
+                }
+
+                cursor.close();
             }
-
-            cursor.close();
+        } catch (SQLiteException e) {
+            Log.e("ActionDataSource", e.getMessage());
         }
 
         return finalMap;

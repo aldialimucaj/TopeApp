@@ -1,11 +1,5 @@
 package al.aldi.tope;
 
-import static al.aldi.tope.utils.TopeCommands.UTIL_PING;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import al.aldi.andorid.utils.PreferencesUtil;
 import al.aldi.tope.controller.executables.PingExecutor;
 import al.aldi.tope.model.ITopeAction;
@@ -28,6 +22,12 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import static al.aldi.tope.utils.TopeCommands.UTIL_PING;
 
 /**
  * Main class and starting point
@@ -112,15 +112,7 @@ public class Tope extends FragmentActivity {
 					while (PreferenceManager.getDefaultSharedPreferences(Tope.this).getBoolean("ping_clients_checkbox", false)) {
 						@SuppressWarnings("rawtypes")
 						List<TopeResponse> topeResponses = new ArrayList<TopeResponse>();
-						List<TopeClient> clients = source.getAllActive(); /*
-																		 * reads
-																		 * all
-																		 * acitve
-																		 * clients
-																		 * from
-																		 * the
-																		 * database
-																		 */
+						List<TopeClient> clients = source.getAllActive();
 						clientSize = clients.size();
 						indexPing = 0;
 
