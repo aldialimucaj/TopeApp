@@ -100,6 +100,13 @@
     <!-- ********* -->
     <string name="tag_other_empty_string">#EMPTY#</string>
     <string name="elephant_text">No Servers.\nGo through the menu to add one.</string>
+    <string name="action_clients_summary">Show Tope Server list where you can add or remove new items</string>
+    <string name="client_list_empty">Empty list. Add new Server?</string>
+    <string name="client_list_empty_negative">Add new Server from the menu.</string>
+    <string name="client_list_delete">Sure you wanna delete client?</string>
+    <string name="client_list_delete_negative">Nothing happened!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- ********* -->
     <!-- SETTINGS -->

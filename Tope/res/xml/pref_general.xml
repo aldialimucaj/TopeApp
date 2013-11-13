@@ -1,10 +1,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <PreferenceScreen
+        android:key="open_tope_servers"
+        android:title="@string/action_clients"
+        android:summary="@string/action_clients">
+    </PreferenceScreen >
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="ping_clients_checkbox"
         android:summary="@string/pref_ping_clients_checkbox_description"
         android:title="@string/pref_ping_clients_checkbox_title" />
-
 
 </PreferenceScreen>

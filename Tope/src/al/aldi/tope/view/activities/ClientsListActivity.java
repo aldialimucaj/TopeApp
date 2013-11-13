@@ -10,8 +10,12 @@ import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -70,6 +74,10 @@ public class ClientsListActivity extends ListActivity {
 
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         getListView().setAdapter(adapter);
+        if(null != adapter && adapter.isEmpty()) {
+            AskToCreateNewClient dialog =  new AskToCreateNewClient();
+            dialog.show(getFragmentManager(),"AskTag");
+        }
         // Show the Up button in the action bar.
         setupActionBar();
     }
@@ -176,11 +184,8 @@ public class ClientsListActivity extends ListActivity {
 
             return true;
         case R.id.client_delete:
-            TopeClientArrayAdapter adapter = (TopeClientArrayAdapter) list.getAdapter();
-            TopeClient t = (TopeClient) adapter.getItem(position);
-            adapter.getValues().remove(t);
-            t.safeDelete();
-            list.invalidateViews();
+            AskDeleteClient adc = new AskDeleteClient();
+            adc.show(getFragmentManager(),"AskDeleteSelected");
 
         default:
             return super.onContextItemSelected(item);
@@ -270,7 +275,8 @@ public class ClientsListActivity extends ListActivity {
             startActivity(new Intent(this, ClientAddEditActivity.class));
             break;
         case R.id.action_delete_selected:
-            deleteSelected();
+            AskDeleteClient adc = new AskDeleteClient();
+            adc.show(getFragmentManager(),"AskDeleteSelected");
             break;
         case R.id.action_execute_on_clients2:
         case R.id.action_execute_on_clients:
@@ -336,6 +342,51 @@ public class ClientsListActivity extends ListActivity {
 
         void setItemPosition(int itemPosition) {
             this.itemPosition = itemPosition;
+        }
+    }
+
+    public class AskToCreateNewClient extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.client_list_empty);
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(getActivity(), ClientAddEditActivity.class));
+                }
+            });
+            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getActivity(),R.string.client_list_empty_negative,Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            return builder.create();
+        }
+    }
+
+    public class AskDeleteClient extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.client_list_delete);
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    deleteSelected();
+                }
+            });
+            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getActivity(),R.string.client_list_delete_negative,Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            return builder.create();
         }
     }
 }

@@ -60,6 +60,7 @@ public class Tope extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tope);
 
+        // adding preference layout to settings menu
 		PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
 
 		initDatabase();
