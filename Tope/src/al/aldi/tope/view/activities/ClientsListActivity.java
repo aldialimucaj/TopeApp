@@ -35,21 +35,20 @@ import static al.aldi.tope.utils.TopeCommands.*;
 
 /**
  * List Activity showing the clients.
- * 
+ *
  * @author Aldi Alimucaj
- * 
  */
 public class ClientsListActivity extends ListActivity {
 
     private static final String TAG                    = "al.aldi.tope.view.ClientsListActivity";
-    public static final String  INTENT_CLICKED_ITEM_ID = "selected_id";
-    ClientDataSource            source                 = null;
-    Intent                      intent                 = null;
-    Uri                         data                   = null;
-    ClipData                    clipData               = null;
+    public static final  String INTENT_CLICKED_ITEM_ID = "selected_id";
+    ClientDataSource source   = null;
+    Intent           intent   = null;
+    Uri              data     = null;
+    ClipData         clipData = null;
 
     final int currentApiVersion = android.os.Build.VERSION.SDK_INT;
-    final int jellyBean = Build.VERSION_CODES.JELLY_BEAN;
+    final int jellyBean         = Build.VERSION_CODES.JELLY_BEAN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class ClientsListActivity extends ListActivity {
             data = intent.getData();
         }
 
-        if ((null != intent && currentApiVersion >= jellyBean ) && null != intent.getClipData()) {
+        if ((null != intent && currentApiVersion >= jellyBean) && null != intent.getClipData()) {
             clipData = intent.getClipData();
         }
 
@@ -74,9 +73,9 @@ public class ClientsListActivity extends ListActivity {
 
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         getListView().setAdapter(adapter);
-        if(null != adapter && adapter.isEmpty()) {
-            AskToCreateNewClient dialog =  new AskToCreateNewClient();
-            dialog.show(getFragmentManager(),"AskTag");
+        if (null != adapter && adapter.isEmpty()) {
+            AskToCreateNewClient dialog = new AskToCreateNewClient();
+            dialog.show(getFragmentManager(), "AskTag");
         }
         // Show the Up button in the action bar.
         setupActionBar();
@@ -163,32 +162,32 @@ public class ClientsListActivity extends ListActivity {
     public boolean onContextItemSelected(MenuItem item) {
         final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         int position = info.position;
-        Log.i(TAG, "ClientsListActivity.onContextItemSelected(): [position]: "+position);
+        Log.i(TAG, "ClientsListActivity.onContextItemSelected(): [position]: " + position);
         ListView list = ClientsListActivity.this.getListView();
         switch (item.getItemId()) {
-        case R.id.client_edit:
-            Intent i = new Intent(ClientsListActivity.this, ClientAddEditActivity.class);
+            case R.id.client_edit:
+                Intent i = new Intent(ClientsListActivity.this, ClientAddEditActivity.class);
 
-            Parcelable client = (TopeClient) list.getItemAtPosition(position);
+                Parcelable client = (TopeClient) list.getItemAtPosition(position);
 
-            i.putExtra(INTENT_CLICKED_ITEM_ID, client);
-            startActivity(i);
-            return true;
-        case R.id.client_synchronize:
-            Toast.makeText(getApplicationContext(), "Synchronize Client", Toast.LENGTH_SHORT).show();
+                i.putExtra(INTENT_CLICKED_ITEM_ID, client);
+                startActivity(i);
+                return true;
+            case R.id.client_synchronize:
+                Toast.makeText(getApplicationContext(), "Synchronize Client", Toast.LENGTH_SHORT).show();
 
-            //TODO: This thread is the same as ClientAddEditActivity.java:108. outsource
+                //TODO: This thread is the same as ClientAddEditActivity.java:108. outsource
             /* Creating thread because this is the main thread */
-            SynchTopeServers sts = new SynchTopeServers(info.position);
-            sts.start();
+                SynchTopeServers sts = new SynchTopeServers(info.position);
+                sts.start();
 
-            return true;
-        case R.id.client_delete:
-            AskDeleteClient adc = new AskDeleteClient();
-            adc.show(getFragmentManager(),"AskDeleteSelected");
+                return true;
+            case R.id.client_delete:
+                AskDeleteClient adc = new AskDeleteClient(position);
+                adc.show(getFragmentManager(), "AskDeleteSelected");
 
-        default:
-            return super.onContextItemSelected(item);
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 
@@ -231,6 +230,15 @@ public class ClientsListActivity extends ListActivity {
         getListView().setAdapter(adapter);
     }
 
+    public void deleteSelected(int position) {
+        ListView list = ClientsListActivity.this.getListView();
+        TopeClientArrayAdapter adapter = (TopeClientArrayAdapter) list.getAdapter();
+        TopeClient t = (TopeClient) adapter.getItem(position);
+        adapter.getValues().remove(t);
+        t.safeDelete();
+        list.invalidateViews();
+    }
+
     /**
      * Set up the {@link android.app.ActionBar}.
      */
@@ -268,26 +276,26 @@ public class ClientsListActivity extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case android.R.id.home:
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
-        case R.id.action_add_client:
-            startActivity(new Intent(this, ClientAddEditActivity.class));
-            break;
-        case R.id.action_delete_selected:
-            AskDeleteClient adc = new AskDeleteClient();
-            adc.show(getFragmentManager(),"AskDeleteSelected");
-            break;
-        case R.id.action_execute_on_clients2:
-        case R.id.action_execute_on_clients:
-            executeOnClients();
-            break;
-        case R.id.clean_all_actions:
-            ActionDataSource ads = new ActionDataSource(getApplicationContext());
-            ads.open();
-            ads.deleteAll();
-            ads.close();
-            break;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_add_client:
+                startActivity(new Intent(this, ClientAddEditActivity.class));
+                break;
+            case R.id.action_delete_selected:
+                AskDeleteClient adc = new AskDeleteClient();
+                adc.show(getFragmentManager(), "AskDeleteSelected");
+                break;
+            case R.id.action_execute_on_clients2:
+            case R.id.action_execute_on_clients:
+                executeOnClients();
+                break;
+            case R.id.clean_all_actions:
+                ActionDataSource ads = new ActionDataSource(getApplicationContext());
+                ads.open();
+                ads.deleteAll();
+                ads.close();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -327,7 +335,7 @@ public class ClientsListActivity extends ListActivity {
             if (null == response || null == ((TopeResponse<ActionSynchResponse>) response).getPayload()) {
                 Looper.prepare();
                 String strCouldNotSynch = getResources().getString(R.string.synch_failed);
-                Toast.makeText(getApplicationContext(), strCouldNotSynch , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), strCouldNotSynch, Toast.LENGTH_SHORT).show();
                 Looper.loop();
             } else if (null != response) {
                 Looper.prepare();
@@ -359,7 +367,7 @@ public class ClientsListActivity extends ListActivity {
             builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getActivity(),R.string.client_list_empty_negative,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.client_list_empty_negative, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -368,6 +376,14 @@ public class ClientsListActivity extends ListActivity {
     }
 
     public class AskDeleteClient extends DialogFragment {
+        private int position = -1;
+
+        public AskDeleteClient() {
+        }
+
+        public AskDeleteClient(int position) {
+            this.position = position;
+        }
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -376,13 +392,18 @@ public class ClientsListActivity extends ListActivity {
             builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    deleteSelected();
+                    if (-1 != position) {
+                        deleteSelected(position);
+                    } else {
+                        deleteSelected();
+                    }
+
                 }
             });
             builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getActivity(),R.string.client_list_delete_negative,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.client_list_delete_negative, Toast.LENGTH_SHORT).show();
                 }
             });
 

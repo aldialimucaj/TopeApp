@@ -98,6 +98,7 @@
     <!-- ********* -->
     <!-- OTHER -->
     <!-- ********* -->
+    <string name="task_executed_sccuessfully">Task Executed Successfully</string>
     <string name="tag_other_empty_string">#EMPTY#</string>
     <string name="elephant_text">No Servers.\nGo through the menu to add one.</string>
     <string name="action_clients_summary">Show Tope Server list where you can add or remove new items</string>
