@@ -11,6 +11,12 @@
         android:orderInCategory="101"
         android:showAsAction="never"
         android:title="@string/action_clients_delete_selected"/>
+
+    <item
+        android:id="@+id/action_scan_network"
+        android:orderInCategory="102"
+        android:showAsAction="never"
+        android:title="@string/action_clients_scan_network"/>
     
     <item
         android:id="@+id/clean_all_actions"

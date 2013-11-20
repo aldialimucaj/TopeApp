@@ -1,7 +1,5 @@
 package al.aldi.tope.view.adapter;
 
-import java.util.List;
-
 import al.aldi.tope.R;
 import al.aldi.tope.model.TopeClient;
 import android.content.Context;
@@ -13,6 +11,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class TopeClientArrayAdapter extends ArrayAdapter<TopeClient> {
 
@@ -30,9 +30,9 @@ public class TopeClientArrayAdapter extends ArrayAdapter<TopeClient> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.client_list, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.client_list_name_text);
-        TextView telNrView = (TextView) rowView.findViewById(R.id.client_list_tel_nr);
+        TextView ipView = (TextView) rowView.findViewById(R.id.client_list_ip);
         textView.setText(values.get(position).getName());
-        telNrView.setText(values.get(position).getIp());
+        ipView.setText(values.get(position).getIp());
 
         CheckBox active = (CheckBox) rowView.findViewById(R.id.client_list_active);
         active.setChecked(values.get(position).isActive());

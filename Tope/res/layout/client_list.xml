@@ -30,7 +30,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/client_list_tel_nr"
+            android:id="@+id/client_list_ip"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/item_height"
             android:layout_marginTop="15dp"

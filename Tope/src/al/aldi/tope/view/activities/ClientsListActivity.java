@@ -42,6 +42,7 @@ public class ClientsListActivity extends ListActivity {
 
     private static final String TAG                    = "al.aldi.tope.view.ClientsListActivity";
     public static final  String INTENT_CLICKED_ITEM_ID = "selected_id";
+    public static final  String INTENT_INSERT_INTO_DB  = "inser_into_db";
     ClientDataSource source   = null;
     Intent           intent   = null;
     Uri              data     = null;
@@ -174,10 +175,10 @@ public class ClientsListActivity extends ListActivity {
                 startActivity(i);
                 return true;
             case R.id.client_synchronize:
-                Toast.makeText(getApplicationContext(), "Synchronize Client", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.client_edit_synchronize_client), Toast.LENGTH_SHORT).show();
 
                 //TODO: This thread is the same as ClientAddEditActivity.java:108. outsource
-            /* Creating thread because this is the main thread */
+                /* Creating thread because this is the main thread */
                 SynchTopeServers sts = new SynchTopeServers(info.position);
                 sts.start();
 
@@ -290,6 +291,11 @@ public class ClientsListActivity extends ListActivity {
             case R.id.action_execute_on_clients:
                 executeOnClients();
                 break;
+            case R.id.action_scan_network:
+                Intent intent = new Intent(this, ScanServersActivity.class);
+                //intent.putStringArrayListExtra("listStr", (ArrayList<String>) listStr);
+                startActivity(intent);
+                break;
             case R.id.clean_all_actions:
                 ActionDataSource ads = new ActionDataSource(getApplicationContext());
                 ads.open();
@@ -319,7 +325,7 @@ public class ClientsListActivity extends ListActivity {
 
         @Override
         public void run() {
-                    /* creating the synchronization action. no need to store this in the action list as this action is not shown in the grid */
+            /* creating the synchronization action. no need to store this in the action list as this action is not shown in the grid */
             ITopeAction synchronizeAction = new TopeAction(OS_SYNCH_ACTIONS, 0, getString(R.string.client_edit_synchronize));
             synchronizeAction.setActionId(0);
             ActionSynchExecutor executor = new ActionSynchExecutor(synchronizeAction, getApplicationContext());

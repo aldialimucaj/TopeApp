@@ -23,7 +23,8 @@ import static al.aldi.tope.utils.TopeCommands.OS_SYNCH_ACTIONS;
 
 public class ClientAddEditActivity extends Activity {
 
-    protected TopeClient client = null;
+    protected TopeClient client       = null;
+    private   boolean    insertIntoDb = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class ClientAddEditActivity extends Activity {
         }
 
         client = (TopeClient) extras.getParcelable(ClientsListActivity.INTENT_CLICKED_ITEM_ID);
+        insertIntoDb = extras.getBoolean(ClientsListActivity.INTENT_INSERT_INTO_DB);
         setDataFromClient(client);
     }
 
@@ -85,15 +87,19 @@ public class ClientAddEditActivity extends Activity {
                 String domain = cdomain.getText().toString();
                 boolean active = cactive.isChecked();
 
+                // user forgets to set ip -> return
                 if (ip.equals("")) {
-                    Toast.makeText(ClientAddEditActivity.this, "Cannot crate host with no IP!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ClientAddEditActivity.this, getString(R.string.client_create_ip_missing), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                // user forgets to set port -> set to default port
                 if (port.equals("")) {
-                    Toast.makeText(ClientAddEditActivity.this, "No Port set! Taking default port " + TopeUtils.TOPE_DEFAULT_PORT, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ClientAddEditActivity.this, getString(R.string.client_create_port_missing) + TopeUtils.TOPE_DEFAULT_PORT, Toast.LENGTH_SHORT).show();
                     port = TopeUtils.TOPE_DEFAULT_PORT;
                 }
-                if (null == client) {
+                // Adding the client if it didn't come form an intent -> ergo client == null
+                // Or it came from an intent but it wasn't int the database it the flag force insert is true
+                if (null == client || insertIntoDb) {
                     client = new TopeClient(name, ip, port, user, pass, domain, active);
                     client.setContext(getApplicationContext());
                     client.insertDb();
@@ -121,7 +127,7 @@ public class ClientAddEditActivity extends Activity {
                         Object response = synchronizeAction.execute(client);
                         if (null == response || null == ((TopeResponse<ActionSynchResponse>) response).getPayload()) {
                             Looper.prepare();
-                            Toast.makeText(getApplicationContext(), "Could not synchronize client. Please check your connection.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.client_synch_could_not), Toast.LENGTH_SHORT).show();
                             Looper.loop();
                         } else if (null != response) {
                             Looper.prepare();

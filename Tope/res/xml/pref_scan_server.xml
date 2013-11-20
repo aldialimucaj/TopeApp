@@ -1,0 +1,16 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:key="scan_ip"
+        android:title="@string/action_scan_ip_range"
+        android:summary="@string/action_scan_ip_range_desc"
+        />
+
+    <EditTextPreference
+        android:key="scan_port"
+        android:title="@string/action_scan_port"
+        android:summary="@string/action_scan_port_desc"
+        android:inputType="number"
+        />
+
+</PreferenceScreen>

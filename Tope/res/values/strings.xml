@@ -26,13 +26,18 @@
     <string name="title_client_pass">Password (optional) </string>
     <string name="title_client_domain">Domain (optional)</string>
     <string name="client_edit_synchronize">Synchronize</string>
+    <string name="client_edit_synchronize_client">Synchronize Client</string>
     <string name="client_edit_edit">Edit</string>
     <string name="client_edit_delete">Delete</string>
+    <string name="client_create_ip_missing">Cannot crate host with no IP!</string>
+    <string name="client_create_port_missing">Taking default port </string>
     <string name="action_clients_clean_all_actions">Clean All Actions</string>
     <string name="action_clients_backup_actions">Backup Actions</string>
+    <string name="action_clients_scan_network">Scan Network</string>
     <string name="action_clients_restore_actions">Restore Actions</string>
     <string name="synch_failed">Could not synchronize client. Please check your connection.</string>
     <string name="server_execute_on_pc">Click Execute instead on the Menu or Action Bar</string>
+    <string name="client_synch_could_not">Could not synchronize client. Please check your connection.</string>
 
     <!-- OS OPERATION -->
 
@@ -95,10 +100,21 @@
     <string name="title_activity_vlc_control_play">Play</string>
     <string name="title_activity_vlc_control_show_time">Show Time</string>
 
+    <!-- SCAN SERVER ACTIVITY -->
+    <string name="title_activity_scan_servers">Scanned Network</string>
+    <string name="action_scan_add_all">Add All</string>
+    <string name="action_scan_add_selected">Add Selected</string>
+    <string name="action_scan_ip_range">IP Address Range</string>
+    <string name="action_scan_ip_range_desc">Set the ip rage you want to scan for possible online server. Default is set to you current wifi IPv4 address</string>
+    <string name="action_scan_port">Port</string>
+    <string name="action_scan_port_desc">Which port should they try to connect</string>
+    <string name="action_scan_progress_dialog_title">Scanning network</string>
+    <string name="action_scan_progress_dialog_message">Please wait...</string>
+
     <!-- ********* -->
     <!-- OTHER -->
     <!-- ********* -->
-    <string name="task_executed_sccuessfully">Task Executed Successfully</string>
+    <string name="task_executed_sccuessfully">Task executed successfully</string>
     <string name="tag_other_empty_string">#EMPTY#</string>
     <string name="elephant_text">No Servers.\nGo through the menu to add one.</string>
     <string name="action_clients_summary">Show Tope Server list where you can add or remove new items</string>
@@ -106,6 +122,8 @@
     <string name="client_list_empty_negative">Add new Server from the menu.</string>
     <string name="client_list_delete">Sure you wanna delete client?</string>
     <string name="client_list_delete_negative">Nothing happened!</string>
+    <string name="toast_successful_br">[Successful] </string>
+    <string name="toast_failed_br">[Failed] </string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
@@ -122,5 +140,6 @@
     <!-- SHORTCUTS ACTIVITY -->
     <string name="title_activity_shortcuts">Shortcuts</string>
     <string name="title_activity_shortcuts_alt_f4">Shortcuts</string>
+
 
 </resources>

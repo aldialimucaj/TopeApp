@@ -1,10 +1,6 @@
 package al.aldi.tope.utils;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
-
+import al.aldi.libjaldi.string.AldiStringUtils;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeResponse;
@@ -18,21 +14,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
 /**
  * Utility class for workign with tope objects.
- * 
+ *
  * @author Aldi Alimucaj
- * 
  */
 public class TopeUtils {
-    public static final String LOG_TAG                           = "al.aldi.tope.TopeUtils";
+    public static final String LOG_TAG = "al.aldi.tope.TopeUtils";
 
     public static final String TOPE_DEFAULT_PORT                 = "8503";
-
+    public static final int    TOAST_MAX_LENGHT                  = 50;
     public static final int    TOPE_ACTION_CLICK_VIBRATION_SHORT = 80;
     public static final int    TOPE_ACTION_CLICK_VIBRATION_LONG  = 200;
 
-    ClientDataSource           source                            = null;
+    ClientDataSource source = null;
 
     public TopeUtils(ClientDataSource source) {
         super();
@@ -41,15 +41,14 @@ public class TopeUtils {
 
     /**
      * Get the action out of the list by looking for the item id which it is bound with.
-     * 
+     *
      * @param actions
-     * @param id
-     *            the Andorid item, like for example the icon.
+     * @param id      the Andorid item, like for example the icon.
      * @return the action if found or null
      */
     public static ITopeAction getAction(List<ITopeAction> actions, long id) {
         ITopeAction action = null;
-        for (Iterator<ITopeAction> iterator = actions.iterator(); iterator.hasNext();) {
+        for (Iterator<ITopeAction> iterator = actions.iterator(); iterator.hasNext(); ) {
             ITopeAction iTopeAction = (ITopeAction) iterator.next();
             if (iTopeAction.getItemId() == id) {
                 action = iTopeAction;
@@ -60,10 +59,9 @@ public class TopeUtils {
 
     /**
      * Get the action out of the list by looking for the item id which it is bound with.
-     * 
+     *
      * @param actions
-     * @param view
-     *            the Andorid item, like for example the icon.
+     * @param view    the Andorid item, like for example the icon.
      * @return the action if found or null
      */
     public static ITopeAction getAction(List<ITopeAction> actions, View v) {
@@ -89,7 +87,7 @@ public class TopeUtils {
 
     /**
      * Util method to get back the view.
-     * 
+     *
      * @param map
      * @param action
      * @return
@@ -116,18 +114,18 @@ public class TopeUtils {
     }
 
     /**
-     * Print message.
-     * 
-     * @param action
-     * @param successful
+     * @param activity
+     * @param msg
      */
-    public static void printMsg(Activity activity, String msg) {
+    public static void printMsg(Activity activity, final String msg) {
+        String printMsg = msg;
+        printMsg = AldiStringUtils.trailWithThreeDots(msg, TOAST_MAX_LENGHT);
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show();
     }
 
     /**
      * Print success message
-     * 
+     *
      * @param action
      * @param topeResponse
      * @param activity
@@ -149,7 +147,7 @@ public class TopeUtils {
 
     /**
      * Print success message.
-     * 
+     *
      * @param action
      * @param successful
      * @param activity
@@ -165,7 +163,7 @@ public class TopeUtils {
     /**
      * Print bulk message success status. It also checks if there is only one call and in that case
      * it calls the single message print out format.
-     * 
+     *
      * @param topeResponses
      * @param action
      * @param activity
@@ -186,7 +184,7 @@ public class TopeUtils {
         }
 
         int successfullyRun = 0;
-        for (Iterator<TopeResponse> iterator = topeResponses.iterator(); iterator.hasNext();) {
+        for (Iterator<TopeResponse> iterator = topeResponses.iterator(); iterator.hasNext(); ) {
             TopeResponse topeResponse = (TopeResponse) iterator.next();
             if (topeResponse.isSuccessful()) {
                 successfullyRun++;
@@ -197,7 +195,7 @@ public class TopeUtils {
 
     public static List<TopeAction> filterActions(List<TopeAction> actions, String prefix) {
         List<TopeAction> filteredActions = new Vector<TopeAction>();
-        for (Iterator<TopeAction> iterator = actions.iterator(); iterator.hasNext();) {
+        for (Iterator<TopeAction> iterator = actions.iterator(); iterator.hasNext(); ) {
             TopeAction topeAction = (TopeAction) iterator.next();
             if (topeAction.getCommandFullPath().startsWith(prefix)) {
                 filteredActions.add(topeAction);
@@ -208,7 +206,7 @@ public class TopeUtils {
 
     public static Vector<ITopeAction> convertActions(List<TopeAction> actions) {
         Vector<ITopeAction> convertedActions = new Vector<ITopeAction>();
-        for (Iterator<TopeAction> iterator = actions.iterator(); iterator.hasNext();) {
+        for (Iterator<TopeAction> iterator = actions.iterator(); iterator.hasNext(); ) {
             ITopeAction topeAction = (ITopeAction) iterator.next();
             convertedActions.add(topeAction);
         }

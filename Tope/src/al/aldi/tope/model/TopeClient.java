@@ -45,6 +45,13 @@ public class TopeClient implements Parcelable {
         this.ip = ip;
         this.port = port;
     }
+    public TopeClient(String name, String ip, String port, boolean active) {
+        super();
+        this.name = name;
+        this.ip = ip;
+        this.port = port;
+        this.active = active;
+    }
 
     public TopeClient(String name, String ip, String port, Context context) {
         super();
