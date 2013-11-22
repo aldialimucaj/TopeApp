@@ -1,11 +1,5 @@
 package al.aldi.tope.controller.executables;
 
-import java.lang.reflect.Type;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.Socket;
-
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeClient;
@@ -15,10 +9,17 @@ import al.aldi.tope.model.responses.TestResponse;
 import al.aldi.tope.view.dialog.fragment.StandardActionDialog1;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-
+import android.util.Log;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+
 public class WakeOnLanExecutor extends MainExecutor<TopeResponse<TestResponse>> implements ITopeExecutable {
+    public static final String TAG = "al.aldi.tope.controller.executables.WakeOnLanExecutor";
 
     ITopeAction action   = null;
     Fragment    fragment = null;
@@ -80,7 +81,7 @@ public class WakeOnLanExecutor extends MainExecutor<TopeResponse<TestResponse>> 
 
         String ip;
         String mac;
-        int    port = 9;
+        int port = 9;
 
         public NetworkComm(String ip, String mac) {
             this.ip = ip;
@@ -105,9 +106,9 @@ public class WakeOnLanExecutor extends MainExecutor<TopeResponse<TestResponse>> 
                 socket.send(packet);
                 socket.close();
 
-                System.out.println("Wake-on-LAN packet sent.");
+                Log.i(TAG, "Wake-on-LAN packet sent.");
             } catch (Exception e) {
-                System.out.println("Failed to send Wake-on-LAN packet: + e");
+                Log.i(TAG, "Failed to send Wake-on-LAN packet: "+ e);
                 e.printStackTrace();
             }
             return null;

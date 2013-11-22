@@ -31,6 +31,8 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import static al.aldi.tope.utils.TopeCommands.*;
 
 /**
@@ -69,7 +71,8 @@ public class ClientsListActivity extends ListActivity {
 
         source = new ClientDataSource(getApplicationContext());
         source.open();
-        TopeClientArrayAdapter adapter = new TopeClientArrayAdapter(getApplicationContext(), R.id.client_list_image_view, R.id.client_list_name_text, source.getAll());
+        List<TopeClient> clients = source.getAll();
+        TopeClientArrayAdapter adapter = new TopeClientArrayAdapter(getApplicationContext(), R.id.client_list_image_view, R.id.client_list_name_text, clients);
         source.close();
 
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -150,8 +153,14 @@ public class ClientsListActivity extends ListActivity {
                     e.printStackTrace();
                 }
 
-                ActionCareTaker act = new ActionCareTaker(executeToClientAction, this);
-                act.execute();
+                ActionCareTaker act = null;
+                try {
+                    act = new ActionCareTaker(executeToClientAction, this);
+                    act.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+
             }
         } else {
             // TODO: pass the intent to the child and back. dont lose it.

@@ -1,10 +1,5 @@
 package al.aldi.tope.view.adapter;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
-
 import al.aldi.andorid.utils.PreferencesUtil;
 import al.aldi.android.view.ImageUtils;
 import al.aldi.tope.R;
@@ -33,6 +28,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 public class IconItemAdapter<E> extends BaseAdapter {
 
@@ -200,8 +200,14 @@ public class IconItemAdapter<E> extends BaseAdapter {
 	}
 
 	private void executeAction(ITopeAction action, View parentView) {
-		ActionCareTaker act = new ActionCareTaker(action, getActivity());
-		act.execute();
+
+        ActionCareTaker act = null;
+        try {
+            act = new ActionCareTaker(action, getActivity());
+            act.execute();
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
 		swapActions(action, parentView);
 	}

@@ -40,7 +40,11 @@ public class ActionDataSource {
         super();
         this.context = context;
         this.dbActionHelper = new ActionOpenHelper(context);
-        database = dbActionHelper.getWritableDatabase();
+        try {
+            database = dbActionHelper.getWritableDatabase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -48,7 +52,11 @@ public class ActionDataSource {
      * @throws SQLException
      */
     public void open() throws SQLException {
-        database = dbActionHelper.getWritableDatabase();
+        try {
+            database = dbActionHelper.getWritableDatabase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -56,7 +64,11 @@ public class ActionDataSource {
      */
     public void close() {
         if (isOpen()) {
-            dbActionHelper.close();
+            try {
+                dbActionHelper.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

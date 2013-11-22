@@ -51,6 +51,7 @@ public class ClientAddEditActivity extends Activity {
         TextView cname = (TextView) findViewById(R.id.clientName);
         TextView cip = (TextView) findViewById(R.id.clientIp);
         TextView cport = (TextView) findViewById(R.id.clientPort);
+        TextView cmac = (TextView) findViewById(R.id.clientMAC);
         Switch cactive = (Switch) findViewById(R.id.clientActive);
         TextView cuser = (TextView) findViewById(R.id.clientUser);
         TextView cpass = (TextView) findViewById(R.id.clientPass);
@@ -59,12 +60,16 @@ public class ClientAddEditActivity extends Activity {
         cname.setText(client.getName());
         cip.setText(client.getIp());
         cport.setText(client.getPort());
+        cmac.setText(client.getMac());
         cactive.setChecked(client.isActive());
         cuser.setText(client.getUser());
         cpass.setText(client.getPass());
         cdomain.setText(client.getDomain());
     }
 
+    /**
+     * Adds listeners to the buttons ok and cancel
+     */
     private void initListeners() {
         Button okButton = (Button) findViewById(R.id.buttonOk);
         okButton.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +79,7 @@ public class ClientAddEditActivity extends Activity {
                 TextView cname = (TextView) findViewById(R.id.clientName);
                 TextView cip = (TextView) findViewById(R.id.clientIp);
                 TextView cport = (TextView) findViewById(R.id.clientPort);
+                TextView cmac = (TextView) findViewById(R.id.clientMAC);
                 Switch cactive = (Switch) findViewById(R.id.clientActive);
                 TextView cuser = (TextView) findViewById(R.id.clientUser);
                 TextView cpass = (TextView) findViewById(R.id.clientPass);
@@ -82,6 +88,7 @@ public class ClientAddEditActivity extends Activity {
                 String name = cname.getText().toString();
                 String ip = cip.getText().toString();
                 String port = cport.getText().toString();
+                String mac= cmac.getText().toString();
                 String user = cuser.getText().toString();
                 String pass = cpass.getText().toString();
                 String domain = cdomain.getText().toString();
@@ -94,23 +101,27 @@ public class ClientAddEditActivity extends Activity {
                 }
                 // user forgets to set port -> set to default port
                 if (port.equals("")) {
-                    Toast.makeText(ClientAddEditActivity.this, getString(R.string.client_create_port_missing) + TopeUtils.TOPE_DEFAULT_PORT, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ClientAddEditActivity.this, getString(R.string.client_create_port_missing) + " " + TopeUtils.TOPE_DEFAULT_PORT, Toast.LENGTH_SHORT).show();
                     port = TopeUtils.TOPE_DEFAULT_PORT;
                 }
                 // Adding the client if it didn't come form an intent -> ergo client == null
                 // Or it came from an intent but it wasn't int the database it the flag force insert is true
                 if (null == client || insertIntoDb) {
                     client = new TopeClient(name, ip, port, user, pass, domain, active);
+                    client.setMac(mac);
                     client.setContext(getApplicationContext());
                     client.insertDb();
                 } else {
                     TopeClient updateClinet = new TopeClient(name, ip, port, user, pass, domain, active);
+                    updateClinet.setMac(mac);
                     updateClinet.setId(client.getId());
                     updateClinet.setContext(getApplicationContext());
                     updateClinet.updateDb();
+                    client = updateClinet;
                 }
                 
-                /* Creating thread because this is the main thread */
+                // Creating thread because this is the main thread
+                // Starting synchronization for the changed client
                 new Thread(new Runnable() {
 
                     @SuppressWarnings("unchecked")

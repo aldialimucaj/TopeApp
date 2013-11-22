@@ -21,6 +21,7 @@
     <string name="title_client_name">Server Name</string>
     <string name="title_client_ip">IP Address</string>
     <string name="title_client_port">Host Port (optional)</string>
+    <string name="title_client_mac">MAC Address (optional)</string>
     <string name="title_client_active">Active</string>
     <string name="title_client_user">Username (optional)</string>
     <string name="title_client_pass">Password (optional) </string>

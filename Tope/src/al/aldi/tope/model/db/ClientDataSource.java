@@ -44,7 +44,13 @@ public class ClientDataSource {
      * @throws SQLException
      */
     public void open() throws SQLException {
-        database = dbClientHelper.getWritableDatabase();
+        try {
+            database = dbClientHelper.getWritableDatabase();
+            database.beginTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -61,7 +67,13 @@ public class ClientDataSource {
      */
     public void close() {
         if (isOpen()) {
-            dbClientHelper.close();
+            try {
+                database.setTransactionSuccessful();
+                database.endTransaction();
+                dbClientHelper.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -251,7 +263,7 @@ public class ClientDataSource {
      *
      * @param client
      */
-    public void updateClient(TopeClient client) {
+    public boolean updateClient(TopeClient client) {
         long id = client.getId();
         ContentValues values = new ContentValues();
         values.put(CLIENT_NAME, client.getName());
@@ -263,11 +275,16 @@ public class ClientDataSource {
         values.put(CLIENT_DOMAIN, client.getDomain());
         values.put(CLIENT_MAC, client.getMac());
 
+        int rowsAffected = 0;
         try {
-            database.update(CLIENT_TABLE_NAME, values, ClientOpenHelper.CLIENT_OWN_ID + " = ?", new String[]{String.valueOf(id)});
+            rowsAffected = database.update(CLIENT_TABLE_NAME, values, ClientOpenHelper.CLIENT_OWN_ID + " = ?", new String[]{String.valueOf(id)});
+            if (0 == rowsAffected) {
+                e(TAG, "You shouldn't be updating id that aren't there " + client);
+            }
         } catch (Exception e) {
             e(TAG, "ClientDataSource.updateClient(): " + e.getMessage());
         }
+        return 0 != rowsAffected;
     }
 
     /**

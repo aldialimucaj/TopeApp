@@ -1,9 +1,5 @@
 package al.aldi.tope.controller;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.JsonTopeResponse;
 import al.aldi.tope.model.TopeClient;
@@ -13,6 +9,10 @@ import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.utils.TopeUtils;
 import android.app.Activity;
 import android.os.Looper;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * It takes care of the HTTP response. It runs is execution function under
@@ -93,7 +93,11 @@ public class ActionCareTaker extends Thread {
      * Executes the Tope command
      */
     public void execute() {
-        start();
+        try {
+            start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public JsonTopeResponse getResponse() {
