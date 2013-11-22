@@ -105,6 +105,7 @@
     <string name="title_activity_scan_servers">Scanned Network</string>
     <string name="action_scan_add_all">Add All</string>
     <string name="action_scan_add_selected">Add Selected</string>
+    <string name="action_scan_rescan">Scan Again</string>
     <string name="action_scan_ip_range">IP Address Range</string>
     <string name="action_scan_ip_range_desc">Set the ip rage you want to scan for possible online server. Default is set to you current wifi IPv4 address</string>
     <string name="action_scan_port">Port</string>

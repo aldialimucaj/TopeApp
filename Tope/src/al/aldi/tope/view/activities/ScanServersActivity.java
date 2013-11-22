@@ -2,6 +2,7 @@ package al.aldi.tope.view.activities;
 
 import al.aldi.andorid.net.NetworkUtils;
 import al.aldi.libjaldi.net.NetUtils;
+import al.aldi.libjaldi.string.AldiStringUtils;
 import al.aldi.tope.R;
 import al.aldi.tope.controller.executables.ActionSynchExecutor;
 import al.aldi.tope.model.ITopeAction;
@@ -68,9 +69,11 @@ public class ScanServersActivity extends ListActivity {
 
             @Override
             protected void onPreExecute() {
+                String prefIp = PreferenceManager.getDefaultSharedPreferences(ScanServersActivity.this).getString("scan_ip", NetworkUtils.getWiFiIpAddress(getApplicationContext()));
+                String ipWithStar = prefIp.substring(0, prefIp.lastIndexOf(".") + 1) + "*";
                 progressDialog = new ProgressDialog(ScanServersActivity.this);
                 progressDialog.setTitle(getString(R.string.action_scan_progress_dialog_title));
-                progressDialog.setMessage(getString(R.string.action_scan_progress_dialog_message));
+                progressDialog.setMessage(AldiStringUtils.addRoundBrackets(ipWithStar) + " " + getString(R.string.action_scan_progress_dialog_message));
                 progressDialog.setCancelable(true);
                 progressDialog.setIndeterminate(true);
                 progressDialog.show();
@@ -112,6 +115,7 @@ public class ScanServersActivity extends ListActivity {
         }
 
         HashMap<String, Integer> onlineServers = null;
+
         try {
 
             onlineServers = NetUtils.getListeningServers(prefIp, NetUtils.IpRange.MASK_24, prefPort);
@@ -128,8 +132,9 @@ public class ScanServersActivity extends ListActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                    getListView().setAdapter(adapter);
+                    ListView list = getListView();
+                    list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                    list.setAdapter(adapter);
                 }
             });
 
@@ -191,6 +196,9 @@ public class ScanServersActivity extends ListActivity {
                 }
                 NavUtils.navigateUpFromSameTask(ScanServersActivity.this);
                 break;
+            case R.id.scan_rescan:
+                fetchOnlineServersHelper();
+                break;
             case R.id.scan_settings:
                 startActivity(new Intent(this, ScanServersSettingsAcitivity.class));
                 break;
@@ -205,8 +213,8 @@ public class ScanServersActivity extends ListActivity {
      * @param client
      */
     private void addClient(TopeClient client) {
-        if(null == client) {
-            Log.e(TAG,"Was expecting a client. Got null instead");
+        if (null == client) {
+            Log.e(TAG, "Was expecting a client. Got null instead");
             return;
         }
         client.setActive(true);
