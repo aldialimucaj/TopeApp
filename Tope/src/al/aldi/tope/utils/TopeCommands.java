@@ -1,7 +1,7 @@
 package al.aldi.tope.utils;
 
 /**
- * Collection of all Tope calls.
+ * Collection of all Tope calls. This is where you define the expected actions
  * 
  * @author Aldi Alimucaj
  * 
@@ -35,7 +35,7 @@ public class TopeCommands {
     public static final String PROG_POWERPOINT       = "/prog/appControlPowerPoint";
     public static final String PROG_VLC              = "/prog/appControlVLC";
 
-    /* ************************************* PROG ************************************** */
+    /* ************************************* UTIL ************************************** */
 
     public static final String UTIL_SHOW_MSG         = "/util/showMsg";
     public static final String UTIL_BEEP             = "/util/beep";

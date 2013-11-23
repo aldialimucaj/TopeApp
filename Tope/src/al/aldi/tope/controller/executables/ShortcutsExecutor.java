@@ -9,6 +9,9 @@ import al.aldi.tope.view.activities.ShortcutsActivity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+/**
+ * Executor for Action <b>Shortcuts</b>
+ */
 public class ShortcutsExecutor extends MainExecutor<TopeResponse<EmptyResponse>> implements ITopeExecutable {
 
     

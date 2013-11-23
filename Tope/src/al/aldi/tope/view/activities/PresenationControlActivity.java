@@ -1,6 +1,5 @@
 package al.aldi.tope.view.activities;
 
-import static al.aldi.tope.utils.TopeCommands.*;
 import al.aldi.tope.R;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.executables.CallWithArgsExecutor;
@@ -14,20 +13,20 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
-import android.view.GestureDetector;
+import android.view.*;
 import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-public class PresenationControlActivity extends Activity implements OnClickListener {
-    // private static final String TAG = "al.aldi.tope.view.PresenationControlActivity";
+import static al.aldi.tope.utils.TopeCommands.*;
 
+/**
+ * Activity for Presentation control.
+ *
+ */
+public class PresenationControlActivity extends Activity implements OnClickListener {
     private static final int SWIPE_MIN_DISTANCE       = 80;
     private static final int SWIPE_MAX_OFF_PATH       = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;

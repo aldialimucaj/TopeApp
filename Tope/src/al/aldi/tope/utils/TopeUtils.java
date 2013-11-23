@@ -5,8 +5,6 @@ import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
-import al.aldi.tope.view.adapter.ITopeLongClickAdapter;
-import al.aldi.tope.view.listeners.ActionLongClickListener;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +18,7 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- * Utility class for workign with tope objects.
+ * Utility class for working with tope objects.
  *
  * @author Aldi Alimucaj
  */
@@ -61,7 +59,7 @@ public class TopeUtils {
      * Get the action out of the list by looking for the item id which it is bound with.
      *
      * @param actions
-     * @param view    the Andorid item, like for example the icon.
+     * @param v    the Andorid item, like for example the icon.
      * @return the action if found or null
      */
     public static ITopeAction getAction(List<ITopeAction> actions, View v) {
@@ -99,18 +97,6 @@ public class TopeUtils {
         }
         Log.e(LOG_TAG, "No action found in ViewList");
         return null;
-    }
-
-    public static void addLongClickListener(ITopeLongClickAdapter longClickAdapter, ITopeAction action, Activity activity) {
-        HashMap<ITopeAction, View> map = longClickAdapter.getTopeActionViewMap();
-        View v = getViewFromActionMap(map, action);
-        ActionLongClickListener alcl = new ActionLongClickListener(activity);
-        v.setOnLongClickListener(alcl);
-    }
-
-    public static void addLongClickListener(View v, ITopeAction action, Activity activity) {
-        ActionLongClickListener alcl = new ActionLongClickListener(activity);
-        v.setOnLongClickListener(alcl);
     }
 
     /**

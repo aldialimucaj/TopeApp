@@ -21,6 +21,9 @@ import android.widget.Toast;
 
 import static al.aldi.tope.utils.TopeCommands.OS_SYNCH_ACTIONS;
 
+/**
+ * Activity for servers list view.
+ */
 public class ClientAddEditActivity extends Activity {
 
     protected TopeClient client       = null;

@@ -19,6 +19,9 @@ import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Action Executor for synchronizing server with client.
+ */
 public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchResponse>> implements ITopeExecutable {
 
     private static final String TAG = "al.aldi.tope.controller.executables.ActionSynchExecutor";

@@ -10,8 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+/**
+ * A template for creating new action dialogs
+ */
 public class TestActionDialog extends ListView {
-    LinearLayout.LayoutParams    layoutParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
     public TestActionDialog(Context context) {
         super(context);
@@ -29,7 +32,6 @@ public class TestActionDialog extends ListView {
 
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                //final String item = (String) parent.getItemAtPosition(position);
                 if (position == 0) {
                     ActionCareTaker act = new ActionCareTaker(action, (Activity) context);
                     act.execute();

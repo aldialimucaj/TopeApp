@@ -34,6 +34,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+/**
+ * Adapter for the Actions.
+ *
+ * @param <E>
+ */
 public class IconItemAdapter<E> extends BaseAdapter {
 
 	public static final String TAG = "al.aldi.tope.view.adapter.IconItemAdapter";
@@ -206,7 +211,7 @@ public class IconItemAdapter<E> extends BaseAdapter {
             act = new ActionCareTaker(action, getActivity());
             act.execute();
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
 		swapActions(action, parentView);

@@ -6,9 +6,9 @@ import android.os.Parcelable;
 import android.view.View;
 
 /**
- * Interface decalring all necessary functions for tope actions.
+ * Interface declaring all necessary functions for tope actions.
  *
- * E is the return type of the executable. i.e. a Generics of TopeResponse
+ * E is the return type of the executable. i.e. a Generics of {@link TopeResponse}
  * For example the class TopeResponse&lt;TestResponse&gt;
  *
  * @author Aldi Alimucaj
@@ -16,8 +16,19 @@ import android.view.View;
  */
 @SuppressLint("ParcelCreator")
 public interface ITopeAction extends Parcelable, Comparable<ITopeAction> {
+
+    /**
+     * Execute the action's functionality on the client
+     * @param client
+     * @return response from the client
+     */
     public Object execute(TopeClient client);
 
+    /**
+     * Set executable for this action. The executable is the one
+     * which takes care of sending the request and expecting the response.
+     * @param exec
+     */
     public void setExecutable(ITopeExecutable exec);
 
     public long getActionId();
@@ -64,5 +75,10 @@ public interface ITopeAction extends Parcelable, Comparable<ITopeAction> {
     
     public boolean isConfirmationNeeded();
 
+    /**
+     * Specify if it is expecting a confirmation.
+     *
+     * @param confirmationNeeded false if the view does not need to know about the outcome of the action
+     */
     public void setConfirmationNeeded(boolean confirmationNeeded);
 }

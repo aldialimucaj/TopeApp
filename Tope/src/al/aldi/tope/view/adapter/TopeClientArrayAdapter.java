@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/**
+ * Adapter for the servers
+ */
 public class TopeClientArrayAdapter extends ArrayAdapter<TopeClient> {
 
     private final Context		context;

@@ -8,7 +8,6 @@ import al.aldi.tope.model.TopeClient;
  * and returns a tope response with the necessary data about the outcome.
  *
  * @author Aldi Alimucaj
- * @param <K>
  *
  */
 public interface ITopeExecutable {
@@ -24,9 +23,25 @@ public interface ITopeExecutable {
      */
     public Object run(TopeClient client);
 
+    /**
+     * Actions that are needed to be taken before the request is sent.
+     *
+     * @param response
+     * @return
+     */
     public abstract boolean preRun(Object response);
 
+    /**
+     * Actinos that are going to be executed after the request has arrived and before the view
+     * has be alerted.
+     *
+     * @param response
+     */
     public abstract void postRun(Object response);
 
+    /**
+     * Mandatory method for every executor to be able to add an action.
+     * @param action
+     */
     public void setAction(ITopeAction action);
 }

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 /**
  * TouchListener which changes the alpha of the view (ImageView).
+ * When actions are clicked they get dimmer.
  *
  * @author Aldi Alimucaj
  *

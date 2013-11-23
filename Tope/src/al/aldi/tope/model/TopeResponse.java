@@ -2,6 +2,13 @@ package al.aldi.tope.model;
 
 import java.util.Date;
 
+/**
+ * This class represents the response model expected by the server.
+ * The response itself has this predefined structure. But it can also have
+ * complex objects returns which are represented in JSON format and stored in
+ * the payload object.
+ * @param <E> The payload object that is being expected from the server to fill
+ */
 public class TopeResponse<E> {
     private boolean success    = false; // set by the server if the command was successful
     private int     statusCode = 0;     // http status of the call

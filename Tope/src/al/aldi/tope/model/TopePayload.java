@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * The payload which is sent to the server.
+ * The payload which is sent to the server. These values
+ * are going to be translated as HTTP parameters. Make sure to register
+ * the expected payload otherwise custom payloads are going to be rejected.
  *
  * @author Aldi Alimucaj
  *
@@ -39,6 +41,9 @@ public class TopePayload implements ITopePayload {
         registerPayloads();
     }
 
+    /**
+     * Registering payload options in order to prevent wild combinations
+     */
     private void registerPayloads() {
         payloads.add(PARAM_ACTION_ID);
         payloads.add(PARAM_USER);

@@ -1,14 +1,17 @@
 package al.aldi.tope.utils;
 
-import java.util.HashMap;
-import java.util.Vector;
-
 import al.aldi.tope.model.ITopeAction;
 import android.util.Log;
 import android.view.View;
 
+import java.util.HashMap;
+import java.util.Vector;
+
+/**
+ * Utility class for the actions. A hub for common action structure and outsourcing some common functions.
+ */
 public class TopeActionUtils {
-    private static String              LOG_TAG    = "TopeActionUtils";
+    private static String LOG_TAG = "TopeActionUtils";
 
     private Vector<ITopeAction>        actions    = new Vector<ITopeAction>();
     private HashMap<ITopeAction, View> actionView = new HashMap<ITopeAction, View>();
@@ -64,6 +67,10 @@ public class TopeActionUtils {
         this.actionView = mActionView;
     }
 
+    /**
+     * The manager contains a singleton set of action types. Stored here for
+     * frequent usage in memory.
+     */
     public static class TopeActionUtilsManager {
         private static TopeActionUtils smOsActions    = null;
         private static TopeActionUtils smProgActions  = null;

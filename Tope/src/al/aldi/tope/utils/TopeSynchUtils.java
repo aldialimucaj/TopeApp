@@ -1,13 +1,18 @@
 package al.aldi.tope.utils;
 
-import static al.aldi.tope.utils.TopeCommands.*;
+import al.aldi.tope.R;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import al.aldi.tope.R;
+import static al.aldi.tope.utils.TopeCommands.*;
 
+/**
+ * Here you can define a title and the icon an action is going to take.
+ * You have to declare the action before in {@link TopeCommands}
+ *
+ */
 public class TopeSynchUtils {
 
     // matches the action to the titles
@@ -80,6 +85,9 @@ public class TopeSynchUtils {
         confirmationActions.add(OS_HIBERNATE);
     }
 
+    /**
+     * Maps icons for all define actions.
+     */
     private void createIcons() {
         /* *************************************************************************** */
         /* *********************************** OS ************************************ */
@@ -118,6 +126,9 @@ public class TopeSynchUtils {
         commandIconMap.put(UTIL_SHORTCUTS, R.drawable.utils_shortcuts);
     }
 
+    /**
+     * Map titles to all actions
+     */
     private void createTitles() {
 
         /* *************************************************************************** */
