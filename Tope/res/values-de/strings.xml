@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tope</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_clients">Tope Servers</string>
+    <string name="title_section1">System</string>
+    <string name="title_section2">Applicationen</string>
+    <string name="title_section3">Utils</string>
+    <string name="title_button_ok">OK</string>
+    <string name="title_button_execute">Ausführen</string>
+    <string name="title_button_cancel">Abbrechen</string>
+    <string name="title_test">Test</string>
+
+    <!-- SERVER -->
+    <string name="title_activity_clients">Tope Servers</string>
+    <string name="action_clients_add">Server Hinzufügen</string>
+    <string name="action_clients_delete_selected">Ausgewählte Löschen</string>
+    <string name="action_clients_execute_on_clients">Ausführen</string>
+    <string name="action_clients_select_all">Alle Auswählen</string>
+    <string name="title_client_name">Server Name</string>
+    <string name="title_client_ip">IP Adresse</string>
+    <string name="title_client_port">Server Port (optional)</string>
+    <string name="title_client_mac">MAC Adresse (optional)</string>
+    <string name="title_client_active">Activ</string>
+    <string name="title_client_user">Benutzername (optional)</string>
+    <string name="title_client_pass">Passwort (optional) </string>
+    <string name="title_client_domain">Domain (optional)</string>
+    <string name="client_edit_synchronize">Synchronisieren</string>
+    <string name="client_edit_synchronize_client">Synchronisiere Server</string>
+    <string name="client_edit_edit">Bearbeiten</string>
+    <string name="client_edit_delete">Löschen</string>
+    <string name="client_create_ip_missing">Kann nicht einen Server ohne IP erzuegen!</string>
+    <string name="client_create_port_missing">Standard Port wird verwendet</string>
+    <string name="action_clients_clean_all_actions">Alle Aktionen Löschen</string>
+    <string name="action_clients_backup_actions">Aktionen Speichern</string>
+    <string name="action_clients_scan_network">Netzwerk Scannen</string>
+    <string name="action_clients_restore_actions">Aktionen wiederherstellen</string>
+    <string name="synch_failed">Server konnte nicht synchronisiert werden. Testen sie Ihre Verbindung.</string>
+    <string name="server_execute_on_pc">Klick auf Execute anstatt auf dem Server zu klicken</string>
+    <string name="client_synch_could_not">Server konnte nicht synchronisiert werden. Testen sie Ihre Verbindung.</string>
+
+    <!-- OS OPERATION -->
+
+    <string name="title_os_command">OS Kommandos</string>
+    <string name="os_op_shutdown">Herunterfahren</string>
+    <string name="os_op_restart">Neustart</string>
+    <string name="os_op_hibernate">Hibernate</string>
+    <string name="os_op_standby">Energie Sparen</string>
+    <string name="os_op_logoff">Ausloggen</string>
+    <string name="os_op_logon">Einloggen</string>
+    <string name="os_op_lockscreen">Bildschirm Sperren</string>
+    <string name="os_op_lockinput">Eingabe Blockieren</string>
+    <string name="os_op_unlockinput">Eingabe Freigeben</string>
+    <string name="os_op_monitoron">Monitor Einschalten</string>
+    <string name="os_op_monitoroff">Monitor Ausschalten</string>
+    <string name="os_op_soundoff">Stumm</string>
+    <string name="os_op_soundon">Laut</string>
+    <string name="os_op_wakeOnLan">Wake On Lan</string>
+    <string name="title_activity_client_add_edit">Server Bearbeiten</string>
+    <string name="title_activity_parameters">Aktions Paramtern</string>
+    <string name="hello_world">Hello world!</string>
+
+    <!-- PROG OPERATION -->
+
+    <string name="prog_op_openBrowserWithUrl">Browser Öffnen</string>
+    <string name="prog_op_controlPowerpoint">Präsentation Steuren</string>
+    <string name="prog_op_controlVLC">VLC Steuern</string>
+
+    <!-- UTIL OPERATION -->
+    <string name="util_op_sendMessage">Nachricht Senden</string>
+    <string name="util_op_beep">Glocke Klingeln</string>
+    <string name="util_op_textToSpeech">Text zu Sprache</string>
+    <string name="util_op_readClipboard">PC Zwischenablage Kopieren</string>
+    <string name="util_op_writeClipboard">PC Zwischenablage Einfügen</string>
+    <string name="util_op_ping">Ping</string>
+    <string name="util_op_quitTope">Tope Server Schließen</string>
+    <string name="util_op_shortcuts">Shortcuts</string>
+
+    <!-- ********* -->
+    <!-- DIALOGS -->
+    <!-- ********* -->
+    <string name="dialog_text_setExecDate">Ausführungsdatum</string>
+    <string name="dialog_text_setTimer">Timer</string>
+    <string name="dialog_text1">Text1</string>
+    <string name="dialog_text2">Text2</string>
+
+    <!-- ********* -->
+    <!-- ACTIVITES -->
+    <!-- ********* -->
+
+
+    <!-- PRESENTATION ACTIVITY -->
+    <string name="title_activity_presenation_control">Presenations Steuerung</string>
+    <string name="title_activity_presenation_control_full_screen">Vollbild</string>
+    <string name="title_activity_presenation_control_black_out">Schwarzes Bild - Zurück</string>
+
+    <!-- VLC ACTIVITY -->
+    <string name="title_activity_vlc_control">VLC Steuerung</string>
+    <string name="title_activity_vlc_control_full_screen">Vollbild</string>
+    <string name="title_activity_vlc_control_play">Abspielen</string>
+    <string name="title_activity_vlc_control_show_time">Zeit Anzeigen</string>
+
+    <!-- SCAN SERVER ACTIVITY -->
+    <string name="title_activity_scan_servers">Netzwerk Servers</string>
+    <string name="action_scan_add_all">Alle Hinzufügen</string>
+    <string name="action_scan_add_selected">Asugewählte Hinzufügen</string>
+    <string name="action_scan_rescan">Nochmal Scannen</string>
+    <string name="action_scan_ip_range">IP Addrese</string>
+    <string name="action_scan_ip_range_desc">IP Adresse die Sie als Basis für die Suche verwenden möchten. Standard ist die WiFi IPv4 Adresse</string>
+    <string name="action_scan_port">Port</string>
+    <string name="action_scan_port_desc">Welches Port sort gescannt werden</string>
+    <string name="action_scan_progress_dialog_title">Netzwerk Suchen</string>
+    <string name="action_scan_progress_dialog_message">Bitte warten...</string>
+
+    <!-- ********* -->
+    <!-- OTHER -->
+    <!-- ********* -->
+    <string name="task_executed_sccuessfully">Aufgabe wurde erfolgreich ausgeführt</string>
+    <string name="tag_other_empty_string">#LEER#</string>
+    <string name="elephant_text">Keine Servers.\nSie können eins übers Menü hinzufügen.</string>
+    <string name="action_clients_summary">Tope Server Liste anzeigen. Dort können Sie die Serverliste verwalten</string>
+    <string name="client_list_empty">Liste is leer. Neuen Server hinzufügen?</string>
+    <string name="client_list_empty_negative">Neuen Server übers Menü hinzufügen</string>
+    <string name="client_list_delete">Sicher dass sie den Server aus der Liste löschen möchten?</string>
+    <string name="client_list_delete_negative">Nichts böses passiert!</string>
+    <string name="toast_successful_br">[Erfolgreich] </string>
+    <string name="toast_failed_br">[Fehlgeschlagen] </string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+
+    <!-- ********* -->
+    <!-- SETTINGS -->
+    <!-- ********* -->
+
+    <string name="title_activity_tope_settings">Tope Einstellungen</string>
+
+    <!-- Setting's titles -->
+    <string name="pref_ping_clients_checkbox_description">Den Status der aktiven Servern automatisch überprüfen und auf der Kopfleiste farbig anzeigen</string>
+    <string name="pref_ping_clients_checkbox_title">Server Status Check</string>
+    
+    <!-- SHORTCUTS ACTIVITY -->
+    <string name="title_activity_shortcuts">Shortcuts</string>
+    <string name="title_activity_shortcuts_alt_f4">Shortcuts</string>
+
+
+</resources>
