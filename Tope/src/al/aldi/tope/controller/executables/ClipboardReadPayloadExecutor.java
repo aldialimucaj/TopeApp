@@ -1,29 +1,32 @@
 package al.aldi.tope.controller.executables;
 
-import java.lang.reflect.Type;
-import java.util.Vector;
-
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.model.responses.SimpleTextResponse;
+import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.dialog.fragment.StandardActionDialog1;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.Vector;
+
+import static android.util.Log.e;
 
 public class ClipboardReadPayloadExecutor extends MainExecutor<TopeResponse<SimpleTextResponse>> implements ITopeExecutable {
 
-    private static final String TAG          = "al.aldi.tope.controller.executables.TestExecutable";
-
-    ITopeAction                 action       = null;
+public static final String TAG = "Tope.ClipboardReadPayloadExecutor";
+    ITopeAction action  = null;
+    Context     context = null;
 
     public ClipboardReadPayloadExecutor() {
         super(null, null);
@@ -45,17 +48,26 @@ public class ClipboardReadPayloadExecutor extends MainExecutor<TopeResponse<Simp
         if (null == response) {
             return;
         }
-        
-        //TODO: This can only work for one client
+
+        //This can only work for one client
         @SuppressWarnings("rawtypes")
         SimpleTextResponse textResponse = (SimpleTextResponse) ((TopeResponse) response).getPayload();
         if (null != textResponse) {
             String msg = textResponse.getTestMessage();
-            if (null != msg) {
+            Context t_context = null;
+            if (null != fragment && null != fragment.getActivity()) {
+                t_context = fragment.getActivity().getApplicationContext();
+            } else if (null != context) {
+                t_context = context;
+            } else {
+                e(TAG, "ClipboardWritePayloadExecutor.preRun(): Context and Frame is null cant read clipboard service");
+            }
+
+            if (null != msg && null != t_context) {
                 Log.i(TAG, msg);
-                ClipboardManager cm = (ClipboardManager) fragment.getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
+                ClipboardManager cm = (ClipboardManager) t_context.getSystemService(Activity.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("label", msg);
-                cm.setPrimaryClip(clip); 
+                cm.setPrimaryClip(clip);
             }
         }
     }
@@ -82,18 +94,21 @@ public class ClipboardReadPayloadExecutor extends MainExecutor<TopeResponse<Simp
 
     @Override
     public boolean preRun(Object response) {
-        ClientDataSource clientDataSource = new ClientDataSource(fragment.getActivity());
-        clientDataSource.open();
+        ClientDataSource clientDataSource = TopeUtils.getClientDataSource(context);
         Vector<TopeClient> clients = clientDataSource.getAllActive();
-        clientDataSource.close();
-        
-        if(clients.size() > 1){
+
+        if (clients.size() > 1) {
             Toast.makeText(fragment.getActivity(), "You cannot copy from multiple clients!", Toast.LENGTH_LONG).show();
             return false;
         }
-        
+
         return true;
 
+    }
+
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
     }
 
 }

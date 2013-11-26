@@ -3,16 +3,16 @@
  */
 package al.aldi.tope.controller.executables;
 
-import java.lang.reflect.Type;
-
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.responses.EmptyResponse;
 import al.aldi.tope.view.dialog.fragment.StandardActionDialog1;
+import android.content.Context;
 import android.support.v4.app.Fragment;
-
 import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 /**
  * @author Aldi Alimucaj
@@ -23,6 +23,7 @@ public class DefaultExecutor extends MainExecutor<TopeResponse<EmptyResponse>> i
     ITopeAction                 action       = null;
     TopeResponse<EmptyResponse> topeResponse = null;
     Fragment                    fragment     = null;
+    Context                     context      = null;
 
     public DefaultExecutor(ITopeAction defaultAction, Fragment fragment) {
         super(defaultAction, fragment);
@@ -61,5 +62,8 @@ public class DefaultExecutor extends MainExecutor<TopeResponse<EmptyResponse>> i
         return true;
     }
 
-
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
+    }
 }

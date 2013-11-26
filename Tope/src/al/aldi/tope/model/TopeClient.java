@@ -2,6 +2,7 @@ package al.aldi.tope.model;
 
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
+import al.aldi.tope.utils.TopeUtils;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -87,10 +88,8 @@ public class TopeClient implements Parcelable {
      */
     public void insertDb() {
         if (null != context) {
-            ClientDataSource source = new ClientDataSource(context);
-            source.open();
+            ClientDataSource source = TopeUtils.getClientDataSource(context);
             source.create(this);
-            source.close();
         } else {
             Log.e(LOG_TAG, "Cannot insert client without a context! Please set it up.");
         }
@@ -102,10 +101,8 @@ public class TopeClient implements Parcelable {
      */
     public void updateDb() {
         if (null != context) {
-            ClientDataSource source = new ClientDataSource(context);
-            source.open();
+            ClientDataSource source = TopeUtils.getClientDataSource(context);
             source.updateClient(this);
-            source.close();
         } else {
             Log.e(LOG_TAG, "Cannot update client without a context! Please set it up.");
         }
@@ -139,10 +136,8 @@ public class TopeClient implements Parcelable {
      */
     public void delete() {
         if (null != context) {
-            ClientDataSource source = new ClientDataSource(context);
-            source.open();
+            ClientDataSource source = TopeUtils.getClientDataSource(context);
             source.deleteClient(this);
-            source.close();
         } else {
             Log.e(LOG_TAG, "Cannot update client without a context! Please set it up.");
         }
@@ -154,10 +149,8 @@ public class TopeClient implements Parcelable {
     public void deleteActions() {
 
         if (null != context) {
-            ActionDataSource source = new ActionDataSource(context);
-            source.open();
+            ActionDataSource source = TopeUtils.getActionDataSource(context);
             source.deleteFromClientId((int) getId());
-            source.close();
         } else {
             Log.e(LOG_TAG, "Cannot update client without a context! Please set it up.");
         }
@@ -167,26 +160,21 @@ public class TopeClient implements Parcelable {
      * Retrieves the version from the database and prints it out to the standard output.
      */
     public void printFromDb() {
-        ClientDataSource source = new ClientDataSource(context);
-        source.open();
+        ClientDataSource source = TopeUtils.getClientDataSource(context);
         System.out.println(source.getClient(id));
-        source.close();
     }
 
     /**
      * Prints all clients from the database.
      */
     public void printAll() {
-        ClientDataSource source = new ClientDataSource(context);
-        source.open();
+        ClientDataSource source = TopeUtils.getClientDataSource(context);
 
         List<TopeClient> clients = source.getAll();
         for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
             TopeClient topeClient = iterator.next();
             System.out.println(topeClient);
         }
-        source.close();
-
     }
 
     @Override

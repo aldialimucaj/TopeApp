@@ -36,6 +36,7 @@ public class ClientDataSource {
         super();
         this.context = context;
         this.dbClientHelper = new ClientOpenHelper(context);
+        open();
     }
 
     /**
@@ -43,14 +44,12 @@ public class ClientDataSource {
      *
      * @throws SQLException
      */
-    public void open() throws SQLException {
+    private void open() throws SQLException {
         try {
             database = dbClientHelper.getWritableDatabase();
-            database.beginTransaction();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -65,7 +64,7 @@ public class ClientDataSource {
     /**
      * Close Database Handler.
      */
-    public void close() {
+    private void close() {
         if (isOpen()) {
             try {
                 database.setTransactionSuccessful();

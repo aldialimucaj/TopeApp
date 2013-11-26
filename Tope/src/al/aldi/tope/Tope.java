@@ -6,8 +6,9 @@ import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
 import al.aldi.tope.model.TopeResponse;
-import al.aldi.tope.model.db.BaseProvider;
+import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
+import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.activities.ClientsListActivity;
 import al.aldi.tope.view.activities.TopeSettingsAcitivity;
 import al.aldi.tope.view.adapter.IconItemAdapter;
@@ -31,201 +32,166 @@ import static al.aldi.tope.utils.TopeCommands.UTIL_PING;
 
 /**
  * Main class and starting point
- * 
+ *
  * @author Aldi Alimucaj
- * 
  */
 public class Tope extends FragmentActivity {
-	
-	public static final String TAG = "al.aldi.tope.Tope";
 
-	TopeSectionsPagerAdapter mSectionsPagerAdapter;
+    public static final String TAG = "al.aldi.tope.Tope";
 
-	private static final int THREAD_SLEEP_CHECK_CLIENT = 10000; // 10s
+    TopeSectionsPagerAdapter mSectionsPagerAdapter;
 
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
-	ViewPager mViewPager;
-	PagerTabStrip pagerTabStrip = null;
-	ClientDataSource source;
+    private static final int THREAD_SLEEP_CHECK_CLIENT = 10000; // 10s
 
-	boolean stop = false;
+    /**
+     * The {@link ViewPager} that will host the section contents.
+     */
+    ViewPager mViewPager;
+    PagerTabStrip    pagerTabStrip    = null;
+    ClientDataSource clientDataSource = null;
+    ActionDataSource actionDataSource = null;
 
-	int clientSize = 0;
-	int indexPing = 0;
+    boolean stop = false;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_tope);
+    int clientSize = 0;
+    int indexPing  = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tope);
 
         // adding preference layout to settings menu
-		PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
+        cleanUp();
 
-		initDatabase();
-		cleanUp();
-		//test();
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the app.
+        mSectionsPagerAdapter = new TopeSectionsPagerAdapter(this, getSupportFragmentManager());
 
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
-		mSectionsPagerAdapter = new TopeSectionsPagerAdapter(this, getSupportFragmentManager());
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
-		// Set up the ViewPager with the sections adapter.
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
+        pagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_title_strip);
+        pagerTabStrip.setDrawFullUnderline(true);
+        pagerTabStrip.setTabIndicatorColor(0x030303);
 
-		pagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_title_strip);
-		pagerTabStrip.setDrawFullUnderline(true);
-		pagerTabStrip.setTabIndicatorColor(0x030303);
+        clientDataSource = TopeUtils.getClientDataSource(getApplicationContext());
+        actionDataSource = TopeUtils.getActionDataSource(getApplicationContext());
+        startStatusChecking();
 
-		source = new ClientDataSource(getApplicationContext());
-		startStatusChecking();
+    }
 
-	}
+    /**
+     * Cleans up some cache
+     */
+    private void cleanUp() {
+        PreferencesUtil.remove(this, IconItemAdapter.TAG);
+        Log.i(TAG, "Cleaning Up IconItme Cache...");
+    }
 
-	/**
-	 * Cleans up some cache
-	 */
-	private void cleanUp() {
-		PreferencesUtil.remove(this, IconItemAdapter.TAG);
-		Log.i(TAG,"Cleaning Up IconItme Cache...");
-	}
+    private void startStatusChecking() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-	private void startStatusChecking() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean ping = prefs.getBoolean("ping_clients_checkbox", false);
 
-		boolean ping = prefs.getBoolean("ping_clients_checkbox", false);
+        if (ping) {
+            new Thread(new Runnable() {
 
-		if (ping) {
-			new Thread(new Runnable() {
+                @Override
+                public void run() {
 
-				@Override
-				public void run() {
+                    ITopeAction action = new TopeAction("ping", 0, getString(R.string.util_op_ping));
+                    action.setCommandFullPath(UTIL_PING);
+                    action.setActionId(0);
+                    PingExecutor executor = new PingExecutor(action, pagerTabStrip);
+                    action.setExecutable(executor);
 
-					ITopeAction action = new TopeAction("ping", 0, getString(R.string.util_op_ping));
-					action.setCommandFullPath(UTIL_PING);
-					action.setActionId(0);
-					PingExecutor executor = new PingExecutor(action, pagerTabStrip);
-					action.setExecutable(executor);
+                    while (PreferenceManager.getDefaultSharedPreferences(Tope.this).getBoolean("ping_clients_checkbox", false)) {
+                        @SuppressWarnings("rawtypes")
+                        List<TopeResponse> topeResponses = new ArrayList<TopeResponse>();
+                        List<TopeClient> clients = clientDataSource.getAllActive();
+                        clientSize = clients.size();
+                        indexPing = 0;
 
-					source.open();
-					while (PreferenceManager.getDefaultSharedPreferences(Tope.this).getBoolean("ping_clients_checkbox", false)) {
-						@SuppressWarnings("rawtypes")
-						List<TopeResponse> topeResponses = new ArrayList<TopeResponse>();
-						List<TopeClient> clients = source.getAllActive();
-						clientSize = clients.size();
-						indexPing = 0;
+                        for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext(); ) {
+                            TopeClient topeClient = (TopeClient) iterator.next();
+                            @SuppressWarnings("rawtypes")
+                            TopeResponse topeResponse = (TopeResponse) action.execute(topeClient);
+                            boolean successfulPing = topeResponse.isSuccessful();
+                            if (successfulPing) {
+                                indexPing++;
+                            }
+                            topeResponses.add(topeResponse);
+                        }
 
-						for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
-							TopeClient topeClient = (TopeClient) iterator.next();
-							@SuppressWarnings("rawtypes")
-							TopeResponse topeResponse = (TopeResponse) action.execute(topeClient);
-							boolean successfulPing = topeResponse.isSuccessful();
-							if (successfulPing) {
-								indexPing++;
-							}
-							topeResponses.add(topeResponse);
-						}
+                        runOnUiThread(new Runnable() {
 
-						runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (indexPing < clientSize) {
+                                    if (indexPing == 0) {
+                                        // RED
+                                        pagerTabStrip.setTabIndicatorColor(0xA40004);
+                                    } else {
+                                        // YELLOW
+                                        pagerTabStrip.setTabIndicatorColor(0xFFF400);
+                                    }
+                                } else {
+                                    // GREEN
+                                    pagerTabStrip.setTabIndicatorColor(0x00CC00);
+                                }
 
-							@Override
-							public void run() {
-								if (indexPing < clientSize) {
-									if (indexPing == 0) {
-										// RED
-										pagerTabStrip.setTabIndicatorColor(0xA40004);
-									} else {
-										// YELLOW
-										pagerTabStrip.setTabIndicatorColor(0xFFF400);
-									}
-								} else {
-									// GREEN
-									pagerTabStrip.setTabIndicatorColor(0x00CC00);
-								}
+                            }
+                        });
+                        // clearing the payload, as it is to be reset every
+                        // time.
+                        action.getPayload().clear();
+                        try {
+                            Thread.sleep(THREAD_SLEEP_CHECK_CLIENT);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+        } else {
+            pagerTabStrip.setTabIndicatorColor(0x030303);
+        }
+    }
 
-							}
-						});
-						// clearing the payload, as it is to be reset every
-						// time.
-						action.getPayload().clear();
-						try {
-							Thread.sleep(THREAD_SLEEP_CHECK_CLIENT);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-					source.close();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stop = true;
+    }
 
-				}
-			}).start();
-		} else {
-			pagerTabStrip.setTabIndicatorColor(0x030303);
-		}
-	}
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        stop = false;
+        startStatusChecking();
+    }
 
-	private void initDatabase() {
-		BaseProvider source = new BaseProvider(getApplicationContext());
-		source.getWritableDatabase();
-		source.close();
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.tope, menu);
+        return true;
+    }
 
-	@Override
-	protected void onStop() {
-		super.onStop();
-		stop = true;
-	}
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_clients:
+                startActivity(new Intent(this, ClientsListActivity.class));
+                break;
+            case R.id.action_settings:
+                startActivity(new Intent(this, TopeSettingsAcitivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
 
-	@Override
-	protected void onRestart() {
-		super.onRestart();
-		stop = false;
-		startStatusChecking();
-	}
-
-	/**
-	 * Test Function that add some default clients
-	 */
-	protected void test() {// TODO: Remove this function before production
-		ClientDataSource source = new ClientDataSource(getApplicationContext());
-		source.open();
-
-		source.create("A-PC-Prod-8", "192.168.178.50", "8503");
-		source.create("A-PC-Prod-Old", "192.168.178.35", "8503");
-		source.create("A-PC-Test", "192.168.178.35", "8181");
-		source.create("WIN8-Test1", "192.168.178.67", "8503");
-		source.create("Pashate-PC", "192.168.178.27", "8503");
-		source.create("Puna-PC", "10.1.34.50", "8503");
-
-		List<TopeClient> clients = source.getAll();
-
-		for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
-			TopeClient topeClient = (TopeClient) iterator.next();
-			System.out.println(topeClient);
-		}
-		source.close();
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.tope, menu);
-		return true;
-	}
-
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_clients:
-			startActivity(new Intent(this, ClientsListActivity.class));
-			break;
-		case R.id.action_settings:
-			startActivity(new Intent(this, TopeSettingsAcitivity.class));
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-
-	}
+    }
 
 }

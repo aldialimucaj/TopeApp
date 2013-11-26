@@ -1,18 +1,13 @@
 package al.aldi.tope.controller.executables;
 
-import java.lang.reflect.Modifier;
-
 import al.aldi.tope.controller.ITopeExecutable;
-import al.aldi.tope.model.ITopeAction;
-import al.aldi.tope.model.ITopePayload;
-import al.aldi.tope.model.JsonTopeResponse;
-import al.aldi.tope.model.TopeClient;
-import al.aldi.tope.model.TopePayload;
+import al.aldi.tope.model.*;
 import al.aldi.tope.utils.TopeHttpUtil;
 import android.support.v4.app.Fragment;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.lang.reflect.Modifier;
 
 public abstract class MainExecutor<E> implements ITopeExecutable {
 
@@ -67,6 +62,10 @@ public abstract class MainExecutor<E> implements ITopeExecutable {
 
     public void setAction(ITopeAction action) {
         this.action = action;
+    }
+
+    public ITopeAction getAction() {
+        return action;
     }
 
     public abstract E convertResponse(String jsonString);

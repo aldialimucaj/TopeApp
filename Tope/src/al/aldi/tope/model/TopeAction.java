@@ -5,7 +5,6 @@ import al.aldi.tope.utils.TopeSynchUtils;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
-
 import com.google.gson.annotations.Expose;
 
 /**
@@ -241,6 +240,9 @@ public class TopeAction implements ITopeAction {
     @Override
     public void setExecutable(ITopeExecutable exec) {
         this.exec = exec;
+        if (null != exec && null == exec.getAction()) {
+            exec.setAction(this);
+        }
     }
 
     @Override
@@ -326,12 +328,14 @@ public class TopeAction implements ITopeAction {
         dest.writeLong(itemId);
         dest.writeString(title);
         dest.writeString(method);
+        dest.writeString(commandFullPath);
     }
 
     private void readFromParcel(Parcel in) {
         itemId = (int) in.readLong();
         title = in.readString();
         method = in.readString();
+        commandFullPath = in.readString();
     }
 
     @SuppressWarnings("rawtypes")

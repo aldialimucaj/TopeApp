@@ -3,8 +3,6 @@
  */
 package al.aldi.tope.controller.executables;
 
-import java.lang.reflect.Type;
-
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.ITopePayload;
@@ -15,23 +13,23 @@ import al.aldi.tope.view.dialog.fragment.CallWithTextActionDialog;
 import al.aldi.tope.view.dialog.fragment.IDialogFieldTypes;
 import android.content.Context;
 import android.support.v4.app.Fragment;
-
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+
 /**
- * 
  * This class offers the possibility to the action to add arguments to the request.
- * It also takes care of the dialog which is displayed to accept the manual arguments.  
- * 
- * @author Aldi Alimucaj
+ * It also takes care of the dialog which is displayed to accept the manual arguments.
  *
+ * @author Aldi Alimucaj
  */
 public class CallWithArgsExecutor extends MainExecutor<TopeResponse<EmptyResponse>> implements ITopeExecutable {
 
     TopeResponse<EmptyResponse> topeResponse = null;
     IDialogFieldTypes           fieldType    = null;
 
-    CallWithTextActionDialog    dialog       = null;
+    CallWithTextActionDialog dialog  = null;
+    Context                  context = null;
 
     public CallWithArgsExecutor(ITopeAction defaultAction, Fragment fragment) {
         super(defaultAction, fragment);
@@ -119,6 +117,11 @@ public class CallWithArgsExecutor extends MainExecutor<TopeResponse<EmptyRespons
         if (null != dialog) {
             dialog.setFieldType(fieldType);
         }
+    }
+
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
     }
 
 }

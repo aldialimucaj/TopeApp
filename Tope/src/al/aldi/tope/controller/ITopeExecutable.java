@@ -2,6 +2,7 @@ package al.aldi.tope.controller;
 
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeClient;
+import android.content.Context;
 
 /**
  * An executable is a class that takes a single client runs the commands on that client
@@ -44,4 +45,16 @@ public interface ITopeExecutable {
      * @param action
      */
     public void setAction(ITopeAction action);
+
+    /**
+     * Returns the registered action for execution
+     * @return
+     */
+    public ITopeAction getAction();
+
+    /**
+     * Set the context in order to achieve interaction with views.
+     * @param context
+     */
+    public void setContext(Context context);
 }

@@ -1,7 +1,5 @@
 package al.aldi.tope.controller.executables;
 
-import java.lang.reflect.Type;
-
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.ITopePayload;
@@ -11,13 +9,19 @@ import al.aldi.tope.model.responses.EmptyResponse;
 import al.aldi.tope.view.dialog.fragment.StandardActionDialog1;
 import android.app.Activity;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v4.app.Fragment;
-
 import com.google.gson.reflect.TypeToken;
 
-public class ClipboardWritePayloadExecutor extends MainExecutor<TopeResponse<EmptyResponse>> implements ITopeExecutable {
+import java.lang.reflect.Type;
 
-    ITopeAction                 action       = null;
+import static android.util.Log.e;
+
+public class ClipboardWritePayloadExecutor extends MainExecutor<TopeResponse<EmptyResponse>> implements ITopeExecutable {
+    public static final String TAG = "Tope.ClipboardWritePayloadExecutor";
+
+    ITopeAction action  = null;
+    Context     context = null;
 
     public ClipboardWritePayloadExecutor() {
         super(null, null);
@@ -57,6 +61,11 @@ public class ClipboardWritePayloadExecutor extends MainExecutor<TopeResponse<Emp
     }
 
     @Override
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    @Override
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
         this.action.setContextView(new StandardActionDialog1(action, fragment));
@@ -64,11 +73,24 @@ public class ClipboardWritePayloadExecutor extends MainExecutor<TopeResponse<Emp
 
     @Override
     public boolean preRun(Object payload) {
-        if(action.getPayload() != payload) {
-            ClipboardManager cm = (ClipboardManager) fragment.getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
-            String androidClipboard = cm.getPrimaryClip().getItemAt(0).getText().toString();
+        if (action.getPayload() != payload) {
+            Context t_context = null;
+            if (null != fragment && null != fragment.getActivity()) {
+                t_context = fragment.getActivity().getApplicationContext();
+            } else if (null != context) {
+                t_context = context;
+            } else {
+                e(TAG, "ClipboardWritePayloadExecutor.preRun(): Context and Frame is null cant read clipboard service");
+                return false;
+            }
+
             try {
-                ((ITopePayload) action.getPayload()).addPayload(TopePayload.PARAM_ARG_0, androidClipboard);
+                ClipboardManager cm = (ClipboardManager) t_context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                if(cm.hasPrimaryClip() && cm.getPrimaryClip().getItemCount() != 0) {
+                    String androidClipboard = cm.getPrimaryClip().getItemAt(0).getText().toString();
+                    ((ITopePayload) action.getPayload()).addPayload(TopePayload.PARAM_ARG_0, androidClipboard);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

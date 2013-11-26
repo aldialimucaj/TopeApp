@@ -1,8 +1,10 @@
 package al.aldi.tope.model.db;
 
 import al.aldi.libjaldi.string.AldiStringUtils;
+import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeClient;
+import al.aldi.tope.utils.TopeUtils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -40,29 +42,28 @@ public class ActionDataSource {
         super();
         this.context = context;
         this.dbActionHelper = new ActionOpenHelper(context);
-        try {
-            database = dbActionHelper.getWritableDatabase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        open();
     }
 
     /**
      * Create database handler
+     *
      * @throws SQLException
      */
-    public void open() throws SQLException {
-        try {
-            database = dbActionHelper.getWritableDatabase();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void open() throws SQLException {
+        if (!isOpen()) {
+            try {
+                database = dbActionHelper.getWritableDatabase();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     /**
      * Close Database Handler.
      */
-    public void close() {
+    private void close() {
         if (isOpen()) {
             try {
                 dbActionHelper.close();
@@ -74,6 +75,7 @@ public class ActionDataSource {
 
     /**
      * Check if DB is open and ready to accept queries.
+     *
      * @return
      */
     public boolean isOpen() {
@@ -171,6 +173,32 @@ public class ActionDataSource {
     }
 
     /**
+     * Returns Action with specific command.
+     *
+     * @param command
+     * @return
+     */
+    public ITopeAction getAction(String command) {
+        ITopeAction topeAction = null;
+        try {
+            Cursor cursor = database.query(ACTION_TABLE_NAME, allColumns, COMMAND_FULL + " = '" + command + "'", null, null, null, ACTION_OWN_ID);
+            cursor.moveToFirst();
+
+            // should return only one actually
+            while (!cursor.isAfterLast()) {
+                topeAction = cursorToAction(cursor);
+                cursor.moveToLast();
+                break;// just to make sure it exits the loop
+            }
+            cursor.close();
+        } catch (SQLiteException e) {
+            Log.e("ActionDataSource ", e.getMessage());
+        }
+
+        return topeAction;
+    }
+
+    /**
      * Retunrs all actions from this client list.
      *
      * @param clients
@@ -208,10 +236,8 @@ public class ActionDataSource {
      * @return
      */
     public HashMap<TopeAction, Integer> getAllOccurencies() {
-        ClientDataSource clientDataSource = new ClientDataSource(context);
-        clientDataSource.open();
+        ClientDataSource clientDataSource = TopeUtils.getClientDataSource(context);
         Vector<TopeClient> clients = clientDataSource.getAllActive();
-        clientDataSource.close();
         return getAllActionOccurrences(clients, null);
     }
 
@@ -222,10 +248,8 @@ public class ActionDataSource {
      * @return
      */
     public HashMap<TopeAction, Integer> getAllOccurencies(String prefix) {
-        ClientDataSource clientDataSource = new ClientDataSource(context);
-        clientDataSource.open();
+        ClientDataSource clientDataSource = TopeUtils.getClientDataSource(context);
         Vector<TopeClient> clients = clientDataSource.getAllActive();
-        clientDataSource.close();
         return getAllActionOccurrences(clients, prefix);
     }
 
@@ -327,7 +351,7 @@ public class ActionDataSource {
     }
 
     /**
-     *  Gets the context given in the in constructor or setter.
+     * Gets the context given in the in constructor or setter.
      *
      * @return
      */
@@ -337,6 +361,7 @@ public class ActionDataSource {
 
     /**
      * Set a different context object.
+     *
      * @param context
      */
     public void setContext(Context context) {

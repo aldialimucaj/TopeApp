@@ -3,8 +3,6 @@
  */
 package al.aldi.tope.controller.executables;
 
-import java.lang.reflect.Type;
-
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeClient;
@@ -12,10 +10,12 @@ import al.aldi.tope.model.TopePayload;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.responses.EmptyResponse;
 import al.aldi.tope.utils.TopeHttpUtil;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
-
 import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 /**
  * @author Aldi Alimucaj
@@ -26,6 +26,7 @@ public class PingExecutor extends MainExecutor<TopeResponse<EmptyResponse>> impl
     ITopeAction                 action        = null;
     TopeResponse<EmptyResponse> topeResponse  = null;
     PagerTabStrip               pagerTabStrip = null;
+    Context                     context       = null;
 
     public PingExecutor(ITopeAction defaultAction, PagerTabStrip pagerTabStrip) {
         super(defaultAction, null);
@@ -93,6 +94,11 @@ public class PingExecutor extends MainExecutor<TopeResponse<EmptyResponse>> impl
     @Override
     public boolean preRun(Object response) {
         return true;
+    }
+
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
     }
 
 }

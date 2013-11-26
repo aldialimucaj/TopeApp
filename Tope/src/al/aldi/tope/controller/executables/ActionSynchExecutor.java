@@ -10,6 +10,7 @@ import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.utils.TopeSynchUtils;
+import al.aldi.tope.utils.TopeUtils;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -46,12 +47,10 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
         /* ***************************** ADDING ACTIONS TO DB ********************************************** */
         if (null != actionsSyncResponse) {
             
-            ClientDataSource cds = new ClientDataSource(context);
+            ClientDataSource cds = TopeUtils.getClientDataSource(context);
             client.setMac(actionsSyncResponse.getMac());
-            cds.open();
             cds.updateClient(client);
-            cds.close();
-            
+
             List<TopeAction> actionsList = actionsSyncResponse.getActions();
             for (Iterator<TopeAction> iterator = actionsList.iterator(); iterator.hasNext();) {
                 TopeAction topeAction = (TopeAction) iterator.next();
@@ -74,11 +73,10 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
                 topeAction.setConfirmationNeeded(tsu.isConfirmationNeeded(topeAction.getCommandFullPath()));
             }
 
-            ActionDataSource dataSource = new ActionDataSource(context);
+            ActionDataSource dataSource = TopeUtils.getActionDataSource(context);
             dataSource.createTable();
             dataSource.delete((int) client.getId());
             dataSource.addAll(actionsList);
-            dataSource.close();
             //List<TopeAction> actionsList2 = dataSource.getAll();
         } else {
             Log.e(TAG, "Response payload in postRun is null");
@@ -115,6 +113,11 @@ public class ActionSynchExecutor extends MainExecutor<TopeResponse<ActionSynchRe
     @Override
     public boolean preRun(Object response) {
         return true;
+    }
+
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
     }
 
 }

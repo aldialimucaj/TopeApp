@@ -20,8 +20,10 @@ public class UtilsSectionFragment extends GeneralSectionFragment {
 
     public UtilsSectionFragment() {
         sectionActions = TopeActionUtils.TopeActionUtilsManager.getUtilsActionUtil();
+        executorMap =  sectionActions.getExecutorMap();
         actions = sectionActions.getActions();
         super.ACTION_PREFIX = ACTION_PREFIX;
+        setExecutorsMap();
     }
 
     /**

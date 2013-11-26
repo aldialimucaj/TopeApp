@@ -1,5 +1,6 @@
 package al.aldi.tope.utils;
 
+import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import android.util.Log;
 import android.view.View;
@@ -13,8 +14,9 @@ import java.util.Vector;
 public class TopeActionUtils {
     private static String LOG_TAG = "TopeActionUtils";
 
-    private Vector<ITopeAction>        actions    = new Vector<ITopeAction>();
-    private HashMap<ITopeAction, View> actionView = new HashMap<ITopeAction, View>();
+    private Vector<ITopeAction>              actions     = new Vector<ITopeAction>();
+    private HashMap<ITopeAction, View>       actionView  = new HashMap<ITopeAction, View>();
+    private HashMap<String, ITopeExecutable> executorMap = new HashMap<String, ITopeExecutable>();
 
     private TopeActionUtils() {
         // no public constructor. Singleton
@@ -44,6 +46,22 @@ public class TopeActionUtils {
         if (actionView.containsKey(action)) {
             actionView.remove(action);
         }
+    }
+
+    public HashMap<String, ITopeExecutable> getExecutorMap() {
+        return executorMap;
+    }
+
+    public ITopeExecutable getExecutor(String key) {
+        ITopeExecutable executor = null;
+        if (null != key && executorMap.containsKey(key)) {
+            executor = executorMap.get(key);
+        }
+        return executor;
+    }
+
+    public void setExecutorMap(HashMap<String, ITopeExecutable> executorMap) {
+        this.executorMap = executorMap;
     }
 
     public void clearActions() {
@@ -95,6 +113,20 @@ public class TopeActionUtils {
                 smUtilsActions = new TopeActionUtils();
             }
             return smUtilsActions;
+        }
+
+        public static ITopeExecutable getExecutor(String key) {
+            ITopeExecutable executable = null;
+            executable = getOsActionUtil().getExecutor(key);
+            if (null != executable) return executable;
+            executable = getProgActionUtil().getExecutor(key);
+            if (null != executable) return executable;
+            executable = getUtilsActionUtil().getExecutor(key);
+            return executable;
+        }
+
+        public static void debugMap(HashMap<String, ITopeExecutable> executorMap) {
+            System.out.println(executorMap.keySet());
         }
 
     }

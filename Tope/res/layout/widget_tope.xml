@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal" >
+
+            <ImageView
+                android:id="@+id/gridActionImageStandby"
+                android:src="@drawable/system_standby"
+                android:contentDescription="Image representing the action to be taken"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                />
+
+            <TextView
+                android:id="@+id/gridActionText"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal" >
+
+            <ImageView
+                android:id="@+id/gridActionImageWoL"
+                android:src="@drawable/system_wake_on_lan"
+                android:contentDescription="Image representing the action to be taken"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                />
+
+            <TextView
+                android:id="@+id/gridActionText"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal" >
+
+            <ImageView
+                android:id="@+id/gridActionImageCopy"
+                android:src="@drawable/utils_copy_clipboard"
+                android:contentDescription="Image representing the action to be taken"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                />
+
+            <TextView
+                android:id="@+id/gridActionText"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal" >
+
+            <ImageView
+                android:id="@+id/gridActionImagePaste"
+                android:src="@drawable/utils_paste_clipboard"
+                android:contentDescription="Image representing the action to be taken"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                />
+
+            <TextView
+                android:id="@+id/gridActionText"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

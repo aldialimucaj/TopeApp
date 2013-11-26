@@ -1,23 +1,24 @@
 package al.aldi.tope.controller.executables;
 
-import java.lang.reflect.Type;
-
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.responses.TestResponse;
 import al.aldi.tope.view.dialog.fragment.StandardActionDialog1;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-
 import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> implements ITopeExecutable {
 
-    private static final String TAG          = "al.aldi.tope.controller.executables.TestExecutable";
+    private static final String TAG = "al.aldi.tope.controller.executables.TestExecutable";
+    Context context = null;
 
-    ITopeAction                 action       = null;
-    Fragment                    fragment     = null;
+    ITopeAction action   = null;
+    Fragment    fragment = null;
 
     public TestExecutor() {
         super(null, null);
@@ -75,5 +76,8 @@ public class TestExecutor extends MainExecutor<TopeResponse<TestResponse>> imple
         return true;
     }
 
-
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
+    }
 }

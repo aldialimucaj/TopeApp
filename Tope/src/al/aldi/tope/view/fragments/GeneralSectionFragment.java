@@ -9,6 +9,7 @@ import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.utils.TopeActionUtils;
 import al.aldi.tope.utils.TopeSynchUtils;
+import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.adapter.IconItemAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -129,15 +130,12 @@ public abstract class GeneralSectionFragment extends Fragment {
         actions.clear(); /* clearing the cached activities before recreating them */
         TopeSynchUtils tsu = new TopeSynchUtils();
 
-        ActionDataSource actionDataSource = new ActionDataSource(getActivity());
-        actionDataSource.open();
+        ActionDataSource actionDataSource = TopeUtils.getActionDataSource(getActivity().getApplicationContext());
         dbActionsMap = actionDataSource.getAllOccurencies(ACTION_PREFIX);
         List<TopeAction> dbActions = new Vector<TopeAction>(dbActionsMap.keySet());
 
         // check if there are any active actions
         if (dbActions.size() == 0) {
-            // close data source and return
-            actionDataSource.close();
             return false;
         }
 
@@ -174,8 +172,6 @@ public abstract class GeneralSectionFragment extends Fragment {
                 actions.add(topeAction);
             }
         }
-        actionDataSource.close();
-
         return true;
     }
 

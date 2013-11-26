@@ -7,6 +7,7 @@ import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.responses.EmptyResponse;
 import al.aldi.tope.model.responses.TestResponse;
 import al.aldi.tope.view.dialog.fragment.StandardActionDialog1;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,6 +22,7 @@ import java.net.Socket;
 public class WakeOnLanExecutor extends MainExecutor<TopeResponse<TestResponse>> implements ITopeExecutable {
     public static final String TAG = "al.aldi.tope.controller.executables.WakeOnLanExecutor";
 
+    Context     context  = null;
     ITopeAction action   = null;
     Fragment    fragment = null;
 
@@ -132,4 +134,8 @@ public class WakeOnLanExecutor extends MainExecutor<TopeResponse<TestResponse>> 
 
     }
 
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
+    }
 }

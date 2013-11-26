@@ -8,6 +8,7 @@ import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.utils.TopeUtils;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Looper;
 
 import java.util.ArrayList;
@@ -19,15 +20,14 @@ import java.util.List;
  * a separate thread.
  *
  * @author Aldi Alimucaj
- *
  */
 public class ActionCareTaker extends Thread {
     ITopeAction      action;
-    Activity         activity;
+    Context          context;
     JsonTopeResponse response;
     ClientDataSource source;
     ActionDataSource actionSource;
-    boolean          successful = true;
+    boolean successful = true;
 
     /**
      * Main Constructor
@@ -39,18 +39,26 @@ public class ActionCareTaker extends Thread {
     public ActionCareTaker(ITopeAction action, Activity activity, JsonTopeResponse response) {
         super();
         this.action = action;
-        this.activity = activity;
+        this.context = activity.getApplicationContext();
         this.response = response;
-        source = new ClientDataSource(activity.getApplicationContext());
-        actionSource = new ActionDataSource(activity.getApplicationContext());
+        source = TopeUtils.getClientDataSource(context);
+        actionSource = TopeUtils.getActionDataSource(context);
     }
 
     public ActionCareTaker(ITopeAction action, Activity activity) {
         super();
         this.action = action;
-        this.activity = activity;
-        source = new ClientDataSource(activity.getApplicationContext());
-        actionSource = new ActionDataSource(activity.getApplicationContext());
+        this.context = activity.getApplicationContext();
+        source = TopeUtils.getClientDataSource(context);
+        actionSource = TopeUtils.getActionDataSource(context);
+    }
+
+    public ActionCareTaker(ITopeAction action, Context context) {
+        super();
+        this.action = action;
+        this.context = context;
+        source = TopeUtils.getClientDataSource(context);
+        actionSource = TopeUtils.getActionDataSource(context);
     }
 
     /**
@@ -61,15 +69,11 @@ public class ActionCareTaker extends Thread {
 
         Looper.prepare();
         if (null != action) {
-            source.open();
-            actionSource.open();
-
-
             @SuppressWarnings("rawtypes")
             List<TopeResponse> topeResponses = new ArrayList<TopeResponse>();
             List<TopeClient> clients = source.getAllActive(action.getMethod()); /* reads all acitve clients from the database */
             //List<TopeClient> clients = source.getAllActive();/* reads all acitve clients from the database */
-            for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext();) {
+            for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext(); ) {
                 TopeClient topeClient = (TopeClient) iterator.next();
                 @SuppressWarnings("rawtypes")
                 TopeResponse topeResponse = (TopeResponse) action.execute(topeClient);
@@ -79,12 +83,9 @@ public class ActionCareTaker extends Thread {
 
             // clearing the payload, as it is to be reset every time.
             action.getPayload().clear();
-            TopeUtils.printBulkSuccessMsg(topeResponses, action, activity);
-
-            source.close();
-            actionSource.close();
+            TopeUtils.printBulkSuccessMsg(topeResponses, action, context);
         } else {
-            TopeUtils.printMsg(activity, "Error: Action is null!");
+            TopeUtils.printMsg(context, "Error: Action is null!");
         }
         Looper.loop();
     }

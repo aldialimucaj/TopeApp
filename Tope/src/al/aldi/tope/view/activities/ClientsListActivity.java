@@ -9,6 +9,7 @@ import al.aldi.tope.model.*;
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
+import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -69,11 +70,9 @@ public class ClientsListActivity extends ListActivity {
 
         initListener();
 
-        source = new ClientDataSource(getApplicationContext());
-        source.open();
+        source = TopeUtils.getClientDataSource(getApplicationContext());
         List<TopeClient> clients = source.getAll();
         TopeClientArrayAdapter adapter = new TopeClientArrayAdapter(getApplicationContext(), R.id.client_list_image_view, R.id.client_list_name_text, clients);
-        source.close();
 
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         getListView().setAdapter(adapter);
@@ -203,7 +202,6 @@ public class ClientsListActivity extends ListActivity {
 
     protected void onDestroy() {
         super.onDestroy();
-        source.close();
     }
 
     @Override
@@ -306,10 +304,8 @@ public class ClientsListActivity extends ListActivity {
                 startActivity(intent);
                 break;
             case R.id.clean_all_actions:
-                ActionDataSource ads = new ActionDataSource(getApplicationContext());
-                ads.open();
+                ActionDataSource ads = TopeUtils.getActionDataSource(getApplicationContext());
                 ads.deleteAll();
-                ads.close();
                 break;
         }
         return super.onOptionsItemSelected(item);

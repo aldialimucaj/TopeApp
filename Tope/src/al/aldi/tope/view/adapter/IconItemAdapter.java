@@ -171,7 +171,9 @@ public class IconItemAdapter<E> extends BaseAdapter {
 						};
 
 						AlertDialog.Builder ab = new AlertDialog.Builder(activity);
-						ab.setMessage("Execute \"" + action.getTitle() + "\"?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+						ab.setMessage(activity.getString(R.string.title_button_execute) + " \""+action.getTitle()+"\"?")
+                                .setPositiveButton(R.string.yes, dialogClickListener)
+                                .setNegativeButton(R.string.no, dialogClickListener).show();
 					} else {
 						executeAction(action, v);
 					}

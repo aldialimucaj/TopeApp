@@ -128,6 +128,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="al.aldi.tope.view.activities.ClientsListActivity" />
         </activity>
+        <activity
+            android:name="al.aldi.tope.view.activities.WidgetDialogActivity"
+            android:label="@string/title_button_execute"
+            android:theme="@android:style/Theme.Holo.Dialog">
+
+        </activity>
+
+
+        <!-- WIDGET -->
+        <receiver android:name="al.aldi.tope.view.widgets.TopeAppWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="al.aldi.tope.action.WIDGET_EXECUTE_ACTION" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/tope_appwidget_info" />
+        </receiver>
     </application>
 
 </manifest>
