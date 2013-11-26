@@ -102,7 +102,10 @@ public class ActionDataSource {
         values.put(OPPOSITE_ACTION, action.getOppositeActionId());
         values.put(CONFIRMATION_NEEDED, action.isConfirmationNeeded());
 
+        database.beginTransaction();
         long insertId = database.insert(ACTION_TABLE_NAME, null, values);
+        database.setTransactionSuccessful();
+        database.endTransaction();
 
         return insertId != -1;
     }
@@ -302,7 +305,7 @@ public class ActionDataSource {
         int index = 0;
         for (Iterator<TopeClient> iterator = clients.iterator(); iterator.hasNext(); ) {
             TopeClient topeClient = (TopeClient) iterator.next();
-            ids[index++] = topeClient.getId() + "";
+            ids[index++] = String.valueOf(topeClient.getId());
         }
         return ids;
     }

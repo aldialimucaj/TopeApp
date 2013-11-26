@@ -96,7 +96,10 @@ public class ClientDataSource {
 
         long insertId = 0;
         try {
+            database.beginTransaction();
             insertId = database.insert(CLIENT_TABLE_NAME, null, values);
+            database.setTransactionSuccessful();
+            database.endTransaction();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -123,7 +126,10 @@ public class ClientDataSource {
 
         long insertId = 0;
         try {
+            database.beginTransaction();
             insertId = database.insert(CLIENT_TABLE_NAME, null, values);
+            database.setTransactionSuccessful();
+            database.endTransaction();
             Cursor cursor = database.query(CLIENT_TABLE_NAME, allColumns, ClientOpenHelper.CLIENT_OWN_ID + " = " + insertId, null, null, null, null);
             cursor.moveToFirst();
             client = cursorToClient(cursor);
@@ -251,7 +257,10 @@ public class ClientDataSource {
         long id = client.getId();
         i(TAG, "ClientDataSource.deleteClient(): Comment deleted with id: " + id);
         try {
+            database.beginTransaction();
             database.delete(CLIENT_TABLE_NAME, ClientOpenHelper.CLIENT_OWN_ID + " = " + id, null);
+            database.setTransactionSuccessful();
+            database.endTransaction();
         } catch (Exception e) {
             Log.e(TAG, "ClientDataSource.deleteClient(): " + e.getMessage());
         }
@@ -276,7 +285,10 @@ public class ClientDataSource {
 
         int rowsAffected = 0;
         try {
+            database.beginTransaction();
             rowsAffected = database.update(CLIENT_TABLE_NAME, values, ClientOpenHelper.CLIENT_OWN_ID + " = ?", new String[]{String.valueOf(id)});
+            database.setTransactionSuccessful();
+            database.endTransaction();
             if (0 == rowsAffected) {
                 e(TAG, "You shouldn't be updating id that aren't there " + client);
             }
