@@ -136,8 +136,6 @@ public class TopeAction implements ITopeAction {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
-            return false;
         TopeAction other = (TopeAction) obj;
         if (actionId != other.actionId)
             return false;

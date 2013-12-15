@@ -33,6 +33,7 @@ public class TopeSynchUtils {
 
     private void createIgnoreActions() {
         ignoreActions.add(UTIL_PING);
+        ignoreActions.add(UTIL_UPLOAD_FILE);
         ignoreActions.add(OS_TEST);
     }
 
@@ -167,5 +168,6 @@ public class TopeSynchUtils {
         actionTitlesMap.put(UTIL_WRITE_CLIPBOARD, R.string.util_op_writeClipboard);
         actionTitlesMap.put(UTIL_QUIT_TOPE, R.string.util_op_quitTope);
         actionTitlesMap.put(UTIL_SHORTCUTS, R.string.util_op_shortcuts);
+        actionTitlesMap.put(UTIL_UPLOAD_FILE, R.string.util_op_uploadFile);
     }
 }

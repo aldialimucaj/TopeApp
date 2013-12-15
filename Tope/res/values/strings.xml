@@ -76,6 +76,7 @@
     <string name="util_op_ping">Ping</string>
     <string name="util_op_quitTope">Quit Tope Server</string>
     <string name="util_op_shortcuts">Shortcuts</string>
+    <string name="util_op_uploadFile">Upload File</string>
 
     <!-- ********* -->
     <!-- DIALOGS -->
@@ -138,6 +139,8 @@
     <!-- Setting's titles -->
     <string name="pref_ping_clients_checkbox_description">Check the client\'s online status automatically and display it in the pager tab strip with color</string>
     <string name="pref_ping_clients_checkbox_title">Server Status Check</string>
+    <string name="pref_upload_overwrite_file_description">Should the upload automatically overwrite files on destination?</string>
+    <string name="pref_upload_overwrite_file_title">Overwrite Files on Upload</string>
     
     <!-- SHORTCUTS ACTIVITY -->
     <string name="title_activity_shortcuts">Shortcuts</string>

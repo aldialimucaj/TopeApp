@@ -5,12 +5,14 @@ import al.aldi.tope.R;
 import al.aldi.tope.controller.ActionCareTaker;
 import al.aldi.tope.controller.executables.ActionSynchExecutor;
 import al.aldi.tope.controller.executables.CallWithArgsExecutor;
+import al.aldi.tope.controller.executables.FileUploadExecutor;
 import al.aldi.tope.model.*;
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
 import al.aldi.tope.model.responses.ActionSynchResponse;
 import al.aldi.tope.utils.TopeUtils;
 import al.aldi.tope.view.adapter.TopeClientArrayAdapter;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -18,11 +20,13 @@ import android.app.ListActivity;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.*;
@@ -32,6 +36,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static al.aldi.tope.utils.TopeCommands.*;
@@ -54,6 +59,7 @@ public class ClientsListActivity extends ListActivity {
     final int currentApiVersion = android.os.Build.VERSION.SDK_INT;
     final int jellyBean         = Build.VERSION_CODES.JELLY_BEAN;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -108,60 +114,117 @@ public class ClientsListActivity extends ListActivity {
         inflater.inflate(R.menu.client_add_edit_menu, menu);
     }
 
+    private ContentType getType(ClipData data) {
+        if (null == data) return ContentType.UNKNOWN;
+        int count = data.getItemCount();
+        if (count == 0) return ContentType.EMPTY;
+        for (int i = 0; i < count; i++) {
+            ClipData.Item item = data.getItemAt(i);
+            Uri uri = item.getUri();
+            if (null != uri) {
+                return ContentType.FILE;
+            }
+            CharSequence text = item.getText();
+            if (null != text)
+                if (AldiStringUtils.startsWithHttpS(text.toString()))
+                    return ContentType.URL;
+                else
+                    return ContentType.TEXT;
+        }
+
+        return ContentType.UNKNOWN;
+    }
+
+    private List<Uri> getFilesUri(ClipData data) {
+        List<Uri> files = new ArrayList<Uri>();
+        if (null == data) return files;
+        int count = data.getItemCount();
+        if (count == 0) return files;
+        for (int i = 0; i < count; i++) {
+            ClipData.Item item = data.getItemAt(i);
+            Uri uri = item.getUri();
+            if (null != uri) {
+                if(uri.getScheme().equals("content")){
+                    uri = Uri.parse(getPath(uri));
+                }
+                files.add(uri);
+            }
+        }
+        return files;
+    }
+
     private void executeOnClients() {
-        String uri = null;
+        ContentType type = ContentType.EMPTY;
         if (null != data) {
-            uri = data.toString();
+            String uri = data.toString();
         }
         if (null != clipData) {
-            uri = clipData.getItemAt(0).getText().toString();
+            type = getType(clipData);
+
         }
-        if (null != uri) {
-            Log.i(TAG, "Uri: " + uri);
+        if (type != ContentType.EMPTY || type != ContentType.UNKNOWN) {
+            switch (type) {
+                case FILE:
+                    // TODO: this should be done by calling the database
+                    ITopeAction uploadToClientAction = new TopeAction("uploadFile", 0, getString(R.string.util_op_uploadFile));
+                    uploadToClientAction.setCommandFullPath(UTIL_UPLOAD_FILE);
+                    uploadToClientAction.setActionId(0);
+                    List<Uri> files = getFilesUri(clipData);
+                    FileUploadExecutor uploadExecutor = new FileUploadExecutor(files);
+                    uploadExecutor.setContext(this);
+                    uploadToClientAction.setExecutable(uploadExecutor);
 
-            if (AldiStringUtils.startsWithHttpS(uri)) {
-                // TODO: this should be done by calling the database
-                ITopeAction executeToClientAction = new TopeAction("openBrowserWithUrl", 0, getString(R.string.prog_op_openBrowserWithUrl));
-                executeToClientAction.setCommandFullPath(PROG_BROWSER_OPEN_URL);
-                executeToClientAction.setActionId(0);
-                CallWithArgsExecutor executor = new CallWithArgsExecutor(executeToClientAction, getApplicationContext());
-                executeToClientAction.setExecutable(executor);
+                    ActionCareTaker actionCareTaker = new ActionCareTaker(uploadToClientAction, this);
+                    actionCareTaker.execute();
+                    break;
+                case URL:
+                    String uri = clipData.getItemAt(0).getText().toString();
+                    // TODO: this should be done by calling the database
+                    ITopeAction executeToClientAction = new TopeAction("openBrowserWithUrl", 0, getString(R.string.prog_op_openBrowserWithUrl));
+                    executeToClientAction.setCommandFullPath(PROG_BROWSER_OPEN_URL);
+                    executeToClientAction.setActionId(0);
+                    CallWithArgsExecutor executor = new CallWithArgsExecutor(executeToClientAction, getApplicationContext());
+                    executeToClientAction.setExecutable(executor);
 
-                ITopePayload payload = executeToClientAction.getPayload();
+                    ITopePayload payload = executeToClientAction.getPayload();
 
-                try {
-                    payload.addPayload(TopePayload.PARAM_ARG_0, uri);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        payload.addPayload(TopePayload.PARAM_ARG_0, uri);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-                ActionCareTaker act = new ActionCareTaker(executeToClientAction, this);
-                act.execute();
-            } else {
-                ITopeAction executeToClientAction = new TopeAction("readOutLoud", 0, getString(R.string.util_op_textToSpeech));
-                executeToClientAction.setCommandFullPath(UTIL_READ_OUT_LOUD);
-                executeToClientAction.setActionId(0);
-                CallWithArgsExecutor executor = new CallWithArgsExecutor(executeToClientAction, getApplicationContext());
-                executeToClientAction.setExecutable(executor);
-
-                ITopePayload payload = executeToClientAction.getPayload();
-
-                try {
-                    payload.addPayload(TopePayload.PARAM_ARG_0, uri);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                ActionCareTaker act = null;
-                try {
-                    act = new ActionCareTaker(executeToClientAction, this);
+                    ActionCareTaker act = new ActionCareTaker(executeToClientAction, this);
                     act.execute();
-                } catch (Exception e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
+                    break;
+                case TEXT:
+                    String textToRead = clipData.getItemAt(0).getText().toString();
+                    ITopeAction readOutLoudToClientAction = new TopeAction("readOutLoud", 0, getString(R.string.util_op_textToSpeech));
+                    readOutLoudToClientAction.setCommandFullPath(UTIL_READ_OUT_LOUD);
+                    readOutLoudToClientAction.setActionId(0);
+                    CallWithArgsExecutor readOutLoudExecutor = new CallWithArgsExecutor(readOutLoudToClientAction, getApplicationContext());
+                    readOutLoudToClientAction.setExecutable(readOutLoudExecutor);
 
+                    ITopePayload readOutLoudToClientActionPayload = readOutLoudToClientAction.getPayload();
+
+                    try {
+                        readOutLoudToClientActionPayload.addPayload(TopePayload.PARAM_ARG_0, textToRead);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    ActionCareTaker careTaker = null;
+                    try {
+                        careTaker = new ActionCareTaker(readOutLoudToClientAction, this);
+                        careTaker.execute();
+                    } catch (Exception e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                    break;
             }
-        } else {
+        } else
+
+        {
             // TODO: pass the intent to the child and back. dont lose it.
             Toast.makeText(getApplicationContext(), "Info was lost. Try again.", Toast.LENGTH_LONG).show();
         }
@@ -420,5 +483,29 @@ public class ClientsListActivity extends ListActivity {
 
             return builder.create();
         }
+    }
+
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if( uri == null ) {
+            // TODO perform some logging or show user feedback
+            return null;
+        }
+        // try to retrieve the image from the media store first
+        // this will only work for images selected from gallery
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        // this is our fallback here
+        return uri.getPath();
+    }
+
+    public enum ContentType {
+        TEXT, URL, FILE, UNKNOWN, EMPTY
     }
 }

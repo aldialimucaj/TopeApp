@@ -12,4 +12,10 @@
         android:summary="@string/pref_ping_clients_checkbox_description"
         android:title="@string/pref_ping_clients_checkbox_title" />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="upload_overwrite_file"
+        android:summary="@string/pref_upload_overwrite_file_description"
+        android:title="@string/pref_upload_overwrite_file_title" />
+
 </PreferenceScreen>

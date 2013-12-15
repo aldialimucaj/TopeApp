@@ -1,9 +1,6 @@
 package al.aldi.tope.view.fragments;
 
-import al.aldi.tope.controller.executables.CallWithArgsExecutor;
-import al.aldi.tope.controller.executables.ClipboardReadPayloadExecutor;
-import al.aldi.tope.controller.executables.ClipboardWritePayloadExecutor;
-import al.aldi.tope.controller.executables.ShortcutsExecutor;
+import al.aldi.tope.controller.executables.*;
 import al.aldi.tope.utils.TopeActionUtils;
 
 import static al.aldi.tope.utils.TopeCommands.*;
