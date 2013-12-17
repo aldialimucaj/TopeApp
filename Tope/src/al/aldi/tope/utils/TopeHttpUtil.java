@@ -66,8 +66,8 @@ public class TopeHttpUtil<E> {
             Type responseType = new TypeToken<E>() {
             }.getType();
             tr = gson.fromJson(jsonString, responseType);
+            ((TopeResponse)tr).setStatus(res.getStatusLine().getStatusCode());
             return tr;// RETURN
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package al.aldi.tope.controller.executables;
 
 import al.aldi.andorid.net.HttpUtils;
+import al.aldi.libjaldi.string.AldiStringUtils;
 import al.aldi.tope.controller.ITopeExecutable;
 import al.aldi.tope.model.ITopeAction;
 import al.aldi.tope.model.TopeClient;
@@ -77,8 +78,12 @@ public class FileUploadExecutor extends MainExecutor<TopeResponse<TestResponse>>
 
             for (File file : files) {
                 try {
-                    topeResponse = convertResponse(new HttpUtils().uploadFile(topeClient.getSslURL(action.getCommandFullPath()), file, action.getPayload().getParameters()));
-                    if(!topeResponse.isSuccessful())
+                    String responseText = new HttpUtils().uploadFile(topeClient.getSslURL(action.getCommandFullPath()), file, action.getPayload().getParameters());
+                    if (!responseText.startsWith("{")) {
+                        responseText = AldiStringUtils.addCurlyBrackets(responseText);
+                    }
+                    topeResponse = convertResponse(responseText);
+                    if (!topeResponse.isSuccessful())
                         break;
                 } catch (JsonSyntaxException e) {
                     topeResponse = new TopeResponse<TestResponse>(false);

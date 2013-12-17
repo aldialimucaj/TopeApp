@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class TopeResponse<E> {
     private boolean success    = false; // set by the server if the command was successful
-    private int     statusCode = 0;     // http status of the call
+    private int     status     = 0;     // http status of the call
     private String  message    = null;  // text message in case of error
     private String  command    = null;  // command it executed
     private String  responseId = null;  // unique id
@@ -22,12 +22,12 @@ public class TopeResponse<E> {
 
     public TopeResponse() {
     }
-    
+
     public TopeResponse(boolean success) {
         super();
         this.success = success;
     }
-    
+
 
     public TopeResponse(boolean success, boolean ignore) {
         super();
@@ -38,7 +38,7 @@ public class TopeResponse<E> {
 
     @Override
     public String toString() {
-        return "TopeResponse [success=" + success + ", statusCode=" + statusCode + ", message=" + message + ", command=" + command + ", responseId=" + responseId + ", requestId=" + requestId + ", date=" + date
+        return "TopeResponse [success=" + success + ", status=" + status + ", message=" + message + ", command=" + command + ", responseId=" + responseId + ", requestId=" + requestId + ", date=" + date
                 + ", payload=" + (payload != null ? payload.getClass() : "null") + "]";
     }
 
@@ -58,12 +58,12 @@ public class TopeResponse<E> {
         this.success = success;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int getStatus() {
+        return status;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getMessage() {

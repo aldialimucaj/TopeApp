@@ -114,6 +114,7 @@
     <string name="action_scan_progress_dialog_title">Scanning network</string>
     <string name="action_scan_progress_dialog_message">Please wait...</string>
 
+
     <!-- ********* -->
     <!-- OTHER -->
     <!-- ********* -->
@@ -125,10 +126,11 @@
     <string name="client_list_empty_negative">Add new Server from the menu.</string>
     <string name="client_list_delete">Sure you wanna delete client?</string>
     <string name="client_list_delete_negative">Nothing happened!</string>
-    <string name="toast_successful_br">[Successful] </string>
-    <string name="toast_failed_br">[Failed] </string>
+    <string name="toast_successful_br">[Successful]</string>
+    <string name="toast_failed_br">[Failed]</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="action_not_found">Action Not Found.\nPlease update your Tope Server.</string>
 
     <!-- ********* -->
     <!-- SETTINGS -->

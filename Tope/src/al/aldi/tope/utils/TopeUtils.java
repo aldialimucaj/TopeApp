@@ -1,12 +1,11 @@
 package al.aldi.tope.utils;
 
 import al.aldi.libjaldi.string.AldiStringUtils;
+import al.aldi.tope.R;
 import al.aldi.tope.model.ITopeAction;
-import al.aldi.tope.model.TopeAction;
 import al.aldi.tope.model.TopeResponse;
 import al.aldi.tope.model.db.ActionDataSource;
 import al.aldi.tope.model.db.ClientDataSource;
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import static android.util.Log.e;
 
@@ -124,31 +122,15 @@ public class TopeUtils {
     }
 
     /**
-     * @param activity
+     * Print message with trailing TOAST_MAX_LENGHTH check.
+     *
+     * @param context
      * @param msg
      */
-    public static void printMsg(Activity activity, final String msg) {
-        String printMsg = msg;
-        printMsg = AldiStringUtils.trailWithThreeDots(msg, TOAST_MAX_LENGHT);
-        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show();
-    }
-
     public static void printMsg(Context context, final String msg) {
         String printMsg = msg;
         printMsg = AldiStringUtils.trailWithThreeDots(msg, TOAST_MAX_LENGHT);
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * Print success message
-     *
-     * @param action
-     * @param topeResponse
-     * @param activity
-     */
-    @SuppressWarnings("rawtypes")
-    public static void printSuccessMsg(ITopeAction action, TopeResponse topeResponse, Activity activity) {
-        printSuccessMsg(action, topeResponse, activity);
     }
 
     /**
@@ -162,78 +144,18 @@ public class TopeUtils {
     public static void printSuccessMsg(ITopeAction action, TopeResponse topeResponse, Context context) {
         if (null != topeResponse && !topeResponse.isIgnore()) {
             if (topeResponse.isSuccessful()) {
-                Toast.makeText(context, "[Successful] " + action.getTitle(), Toast.LENGTH_LONG).show();
+                printMsg(context, context.getString(R.string.toast_successful_br) + " " + action.getTitle());
             } else {
                 String errMsg = "";
                 if (null != topeResponse && null != topeResponse.getMessage() && !topeResponse.getMessage().equals("null")) {
                     errMsg = ".\n" + topeResponse.getMessage();
                 }
-                Toast.makeText(context, "[Failed] " + action.getTitle() + errMsg, Toast.LENGTH_LONG).show();
+                if (topeResponse.getStatus() == 404) {
+                    errMsg += context.getString(R.string.action_not_found);
+                }
+                printMsg(context, context.getString(R.string.toast_failed_br) + " " + action.getTitle() + " " + errMsg);
             }
         }
-    }
-
-    /**
-     * Print success message.
-     *
-     * @param action
-     * @param successful
-     * @param activity
-     */
-    public static void printSuccessMsg(ITopeAction action, boolean successful, Activity activity) {
-        if (successful) {
-            Toast.makeText(activity, "Successful: " + action.getTitle(), Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(activity, "Failed: " + action.getTitle(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    /**
-     * Print success message.
-     *
-     * @param action
-     * @param successful
-     * @param context
-     */
-    public static void printSuccessMsg(ITopeAction action, boolean successful, Context context) {
-        if (successful) {
-            Toast.makeText(context, "Successful: " + action.getTitle(), Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(context, "Failed: " + action.getTitle(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    /**
-     * Print bulk message success status. It also checks if there is only one call and in that case
-     * it calls the single message print out format.
-     *
-     * @param topeResponses
-     * @param action
-     * @param activity
-     */
-    @SuppressWarnings("rawtypes")
-    public static void printBulkSuccessMsg(List<TopeResponse> topeResponses, ITopeAction action, Activity activity) {
-        /* actions can define if output should be ignored. in this case no print out */
-        if (action.isOutputIgnored()) {
-            return;
-        }
-
-        int size = topeResponses.size();
-
-        /* if there is only one response then use the single msg format */
-        if (1 == size) {
-            printSuccessMsg(action, topeResponses.get(0), activity);
-            return;
-        }
-
-        int successfullyRun = 0;
-        for (Iterator<TopeResponse> iterator = topeResponses.iterator(); iterator.hasNext(); ) {
-            TopeResponse topeResponse = (TopeResponse) iterator.next();
-            if (topeResponse.isSuccessful()) {
-                successfullyRun++;
-            }
-        }
-        Toast.makeText(activity, "Run [" + size + "], Successful {" + successfullyRun + "}, Action (" + action.getTitle() + ")", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -266,27 +188,6 @@ public class TopeUtils {
                 successfullyRun++;
             }
         }
-        Toast.makeText(context, "Run [" + size + "], Successful {" + successfullyRun + "}, Action (" + action.getTitle() + ")", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Executed [" + size + "], Successful {" + successfullyRun + "}, Action (" + action.getTitle() + ")", Toast.LENGTH_LONG).show();
     }
-
-    public static List<TopeAction> filterActions(List<TopeAction> actions, String prefix) {
-        List<TopeAction> filteredActions = new Vector<TopeAction>();
-        for (Iterator<TopeAction> iterator = actions.iterator(); iterator.hasNext(); ) {
-            TopeAction topeAction = (TopeAction) iterator.next();
-            if (topeAction.getCommandFullPath().startsWith(prefix)) {
-                filteredActions.add(topeAction);
-            }
-        }
-        return filteredActions;
-    }
-
-    public static Vector<ITopeAction> convertActions(List<TopeAction> actions) {
-        Vector<ITopeAction> convertedActions = new Vector<ITopeAction>();
-        for (Iterator<TopeAction> iterator = actions.iterator(); iterator.hasNext(); ) {
-            ITopeAction topeAction = (ITopeAction) iterator.next();
-            convertedActions.add(topeAction);
-        }
-        return convertedActions;
-    }
-
 }

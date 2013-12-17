@@ -129,6 +129,7 @@
     <string name="toast_failed_br">[Fehlgeschlagen] </string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="action_not_found">Aktion nicht unterstützt.\nBitte Tope Server aktualisieren.</string>
 
     <!-- ********* -->
     <!-- SETTINGS -->
