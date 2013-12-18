@@ -68,6 +68,7 @@
 
                 <data android:mimeType="text/plain" />
                 <data android:mimeType="image/*" />
+                <data android:mimeType="*/*" />
             </intent-filter>
 
             <meta-data
