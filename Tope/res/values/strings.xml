@@ -131,6 +131,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="action_not_found">Action Not Found.\nPlease update your Tope Server.</string>
+    <string name="upload_file_too_big">File is two big!</string>
 
     <!-- ********* -->
     <!-- SETTINGS -->

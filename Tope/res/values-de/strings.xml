@@ -130,6 +130,7 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="action_not_found">Aktion nicht unterstützt.\nBitte Tope Server aktualisieren.</string>
+    <string name="upload_file_too_big">Datei ist zu groß!</string>
 
     <!-- ********* -->
     <!-- SETTINGS -->

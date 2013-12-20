@@ -144,7 +144,7 @@ public class ClientsListActivity extends ListActivity {
             ClipData.Item item = data.getItemAt(i);
             Uri uri = item.getUri();
             if (null != uri) {
-                if(uri.getScheme().equals("content")){
+                if (uri.getScheme().equals("content")) {
                     uri = Uri.parse(getPath(uri));
                 }
                 files.add(uri);
@@ -153,19 +153,32 @@ public class ClientsListActivity extends ListActivity {
         return files;
     }
 
+    private ContentType getType(String data) {
+        ContentType type = ContentType.EMPTY;
+        if(AldiStringUtils.startsWithHttpS(data))
+            type = ContentType.URL;
+        else if (!AldiStringUtils.isNullOrEmpty(data))
+            type = ContentType.TEXT;
+
+        return type;
+    }
+
     private void executeOnClients() {
         ContentType type = ContentType.EMPTY;
+        String intentText = "";
         if (null != data) {
-            String uri = data.toString();
+            String strData = data.toString();
+            type = getType(strData);
+            intentText = strData;
         }
         if (null != clipData) {
             type = getType(clipData);
-
+            if(type == ContentType.TEXT)
+                intentText = clipData.getItemAt(0).getText().toString();
         }
         if (type != ContentType.EMPTY || type != ContentType.UNKNOWN) {
             switch (type) {
                 case FILE:
-                    // TODO: this should be done by calling the database
                     ITopeAction uploadToClientAction = new TopeAction("uploadFile", 0, getString(R.string.util_op_uploadFile));
                     uploadToClientAction.setCommandFullPath(UTIL_UPLOAD_FILE);
                     uploadToClientAction.setActionId(0);
@@ -178,8 +191,6 @@ public class ClientsListActivity extends ListActivity {
                     actionCareTaker.execute();
                     break;
                 case URL:
-                    String uri = clipData.getItemAt(0).getText().toString();
-                    // TODO: this should be done by calling the database
                     ITopeAction executeToClientAction = new TopeAction("openBrowserWithUrl", 0, getString(R.string.prog_op_openBrowserWithUrl));
                     executeToClientAction.setCommandFullPath(PROG_BROWSER_OPEN_URL);
                     executeToClientAction.setActionId(0);
@@ -189,7 +200,7 @@ public class ClientsListActivity extends ListActivity {
                     ITopePayload payload = executeToClientAction.getPayload();
 
                     try {
-                        payload.addPayload(TopePayload.PARAM_ARG_0, uri);
+                        payload.addPayload(TopePayload.PARAM_ARG_0, intentText);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -198,7 +209,6 @@ public class ClientsListActivity extends ListActivity {
                     act.execute();
                     break;
                 case TEXT:
-                    String textToRead = clipData.getItemAt(0).getText().toString();
                     ITopeAction readOutLoudToClientAction = new TopeAction("readOutLoud", 0, getString(R.string.util_op_textToSpeech));
                     readOutLoudToClientAction.setCommandFullPath(UTIL_READ_OUT_LOUD);
                     readOutLoudToClientAction.setActionId(0);
@@ -208,7 +218,7 @@ public class ClientsListActivity extends ListActivity {
                     ITopePayload readOutLoudToClientActionPayload = readOutLoudToClientAction.getPayload();
 
                     try {
-                        readOutLoudToClientActionPayload.addPayload(TopePayload.PARAM_ARG_0, textToRead);
+                        readOutLoudToClientActionPayload.addPayload(TopePayload.PARAM_ARG_0, intentText);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -487,15 +497,15 @@ public class ClientsListActivity extends ListActivity {
 
     public String getPath(Uri uri) {
         // just some safety built in
-        if( uri == null ) {
+        if (uri == null) {
             // TODO perform some logging or show user feedback
             return null;
         }
         // try to retrieve the image from the media store first
         // this will only work for images selected from gallery
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
+        if (cursor != null) {
             int column_index = cursor
                     .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
