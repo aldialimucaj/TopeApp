@@ -6,6 +6,12 @@
         android:summary="@string/action_scan_ip_range_desc"
         />
 
+    <Preference
+        android:key="scan_reset"
+        android:title="@string/action_scan_ip_reset"
+        android:summary="@string/action_scan_ip_reset_desc"
+        />
+
     <EditTextPreference
         android:key="scan_port"
         android:title="@string/action_scan_port"

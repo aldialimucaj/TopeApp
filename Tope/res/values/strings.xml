@@ -109,6 +109,8 @@
     <string name="action_scan_rescan">Scan Again</string>
     <string name="action_scan_ip_range">IP Address Range</string>
     <string name="action_scan_ip_range_desc">Set the ip rage you want to scan for possible online server. Default is set to you current wifi IPv4 address</string>
+    <string name="action_scan_ip_reset">Reset IP Address</string>
+    <string name="action_scan_ip_reset_desc">Set the filter to your current wifi IPv4 address</string>
     <string name="action_scan_port">Port</string>
     <string name="action_scan_port_desc">Which port should they try to connect</string>
     <string name="action_scan_progress_dialog_title">Scanning network</string>

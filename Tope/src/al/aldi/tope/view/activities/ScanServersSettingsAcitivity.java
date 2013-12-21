@@ -6,6 +6,7 @@ import al.aldi.tope.utils.TopeUtils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 public class ScanServersSettingsAcitivity extends Activity {
@@ -33,6 +34,15 @@ public class ScanServersSettingsAcitivity extends Activity {
             if (((EditTextPreference) findPreference("scan_ip")).getText() == null) {
                 ((EditTextPreference) findPreference("scan_ip")).setText(NetworkUtils.getWiFiIpAddress(getActivity()));
             }
+
+            // Action listener for - RESET IP ADDRESS
+            findPreference("scan_reset").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    ((EditTextPreference) findPreference("scan_ip")).setText(NetworkUtils.getWiFiIpAddress(getActivity()));
+                    return false;
+                }
+            });
         }
     }
 }

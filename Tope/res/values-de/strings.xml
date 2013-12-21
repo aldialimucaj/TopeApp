@@ -109,6 +109,8 @@
     <string name="action_scan_rescan">Nochmal Scannen</string>
     <string name="action_scan_ip_range">IP Addrese</string>
     <string name="action_scan_ip_range_desc">IP Adresse die Sie als Basis für die Suche verwenden möchten. Standard ist die WiFi IPv4 Adresse</string>
+    <string name="action_scan_ip_reset">IP Addrese Zurücksetzen</string>
+    <string name="action_scan_ip_reset_desc">Setze den Filter auf die aktuelle WiFi IPv4 Addrese</string>
     <string name="action_scan_port">Port</string>
     <string name="action_scan_port_desc">Welches Port sort gescannt werden</string>
     <string name="action_scan_progress_dialog_title">Netzwerk Suchen</string>

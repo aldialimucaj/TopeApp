@@ -70,6 +70,8 @@ public class ScanServersActivity extends ListActivity {
             @Override
             protected void onPreExecute() {
                 String prefIp = PreferenceManager.getDefaultSharedPreferences(ScanServersActivity.this).getString("scan_ip", NetworkUtils.getWiFiIpAddress(getApplicationContext()));
+                if (AldiStringUtils.isNullOrEmpty(prefIp))
+                    prefIp = NetworkUtils.getWiFiIpAddress(getApplicationContext());
                 String ipWithStar = prefIp.substring(0, prefIp.lastIndexOf(".") + 1) + "*";
                 progressDialog = new ProgressDialog(ScanServersActivity.this);
                 progressDialog.setTitle(getString(R.string.action_scan_progress_dialog_title));
